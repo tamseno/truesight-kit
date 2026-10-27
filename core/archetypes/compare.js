@@ -29,17 +29,17 @@ ARCH.compare = (root, ctx, H, d, sc) => {
   const log = H.put(root, H.card({ w: LW, h: 610 }), LX, Y - 12);
   const who = d.who || H.BOT_ORDER[0], av = H.avatar(who, 54);
   const hd = D(log, 30, 26, LW - 60, 60, 'display:flex;align-items:center;gap:16px'); hd.appendChild(av.el);
-  hd.insertAdjacentHTML('beforeend', `<div><div style="font:800 28px Geist,Noto">${H.esc(H.nameOf(who))}</div><div style="font:600 20px Geist;color:#6b6e7b">${H.esc(d.log || 'Reviewing the proof')}</div></div>`);
-  D(log, 30, 104, LW - 60, 2, 'background:rgba(21,22,28,.07)');
+  hd.insertAdjacentHTML('beforeend', `<div><div style="font:var(--fwd) 28px var(--fd)">${H.esc(H.nameOf(who))}</div><div style="font:600 20px var(--fb);color:var(--sub)">${H.esc(d.log || 'Reviewing the proof')}</div></div>`);
+  D(log, 30, 104, LW - 60, 2, 'background:var(--line)');
   const rows = checks.map((c, i) => {
     const pass = c.verdict === 'pass';
     const r = D(log, 24, 124 + i * 118, LW - 48, 104, `border-radius:18px;display:flex;align-items:center;gap:18px;padding:0 22px;background:${pass ? '#eafaf2' : '#fff1f0'}`);
     const ic = r.appendChild(H.h('span', 'icon', pass ? IC.check() : IC.x())); ic.style.cssText += ';width:42px;height:42px';
-    r.insertAdjacentHTML('beforeend', `<div style="min-width:0"><div style="font:800 20px Geist;letter-spacing:.12em;color:${pass ? '#13a463' : '#e2382e'}">${pass ? 'VERIFIED' : 'SENT BACK'} · ROUND ${i + 1}</div><div style="font:700 26px/1.25 Geist,Noto;margin-top:4px">${H.md(c.text)}</div></div>`);
+    r.insertAdjacentHTML('beforeend', `<div style="min-width:0"><div style="font:800 20px var(--fb);letter-spacing:.12em;color:${pass ? '#13a463' : '#e2382e'}">${pass ? 'VERIFIED' : 'SENT BACK'} · ROUND ${i + 1}</div><div style="font:700 26px/1.25 var(--fb);margin-top:4px">${H.md(c.text)}</div></div>`);
     return { r, ic, pass };
   });
   const ST = d.stamp ? H.when(ctx, d.stamp.at, CT[CT.length - 1] + .7) : 1e9;
-  const stamp = d.stamp ? D(root, 690 + PW / 2 - 170, Y + PH / 2 - 60, 340, 120, 'border-radius:22px;border:7px solid #1fbf75;color:#1fbf75;background:rgba(255,255,255,.92);font:900 50px Geist;letter-spacing:.1em;display:flex;align-items:center;justify-content:center;white-space:nowrap', H.esc(d.stamp.text || 'VERIFIED')) : null;
+  const stamp = d.stamp ? D(root, 690 + PW / 2 - 170, Y + PH / 2 - 60, 340, 120, 'border-radius:22px;border:7px solid #1fbf75;color:var(--good);background:rgba(255,255,255,.92);font:var(--fwd) 50px var(--fd);letter-spacing:.1em;display:flex;align-items:center;justify-content:center;white-space:nowrap', H.esc(d.stamp.text || 'VERIFIED')) : null;
   CT.forEach((x, i) => ctx.cue(x, rows[i].pass ? 'success' : 'error', .5)); if (stamp) ctx.cue(ST, 'impact', .4);
   const fail = checks.findIndex(c => c.verdict !== 'pass');
   if (fail >= 0) ctx.focus(CT[fail] - .3, { x: 690, y: Y + PH - 200, w: PW, h: 200 }, { z: 1.08, k: .38, d: 1.1 });

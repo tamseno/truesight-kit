@@ -1,0 +1,134 @@
+# Visual reference of the whole library, for agents and people:  python tools/gallery.py
+# Writes episodes/_gallery (a narration-free timeline built here), renders it, and saves labelled sheets to docs/gallery/:
+#   looks.jpg            one scene in every look
+#   elements-N.jpg       every element with its catalog example
+#   motions-<kind>.jpg   every motion as a 5-frame strip (how it moves, not just where it ends)
+#   layouts.jpg          every layout's slots
+# Also refreshes docs/catalog.json + docs/CATALOG.md.
+import json, os, subprocess, sys, shutil, math
+from PIL import Image, ImageDraw, ImageFont
+KIT = os.path.dirname(os.path.dirname(os.path.abspath(__file__))); EP = os.path.join(KIT, 'episodes', '_gallery'); OUT = os.path.join(KIT, 'docs', 'gallery')
+os.makedirs(EP, exist_ok=True); os.makedirs(OUT, exist_ok=True)
+def node(*args):
+    r = subprocess.run(['node', os.path.join(KIT, 'tools', 'render.mjs'), f'ep={EP}', *args], cwd=KIT, capture_output=True, text=True, encoding='utf8', errors='replace')
+    bad = [l for l in (r.stdout + r.stderr).splitlines() if l.startswith(('PAGEERR', 'ERR', 'WARN ')) or 'Error' in l]
+    if bad: print('\n'.join(bad[:20]))
+    return r
+def write_tl(scenes, meta=None):
+    t = 0
+    for s in scenes: s.setdefault('lines', []); s['start'] = round(t, 3); s.setdefault('chapter', 'gallery'); s['push'] = False; s['trans'] = 'cut'; t += s['dur']
+    json.dump({'fps': 60, 'w': 1920, 'h': 1080, 'total': round(t, 3), 'meta': meta or {'look': 'clean'}, 'scenes': scenes}, open(os.path.join(EP, 'timeline.json'), 'w', encoding='utf8'), ensure_ascii=False, indent=1)
+    return scenes
+def font(sz):
+    for f in ['C:/Windows/Fonts/consolab.ttf', 'C:/Windows/Fonts/arialbd.ttf']:
+        if os.path.exists(f): return ImageFont.truetype(f, sz)
+    return ImageFont.load_default()
+F, FS = font(26), font(20)
+# ---- 0. catalog (needs any timeline)
+write_tl([{'id': 'stub', 'type': 'compose', 'theme': 'paper', 'dur': 2, 'data': {'els': []}}])
+node('catalog=1'); CAT = json.load(open(os.path.join(KIT, 'docs', 'catalog.json'), encoding='utf8'))
+GRID_AREA = (88, 240, 1744, 632)
+def grid_rects(cols, rows, gap=24, area=GRID_AREA):
+    x0, y0, w, h = area; cw = (w - gap * (cols - 1)) / cols; ch = (h - gap * (rows - 1)) / rows
+    return [(x0 + (i % cols) * (cw + gap), y0 + (i // cols) * (ch + gap), cw, ch) for i in range(cols * rows)]
+scenes = []
+# ---- 1. looks: one composed scene
+look_scene = {'id': 'look', 'type': 'compose', 'theme': 'lavender', 'label': 'The look', 'title': 'Same scene, every look', 'dur': 4, 'data': {'layout': {'type': 'bento', 'ratio': .56}, 'els': [
+    {'el': 'card', 'slot': 'main', 'icon': 'shield', 'kicker': 'Rule one', 'title': 'Every task ships with *proof*', 'body': 'Screenshots before and after, tests green, or it goes back to the agent.', 'tone': 'accent', 'in': 'none'},
+    {'el': 'stat', 'slot': 'side0', 'label': 'Agents at once', 'value': 200, 'suffix': '+', 'tone': 'good', 'in': 'none'},
+    {'el': 'pr', 'slot': 'side1', 'num': '#4821', 'title': 'Small-screen onboarding', 'state': 'READY', 'checks': [{'text': 'CI'}, {'text': 'Proof'}], 'in': 'none'}]}}
+# ---- 2. elements
+els = [k for k in CAT['elements'] if k not in ('html',)] + ['html']
+PER = 9; el_scenes = []
+for pi in range(math.ceil(len(els) / PER)):
+    chunk = els[pi * PER:(pi + 1) * PER]; R = grid_rects(3, 3, 30, (88, 70, 1744, 880)); E = []
+    for name, (x, y, w, h) in zip(chunk, R):
+        ex = dict(CAT['elements'][name]['example']); box = [round(x + 14), round(y + 8), round(w - 28), round(h - 64)]
+        if name == 'arrow': ex = {'from': [box[0] + 30, box[1] + box[3] - 30], 'to': [box[0] + box[2] - 30, box[1] + 30], 'bend': .3}
+        if name == 'cursor': ex = {'path': [[0.1, box[0] + 40, box[1] + 40], [0.8, box[0] + box[2] // 2, box[1] + box[3] // 2]], 'clicks': [1.0]}
+        E.append({'el': name, 'box': box, 'in': 'none', **ex})
+        E.append({'el': 'text', 'style': 'mono', 'text': name, 'box': [round(x + 14), round(y + h - 48), round(w - 28), 40], 'in': 'none', 'color': 'sub', 'size': 26})
+        E.append({'el': 'shape', 'kind': 'rect', 'fill': 'transparent', 'box': [round(x), round(y), round(w), round(h)], 'in': 'none', 'css': 'box-shadow:inset 0 0 0 2px var(--line);border-radius:18px', 'z': -1})
+    el_scenes.append({'id': f'el{pi + 1}', 'type': 'compose', 'theme': 'paper', 'dur': 4, 'data': {'els': E}})
+# ---- 3. motions (2 rows x 4 tiles per scene; triggered at T0)
+T0 = 1.0; STRIP = [0.0, .12, .3, .6, 1.4]
+KIND_ORDER = ['in', 'text', 'emph', 'loop', 'move', 'out']
+mot = {k: [n for n, m in CAT['motions'].items() if m['kind'] == k and n != 'none'] for k in KIND_ORDER}
+mo_scenes = []; mo_index = []  # (scene id, cell index, motion name, kind)
+for kind in KIND_ORDER:
+    names = mot[kind]
+    for pi in range(math.ceil(len(names) / 8)):
+        chunk = names[pi * 8:(pi + 1) * 8]; R = grid_rects(4, 2, 30); E = []; sid = f'mo_{kind}{pi + 1}'
+        for ci, (name, (x, y, w, h)) in enumerate(zip(chunk, R)):
+            box = [round(x + 40), round(y + 40), round(w - 80), round(h - 80)]
+            spec = f'{name}@{T0}'
+            if kind in ('in',):
+                e = {'el': 'card', 'icon': 'bolt', 'title': name, 'box': box, 'in': spec}
+                if name == 'draw': e = {'el': 'html', 'box': box, 'in': spec, 'html': '<svg width="100%" height="100%" viewBox="0 0 100 60"><path d="M10 34 L40 52 L92 8" fill="none" stroke="#5a5cf0" stroke-width="9" stroke-linecap="round" stroke-linejoin="round"/></svg>'}
+                if name == 'cascade': e = {'el': 'list', 'items': ['First', 'Second', 'Third'], 'box': box, 'in': spec, 'size': 30}
+            elif kind == 'text':
+                e = {'el': 'text', 'style': 'heading', 'text': '2,000+ PRs' if name == 'count' else 'Ship the *loop* now', 'box': box, 'in': spec, 'hug': False}
+                if name == 'hl': e = {'el': 'text', 'style': 'heading', 'text': 'Ship the *loop*', 'box': box, 'in': 'none', 'do': [spec], 'hug': False}
+                if name == 'cascade': e = {'el': 'list', 'items': ['First', 'Second', 'Third'], 'box': box, 'in': spec, 'size': 30}
+                if name == 'draw': e = {'el': 'html', 'box': box, 'in': spec, 'html': '<svg width="100%" height="100%" viewBox="0 0 100 60"><path d="M10 34 L40 52 L92 8" fill="none" stroke="#5a5cf0" stroke-width="9" stroke-linecap="round" stroke-linejoin="round"/></svg>'}
+            elif kind == 'out':
+                e = {'el': 'card', 'icon': 'x', 'title': name, 'box': box, 'in': 'none', 'out': spec}
+            elif kind == 'loop':
+                e = {'el': 'card', 'icon': 'spark', 'title': name, 'box': box, 'in': 'none', 'loop': {'m': name, 'at': T0}}
+            elif kind == 'move':
+                p = {'m': name, 'at': T0}
+                if name == 'move': p['by'] = [70, -40]
+                if name == 'path': p['pts'] = [[60, -30], [120, 20]]; p['d'] = 1.2
+                e = {'el': 'card', 'icon': 'branch', 'title': name, 'box': box, 'in': 'none', 'do': [p]}
+            else:
+                e = {'el': 'card', 'icon': 'eye', 'title': name, 'box': box, 'in': 'none', 'do': [spec]}
+                if name == 'undim': e['do'] = [f'dim@{T0 - .8}', spec]
+                if name == 'settle': e['do'] = [f'lift@{T0 - .8}', spec]
+                if name in ('hl',): e = {'el': 'text', 'style': 'heading', 'text': 'Ship the *loop*', 'box': box, 'in': 'none', 'do': [spec], 'hug': False}
+            E.append(e); mo_index.append((sid, ci, name, kind, (x, y, w, h)))
+        mo_scenes.append({'id': sid, 'type': 'compose', 'theme': 'paper', 'label': f'motions · {kind}', 'title': f'{kind} motions', 'dur': 3.2, 'data': {'els': E}})
+# ---- 4. layouts
+la_scenes = []
+for name in CAT['layouts']:
+    la_scenes.append({'id': f'la_{name}', 'type': 'compose', 'theme': 'ice', 'label': 'layout', 'title': name, 'dur': 2, 'data': {'layout': {'type': name}, 'showSlots': True, 'els': []}})
+all_scenes = write_tl([look_scene] + el_scenes + mo_scenes + la_scenes)
+S = {s['id']: s for s in all_scenes}
+def frames(pairs, out, look=None):
+    shutil.rmtree(os.path.join(EP, out), ignore_errors=True)
+    fr = sorted(set(round((S[sid]['start'] + t) * 60) for sid, t in pairs))
+    node(f'frames={",".join(map(str, fr))}', f'out={out}', 'workers=12', *( [f'look={look}', f'tag={look}'] if look else []))
+    return {(sid, t): os.path.join(EP, out, f'f{round((S[sid]["start"] + t) * 60):05d}.jpg') for sid, t in pairs}
+def label(im, text, xy=(14, 10), size=F):
+    d = ImageDraw.Draw(im); x, y = xy; bb = d.textbbox((x, y), text, font=size); d.rectangle((bb[0] - 8, bb[1] - 6, bb[2] + 8, bb[3] + 6), fill=(18, 19, 26)); d.text((x, y), text, font=size, fill=(255, 255, 255))
+# looks
+looks = list(CAT['looks']); tiles = []
+for lk in looks:
+    f = frames([('look', 3.0)], f'g_look_{lk}', lk)[('look', 3.0)]; im = Image.open(f).resize((800, 450)); label(im, lk); tiles.append(im)
+cols = 3; sheet = Image.new('RGB', (cols * 810, math.ceil(len(tiles) / cols) * 460), 'white')
+for i, im in enumerate(tiles): sheet.paste(im, ((i % cols) * 810, (i // cols) * 460))
+sheet.save(os.path.join(OUT, 'looks.jpg'), quality=84)
+# elements
+fx = frames([(s['id'], 3.6) for s in el_scenes], 'g_el')
+for i, s in enumerate(el_scenes): Image.open(fx[(s['id'], 3.6)]).resize((1600, 900)).save(os.path.join(OUT, f'elements-{i + 1}.jpg'), quality=84)
+# motions: crop each tile at 5 moments
+fx = frames([(s['id'], T0 + dt) for s in mo_scenes for dt in STRIP], 'g_mo')
+for kind in KIND_ORDER:
+    rows = [m for m in mo_index if m[3] == kind]
+    if not rows: continue
+    CW, CH = 300, 180; sheet = Image.new('RGB', (230 + len(STRIP) * (CW + 8), len(rows) * (CH + 8) + 40), (245, 245, 247)); d = ImageDraw.Draw(sheet)
+    for j, dt in enumerate(STRIP): d.text((230 + j * (CW + 8) + 6, 8), f'+{dt:.2f}s', font=FS, fill=(90, 90, 100))
+    for i, (sid, ci, name, k, (x, y, w, h)) in enumerate(rows):
+        yy = 40 + i * (CH + 8); d.text((12, yy + CH // 2 - 14), name, font=F, fill=(20, 20, 28))
+        for j, dt in enumerate(STRIP):
+            im = Image.open(fx[(sid, T0 + dt)]).crop((int(x), int(y), int(x + w), int(y + h))).resize((CW, CH)); sheet.paste(im, (230 + j * (CW + 8), yy))
+    sheet.save(os.path.join(OUT, f'motions-{kind}.jpg'), quality=84)
+# layouts
+fx = frames([(s['id'], 1.5) for s in la_scenes], 'g_la'); tiles = []
+for s in la_scenes:
+    im = Image.open(fx[(s['id'], 1.5)]).resize((640, 360)); tiles.append(im)
+cols = 4; sheet = Image.new('RGB', (cols * 650, math.ceil(len(tiles) / cols) * 370), 'white')
+for i, im in enumerate(tiles): sheet.paste(im, ((i % cols) * 650, (i // cols) * 370))
+sheet.save(os.path.join(OUT, 'layouts.jpg'), quality=84)
+for d_ in os.listdir(EP):
+    if d_.startswith('g_'): shutil.rmtree(os.path.join(EP, d_), ignore_errors=True)
+print('gallery:', ', '.join(sorted(os.listdir(OUT))))

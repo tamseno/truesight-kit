@@ -1,0 +1,606 @@
+{
+ "meta": {
+  "title": "compose demo: seven scenes built from the library",
+  "edge_voice": "en-US-AndrewMultilingualNeural",
+  "edge_rate": "+4%",
+  "cast": {
+   "ios": {
+    "name": "iOS Bot",
+    "role": "iOS app",
+    "c": "#2fc7a4",
+    "shape": "square"
+   },
+   "desktop": {
+    "name": "Desktop Bot",
+    "role": "Desktop + CI",
+    "c": "#f5a524",
+    "shape": "tri"
+   },
+   "infra": {
+    "name": "Infra Bot",
+    "role": "Infrastructure",
+    "c": "#8b5cf6",
+    "shape": "hex"
+   },
+   "android": {
+    "name": "Android Bot",
+    "role": "Android app",
+    "c": "#3a86f4",
+    "shape": "diamond"
+   },
+   "harness": {
+    "name": "Harness Bot",
+    "role": "Bot harness",
+    "c": "#5a5cf0",
+    "shape": "circle"
+   },
+   "ops": {
+    "name": "Ops Bot",
+    "role": "Operations",
+    "c": "#f0628a",
+    "shape": "circle"
+   }
+  },
+  "look": "neon"
+ },
+ "scenes": [
+  {
+   "id": "c1",
+   "type": "compose",
+   "theme": "paper",
+   "chapter": "A",
+   "label": "The playbook",
+   "title": "Who does the work",
+   "lines": [
+    "A report lands in Slack. The bot turns it into a brief, and a cloud agent opens the pull request."
+   ],
+   "data": {
+    "layout": {
+     "type": "hero",
+     "ratio": 0.4
+    },
+    "els": [
+     {
+      "el": "text",
+      "slot": "text",
+      "style": "label",
+      "text": "THE OUTER LOOP",
+      "h": 40,
+      "y": 300
+     },
+     {
+      "el": "text",
+      "slot": "text",
+      "style": "display",
+      "text": "Bots run\nthe *loop*.",
+      "h": 260,
+      "y": 350,
+      "in": "words@report",
+      "do": [
+       "hl@brief"
+      ]
+     },
+     {
+      "el": "text",
+      "slot": "text",
+      "style": "caption",
+      "text": "You keep the merge button.",
+      "h": 50,
+      "y": 640,
+      "in": "rise@pull"
+     },
+     {
+      "id": "w1",
+      "el": "window",
+      "title": "Slack · #ios-bugs",
+      "lines": [
+       "Onboarding crashes on SE",
+       "Same here, v4.12",
+       "+1 on iPhone 13 mini"
+      ],
+      "box": [
+       1000,
+       250,
+       560,
+       330
+      ],
+      "in": "tilt@Slack",
+      "loop": "float"
+     },
+     {
+      "id": "w2",
+      "el": "code",
+      "file": "brief.md",
+      "lang": "md",
+      "code": "## Task\nFix crash < 375pt\n## Proof\nBefore/after shots",
+      "box": [
+       1180,
+       420,
+       560,
+       300
+      ],
+      "in": "tilt@brief",
+      "loop": {
+       "m": "float",
+       "phase": 1.5
+      }
+     },
+     {
+      "id": "w3",
+      "el": "pr",
+      "title": "Small-screen onboarding",
+      "state": "READY",
+      "checks": [
+       {
+        "text": "CI"
+       },
+       {
+        "text": "Proof"
+       }
+      ],
+      "box": [
+       1060,
+       640,
+       640,
+       210
+      ],
+      "in": "rise@pull",
+      "do": [
+       "glow@request"
+      ],
+      "num": "#4821"
+     },
+     {
+      "el": "arrow",
+      "from": "w1",
+      "to": "w2",
+      "bend": -0.3,
+      "in": "fade@brief"
+     },
+     {
+      "el": "arrow",
+      "from": "w2",
+      "to": "w3",
+      "bend": 0.3,
+      "in": "fade@pull"
+     }
+    ]
+   }
+  },
+  {
+   "id": "c2",
+   "type": "compose",
+   "theme": "ice",
+   "chapter": "A",
+   "trans": "whip",
+   "lines": [
+    "By hand, one engineer could juggle fifteen agents. With bots managing them, more than two hundred."
+   ],
+   "data": {
+    "layout": {
+     "type": "split",
+     "ratio": 0.38
+    },
+    "els": [
+     {
+      "el": "text",
+      "slot": "left",
+      "style": "label",
+      "text": "Cloud agents at once",
+      "h": 40,
+      "y": 250
+     },
+     {
+      "el": "number",
+      "slot": "left",
+      "value": 200,
+      "suffix": "+",
+      "h": 230,
+      "y": 300,
+      "in": "zoom@two hundred",
+      "sub": "managed by bots"
+     },
+     {
+      "el": "text",
+      "slot": "left",
+      "style": "heading",
+      "text": "15 by hand →",
+      "h": 70,
+      "y": 600,
+      "in": "left@fifteen",
+      "do": [
+       "strike@two hundred"
+      ]
+     },
+     {
+      "el": "tiles",
+      "slot": "right",
+      "count": 200,
+      "cols": 20,
+      "steps": [
+       {
+        "n": 15,
+        "at": "fifteen",
+        "color": "ink"
+       },
+       {
+        "n": 200,
+        "at": "two hundred"
+       }
+      ],
+      "in": "fade@By hand"
+     }
+    ],
+    "beats": [
+     {
+      "at": "two hundred",
+      "cam": {
+       "x": 1100,
+       "y": 540,
+       "z": 1.035
+      }
+     }
+    ]
+   }
+  },
+  {
+   "id": "c3",
+   "type": "compose",
+   "theme": "lavender",
+   "chapter": "B",
+   "label": "Proof",
+   "title": "The bot checks the screenshot",
+   "lines": [
+    "It opens the preview, finds the clipped button, and sends it back. Second round, it signs off."
+   ],
+   "data": {
+    "els": [
+     {
+      "id": "b",
+      "el": "browser",
+      "url": "preview.app/onboarding",
+      "title": "Welcome aboard",
+      "box": [
+       300,
+       250,
+       1000,
+       600
+      ],
+      "in": "rise@opens"
+     },
+     {
+      "id": "btn",
+      "el": "html",
+      "box": [
+       360,
+       700,
+       420,
+       90
+      ],
+      "html": "<div style=\"width:100%;height:100%;border-radius:16px;background:var(--accent);color:#fff;font:800 30px var(--fb);display:flex;align-items:center;justify-content:center\">Continue →</div>",
+      "in": "pop@preview",
+      "do": [
+       "circle@clipped",
+       "shake@sends"
+      ]
+     },
+     {
+      "el": "note",
+      "box": [
+       1350,
+       620,
+       440,
+       150
+      ],
+      "side": "left",
+      "text": "Clipped at 320pt → *sent back*",
+      "tone": "bad",
+      "in": "right@clipped"
+     },
+     {
+      "el": "cursor",
+      "path": [
+       [
+        "preview",
+        1500,
+        420
+       ],
+       [
+        "finds",
+        560,
+        740
+       ],
+       [
+        "Second",
+        560,
+        745
+       ]
+      ],
+      "clicks": [
+       "finds"
+      ]
+     },
+     {
+      "el": "stamp",
+      "box": [
+       1320,
+       300,
+       440,
+       150
+      ],
+      "text": "VERIFIED",
+      "tone": "good",
+      "in": "stamp@signs"
+     }
+    ],
+    "beats": [
+     {
+      "at": "clipped",
+      "cam": {
+       "focus": "btn",
+       "z": 1.08,
+       "k": 0.35
+      }
+     },
+     {
+      "at": "Second",
+      "cam": "reset"
+     }
+    ]
+   }
+  },
+  {
+   "id": "c4",
+   "type": "compose",
+   "theme": "mint",
+   "chapter": "B",
+   "trans": "push",
+   "label": "The numbers",
+   "title": "What the team reports",
+   "lines": [
+    "One engineer shipped over two thousand pull requests in a month, and most review runs pass first time."
+   ],
+   "data": {
+    "layout": {
+     "type": "bento",
+     "ratio": 0.58
+    },
+    "els": [
+     {
+      "el": "post",
+      "slot": "main",
+      "author": "Grok Bot team",
+      "handle": "x.ai guide",
+      "text": "Lauren shipped *2,000+ PRs* in the past month.",
+      "in": "rise@engineer",
+      "do": [
+       "hl@thousand"
+      ]
+     },
+     {
+      "el": "stat",
+      "slot": "side0",
+      "label": "PRs in a month",
+      "value": 2000,
+      "fmt": true,
+      "suffix": "+",
+      "tone": "accent",
+      "in": "rise@thousand"
+     },
+     {
+      "el": "donut",
+      "slot": "side1",
+      "value": 0.82,
+      "label": "pass first time",
+      "in": "pop@review"
+     },
+     {
+      "el": "source",
+      "text": "x.ai/bot/guides/grok-bot-for-engineering",
+      "in": "fade@engineer"
+     }
+    ]
+   }
+  },
+  {
+   "id": "c5",
+   "type": "compose",
+   "theme": "night",
+   "chapter": "C",
+   "trans": "zoom",
+   "lines": [
+    "Don't ask it to write your code. Ask it to run your loop."
+   ],
+   "data": {
+    "els": [
+     {
+      "el": "text",
+      "style": "display",
+      "text": "Write your code",
+      "box": [
+       140,
+       300,
+       1000,
+       150
+      ],
+      "in": "chars@write",
+      "do": [
+       "strike@Ask"
+      ]
+     },
+     {
+      "el": "glyph",
+      "text": "→",
+      "box": [
+       1060,
+       300,
+       220,
+       150
+      ],
+      "in": "pop@Ask"
+     },
+     {
+      "el": "text",
+      "style": "display",
+      "text": "Run your *loop*",
+      "box": [
+       140,
+       520,
+       1640,
+       160
+      ],
+      "in": "mask@run",
+      "do": [
+       "hl@loop",
+       "underline@loop+0.4"
+      ]
+     }
+    ]
+   }
+  },
+  {
+   "id": "c6",
+   "type": "compose",
+   "theme": "sky",
+   "chapter": "C",
+   "trans": "slide",
+   "label": "P0",
+   "title": "Say the magic word",
+   "lines": [
+    "You say it's P0. The bot starts a five-minute watch, and pings you the moment it finds the real failure."
+   ],
+   "data": {
+    "layout": {
+     "type": "rows",
+     "n": 4,
+     "gap": 18
+    },
+    "els": [
+     {
+      "el": "toast",
+      "app": "Grok Bot",
+      "title": "P0 watch started",
+      "body": "checking the agent every 5 min",
+      "icon": "bolt",
+      "box": [
+       1100,
+       250,
+       700,
+       140
+      ],
+      "in": "drop@watch",
+      "do": [
+       "ping@pings"
+      ]
+     },
+     {
+      "el": "bubble",
+      "from": "you",
+      "text": "Checkout is failing on Android. *This is P0.*",
+      "box": [
+       260,
+       420,
+       1400,
+       120
+      ],
+      "in": "right@P0"
+     },
+     {
+      "el": "bubble",
+      "from": "android",
+      "text": "Watching the agent every 5 minutes.",
+      "time": "21:14",
+      "box": [
+       160,
+       560,
+       1300,
+       130
+      ],
+      "in": "left@watch"
+     },
+     {
+      "el": "bubble",
+      "from": "android",
+      "text": "Found it: *payment SDK timeout*, not the flaky test.",
+      "time": "21:19",
+      "box": [
+       160,
+       710,
+       1300,
+       130
+      ],
+      "in": "left@finds"
+     }
+    ]
+   }
+  },
+  {
+   "id": "c7",
+   "type": "compose",
+   "theme": "sand",
+   "chapter": "C",
+   "label": "Nightly audit",
+   "title": "Bundle size, every night",
+   "lines": [
+    "Run the audit every night at three, and bundle size stops creeping up. It drops week after week."
+   ],
+   "data": {
+    "layout": {
+     "type": "split",
+     "ratio": 0.58
+    },
+    "els": [
+     {
+      "el": "linechart",
+      "slot": "left",
+      "points": [
+       9.8,
+       10.1,
+       10.4,
+       10.2,
+       9.6,
+       9.1,
+       8.7,
+       8.4
+      ],
+      "labels": [
+       "W1",
+       "W2",
+       "W3",
+       "W4",
+       "W5",
+       "W6",
+       "W7",
+       "W8"
+      ],
+      "color": "good",
+      "in": "fade@audit",
+      "at": "creeping"
+     },
+     {
+      "el": "bars",
+      "slot": "right",
+      "items": [
+       {
+        "label": "Before",
+        "value": 10.4,
+        "color": "bad",
+        "dec": 1
+       },
+       {
+        "label": "After",
+        "value": 8.4,
+        "color": "good",
+        "dec": 1
+       }
+      ],
+      "unit": " MB",
+      "at": "drops",
+      "in": "rise@drops",
+      "h": 260
+     }
+    ]
+   }
+  }
+ ]
+}

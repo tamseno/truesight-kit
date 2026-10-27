@@ -8,24 +8,24 @@ ARCH.roster = (root, ctx, H, d) => {
   const GAP = 28, CW = (1744 - GAP * (n - 1)) / n, CY = 330, CH = 540;
   const cx = i => 88 + i * (CW + GAP);
   const TY = 266, L0 = 88 + 150, L1 = 1832 - 150;
-  const pIn = D(root, 88, TY - 22, 136, 44, 'border-radius:999px;background:#15161c;color:#fff;font:800 22px Geist;display:flex;align-items:center;justify-content:center', H.esc(d.from || 'Request'));
-  const pOut = D(root, 1832 - 136, TY - 22, 136, 44, 'border-radius:999px;background:#15161c;color:#fff;font:800 22px Geist;display:flex;align-items:center;justify-content:center', H.esc(d.to || 'Delivered'));
+  const pIn = D(root, 88, TY - 22, 136, 44, 'border-radius:999px;background:var(--inv);color:var(--inv-ink);font:800 22px var(--fb);display:flex;align-items:center;justify-content:center', H.esc(d.from || 'Request'));
+  const pOut = D(root, 1832 - 136, TY - 22, 136, 44, 'border-radius:999px;background:var(--inv);color:var(--inv-ink);font:800 22px var(--fb);display:flex;align-items:center;justify-content:center', H.esc(d.to || 'Delivered'));
   const line = D(root, L0, TY - 2, L1 - L0, 4, 'border-radius:2px;background:rgba(21,22,28,.12);transform-origin:left');
-  const runner = D(root, 0, TY - 10, 20, 20, 'border-radius:50%;background:#15161c;box-shadow:0 0 0 5px #fff');
+  const runner = D(root, 0, TY - 10, 20, 20, 'border-radius:50%;background:var(--inv);box-shadow:0 0 0 5px #fff');
   const cards = items.map((it, i) => {
     const c = BOTS[it.cast] || { c: it.color || '#3a6cf4', name: it.name || it.cast };
     const k = put(root, H.card({ w: CW, h: CH }), cx(i), CY);
     const band = D(k, 0, 0, CW, 160, `background:color-mix(in srgb,${c.c} 13%,#fff)`);
     let b = null; if (BOTS[it.cast]) { b = bot(it.cast, 104); D(k, CW / 2 - 52, 28, 104, 104).appendChild(b.el); }
-    const nm = D(k, 26, 182, CW - 52, 44, 'font:800 34px Geist;letter-spacing:-.02em;white-space:nowrap', H.esc(it.name || c.name));
+    const nm = D(k, 26, 182, CW - 52, 44, 'font:var(--fwd) 34px var(--fd);letter-spacing:calc(-.02em * var(--trk));white-space:nowrap', H.esc(it.name || c.name));
     const rl = it.role ? D(k, 26, 232, CW - 52, 34, '', H.tag(it.role, c.c)) : null;
-    const desc = D(k, 26, 280, CW - 52, 110, 'font:700 26px/1.28 Geist,Noto;letter-spacing:-.01em', H.md(it.desc || ''));
+    const desc = D(k, 26, 280, CW - 52, 110, 'font:700 26px/1.28 var(--fb);letter-spacing:calc(-.01em * var(--trk))', H.md(it.desc || ''));
     const prop = D(k, 18, 392, CW - 36, CH - 410, `border-radius:16px;background:${it.code ? '#16171f' : '#f6f7fb'};overflow:hidden`);
     let upProp = () => { };
-    if (it.code) { const el = D(prop, 18, 14, CW - 72, null, 'font:600 22px/1.5 Maple;color:#d8dbe7;white-space:pre'); upProp = t => H.type(el, it.code, t, T[i] + .3, 38, false); }
-    else if (it.big) { const el = D(prop, 0, 20, CW - 36, 90, `text-align:center;font:800 76px/1 Geist;color:${c.c};letter-spacing:-.03em`); const v = parseFloat(it.big); upProp = t => H.count(el, 0, v, E.out(P(t, T[i] + .2, T[i] + 1)), (String(it.big).split('.')[1] || '').length); }
+    if (it.code) { const el = D(prop, 18, 14, CW - 72, null, 'font:600 22px/1.5 var(--fm);color:#d8dbe7;white-space:pre'); upProp = t => H.type(el, it.code, t, T[i] + .3, 38, false); }
+    else if (it.big) { const el = D(prop, 0, 20, CW - 36, 90, `text-align:center;font:var(--fwd) 76px/1 var(--fd);color:${c.c};letter-spacing:calc(-.03em * var(--trk))`); const v = parseFloat(it.big); upProp = t => H.count(el, 0, v, E.out(P(t, T[i] + .2, T[i] + 1)), (String(it.big).split('.')[1] || '').length); }
     else if (it.lines) {
-      const rows = it.lines.map((s, j) => D(prop, 22, 16 + j * 38, CW - 80, 34, 'display:flex;align-items:center;gap:12px;font:600 22px Geist;white-space:nowrap', `<span style="width:14px;height:14px;border-radius:50%;flex:none;box-shadow:0 0 0 3px ${c.c};background:#fff" class="dt"></span>${H.esc(s)}`));
+      const rows = it.lines.map((s, j) => D(prop, 22, 16 + j * 38, CW - 80, 34, 'display:flex;align-items:center;gap:12px;font:600 22px var(--fb);white-space:nowrap', `<span style="width:14px;height:14px;border-radius:50%;flex:none;box-shadow:0 0 0 3px ${c.c};background:var(--surface)" class="dt"></span>${H.esc(s)}`));
       upProp = t => rows.forEach((r, j) => { const kk = A(t, T[i] + .3 + j * .18, .2); set(r, { o: lerp(.35, 1, kk) }); r.querySelector('.dt').style.background = kk > .5 ? c.c : '#fff'; });
     }
     return { it, c, k, b, nm, rl, desc, prop, upProp };

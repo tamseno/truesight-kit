@@ -13,10 +13,10 @@ ARCH.board = (root, ctx, H, d, sc) => {
   const maxN = (() => { const col = {}; let mx = 1; const es = []; items.forEach((it, i) => { es.push([0, i, it.col ?? 0]); (it.moves || []).forEach(m => es.push([1, i, m.col])); }); items.forEach((it, i) => { col[i] = it.col ?? 0; const per = {}; Object.values(col).forEach(c => { per[c] = (per[c] || 0) + 1; mx = Math.max(mx, per[c]); }); }); items.forEach((it, i) => (it.moves || []).forEach(m => { col[i] = m.col; const per = {}; Object.values(col).forEach(c => { per[c] = (per[c] || 0) + 1; mx = Math.max(mx, per[c]); }); })); return mx; })();
   const HH = Math.max(420, Math.min(632, CY0 + maxN * (CardH + CG) + 34)), Y = H.vc(HH);
   const lanes = cols.map((c, i) => {
-    const l = H.put(root, H.card({ w: CW, h: HH }), 88 + i * (CW + GAP), Y); l.style.background = 'rgba(255,255,255,.72)'; l.style.backdropFilter = 'blur(6px)';
+    const l = H.put(root, H.card({ w: CW, h: HH }), 88 + i * (CW + GAP), Y); l.style.background = 'color-mix(in srgb,var(--surface) 78%,transparent)'; l.style.backdropFilter = 'blur(6px)';
     const tone = TONE[i] || '#6b6e7b';
-    D(l, 28, 28, CW - 56, 40, `display:flex;align-items:center;gap:12px;font:800 30px Geist,Noto;letter-spacing:-.01em;white-space:nowrap`, `<i style="width:14px;height:14px;border-radius:5px;background:${tone};display:inline-block"></i>${H.esc(c)}`);
-    const cnt = D(l, CW - 28 - 60, 26, 60, 44, `border-radius:12px;background:color-mix(in srgb,${tone} 12%,#fff);color:${tone};font:800 22px Geist;display:flex;align-items:center;justify-content:center`);
+    D(l, 28, 28, CW - 56, 40, `display:flex;align-items:center;gap:12px;font:var(--fwd) 30px var(--fd);letter-spacing:calc(-.01em * var(--trk));white-space:nowrap`, `<i style="width:14px;height:14px;border-radius:5px;background:${tone};display:inline-block"></i>${H.esc(c)}`);
+    const cnt = D(l, CW - 28 - 60, 26, 60, 44, `border-radius:12px;background:color-mix(in srgb,${tone} 12%,#fff);color:${tone};font:800 22px var(--fb);display:flex;align-items:center;justify-content:center`);
     return { l, cnt, x: 88 + i * (CW + GAP) };
   });
   // event model: every card's lane over time; layout = order of arrival per lane
@@ -28,8 +28,8 @@ ARCH.board = (root, ctx, H, d, sc) => {
   const posOf = s => ({ x: lanes[s.c].x + 18, y: Y + CY0 + s.r * (CardH + CG) });
   const cards = items.map((it, i) => {
     const c = H.put(root, H.card({ w: CW - 36, h: CardH }), 0, 0); c.style.borderRadius = '18px';
-    D(c, 24, 18, 140, 30, 'font:700 22px Maple;color:#6b6e7b', H.esc(it.id || ''));
-    D(c, 24, 50, CW - 36 - 48 - (it.who ? 60 : 0), 42, 'font:800 30px/1.2 Geist,Noto;letter-spacing:-.015em;white-space:nowrap;overflow:hidden;text-overflow:ellipsis', H.md(it.title || ''));
+    D(c, 24, 18, 140, 30, 'font:700 22px var(--fm);color:var(--sub)', H.esc(it.id || ''));
+    D(c, 24, 50, CW - 36 - 48 - (it.who ? 60 : 0), 42, 'font:var(--fwd) 30px/1.2 var(--fd);letter-spacing:calc(-.015em * var(--trk));white-space:nowrap;overflow:hidden;text-overflow:ellipsis', H.md(it.title || ''));
     if (it.who) { const av = H.avatar(it.who, 44); D(c, CW - 36 - 22 - 44, 18, 44, 44).appendChild(av.el); c.av = av; }
     const pill = D(c, 24, 92, CW - 80, 32, 'display:flex;gap:8px');
     return { c, pill, it };
@@ -38,7 +38,7 @@ ARCH.board = (root, ctx, H, d, sc) => {
   // sweeps
   const SW = (d.sweeps || []).map(s => ({ t: H.when(ctx, s.at, 0), label: s.label }));
   const sweep = D(root, 70, Y - 14, 6, HH + 28, 'border-radius:3px;background:linear-gradient(180deg,transparent,var(--accent),transparent);box-shadow:0 0 30px 8px color-mix(in srgb,var(--accent) 40%,transparent)');
-  const swl = D(root, 0, Y - 58, 300, 40, 'display:flex;align-items:center;gap:10px;padding:0 16px;border-radius:999px;background:#15161c;color:#fff;font:800 22px Geist;white-space:nowrap');
+  const swl = D(root, 0, Y - 58, 300, 40, 'display:flex;align-items:center;gap:10px;padding:0 16px;border-radius:999px;background:var(--inv);color:var(--inv-ink);font:800 22px var(--fb);white-space:nowrap');
   swl.innerHTML = `<span style="width:22px;height:22px">${IC.clock('#ffd66b')}</span><span class="tx"></span>`;
   // sounds + camera
   ctx.cue(TT[0] - .2, 'swoosh', .3); TT.forEach(x => ctx.cue(x, 'pop', .25));
@@ -60,7 +60,7 @@ ARCH.board = (root, ctx, H, d, sc) => {
       c.style.zIndex = mv ? 3 : 1;
       if (c.av) c.av.update(t);
       const f = flagsOf(i, t), key = f ? (f.m.flag ? 'f' : 'o') + f.t : '';
-      if (pill.dataset.k !== key) { pill.dataset.k = key; pill.innerHTML = f ? (f.m.flag ? `<span style="display:inline-flex;align-items:center;gap:6px;height:32px;padding:0 13px;border-radius:999px;background:#fff0ef;color:#e2382e;font:800 21px Geist;white-space:nowrap">✕ ${H.esc(f.m.flag)}</span>` : `<span style="display:inline-flex;align-items:center;gap:6px;height:32px;padding:0 13px;border-radius:999px;background:#e9f9f1;color:#13a463;font:800 21px Geist;white-space:nowrap">✓ ${H.esc(f.m.ok)}</span>`) : ''; }
+      if (pill.dataset.k !== key) { pill.dataset.k = key; pill.innerHTML = f ? (f.m.flag ? `<span style="display:inline-flex;align-items:center;gap:6px;height:32px;padding:0 13px;border-radius:999px;background:var(--bad-fill);color:var(--bad-ink);font:800 21px var(--fb);white-space:nowrap">✕ ${H.esc(f.m.flag)}</span>` : `<span style="display:inline-flex;align-items:center;gap:6px;height:32px;padding:0 13px;border-radius:999px;background:var(--good-fill);color:var(--good-ink);font:800 21px var(--fb);white-space:nowrap">✓ ${H.esc(f.m.ok)}</span>`) : ''; }
       if (f) H.pop(pill.firstChild || pill, t, f.t - .9, { s0: .6 });
       c.style.boxShadow = f && f.m.flag && t < f.t + .65 ? '0 0 0 3px #f0443a,0 20px 40px -18px rgba(240,68,58,.5)' : '';
     });

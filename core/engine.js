@@ -17,8 +17,10 @@ const E = {
   // expo in-out: camera moves (slow start, decisive middle, long settle)
   xio: t => (t <= 0 ? 0 : t >= 1 ? 1 : t < .5 ? Math.pow(2, 20 * t - 10) / 2 : (2 - Math.pow(2, -20 * t + 10)) / 2),
   // critically-damped-ish spring with slight overshoot (no bouncy cartoon)
-  spring: t => { if (t <= 0) return 0; if (t >= 1.6) return 1; const w = 9.5, z = .62; return 1 - Math.exp(-z * w * t) * (Math.cos(w * Math.sqrt(1 - z * z) * t) + (z / Math.sqrt(1 - z * z)) * Math.sin(w * Math.sqrt(1 - z * z) * t)); },
+  spring: t => { if (t <= 0) return 0; if (t >= 1.6) return 1; const w = MF.w, z = MF.z; return 1 - Math.exp(-z * w * t) * (Math.cos(w * Math.sqrt(1 - z * z) * t) + (z / Math.sqrt(1 - z * z)) * Math.sin(w * Math.sqrt(1 - z * z) * t)); },
 };
+// motion feel (set by the look): spring stiffness w, damping z, entrance duration / rise / blur / tilt
+const MF = { w: 9.5, z: .62, dur: 1, dy: 36, blur: 6, tilt: 10 };
 // timed helpers: a(t, start, dur, ease) -> 0..1
 const A = (t, s, d = .6, e = E.out) => e(P(t, s, s + d));
 const SP = (t, s, d = 1) => E.spring((t - s) / d);
@@ -41,9 +43,9 @@ function set(el, o) {
 }
 // standard entrance: rise + fade + slight 3D tilt settling, spring
 function enter(el, t, s, o = {}) {
-  const k = SP(t, s, o.d || 1), k2 = A(t, s, .35, E.quart);
-  const dy = o.dy ?? 36, dx = o.dx ?? 0;
-  set(el, { x: dx * (1 - k), y: dy * (1 - k), s: lerp(o.s0 ?? .965, 1, k) * (o.s ?? 1), rx: (o.rx ?? 10) * (1 - k), o: k2 * (o.o ?? 1), b: (o.blur ?? 6) * (1 - k2) + (o.b ?? 0) });
+  const k = SP(t, s, (o.d || 1) * MF.dur), k2 = A(t, s, .35 * Math.min(1, MF.dur), E.quart), f = MF.dy / 36;
+  const dy = (o.dy ?? 36) * f, dx = (o.dx ?? 0) * f;
+  set(el, { x: dx * (1 - k), y: dy * (1 - k), s: lerp(o.s0 ?? .965, 1, k) * (o.s ?? 1), rx: (o.rx ?? 10) * (MF.tilt / 10) * (1 - k), o: k2 * (o.o ?? 1), b: (o.blur ?? 6) * (MF.blur / 6) * (1 - k2) + (o.b ?? 0) });
   return k;
 }
 // exit (inverse)
@@ -161,10 +163,21 @@ function cursor(parent) {
   };
 }
 // auto-fit: shrink font-size until the element's content fits width (and height if given). Works at build time (scenes are laid out visibly).
+// measure(el, fn): run fn with el laid out. Detached elements (built but not yet placed) are mounted for the moment in a hidden box
+// of H.MB size (compose sets it to the element's slot), so fit / offsetWidth work inside element factories too.
+function measure(el, fn) {
+  if (el.isConnected) return fn();
+  let top = el; while (top.parentNode) top = top.parentNode;
+  const host = document.createElement('div'), mb = window.H.MB || { w: W, h: H };
+  host.style.cssText = `position:absolute;left:-30000px;top:0;width:${mb.w}px;height:${mb.h}px;visibility:hidden`; document.body.appendChild(host); host.appendChild(top);
+  try { return fn(); } finally { host.remove(); top.remove(); }
+}
 function fit(el, w, minPx = 20, hgt) {
-  let fs = parseFloat(getComputedStyle(el).fontSize) || 30; let n = 0;
-  while (n++ < 40 && fs > minPx && (el.scrollWidth > w + 1 || (hgt && el.scrollHeight > hgt + 1))) { fs -= 1; el.style.fontSize = fs + 'px'; }
-  return fs;
+  return measure(el, () => {
+    let fs = parseFloat(getComputedStyle(el).fontSize) || 30; let n = 0;
+    while (n++ < 60 && fs > minPx && (el.scrollWidth > w + 1 || (hgt && el.scrollHeight > hgt + 1))) { fs -= 1; el.style.fontSize = fs + 'px'; }
+    return fs;
+  });
 }
 // rect of an element relative to its scene root (build time only)
 function rectOf(el, root) { const a = el.getBoundingClientRect(), b = root.getBoundingClientRect(); return { x: a.left - b.left, y: a.top - b.top, w: a.width, h: a.height }; }
@@ -177,7 +190,7 @@ function mkCtx(sc) {
     at(phrase, nth = 0, fallback = 0) {
       phrase = String(phrase).replace(/\s+/g, '').toLowerCase();
       let from = 0, pos = -1; for (let i = 0; i <= nth; i++) { pos = full.indexOf(phrase, from); if (pos < 0) break; from = pos + 1; }
-      if (pos < 0) { if (!Number.isNaN(fallback)) console.warn('at(): not found', sc.id, phrase); return fallback; }
+      if (pos < 0) { WARN.push({ scene: sc.id, kind: 'at-not-found', what: phrase }); return fallback; }
       let k = 0; while (k + 1 < idx.length && idx[k + 1] <= pos) k++; return words[k][0];
     },
     end(phrase, nth = 0) { phrase = phrase.replace(/\s+/g, '').toLowerCase(); const pos = full.indexOf(phrase); let k = 0; while (k + 1 < idx.length && idx[k + 1] < pos + phrase.length) k++; return words[k][1]; },
@@ -196,8 +209,8 @@ function mkCtx(sc) {
   };
 }
 // sound cues registered by scenes (absolute seconds) — exported for the mixer
-const CUES = [];
-window.H = { W, H, cl, P, lerp, E, A, SP, rnd, h, put, set, enter, leave, type, esc, strike, count, COL, BOTS, BOT_ORDER, bot, grok, icon, IC, win, card, chip, cursor, when, spread, times, source, hl, md, fit, rectOf };
+const CUES = [], WARN = []; window.WARN = WARN;
+window.H = { W, H, MF, WARN, cl, P, lerp, E, A, SP, rnd, h, put, set, enter, leave, type, esc, strike, count, COL, BOTS, BOT_ORDER, bot, grok, icon, IC, win, card, chip, cursor, when, spread, times, source, hl, md, fit, measure, rectOf };
 window.SCENES = window.SCENES || {};
 window.ARCH = window.ARCH || {};
 
@@ -217,27 +230,40 @@ const THEME = {
   dusk: { base: ['#170f1d', '#2a1a2e'], blobs: [['#a03e66', .36], ['#3d2fa8', .38], ['#c0702e', .24]], dark: true },
 };
 const BLOBPOS = [[18, 22, 62, 70], [86, 18, 58, 64], [62, 96, 70, 60]]; // x%, y%, rx%, ry%
-const themeOf = n => { const t = THEME[n] || THEME.paper; return Array.isArray(t) ? { base: t, blobs: [[t[1], .4], [t[0], .4], [t[1], .3]] } : t; };
-const isDark = n => !!themeOf(n).dark;
-let TL, stage, bgA, vig, dots, header, hLabel, hTitle, subEl, built = [], chap, chapSegs = [], stepB, lastStep = -2, wipeP;
+let LK = null; // active look
+const themeOf = n => { if (LK && typeof LK.themes === 'function' && !(META_THEMES && META_THEMES[n])) return LK.themes(n); const t = THEME[n] || THEME.paper; return Array.isArray(t) ? { base: t, blobs: [[t[1], .4], [t[0], .4], [t[1], .3]] } : t; };
+const isDark = n => !!(LK && LK.dark) || !!themeOf(n).dark;
+let META_THEMES = null;
+let TL, stage, bgA, bgP, vig, dots, header, hLabel, hTitle, subEl, built = [], chap, chapSegs = [], stepB, lastStep = -2, wipeP;
 function hex2rgb(x) { return [1, 3, 5].map(i => parseInt(x.slice(i, i + 2), 16)); }
 function mixRGB(c1, c2, k) { const a = hex2rgb(c1), b = hex2rgb(c2); return a.map((v, i) => Math.round(lerp(v, b[i], k))); }
 function mix(c1, c2, k) { return `rgb(${mixRGB(c1, c2, k).join(',')})`; }
 
 async function boot() {
+  if (document.readyState === 'loading') await new Promise(r => addEventListener('DOMContentLoaded', r));
   TL = await (await fetch('timeline.json')).json(); window.TLDATA = TL;
   try { window.BRAND = await (await fetch('brand.json')).json(); } catch (e) { window.BRAND = {}; }
   const BR = window.BRAND, META = TL.meta || {};
   const cast = META.cast || BR.cast;
   if (cast) { for (const k in BOTS) delete BOTS[k]; Object.assign(BOTS, cast); BOT_ORDER.splice(0, BOT_ORDER.length, ...Object.keys(cast)); }
-  if (BR.themes) Object.assign(THEME, BR.themes); if (META.themes) Object.assign(THEME, META.themes);
+  // look: tokens -> CSS variables, palettes, motion feel, background texture
+  const LOOKS = window.LOOKS || {}, lookName = META.look || BR.look || 'clean';
+  LK = LOOKS[lookName] || LOOKS.clean || { tokens: {}, bg: 'mesh', feel: {}, trans: 'lift', grain: .05, vig: .09, dots: true };
+  if (!LOOKS[lookName]) WARN.push({ scene: '-', kind: 'unknown-look', what: lookName });
+  window.LOOK = LK; window.LOOK_NAME = lookName;
+  const rootS = document.documentElement.style;
+  for (const [k, v] of Object.entries({ ...(window.LOOK_BASE || {}), ...(LK.tokens || {}), ...(META.tokens || {}) })) rootS.setProperty(k, v);
+  Object.assign(MF, LK.feel || {}, META.feel || {});
+  if (BR.themes) Object.assign(THEME, BR.themes); if (META.themes) { Object.assign(THEME, META.themes); META_THEMES = META.themes; }
   if (BR.colors) Object.assign(COL, BR.colors); if (META.colors) Object.assign(COL, META.colors);
-  document.documentElement.style.setProperty('--accent', COL.accent);
+  if (META.colors && META.colors.accent) rootS.setProperty('--accent', META.colors.accent);
+  COL.accent = getComputedStyle(document.documentElement).getPropertyValue('--accent').trim() || COL.accent;
+  document.body.dataset.look = lookName; document.body.classList.toggle('look-dark', !!LK.dark);
   // preload every face/weight used anywhere (hidden scenes don't trigger loads)
   const FACES = ['400','500','600','700','800','900'].flatMap(w => [`${w} 20px Noto`, `${w} 20px Geist`]).concat(['400 20px Maple', '700 20px Maple']);
   await Promise.all(FACES.map(f => document.fonts.load(f, '中文Ab1')));
   stage = document.getElementById('stage');
-  bgA = put(stage, h('div', 'bg'), 0, 0, W, H);
+  bgA = put(stage, h('div', 'bg'), 0, 0, W, H); bgP = put(stage, h('div', 'bgp'), 0, 0, W, H);
   dots = put(stage, h('div', 'dots'), -60, -60, W + 120, H + 120);
   for (let i = 0; i < 46; i++) { const d = h('i'); const s = 6 + rnd(i) * 26; Object.assign(d.style, { left: rnd(i + 9) * (W + 120) + 'px', top: rnd(i + 19) * (H + 120) + 'px', width: s + 'px', height: s + 'px', opacity: .25 + rnd(i + 29) * .5 }); d.dataset.z = (.3 + rnd(i + 39)).toFixed(2); dots.appendChild(d); }
   stars = put(stage, h('div', 'stars'), 0, 0, W, H);
@@ -248,9 +274,10 @@ async function boot() {
     if (isDark(sc.theme)) root.classList.add('dk');
     const ctx = mkCtx(sc); ctx.root = root; ctx.cue = (t, type, gain = 1) => { if (t != null && !Number.isNaN(t)) CUES.push({ t: +(sc.start + t).toFixed(3), type, gain }); };
     const def = window.SCENES[sc.id] || (sc.type && window.ARCH[sc.type] ? ((r, c, HH) => window.ARCH[sc.type](r, c, HH, sc.data || {}, sc)) : null);
+    if (!def) WARN.push({ scene: sc.id, kind: 'unknown-type', what: sc.type || '(none)' });
     let upd = () => { };
     root.style.display = 'block'; // lay out visibly so archetypes can measure (fit / rectOf / focus)
-    if (def) { try { upd = def(root, ctx, window.H) || upd; } catch (e) { console.error('scene build failed', sc.id, e); root.innerHTML = `<div class="todo">${sc.id} build error: ${esc(String(e.message))}</div>`; } }
+    if (def) { try { upd = def(root, ctx, window.H) || upd; } catch (e) { console.error('scene build failed', sc.id, e); WARN.push({ scene: sc.id, kind: 'build-error', what: String(e.message) }); root.innerHTML = `<div class="todo">${sc.id} build error: ${esc(String(e.message))}</div>`; } }
     else root.appendChild(h('div', 'todo', `TODO ${sc.id}${sc.type ? ' (unknown type ' + esc(sc.type) + ')' : ''}`));
     root.style.display = 'none';
     // script camera keys: "cam": [{at, x, y, z, d}] (added on top of archetype keys) · "cam": false disables the camera
@@ -258,7 +285,7 @@ async function boot() {
     else if (Array.isArray(sc.cam)) for (const k of sc.cam) ctx.cam(when(ctx, k.at, 0), k);
     ctx.cams.sort((a, b) => a.t - b.t);
     // transition sounds
-    const tr = sc.trans; if (TL.scenes.indexOf(sc) > 0) { if (tr === 'whip' || tr === 'wipe') CUES.push({ t: +(sc.start - .05).toFixed(3), type: 'whoosh', gain: .5 }); else if (tr === 'slide' || tr === 'push') CUES.push({ t: +sc.start.toFixed(3), type: 'swoosh', gain: .35 }); }
+    const tr = sc.trans || LK.trans; if (TL.scenes.indexOf(sc) > 0) { if (tr === 'whip' || tr === 'wipe') CUES.push({ t: +(sc.start - .05).toFixed(3), type: 'whoosh', gain: .5 }); else if (tr === 'slide' || tr === 'push') CUES.push({ t: +sc.start.toFixed(3), type: 'swoosh', gain: .35 }); }
     const AR0 = sc.type && window.ARCH[sc.type];
     const hasHeader = !!sc.title && !sc.noHeader && !(window.SCENES[sc.id] && window.SCENES[sc.id].noHeader) && !(AR0 && AR0.noHeader);
     built.push({ sc, root, upd, ctx, hasHeader });
@@ -298,21 +325,36 @@ async function boot() {
       ln.segs.push({ a: s0, b: e, t0: ln.ct[s0] ?? ln.s }); a = b;
     }
   }
-  grain = put(stage, h('div', 'grain'), 0, 0, W, H);
+  grain = put(stage, h('div', 'grain'), 0, 0, W, H); grain.style.opacity = LK.grain ?? .05;
+  if (LK.dots === false) dots.style.display = 'none';
   await Promise.all(window.PRELOAD || []);
   window.CUES = CUES; window.TOTAL = TL.total; window.READY = true;
 }
 let stars, grain, ghost, lastHeader = -1;
 function chars(text, cls) { return [...text].map(c => `<span class="${cls}">${c === ' ' ? '&nbsp;' : esc(c)}</span>`).join(''); }
 const TR = .5; // transition overlap (s)
+// background texture layer of the look: paper rules, blueprint grid, dot screen, light beams, CRT scanlines
+function rgbOf(v, fb) { v = (v || '').trim(); if (/^#[0-9a-f]{6}$/i.test(v)) return hex2rgb(v).join(','); return fb; }
+let bgMode = null, ACC = '90,92,240', ACC2 = '47,199,164', LINE = '21,22,28';
+function bgPattern(T) {
+  const mode = (LK && LK.bg) || 'mesh';
+  if (bgMode !== mode) { bgMode = mode; const cs = getComputedStyle(document.documentElement); ACC = rgbOf(cs.getPropertyValue('--accent'), ACC); ACC2 = rgbOf(cs.getPropertyValue('--accent2'), ACC2); LINE = rgbOf(cs.getPropertyValue('--bg-ink'), LINE); bgP.style.mixBlendMode = mode === 'beams' ? 'screen' : 'normal'; }
+  const S = bgP.style;
+  if (mode === 'paper') { S.backgroundImage = `repeating-linear-gradient(0deg, rgba(${LINE},.045) 0 1px, transparent 1px 46px), linear-gradient(90deg, transparent 0 118px, rgba(200,50,30,.10) 118px 120px, transparent 120px)`; S.backgroundSize = ''; S.backgroundPosition = `0 ${(T * 2) % 46}px, 0 0`; }
+  else if (mode === 'grid') { const o = (-T * 5) % 200; S.backgroundImage = `linear-gradient(rgba(${LINE},.07) 1px, transparent 1px), linear-gradient(90deg, rgba(${LINE},.07) 1px, transparent 1px), linear-gradient(rgba(${LINE},.16) 1.5px, transparent 1.5px), linear-gradient(90deg, rgba(${LINE},.16) 1.5px, transparent 1.5px)`; S.backgroundSize = '40px 40px, 40px 40px, 200px 200px, 200px 200px'; S.backgroundPosition = `${o}px ${o * .5}px, ${o}px ${o * .5}px, ${o}px ${o * .5}px, ${o}px ${o * .5}px`; }
+  else if (mode === 'dots') { const o = (-T * 6) % 36; S.backgroundImage = `radial-gradient(circle at 3px 3px, rgba(${LINE},.2) 2.2px, transparent 2.8px)`; S.backgroundSize = '36px 36px'; S.backgroundPosition = `${o}px ${o}px`; }
+  else if (mode === 'beams') { const a = Math.sin(T * .12) * 14; S.backgroundImage = `conic-gradient(from ${(160 + a).toFixed(2)}deg at 50% -20%, transparent 0deg, rgba(${ACC},.16) 8deg, transparent 18deg, rgba(${ACC2},.10) 30deg, transparent 44deg, rgba(${ACC},.12) 52deg, transparent 64deg), radial-gradient(70% 40% at 50% 110%, rgba(${ACC},.18), transparent 70%)`; S.backgroundSize = ''; S.backgroundPosition = ''; }
+  else if (mode === 'scan') { const y = (T * 140) % 1300 - 200; S.backgroundImage = `repeating-linear-gradient(0deg, rgba(0,0,0,.28) 0 2px, transparent 2px 4px), linear-gradient(180deg, transparent ${y}px, rgba(${ACC},.06) ${y + 60}px, transparent ${y + 140}px)`; S.backgroundSize = ''; S.backgroundPosition = ''; }
+  else if (S.backgroundImage) S.backgroundImage = '';
+}
 // camera state of a scene at local time t -> css transform (origin 0 0) + zoom
 function camOf(b, t) {
   let x = 960, y = 540, z = 1;
   for (const k of b.ctx.cams) { const e = E.xio(P(t, k.t, k.t + k.d)); if (e <= 0) break; x = lerp(x, k.x ?? x, e); y = lerp(y, k.y ?? y, e); z = lerp(z, k.z ?? z, e); }
-  const Z = z * (1 + .018 * E.sine(P(t, 0, b.sc.dur)));
+  const Z = z * (b.sc.push === false ? 1 : 1 + .018 * E.sine(P(t, 0, b.sc.dur)));
   if (Z >= 1) { x = cl(x, 960 / Z, W - 960 / Z); y = cl(y, 540 / Z, H - 540 / Z); }
   // gentle push-ins (<= 1.04) never crop the content box (x 88–1832, y ≤ 872 above the subtitles); deliberate close-ups (>= 1.07) may
-  const safe = 1 - P(Z, 1.04, 1.07);
+  const safe = 1 - P(z, 1.04, 1.07); // judged on the shot's zoom, not the ambient push-in
   if (safe > 0 && Z > 1) {
     const lo = 1832 - 912 / Z, hi = 88 + 912 / Z; x = lerp(x, lo <= hi ? cl(x, lo, hi) : 960, safe);
     y = lerp(y, Math.max(y, 872 - 420 / Z), safe);
@@ -334,17 +376,19 @@ window.renderAt = function (T) {
     return `radial-gradient(${rx}% ${ry}% at ${x.toFixed(2)}% ${y.toFixed(2)}%, rgba(${rgb.join(',')},${al.toFixed(3)}) 0%, rgba(${rgb.join(',')},0) 100%)`;
   });
   bgA.style.background = layers.join(',') + `,radial-gradient(120% 90% at 70% 10%, ${c1} 0%, ${c0} 62%)`;
+  bgPattern(T);
   const dk = (th.dark ? bk : 0) + (thp.dark && prev ? 1 - bk : 0);
   const night = (th.stars ? bk : 0) + (prev && thp.stars ? 1 - bk : 0);
   stars.style.opacity = night; dots.style.opacity = (.9 * (1 - dk) + .12 * dk).toFixed(3);
-  vig.style.background = `radial-gradient(130% 120% at 50% 45%, rgba(0,0,0,0) 52%, rgba(${dk > .5 ? '0,0,8' : '20,22,50'},${lerp(.09, .42, dk).toFixed(3)}) 100%)`;
+  const vg = LK.vig ?? .09, vs = LK.dark ? vg : lerp(vg, Math.max(vg, .42), dk);
+  vig.style.background = vs > .005 ? `radial-gradient(130% 120% at 50% 45%, rgba(0,0,0,0) 52%, rgba(${dk > .5 ? '0,0,8' : '20,22,50'},${vs.toFixed(3)}) 100%)` : 'none';
   [...dots.children].forEach(d => { const z = +d.dataset.z; d.style.transform = `translate3d(${(-T * 6 * z).toFixed(1)}px, ${(Math.sin(T * .3 + z * 9) * 10 * z).toFixed(1)}px,0)`; });
   if (night > 0) [...stars.children].forEach((d, k) => { d.style.opacity = (.35 + .65 * Math.abs(Math.sin(T * (.6 + rnd(k) * 1.4) + k))).toFixed(2); });
   // scenes
   for (const b of built) { if (b !== cur && b !== prev) b.root.style.display = 'none'; }
   cur.root.style.display = 'block';
   try { cur.upd(t, cur.ctx); } catch (e) { console.error('scene update failed', cur.sc.id, t, e.message); }
-  const trn = prev ? (cur.sc.trans || 'lift') : 'none';
+  const trn = prev ? (cur.sc.trans || (LK && LK.trans) || 'lift') : 'none';
   const cc = camOf(cur, t);
   // entering offsets
   let ex = 0, ey = 0, es = 1, eb = 0;

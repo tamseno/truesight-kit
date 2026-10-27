@@ -8,14 +8,14 @@ ARCH.chapter = (root, ctx, H, d, sc) => {
   const t0 = sc.trans === 'wipe' ? .42 : .12;
   // numeral (masked rise)
   const mask = D(root, 110, 236, 560, 330, 'overflow:hidden');
-  const num = D(mask, 0, 0, 560, 330, `font:800 330px/1 Geist;letter-spacing:-.07em;background:linear-gradient(160deg,var(--accent) 10%,#b06cff 60%,#ff8a5b 110%);-webkit-background-clip:text;background-clip:text;color:transparent;white-space:nowrap`, String(n).padStart(2, '0'));
+  const num = D(mask, 0, 0, 560, 330, `font:var(--fwd) 330px/1 var(--fd);letter-spacing:calc(-.07em * var(--trk));background:linear-gradient(160deg,var(--accent) 10%,color-mix(in srgb,var(--accent) 45%,var(--accent2)) 60%,var(--accent2) 110%);-webkit-background-clip:text;background-clip:text;color:transparent;white-space:nowrap`, String(n).padStart(2, '0'));
   // title block
   const X = 690;
   const kick = D(root, X, 300, 1100, 34, '', `<span class="eyebrow">${H.esc(d.kicker || 'Chapter')} ${n}</span>`);
-  const title = D(root, X, 344, 1150, 130, 'font:800 112px/1.05 Geist,Noto;letter-spacing:-.045em;white-space:nowrap', String(d.title || '').split(' ').map(w => `<span class="wd" style="display:inline-block">${H.md(w)}</span>`).join(' '));
+  const title = D(root, X, 344, 1150, 130, 'font:var(--fwd) 112px/1.05 var(--fd);letter-spacing:calc(-.045em * var(--trk));white-space:nowrap', String(d.title || '').split(' ').map(w => `<span class="wd" style="display:inline-block">${H.md(w)}</span>`).join(' '));
   title.classList.add('onbg'); H.fit(title, 1140, 64);
   const wds = [...title.querySelectorAll('.wd')], hls = [...title.querySelectorAll('.hl')];
-  const sub = d.sub ? D(root, X + 4, 488, 1100, 50, 'font:600 36px/1.3 Geist,Noto;letter-spacing:-.01em;white-space:nowrap', H.md(d.sub)) : null;
+  const sub = d.sub ? D(root, X + 4, 488, 1100, 50, 'font:600 36px/1.3 var(--fb);letter-spacing:calc(-.01em * var(--trk));white-space:nowrap', H.md(d.sub)) : null;
   if (sub) { sub.classList.add('onbg-sub'); H.fit(sub, 1100, 26); }
   // chapter rail
   const RX0 = 150, RX1 = 1770, RY = 760, m = all.length;
@@ -25,9 +25,9 @@ ARCH.chapter = (root, ctx, H, d, sc) => {
   const showLbl = m <= 9;
   const nodes = all.map((s, i) => {
     const on = i === idx, past = i < idx;
-    const dot = D(root, xs[i] - (on ? 17 : 11), RY - (on ? 17 : 11), on ? 34 : 22, on ? 34 : 22, `border-radius:50%;${past ? 'background:var(--accent)' : on ? 'background:#fff;box-shadow:0 0 0 7px color-mix(in srgb,var(--accent) 40%,transparent),0 0 0 3px var(--accent) inset' : 'background:transparent;box-shadow:inset 0 0 0 3px currentColor;opacity:.4'}`);
+    const dot = D(root, xs[i] - (on ? 17 : 11), RY - (on ? 17 : 11), on ? 34 : 22, on ? 34 : 22, `border-radius:50%;${past ? 'background:var(--accent)' : on ? 'background:var(--surface);box-shadow:0 0 0 7px color-mix(in srgb,var(--accent) 40%,transparent),0 0 0 3px var(--accent) inset' : 'background:transparent;box-shadow:inset 0 0 0 3px currentColor;opacity:.4'}`);
     dot.classList.add('onbg');
-    const lb = showLbl ? D(root, xs[i] - 120, RY + 30, 240, 60, `text-align:center;font:${on ? 800 : 700} 23px/1.2 Geist,Noto;white-space:nowrap;opacity:${on ? 1 : past ? .62 : .42}`, `<span style="font:700 21px Maple;opacity:.7">${String((s.data && s.data.n) ?? i + 1).padStart(2, '0')}</span><br>${H.esc((s.data && (s.data.short || s.data.title)) || '')}`) : null;
+    const lb = showLbl ? D(root, xs[i] - 120, RY + 30, 240, 60, `text-align:center;font:${on ? 800 : 700} 23px/1.2 Geist,Noto;white-space:nowrap;opacity:${on ? 1 : past ? .62 : .42}`, `<span style="font:700 21px var(--fm);opacity:.7">${String((s.data && s.data.n) ?? i + 1).padStart(2, '0')}</span><br>${H.esc((s.data && (s.data.short || s.data.title)) || '')}`) : null;
     if (lb) { lb.classList.add('onbg'); H.fit(lb, 236, 20); }
     return { dot, lb };
   });

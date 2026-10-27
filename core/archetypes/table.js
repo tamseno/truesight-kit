@@ -14,28 +14,28 @@ ARCH.table = (root, ctx, H, d, sc) => {
   const heads = cols.map((c, i) => {
     const e = D(card, LW + i * CWc, 0, CWc, HD, 'display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;text-align:center');
     let av = null; if (c.cast && H.BOTS[c.cast]) { av = H.avatar(c.cast, 44); e.appendChild(av.el); av.el.style.position = 'relative'; }
-    e.insertAdjacentHTML('beforeend', `<div class="ct" style="font:800 30px Geist,Noto;letter-spacing:-.02em;white-space:nowrap;color:${c.tone || '#15161c'}">${H.md(c.title)}</div>${c.sub ? `<div style="font:700 20px Geist;letter-spacing:.1em;text-transform:uppercase;color:#8a8d99;white-space:nowrap">${H.esc(c.sub)}</div>` : ''}`);
+    e.insertAdjacentHTML('beforeend', `<div class="ct" style="font:var(--fwd) 30px var(--fd);letter-spacing:calc(-.02em * var(--trk));white-space:nowrap;color:${c.tone || 'var(--ink)'}">${H.md(c.title)}</div>${c.sub ? `<div style="font:700 20px var(--fb);letter-spacing:.1em;text-transform:uppercase;color:var(--sub);white-space:nowrap">${H.esc(c.sub)}</div>` : ''}`);
     H.fit(e.querySelector('.ct'), CWc - 24, 20);
     return { e, av };
   });
-  D(card, 28, HD - 1, W - 56, 2, 'background:rgba(21,22,28,.08)');
+  D(card, 28, HD - 1, W - 56, 2, 'background:var(--line)');
   const R = rows.map((r, i) => {
     const y = HD + 8 + i * RH;
     const bg = D(card, 14, y, W - 28, RH - 6, `border-radius:16px;${i % 2 ? '' : 'background:rgba(21,22,28,.025)'}`);
-    const lb = D(card, 40, y, LW - 60, RH - 6, 'display:flex;flex-direction:column;justify-content:center', `<div class="rl" style="font:700 29px/1.15 Geist,Noto;letter-spacing:-.01em;white-space:nowrap">${H.md(r.label)}</div>${r.sub ? `<div style="font:600 21px Geist,Noto;color:#8a8d99;white-space:nowrap;margin-top:3px">${H.md(r.sub)}</div>` : ''}`);
+    const lb = D(card, 40, y, LW - 60, RH - 6, 'display:flex;flex-direction:column;justify-content:center', `<div class="rl" style="font:700 29px/1.15 var(--fb);letter-spacing:calc(-.01em * var(--trk));white-space:nowrap">${H.md(r.label)}</div>${r.sub ? `<div style="font:600 21px var(--fb);color:var(--sub);white-space:nowrap;margin-top:3px">${H.md(r.sub)}</div>` : ''}`);
     H.fit(lb.querySelector('.rl'), LW - 70, 22);
     const cells = (r.cells || []).map((v, j) => {
       const c = D(card, LW + j * CWc, y, CWc, RH - 6, 'display:flex;align-items:center;justify-content:center;text-align:center');
       if (v === true) c.innerHTML = `<span style="width:44px;height:44px">${IC.check()}</span>`;
       else if (v === false || v === 'x') c.innerHTML = `<span style="width:40px;height:40px;opacity:.9">${IC.x('#e4e6ee').replace('stroke="#fff"', 'stroke="#9a9daa"')}</span>`;
-      else if (v == null || v === '-' || v === '–') c.innerHTML = '<span style="font:700 30px Geist;color:#c5c8d2">–</span>';
-      else { c.innerHTML = `<span class="cv" style="font:700 25px/1.2 Geist,Noto;white-space:nowrap">${H.md(String(v))}</span>`; H.fit(c.firstChild, CWc - 30, 18); }
+      else if (v == null || v === '-' || v === '–') c.innerHTML = '<span style="font:700 30px var(--fb);color:var(--sub)">–</span>';
+      else { c.innerHTML = `<span class="cv" style="font:700 25px/1.2 var(--fb);white-space:nowrap">${H.md(String(v))}</span>`; H.fit(c.firstChild, CWc - 30, 18); }
       return c;
     });
     return { bg, lb, cells };
   });
   const verdict = hi && hi.text ? D(root, 88, cy + HD + RH * nr + 16 + 26, 1744, 70, 'display:flex;justify-content:center') : null;
-  if (verdict) { verdict.innerHTML = `<span style="height:70px;padding:0 34px;border-radius:20px;background:#15161c;color:#fff;font:800 32px Geist,Noto;display:flex;align-items:center;white-space:nowrap">${H.md(hi.text)}</span>`; }
+  if (verdict) { verdict.innerHTML = `<span style="height:70px;padding:0 34px;border-radius:20px;background:var(--inv);color:var(--inv-ink);font:var(--fwd) 32px var(--fd);display:flex;align-items:center;white-space:nowrap">${H.md(hi.text)}</span>`; }
   T.forEach(x => ctx.cue(x, 'tick', .45)); if (hi) ctx.cue(hiT, 'swoosh', .35);
   if (hi) ctx.focus(hiT - .1, { x: X + LW + hi.col * CWc, y: cy, w: CWc, h: HD + RH * nr }, { z: 1.035, k: .25, d: 1.3 });
   return t => {

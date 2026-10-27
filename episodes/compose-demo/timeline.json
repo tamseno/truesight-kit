@@ -1,0 +1,1276 @@
+{
+ "fps": 60,
+ "w": 1920,
+ "h": 1080,
+ "total": 44.424,
+ "meta": {
+  "title": "compose demo: seven scenes built from the library",
+  "edge_voice": "en-US-AndrewMultilingualNeural",
+  "edge_rate": "+4%",
+  "cast": {
+   "ios": {
+    "name": "iOS Bot",
+    "role": "iOS app",
+    "c": "#2fc7a4",
+    "shape": "square"
+   },
+   "desktop": {
+    "name": "Desktop Bot",
+    "role": "Desktop + CI",
+    "c": "#f5a524",
+    "shape": "tri"
+   },
+   "infra": {
+    "name": "Infra Bot",
+    "role": "Infrastructure",
+    "c": "#8b5cf6",
+    "shape": "hex"
+   },
+   "android": {
+    "name": "Android Bot",
+    "role": "Android app",
+    "c": "#3a86f4",
+    "shape": "diamond"
+   },
+   "harness": {
+    "name": "Harness Bot",
+    "role": "Bot harness",
+    "c": "#5a5cf0",
+    "shape": "circle"
+   },
+   "ops": {
+    "name": "Ops Bot",
+    "role": "Operations",
+    "c": "#f0628a",
+    "shape": "circle"
+   }
+  },
+  "look": "neon"
+ },
+ "scenes": [
+  {
+   "id": "c1",
+   "type": "compose",
+   "theme": "paper",
+   "chapter": "A",
+   "label": "The playbook",
+   "title": "Who does the work",
+   "data": {
+    "layout": {
+     "type": "hero",
+     "ratio": 0.4
+    },
+    "els": [
+     {
+      "el": "text",
+      "slot": "text",
+      "style": "label",
+      "text": "THE OUTER LOOP",
+      "h": 40,
+      "y": 300
+     },
+     {
+      "el": "text",
+      "slot": "text",
+      "style": "display",
+      "text": "Bots run\nthe *loop*.",
+      "h": 260,
+      "y": 350,
+      "in": "words@report",
+      "do": [
+       "hl@brief"
+      ]
+     },
+     {
+      "el": "text",
+      "slot": "text",
+      "style": "caption",
+      "text": "You keep the merge button.",
+      "h": 50,
+      "y": 640,
+      "in": "rise@pull"
+     },
+     {
+      "id": "w1",
+      "el": "window",
+      "title": "Slack · #ios-bugs",
+      "lines": [
+       "Onboarding crashes on SE",
+       "Same here, v4.12",
+       "+1 on iPhone 13 mini"
+      ],
+      "box": [
+       1000,
+       250,
+       560,
+       330
+      ],
+      "in": "tilt@Slack",
+      "loop": "float"
+     },
+     {
+      "id": "w2",
+      "el": "code",
+      "file": "brief.md",
+      "lang": "md",
+      "code": "## Task\nFix crash < 375pt\n## Proof\nBefore/after shots",
+      "box": [
+       1180,
+       420,
+       560,
+       300
+      ],
+      "in": "tilt@brief",
+      "loop": {
+       "m": "float",
+       "phase": 1.5
+      }
+     },
+     {
+      "id": "w3",
+      "el": "pr",
+      "title": "Small-screen onboarding",
+      "state": "READY",
+      "checks": [
+       {
+        "text": "CI"
+       },
+       {
+        "text": "Proof"
+       }
+      ],
+      "box": [
+       1060,
+       640,
+       640,
+       210
+      ],
+      "in": "rise@pull",
+      "do": [
+       "glow@request"
+      ],
+      "num": "#4821"
+     },
+     {
+      "el": "arrow",
+      "from": "w1",
+      "to": "w2",
+      "bend": -0.3,
+      "in": "fade@brief"
+     },
+     {
+      "el": "arrow",
+      "from": "w2",
+      "to": "w3",
+      "bend": 0.3,
+      "in": "fade@pull"
+     }
+    ]
+   },
+   "start": 0.0,
+   "lines": [
+    {
+     "text": "A report lands in Slack. The bot turns it into a brief, and a cloud agent opens the pull request.",
+     "s": 0.35,
+     "e": 6.672,
+     "w": [
+      [
+       0.304,
+       0.352,
+       "A"
+      ],
+      [
+       0.352,
+       0.773,
+       "report"
+      ],
+      [
+       0.785,
+       1.157,
+       "lands"
+      ],
+      [
+       1.157,
+       1.23,
+       "in"
+      ],
+      [
+       1.242,
+       1.758,
+       "Slack."
+      ],
+      [
+       2.155,
+       2.227,
+       "The"
+      ],
+      [
+       2.239,
+       2.504,
+       "bot"
+      ],
+      [
+       2.504,
+       2.768,
+       "turns"
+      ],
+      [
+       2.768,
+       2.816,
+       "it"
+      ],
+      [
+       2.816,
+       3.093,
+       "into"
+      ],
+      [
+       3.093,
+       3.153,
+       "a"
+      ],
+      [
+       3.153,
+       3.838,
+       "brief,"
+      ],
+      [
+       4.078,
+       4.15,
+       "and"
+      ],
+      [
+       4.15,
+       4.198,
+       "a"
+      ],
+      [
+       4.198,
+       4.595,
+       "cloud"
+      ],
+      [
+       4.607,
+       4.992,
+       "agent"
+      ],
+      [
+       5.1,
+       5.569,
+       "opens"
+      ],
+      [
+       5.653,
+       5.761,
+       "the"
+      ],
+      [
+       5.761,
+       6.049,
+       "pull"
+      ],
+      [
+       6.049,
+       6.662,
+       "request."
+      ]
+     ]
+    }
+   ],
+   "dur": 7.272
+  },
+  {
+   "id": "c2",
+   "type": "compose",
+   "theme": "ice",
+   "chapter": "A",
+   "trans": "whip",
+   "data": {
+    "layout": {
+     "type": "split",
+     "ratio": 0.38
+    },
+    "els": [
+     {
+      "el": "text",
+      "slot": "left",
+      "style": "label",
+      "text": "Cloud agents at once",
+      "h": 40,
+      "y": 250
+     },
+     {
+      "el": "number",
+      "slot": "left",
+      "value": 200,
+      "suffix": "+",
+      "h": 230,
+      "y": 300,
+      "in": "zoom@two hundred",
+      "sub": "managed by bots"
+     },
+     {
+      "el": "text",
+      "slot": "left",
+      "style": "heading",
+      "text": "15 by hand →",
+      "h": 70,
+      "y": 600,
+      "in": "left@fifteen",
+      "do": [
+       "strike@two hundred"
+      ]
+     },
+     {
+      "el": "tiles",
+      "slot": "right",
+      "count": 200,
+      "cols": 20,
+      "steps": [
+       {
+        "n": 15,
+        "at": "fifteen",
+        "color": "ink"
+       },
+       {
+        "n": 200,
+        "at": "two hundred"
+       }
+      ],
+      "in": "fade@By hand"
+     }
+    ],
+    "beats": [
+     {
+      "at": "two hundred",
+      "cam": {
+       "x": 1100,
+       "y": 540,
+       "z": 1.035
+      }
+     }
+    ]
+   },
+   "start": 7.272,
+   "lines": [
+    {
+     "text": "By hand, one engineer could juggle fifteen agents. With bots managing them, more than two hundred.",
+     "s": 0.35,
+     "e": 6.334,
+     "w": [
+      [
+       0.311,
+       0.443,
+       "By"
+      ],
+      [
+       0.443,
+       0.852,
+       "hand,"
+      ],
+      [
+       1.393,
+       1.525,
+       "one"
+      ],
+      [
+       1.525,
+       1.982,
+       "engineer"
+      ],
+      [
+       1.982,
+       2.174,
+       "could"
+      ],
+      [
+       2.186,
+       2.571,
+       "juggle"
+      ],
+      [
+       2.571,
+       3.015,
+       "fifteen"
+      ],
+      [
+       3.015,
+       3.52,
+       "agents."
+      ],
+      [
+       3.917,
+       4.037,
+       "With"
+      ],
+      [
+       4.037,
+       4.422,
+       "bots"
+      ],
+      [
+       4.422,
+       4.866,
+       "managing"
+      ],
+      [
+       4.866,
+       5.083,
+       "them,"
+      ],
+      [
+       5.431,
+       5.576,
+       "more"
+      ],
+      [
+       5.576,
+       5.696,
+       "than"
+      ],
+      [
+       5.696,
+       5.888,
+       "two"
+      ],
+      [
+       5.888,
+       6.309,
+       "hundred."
+      ]
+     ]
+    }
+   ],
+   "dur": 6.934
+  },
+  {
+   "id": "c3",
+   "type": "compose",
+   "theme": "lavender",
+   "chapter": "B",
+   "label": "Proof",
+   "title": "The bot checks the screenshot",
+   "data": {
+    "els": [
+     {
+      "id": "b",
+      "el": "browser",
+      "url": "preview.app/onboarding",
+      "title": "Welcome aboard",
+      "box": [
+       300,
+       250,
+       1000,
+       600
+      ],
+      "in": "rise@opens"
+     },
+     {
+      "id": "btn",
+      "el": "html",
+      "box": [
+       360,
+       700,
+       420,
+       90
+      ],
+      "html": "<div style=\"width:100%;height:100%;border-radius:16px;background:var(--accent);color:#fff;font:800 30px var(--fb);display:flex;align-items:center;justify-content:center\">Continue →</div>",
+      "in": "pop@preview",
+      "do": [
+       "circle@clipped",
+       "shake@sends"
+      ]
+     },
+     {
+      "el": "note",
+      "box": [
+       1350,
+       620,
+       440,
+       150
+      ],
+      "side": "left",
+      "text": "Clipped at 320pt → *sent back*",
+      "tone": "bad",
+      "in": "right@clipped"
+     },
+     {
+      "el": "cursor",
+      "path": [
+       [
+        "preview",
+        1500,
+        420
+       ],
+       [
+        "finds",
+        560,
+        740
+       ],
+       [
+        "Second",
+        560,
+        745
+       ]
+      ],
+      "clicks": [
+       "finds"
+      ]
+     },
+     {
+      "el": "stamp",
+      "box": [
+       1320,
+       300,
+       440,
+       150
+      ],
+      "text": "VERIFIED",
+      "tone": "good",
+      "in": "stamp@signs"
+     }
+    ],
+    "beats": [
+     {
+      "at": "clipped",
+      "cam": {
+       "focus": "btn",
+       "z": 1.08,
+       "k": 0.35
+      }
+     },
+     {
+      "at": "Second",
+      "cam": "reset"
+     }
+    ]
+   },
+   "start": 14.206,
+   "lines": [
+    {
+     "text": "It opens the preview, finds the clipped button, and sends it back. Second round, it signs off.",
+     "s": 0.35,
+     "e": 5.605,
+     "w": [
+      [
+       0.307,
+       0.379,
+       "It"
+      ],
+      [
+       0.379,
+       0.68,
+       "opens"
+      ],
+      [
+       0.68,
+       0.764,
+       "the"
+      ],
+      [
+       0.764,
+       1.317,
+       "preview,"
+      ],
+      [
+       1.713,
+       2.002,
+       "finds"
+      ],
+      [
+       2.002,
+       2.074,
+       "the"
+      ],
+      [
+       2.074,
+       2.35,
+       "clipped"
+      ],
+      [
+       2.362,
+       2.687,
+       "button,"
+      ],
+      [
+       2.963,
+       3.023,
+       "and"
+      ],
+      [
+       3.023,
+       3.24,
+       "sends"
+      ],
+      [
+       3.24,
+       3.312,
+       "it"
+      ],
+      [
+       3.312,
+       3.709,
+       "back."
+      ],
+      [
+       4.093,
+       4.406,
+       "Second"
+      ],
+      [
+       4.406,
+       4.742,
+       "round,"
+      ],
+      [
+       4.754,
+       4.814,
+       "it"
+      ],
+      [
+       4.814,
+       5.187,
+       "signs"
+      ],
+      [
+       5.199,
+       5.572,
+       "off."
+      ]
+     ]
+    }
+   ],
+   "dur": 6.205
+  },
+  {
+   "id": "c4",
+   "type": "compose",
+   "theme": "mint",
+   "chapter": "B",
+   "trans": "push",
+   "label": "The numbers",
+   "title": "What the team reports",
+   "data": {
+    "layout": {
+     "type": "bento",
+     "ratio": 0.58
+    },
+    "els": [
+     {
+      "el": "post",
+      "slot": "main",
+      "author": "Grok Bot team",
+      "handle": "x.ai guide",
+      "text": "Lauren shipped *2,000+ PRs* in the past month.",
+      "in": "rise@engineer",
+      "do": [
+       "hl@thousand"
+      ]
+     },
+     {
+      "el": "stat",
+      "slot": "side0",
+      "label": "PRs in a month",
+      "value": 2000,
+      "fmt": true,
+      "suffix": "+",
+      "tone": "accent",
+      "in": "rise@thousand"
+     },
+     {
+      "el": "donut",
+      "slot": "side1",
+      "value": 0.82,
+      "label": "pass first time",
+      "in": "pop@review"
+     },
+     {
+      "el": "source",
+      "text": "x.ai/bot/guides/grok-bot-for-engineering",
+      "in": "fade@engineer"
+     }
+    ]
+   },
+   "start": 20.411,
+   "lines": [
+    {
+     "text": "One engineer shipped over two thousand pull requests in a month, and most review runs pass first time.",
+     "s": 0.35,
+     "e": 5.966,
+     "w": [
+      [
+       0.312,
+       0.492,
+       "One"
+      ],
+      [
+       0.492,
+       0.913,
+       "engineer"
+      ],
+      [
+       0.925,
+       1.334,
+       "shipped"
+      ],
+      [
+       1.442,
+       1.646,
+       "over"
+      ],
+      [
+       1.658,
+       1.863,
+       "two"
+      ],
+      [
+       1.863,
+       2.355,
+       "thousand"
+      ],
+      [
+       2.355,
+       2.56,
+       "pull"
+      ],
+      [
+       2.56,
+       3.065,
+       "requests"
+      ],
+      [
+       3.065,
+       3.185,
+       "in"
+      ],
+      [
+       3.185,
+       3.209,
+       "a"
+      ],
+      [
+       3.209,
+       3.653,
+       "month,"
+      ],
+      [
+       4.038,
+       4.146,
+       "and"
+      ],
+      [
+       4.146,
+       4.447,
+       "most"
+      ],
+      [
+       4.447,
+       4.783,
+       "review"
+      ],
+      [
+       4.783,
+       5.06,
+       "runs"
+      ],
+      [
+       5.06,
+       5.396,
+       "pass"
+      ],
+      [
+       5.396,
+       5.661,
+       "first"
+      ],
+      [
+       5.661,
+       5.937,
+       "time."
+      ]
+     ]
+    }
+   ],
+   "dur": 6.566
+  },
+  {
+   "id": "c5",
+   "type": "compose",
+   "theme": "night",
+   "chapter": "C",
+   "trans": "zoom",
+   "data": {
+    "els": [
+     {
+      "el": "text",
+      "style": "display",
+      "text": "Write your code",
+      "box": [
+       140,
+       300,
+       1000,
+       150
+      ],
+      "in": "chars@write",
+      "do": [
+       "strike@Ask"
+      ]
+     },
+     {
+      "el": "glyph",
+      "text": "→",
+      "box": [
+       1060,
+       300,
+       220,
+       150
+      ],
+      "in": "pop@Ask"
+     },
+     {
+      "el": "text",
+      "style": "display",
+      "text": "Run your *loop*",
+      "box": [
+       140,
+       520,
+       1640,
+       160
+      ],
+      "in": "mask@run",
+      "do": [
+       "hl@loop",
+       "underline@loop+0.4"
+      ]
+     }
+    ]
+   },
+   "start": 26.977,
+   "lines": [
+    {
+     "text": "Don't ask it to write your code. Ask it to run your loop.",
+     "s": 0.35,
+     "e": 2.849,
+     "w": [
+      [
+       0.299,
+       0.431,
+       "Don't"
+      ],
+      [
+       0.431,
+       0.66,
+       "ask"
+      ],
+      [
+       0.672,
+       0.756,
+       "it"
+      ],
+      [
+       0.756,
+       0.84,
+       "to"
+      ],
+      [
+       0.84,
+       1.044,
+       "write"
+      ],
+      [
+       1.044,
+       1.116,
+       "your"
+      ],
+      [
+       1.116,
+       1.465,
+       "code."
+      ],
+      [
+       1.862,
+       2.078,
+       "Ask"
+      ],
+      [
+       2.09,
+       2.138,
+       "it"
+      ],
+      [
+       2.138,
+       2.21,
+       "to"
+      ],
+      [
+       2.222,
+       2.427,
+       "run"
+      ],
+      [
+       2.427,
+       2.523,
+       "your"
+      ],
+      [
+       2.523,
+       2.823,
+       "loop."
+      ]
+     ]
+    }
+   ],
+   "dur": 3.449
+  },
+  {
+   "id": "c6",
+   "type": "compose",
+   "theme": "sky",
+   "chapter": "C",
+   "trans": "slide",
+   "label": "P0",
+   "title": "Say the magic word",
+   "data": {
+    "layout": {
+     "type": "rows",
+     "n": 4,
+     "gap": 18
+    },
+    "els": [
+     {
+      "el": "toast",
+      "app": "Grok Bot",
+      "title": "P0 watch started",
+      "body": "checking the agent every 5 min",
+      "icon": "bolt",
+      "box": [
+       1100,
+       250,
+       700,
+       140
+      ],
+      "in": "drop@watch",
+      "do": [
+       "ping@pings"
+      ]
+     },
+     {
+      "el": "bubble",
+      "from": "you",
+      "text": "Checkout is failing on Android. *This is P0.*",
+      "box": [
+       260,
+       420,
+       1400,
+       120
+      ],
+      "in": "right@P0"
+     },
+     {
+      "el": "bubble",
+      "from": "android",
+      "text": "Watching the agent every 5 minutes.",
+      "time": "21:14",
+      "box": [
+       160,
+       560,
+       1300,
+       130
+      ],
+      "in": "left@watch"
+     },
+     {
+      "el": "bubble",
+      "from": "android",
+      "text": "Found it: *payment SDK timeout*, not the flaky test.",
+      "time": "21:19",
+      "box": [
+       160,
+       710,
+       1300,
+       130
+      ],
+      "in": "left@finds"
+     }
+    ]
+   },
+   "start": 30.426,
+   "lines": [
+    {
+     "text": "You say it's P0. The bot starts a five-minute watch, and pings you the moment it finds the real failure.",
+     "s": 0.35,
+     "e": 6.243,
+     "w": [
+      [
+       0.304,
+       0.352,
+       "You"
+      ],
+      [
+       0.364,
+       0.52,
+       "say"
+      ],
+      [
+       0.52,
+       0.617,
+       "it's"
+      ],
+      [
+       0.617,
+       1.398,
+       "P0."
+      ],
+      [
+       1.795,
+       1.867,
+       "The"
+      ],
+      [
+       1.879,
+       2.119,
+       "bot"
+      ],
+      [
+       2.119,
+       2.432,
+       "starts"
+      ],
+      [
+       2.444,
+       2.492,
+       "a"
+      ],
+      [
+       2.504,
+       3.093,
+       "five-minute"
+      ],
+      [
+       3.093,
+       3.549,
+       "watch,"
+      ],
+      [
+       3.934,
+       4.054,
+       "and"
+      ],
+      [
+       4.054,
+       4.367,
+       "pings"
+      ],
+      [
+       4.367,
+       4.451,
+       "you"
+      ],
+      [
+       4.463,
+       4.535,
+       "the"
+      ],
+      [
+       4.535,
+       4.895,
+       "moment"
+      ],
+      [
+       4.968,
+       5.028,
+       "it"
+      ],
+      [
+       5.028,
+       5.388,
+       "finds"
+      ],
+      [
+       5.4,
+       5.472,
+       "the"
+      ],
+      [
+       5.484,
+       5.725,
+       "real"
+      ],
+      [
+       5.725,
+       6.242,
+       "failure."
+      ]
+     ]
+    }
+   ],
+   "dur": 6.843
+  },
+  {
+   "id": "c7",
+   "type": "compose",
+   "theme": "sand",
+   "chapter": "C",
+   "label": "Nightly audit",
+   "title": "Bundle size, every night",
+   "data": {
+    "layout": {
+     "type": "split",
+     "ratio": 0.58
+    },
+    "els": [
+     {
+      "el": "linechart",
+      "slot": "left",
+      "points": [
+       9.8,
+       10.1,
+       10.4,
+       10.2,
+       9.6,
+       9.1,
+       8.7,
+       8.4
+      ],
+      "labels": [
+       "W1",
+       "W2",
+       "W3",
+       "W4",
+       "W5",
+       "W6",
+       "W7",
+       "W8"
+      ],
+      "color": "good",
+      "in": "fade@audit",
+      "at": "creeping"
+     },
+     {
+      "el": "bars",
+      "slot": "right",
+      "items": [
+       {
+        "label": "Before",
+        "value": 10.4,
+        "color": "bad",
+        "dec": 1
+       },
+       {
+        "label": "After",
+        "value": 8.4,
+        "color": "good",
+        "dec": 1
+       }
+      ],
+      "unit": " MB",
+      "at": "drops",
+      "in": "rise@drops",
+      "h": 260
+     }
+    ]
+   },
+   "start": 37.269,
+   "lines": [
+    {
+     "text": "Run the audit every night at three, and bundle size stops creeping up. It drops week after week.",
+     "s": 0.35,
+     "e": 6.555,
+     "w": [
+      [
+       0.31,
+       0.587,
+       "Run"
+      ],
+      [
+       0.587,
+       0.671,
+       "the"
+      ],
+      [
+       0.671,
+       1.055,
+       "audit"
+      ],
+      [
+       1.176,
+       1.392,
+       "every"
+      ],
+      [
+       1.392,
+       1.608,
+       "night"
+      ],
+      [
+       1.608,
+       1.68,
+       "at"
+      ],
+      [
+       1.692,
+       2.221,
+       "three,"
+      ],
+      [
+       2.51,
+       2.678,
+       "and"
+      ],
+      [
+       2.834,
+       3.123,
+       "bundle"
+      ],
+      [
+       3.135,
+       3.603,
+       "size"
+      ],
+      [
+       3.82,
+       4.144,
+       "stops"
+      ],
+      [
+       4.144,
+       4.481,
+       "creeping"
+      ],
+      [
+       4.481,
+       4.697,
+       "up."
+      ],
+      [
+       5.082,
+       5.142,
+       "It"
+      ],
+      [
+       5.142,
+       5.478,
+       "drops"
+      ],
+      [
+       5.49,
+       5.779,
+       "week"
+      ],
+      [
+       5.887,
+       6.176,
+       "after"
+      ],
+      [
+       6.176,
+       6.524,
+       "week."
+      ]
+     ]
+    }
+   ],
+   "dur": 7.155
+  }
+ ]
+}

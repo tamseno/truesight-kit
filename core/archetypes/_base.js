@@ -18,21 +18,23 @@
     el.style.filter = b > .05 ? `blur(${b.toFixed(2)}px)` : 'none'; el.style.scale = H.lerp(o.s ?? .985, 1, k).toFixed(4);
   };
   // badge pill html
-  H.tag = (text, c = '#3a6cf4', filled = false) => `<span style="display:inline-flex;align-items:center;height:36px;padding:0 15px;border-radius:999px;font:800 20px Geist;letter-spacing:.08em;white-space:nowrap;${filled ? `background:${c};color:#fff` : `background:color-mix(in srgb,${c} 13%,#fff);color:${c}`}">${H.esc(text)}</span>`;
+  H.tag = (text, c = '#3a6cf4', filled = false) => `<span style="display:inline-flex;align-items:center;height:36px;padding:0 15px;border-radius:999px;font:800 20px var(--fb);letter-spacing:.08em;white-space:nowrap;${filled ? `background:${c};color:#fff` : `background:color-mix(in srgb,${c} 15%,transparent);color:${c}`}">${H.esc(text)}</span>`;
   // preload an image (engine waits for window.PRELOAD before READY)
   H.img = src => { const im = new Image(); im.src = src; (window.PRELOAD = window.PRELOAD || []).push(im.decode().catch(() => console.warn('image failed', src))); return im; };
   H.vc = (hh, extra = 0) => 240 + Math.max(0, (632 - hh - extra) / 2);
   H.castOf = k => (k && H.BOTS[k]) ? H.BOTS[k] : null;
+  // the viewer / user as a token-colored glyph
+  H.youSvg = `<svg viewBox="0 0 24 24" width="100%" height="100%"><circle cx="12" cy="12" r="12" style="fill:var(--ink)"/><circle cx="12" cy="9.5" r="3.6" style="fill:var(--surface)"/><path d="M5.5 19.5c1.3-3.2 3.7-4.6 6.5-4.6s5.2 1.4 6.5 4.6" style="fill:var(--surface)"/></svg>`;
   // avatar: cast mascot, "you" (person), or a colored initial. returns {el, update(t)}
   H.avatar = (who, size = 56) => {
     const w = H.h('div', ''); w.style.cssText = `position:relative;width:${size}px;height:${size}px;flex:none`;
     if (H.BOTS[who]) { const b = H.bot(who, size); w.appendChild(b.el); return { el: w, update: (t, o) => b.update(t, o) }; }
-    if (!who || who === 'you' || who === 'user') { w.innerHTML = H.IC.user('#15161c'); return { el: w, update: () => { } }; }
-    w.innerHTML = `<div style="width:100%;height:100%;border-radius:50%;background:#15161c;color:#fff;font:800 ${Math.round(size * .42)}px Geist;display:flex;align-items:center;justify-content:center">${H.esc(String(who)[0].toUpperCase())}</div>`;
+    if (!who || who === 'you' || who === 'user') { w.innerHTML = H.youSvg; return { el: w, update: () => { } }; }
+    w.innerHTML = `<div style="width:100%;height:100%;border-radius:50%;background:var(--inv);color:var(--inv-ink);font:800 ${Math.round(size * .42)}px Geist;display:flex;align-items:center;justify-content:center">${H.esc(String(who)[0].toUpperCase())}</div>`;
     return { el: w, update: () => { } };
   };
   H.nameOf = who => (H.BOTS[who] && H.BOTS[who].name) || (who === 'you' || !who ? 'You' : who);
-  H.colorOf = (who, fb = '#15161c') => (H.BOTS[who] && H.BOTS[who].c) || fb;
+  H.colorOf = (who, fb = 'var(--ink)') => (H.BOTS[who] && H.BOTS[who].c) || fb;
 
   // ---- syntax highlighting for the code archetype (md | js | ts | py | sh | yaml | json | diff-aware)
   const KW = {
@@ -67,12 +69,12 @@
   H.phone = (o = {}) => {
     const w = o.w || 300, hh = o.h || 600, acc = o.accent || '#5a5cf0';
     const el = H.h('div', ''); el.style.cssText = `position:relative;width:${w}px;height:${hh}px;border-radius:44px;background:#0f1016;padding:12px;box-shadow:0 30px 70px -24px rgba(20,24,60,.45)`;
-    const scr = el.appendChild(H.h('div', '')); scr.style.cssText = `position:relative;width:100%;height:100%;border-radius:34px;background:#fbfbfd;overflow:hidden`;
-    scr.innerHTML = `<div data-noqa style="height:44px;display:flex;align-items:center;justify-content:space-between;padding:0 26px;font:700 15px Geist;color:#15161c"><span>9:41</span><span style="width:70px;height:20px;border-radius:12px;background:#0f1016"></span><span>●●●</span></div>
-      <div style="padding:10px 22px 0;font:800 26px Geist;letter-spacing:-.02em;color:#15161c">${H.esc(o.title || 'Welcome')}</div>
+    const scr = el.appendChild(H.h('div', '')); scr.style.cssText = `position:relative;width:100%;height:100%;border-radius:34px;background:var(--fill);overflow:hidden`;
+    scr.innerHTML = `<div data-noqa style="height:44px;display:flex;align-items:center;justify-content:space-between;padding:0 26px;font:700 15px var(--fb);color:var(--ink)"><span>9:41</span><span style="width:70px;height:20px;border-radius:12px;background:#0f1016"></span><span>●●●</span></div>
+      <div style="padding:10px 22px 0;font:800 26px var(--fb);letter-spacing:calc(-.02em * var(--trk));color:var(--ink)">${H.esc(o.title || 'Welcome')}</div>
       ${(o.rows || [72, 88, 60]).map((r, i) => `<div style="margin:${i ? 12 : 22}px 22px 0;height:${i ? 14 : 120}px;width:${i ? r : 100}%;border-radius:${i ? 7 : 18}px;background:${i ? '#e7e8ef' : `linear-gradient(135deg,${acc}33,${acc}14)`}"></div>`).join('')}`;
     const btn = scr.appendChild(H.h('div', '', H.esc(o.button || 'Continue')));
-    btn.style.cssText = `position:absolute;left:${o.bad ? 60 : 22}px;width:${o.bad ? w - 24 - 22 : w - 24 - 44}px;bottom:${o.bad ? 18 : 30}px;height:58px;border-radius:16px;background:${acc};color:#fff;font:800 21px Geist;display:flex;align-items:center;justify-content:center;white-space:nowrap`;
+    btn.style.cssText = `position:absolute;left:${o.bad ? 60 : 22}px;width:${o.bad ? w - 24 - 22 : w - 24 - 44}px;bottom:${o.bad ? 18 : 30}px;height:58px;border-radius:16px;background:${acc};color:#fff;font:800 21px var(--fb);display:flex;align-items:center;justify-content:center;white-space:nowrap`;
     if (o.bad) { const m = scr.appendChild(H.h('div', '')); m.style.cssText = `position:absolute;right:-4px;bottom:8px;width:${w * .55}px;height:80px;border-radius:14px;border:3px dashed #f0443a;background:rgba(240,68,58,.08)`; }
     el.btn = btn; return el;
   };

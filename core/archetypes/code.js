@@ -12,7 +12,7 @@ ARCH.code = (root, ctx, H, d, sc) => {
   const wnd = H.put(root, H.win({ dark: true, w: EW, h: EH }), EX, EY);
   const bar = wnd.querySelector('.bar'); bar.querySelector('.wt').remove();
   const tabs = [d.file || 'untitled', ...(d.tabs || [])];
-  bar.insertAdjacentHTML('beforeend', tabs.map((f, i) => `<span style="margin-left:${i ? 4 : 14}px;height:52px;display:flex;align-items:center;gap:10px;padding:0 20px;font:700 20px Maple;${i ? 'color:#6f7590' : 'color:#e8e9f0;background:#14151d;box-shadow:inset 0 2px 0 var(--accent)'}">${H.esc(f)}</span>`).join(''));
+  bar.insertAdjacentHTML('beforeend', tabs.map((f, i) => `<span style="margin-left:${i ? 4 : 14}px;height:52px;display:flex;align-items:center;gap:10px;padding:0 20px;font:700 20px var(--fm);${i ? 'color:#6f7590' : 'color:#e8e9f0;background:var(--code-bg);box-shadow:inset 0 2px 0 var(--accent)'}">${H.esc(f)}</span>`).join(''));
   const BH = EH - 52, body = D(wnd.body, 0, 0, EW, BH, 'position:absolute;left:0;top:0;overflow:hidden');
   wnd.body.style.padding = '0'; wnd.body.style.height = BH + 'px';
   const fs = cl(Math.floor((BH - 48) / (n * 1.55)), 26, 30), LH = Math.round(fs * 1.55), GW = 78;
@@ -45,7 +45,7 @@ ARCH.code = (root, ctx, H, d, sc) => {
   const nEls = notes.map((nt, i) => {
     const c = NOTE[nt.tone] || 'var(--accent)';
     const el = H.put(root, H.card({ w: NW }), NX, 0); el.style.padding = '22px 26px 22px 30px'; el.style.boxShadow += `,inset 5px 0 0 ${c}`;
-    el.innerHTML = `<div style="font:800 20px Maple;letter-spacing:.06em;color:${c};margin-bottom:8px">LINE ${nt.line}</div><div style="font:700 27px/1.3 Geist,Noto;letter-spacing:-.01em">${H.md(nt.text)}</div>`;
+    el.innerHTML = `<div style="font:800 20px var(--fm);letter-spacing:.06em;color:${c};margin-bottom:8px">LINE ${nt.line}</div><div style="font:700 27px/1.3 var(--fb);letter-spacing:calc(-.01em * var(--trk))">${H.md(nt.text)}</div>`;
     const hh = el.offsetHeight, ly = EY + 52 + 24 + (nt.line - .5) * LH;
     const y = Math.max(lastB + 18, Math.min(ly - hh / 2, 872 - hh)); el.style.top = y + 'px'; lastB = y + hh;
     const p = document.createElementNS('http://www.w3.org/2000/svg', 'path'); p.setAttribute('fill', 'none'); p.setAttribute('stroke', c === 'var(--accent)' ? getComputedStyle(document.documentElement).getPropertyValue('--accent') || '#5a5cf0' : c); p.setAttribute('stroke-width', '3'); p.setAttribute('stroke-dasharray', '6 7'); S.appendChild(p);

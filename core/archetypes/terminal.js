@@ -8,24 +8,24 @@ ARCH.terminal = (root, ctx, H, d) => {
   let rows = [], LT = [];
   if (L) {
     const c = H.put(root, H.card({ w: LW, h: HH }), 88, Y); L.c = c;
-    D(c, 32, 28, LW - 64, 44, 'font:800 32px Geist,Noto;letter-spacing:-.02em;white-space:nowrap', H.md(L.title || ''));
+    D(c, 32, 28, LW - 64, 44, 'font:var(--fwd) 32px var(--fd);letter-spacing:calc(-.02em * var(--trk));white-space:nowrap', H.md(L.title || ''));
     LT = H.times(ctx, L.items, .15, .8);
     const RH = Math.min(118, (HH - 100) / L.items.length);
     rows = L.items.map((it, i) => {
-      const r = D(c, 24, 92 + i * RH, LW - 48, RH - 12, 'border-radius:16px;background:#f6f7fb;display:flex;align-items:center;gap:18px;padding:0 20px');
-      r.innerHTML = `<div style="flex:1;min-width:0"><div style="font:700 28px/1.2 Geist,Noto;white-space:nowrap">${H.md(it.text)}</div>${it.sub ? `<div style="font:600 22px Geist,Noto;color:#8a8d99;margin-top:2px;white-space:nowrap">${H.md(it.sub)}</div>` : ''}</div>`;
+      const r = D(c, 24, 92 + i * RH, LW - 48, RH - 12, 'border-radius:16px;background:var(--fill);display:flex;align-items:center;gap:18px;padding:0 20px');
+      r.innerHTML = `<div style="flex:1;min-width:0"><div style="font:700 28px/1.2 var(--fb);white-space:nowrap">${H.md(it.text)}</div>${it.sub ? `<div style="font:600 22px var(--fb);color:var(--sub);margin-top:2px;white-space:nowrap">${H.md(it.sub)}</div>` : ''}</div>`;
       const ck = r.appendChild(H.h('span', 'icon', IC.check())); ck.style.cssText += ';width:40px;height:40px;flex:none';
       return { r, ck };
     });
   }
   const w = H.put(root, H.win({ title: TM.title || 'terminal', dark: true, w: TW, h: HH }), TX, Y);
-  const term = D(w.body, 28, 22, TW - 56, HH - 120, 'position:absolute;font:500 26px/1.62 Maple;color:#d8dbe7;white-space:pre');
+  const term = D(w.body, 28, 22, TW - 56, HH - 120, 'position:absolute;font:500 26px/1.62 var(--fm);color:var(--code-ink);white-space:pre');
   const tCmd = H.when(ctx, TM.at, .5);
   const out = TM.out || [], OT = H.times(ctx, out, .3, .85).map((x, i) => Math.max(x, tCmd + .6 + i * .15));
   let bar = null, barF, barL; const PG = TM.progress;
   if (PG) {
     bar = D(w.body, 28, HH - 130, TW - 56, 56, 'position:absolute;display:flex;align-items:center;gap:18px');
-    bar.innerHTML = `<div style="flex:1;height:14px;border-radius:7px;background:rgba(255,255,255,.08);overflow:hidden"><i style="display:block;height:100%;width:0;border-radius:7px;background:linear-gradient(90deg,#5a5cf0,#8b8df8)"></i></div><span class="mono" style="font:700 24px Maple;color:#ffd66b;white-space:nowrap"></span>`;
+    bar.innerHTML = `<div style="flex:1;height:14px;border-radius:7px;background:rgba(255,255,255,.08);overflow:hidden"><i style="display:block;height:100%;width:0;border-radius:7px;background:linear-gradient(90deg,#5a5cf0,#8b8df8)"></i></div><span class="mono" style="font:700 24px var(--fm);color:#ffd66b;white-space:nowrap"></span>`;
     barF = bar.querySelector('i'); barL = bar.querySelector('span');
   }
   const tP0 = PG ? H.when(ctx, PG.at, OT[OT.length - 1] || tCmd + 1) : 0, tP1 = PG ? H.when(ctx, PG.to, ctx.dur - .4) : 0;

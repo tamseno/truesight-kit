@@ -16,7 +16,7 @@ ARCH.statement = (root, ctx, H, d) => {
     el.innerHTML = parts.map(p => p.startsWith('*') ? (m => `<span class="wd"><span class="hl">${H.esc(m[1])}</span>${H.esc(m[2])}</span>`)(p.match(/^\*([^*]+)\*(.*)$/)) : `<span class="wd">${H.esc(p)}</span>`).join(' ');
     return { el, wds: [...el.querySelectorAll('.wd')], hls: [...el.querySelectorAll('.hl')] };
   });
-  const sub = d.sub ? D(root, center ? 0 : 140, y0 + total + 34, center ? 1920 : 1600, 50, `text-align:${center ? 'center' : 'left'};font:600 34px Geist,Noto;color:#6b6e7b`, H.md(d.sub.text || d.sub)) : null;
+  const sub = d.sub ? D(root, center ? 0 : 140, y0 + total + 34, center ? 1920 : 1600, 50, `text-align:${center ? 'center' : 'left'};font:600 34px var(--fb);color:var(--sub)`, H.md(d.sub.text || d.sub)) : null;
   const tSub = d.sub ? H.when(ctx, d.sub.at, T[T.length - 1] + .8) : 0;
   T.forEach(t0 => ctx.cue(t0, 'swoosh', .25));
   return t => {

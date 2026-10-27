@@ -6,16 +6,16 @@ ARCH.stats = (root, ctx, H, d) => {
   const items = d.items || [], bars = d.bars || [], n = items.length;
   const T = H.times(ctx, items, .1, bars.length ? .45 : .75), BT = H.times(ctx, bars, .55, .85);
   const GAP = 32, CW = (1744 - GAP * (n - 1)) / n, CH = bars.length ? 270 : 400, Y = bars.length ? 252 : H.vc(CH, d.source ? 40 : 0);
-  const TONE = { bad: '#f0443a', good: '#1fbf75' };
+  const TONE = { bad: 'var(--bad)', good: 'var(--good)' };
   const cards = items.map((it, i) => {
     const c = H.put(root, H.card({ w: CW, h: CH }), 88 + i * (CW + GAP), Y);
     if (it.tone) D(c, 0, 0, CW, 8, `background:${TONE[it.tone]}`);
     const big = !bars.length;
-    D(c, 36, 34, CW - 72, 30, 'font:800 23px Geist;letter-spacing:.12em;text-transform:uppercase;color:#8a8d99;white-space:nowrap', H.esc(it.label));
-    const v = D(c, 34, big ? 96 : 74, CW - 68, big ? 150 : 120, `font:800 ${n > 3 ? 92 : big ? 136 : 110}px/1 Geist;letter-spacing:-.05em;white-space:nowrap;color:${it.tone ? TONE[it.tone] : '#15161c'}`);
+    D(c, 36, 34, CW - 72, 30, 'font:800 23px var(--fb);letter-spacing:.12em;text-transform:uppercase;color:var(--sub);white-space:nowrap', H.esc(it.label));
+    const v = D(c, 34, big ? 96 : 74, CW - 68, big ? 150 : 120, `font:var(--fwd) ${n > 3 ? 92 : big ? 136 : 110}px/1 var(--fd);letter-spacing:calc(-.05em * var(--trk));white-space:nowrap;color:${it.tone ? TONE[it.tone] : 'var(--ink)'}`);
     { const fv = parseFloat(it.value), fin = isNaN(fv) ? String(it.value) : (it.prefix || '') + (it.fmt ? fv.toLocaleString('en-US') : fv.toFixed(it.dec || 0)) + (it.suffix || ''); v.textContent = fin; H.fit(v, CW - 68, 48); v.textContent = ''; }
     if (big) D(c, 36, 262, 64, 6, `border-radius:3px;background:${it.tone ? TONE[it.tone] : 'var(--accent)'}`);
-    const s = it.sub ? D(c, 36, CH - (big ? 92 : 70), CW - 72, 40, `font:600 ${big ? 28 : 24}px Geist,Noto;color:#6b6e7b;white-space:nowrap`, H.md(it.sub)) : null;
+    const s = it.sub ? D(c, 36, CH - (big ? 92 : 70), CW - 72, 40, `font:600 ${big ? 28 : 24}px Geist,Noto;color:var(--sub);white-space:nowrap`, H.md(it.sub)) : null;
     return { c, v, s, it };
   });
   let bc = null, brs = [];
@@ -24,10 +24,10 @@ ARCH.stats = (root, ctx, H, d) => {
     const mx = Math.max(...bars.map(b => b.max || b.value));
     brs = bars.map((b, i) => {
       const y = 36 + i * 96;
-      D(bc, 36, y + 6, 260, 40, 'font:800 30px Geist,Noto;white-space:nowrap', H.md(b.label));
-      const tr = D(bc, 300, y + 14, 1180, 26, 'border-radius:13px;background:#eef0f5;overflow:hidden');
+      D(bc, 36, y + 6, 260, 40, 'font:var(--fwd) 30px var(--fd);white-space:nowrap', H.md(b.label));
+      const tr = D(bc, 300, y + 14, 1180, 26, 'border-radius:13px;background:var(--track);overflow:hidden');
       const f = D(tr, 0, 0, 0, 26, `border-radius:13px;background:${b.color || '#5a5cf0'}`);
-      const v = D(bc, 1500, y, 210, 56, 'text-align:right;font:800 46px Geist;letter-spacing:-.02em;white-space:nowrap');
+      const v = D(bc, 1500, y, 210, 56, 'text-align:right;font:var(--fwd) 46px var(--fd);letter-spacing:calc(-.02em * var(--trk));white-space:nowrap');
       return { f, v, b, w: 1180 * (b.value / mx) };
     });
   }

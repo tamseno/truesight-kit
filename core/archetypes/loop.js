@@ -30,13 +30,13 @@ ARCH.loop = (root, ctx, H, d, sc) => {
     let b = null;
     if (nd.cast && H.BOTS[nd.cast]) { const av = H.avatar(nd.cast, 60); row.appendChild(av.el); b = av; }
     else row.insertAdjacentHTML('beforeend', `<span style="flex:none;width:58px;height:58px;border-radius:18px;background:color-mix(in srgb,${nd.color || acc} 13%,#fff);display:flex;align-items:center;justify-content:center"><span style="width:34px;height:34px">${(IC[nd.icon] || IC.spark)(nd.color || acc)}</span></span>`);
-    row.insertAdjacentHTML('beforeend', `<div style="min-width:0"><div class="nl" style="font:800 30px/1.1 Geist,Noto;letter-spacing:-.02em;white-space:nowrap">${H.md(nd.label)}</div>${nd.sub ? `<div class="ns" style="font:600 21px Geist,Noto;color:#6b6e7b;white-space:nowrap;margin-top:4px">${H.md(nd.sub)}</div>` : ''}</div>`);
+    row.insertAdjacentHTML('beforeend', `<div style="min-width:0"><div class="nl" style="font:var(--fwd) 30px/1.1 var(--fd);letter-spacing:calc(-.02em * var(--trk));white-space:nowrap">${H.md(nd.label)}</div>${nd.sub ? `<div class="ns" style="font:600 21px var(--fb);color:var(--sub);white-space:nowrap;margin-top:4px">${H.md(nd.sub)}</div>` : ''}</div>`);
     H.fit(row.querySelector('.nl'), NW - 130, 22); if (nd.sub) H.fit(row.querySelector('.ns'), NW - 130, 18);
     return { c, b, i };
   });
   const C = d.center || {};
   const ctr = D(root, CX - 420, CY - 70, 840, 140, 'text-align:center');
-  ctr.innerHTML = `<div class="cr" style="font:800 22px Geist;letter-spacing:.14em;color:${acc};height:30px"></div><div style="font:800 50px/1.1 Geist,Noto;letter-spacing:-.03em">${H.md(C.text || '')}</div>${C.sub ? `<div style="font:600 26px Geist,Noto;margin-top:8px" class="onbg-sub">${H.md(C.sub)}</div>` : ''}`;
+  ctr.innerHTML = `<div class="cr" style="font:800 22px var(--fb);letter-spacing:.14em;color:${acc};height:30px"></div><div style="font:var(--fwd) 50px/1.1 var(--fd);letter-spacing:calc(-.03em * var(--trk))">${H.md(C.text || '')}</div>${C.sub ? `<div style="font:600 26px var(--fb);margin-top:8px" class="onbg-sub">${H.md(C.sub)}</div>` : ''}`;
   ctr.classList.add('onbg');
   const cr = ctr.querySelector('.cr'), tC = H.when(ctx, C.at, T[n - 1] + 1);
   const RD = (d.rounds || []).map(r => ({ t: H.when(ctx, r.at, 0), label: r.label }));

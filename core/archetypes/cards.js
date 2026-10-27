@@ -9,13 +9,13 @@ ARCH.cards = (root, ctx, H, d) => {
   const TOP = 300; // problem area height; the fix panel sits right under it
   const C = it.map((x, i) => {
     const c = H.put(root, H.card({ w: CW, h: HH }), 88 + i * (CW + GAP), Y);
-    const ic = D(c, 30, 30, 64, 64, 'border-radius:18px;background:#fff1f0;display:flex;align-items:center;justify-content:center', `<span style="width:36px;height:36px">${(IC[x.icon] || IC.warn)('#f0443a')}</span>`);
+    const ic = D(c, 30, 30, 64, 64, 'border-radius:18px;background:var(--bad-fill);display:flex;align-items:center;justify-content:center', `<span style="width:36px;height:36px">${(IC[x.icon] || IC.warn)('#f0443a')}</span>`);
     D(c, 108, 44, CW - 140, 36, '', H.tag(x.tag || 'RISK', '#f0443a'));
-    const tt = D(c, 30, 116, CW - 60, 100, 'font:800 38px/1.15 Geist,Noto;letter-spacing:-.025em', H.md(x.title)); H.fit(tt, CW - 60, 26, 100);
-    if (x.sub) { const s = D(c, 30, 222, CW - 60, 66, 'font:600 25px/1.3 Geist,Noto;color:#8a8d99', H.md(x.sub)); H.fit(s, CW - 60, 20, 66); }
-    const fx = D(c, 16, TOP, CW - 32, HH - TOP - 16, 'border-radius:18px;background:#e9f9f1;box-shadow:inset 0 0 0 2px rgba(31,191,117,.35)');
-    D(fx, 24, 22, CW - 80, 30, 'display:flex;align-items:center;gap:10px;font:800 22px Geist;letter-spacing:.14em;color:#13a463', `<span style="width:28px;height:28px">${IC.check()}</span>${H.esc(d.fixLabel || 'THE FIX')}`);
-    const ft = D(fx, 24, 66, CW - 80, HH - TOP - 16 - 84, 'font:800 33px/1.2 Geist,Noto;letter-spacing:-.015em;color:#0d5c39', H.md(x.fix || '')); H.fit(ft, CW - 80, 22, HH - TOP - 16 - 84);
+    const tt = D(c, 30, 116, CW - 60, 100, 'font:var(--fwd) 38px/1.15 var(--fd);letter-spacing:calc(-.025em * var(--trk))', H.md(x.title)); H.fit(tt, CW - 60, 26, 100);
+    if (x.sub) { const s = D(c, 30, 222, CW - 60, 66, 'font:600 25px/1.3 var(--fb);color:var(--sub)', H.md(x.sub)); H.fit(s, CW - 60, 20, 66); }
+    const fx = D(c, 16, TOP, CW - 32, HH - TOP - 16, 'border-radius:18px;background:var(--good-fill);box-shadow:inset 0 0 0 2px rgba(31,191,117,.35)');
+    D(fx, 24, 22, CW - 80, 30, 'display:flex;align-items:center;gap:10px;font:800 22px var(--fb);letter-spacing:.14em;color:var(--good-ink)', `<span style="width:28px;height:28px">${IC.check()}</span>${H.esc(d.fixLabel || 'THE FIX')}`);
+    const ft = D(fx, 24, 66, CW - 80, HH - TOP - 16 - 84, 'font:var(--fwd) 33px/1.2 var(--fd);letter-spacing:calc(-.015em * var(--trk));color:var(--good-ink2)', H.md(x.fix || '')); H.fit(ft, CW - 80, 22, HH - TOP - 16 - 84);
     return { c, fx, ic };
   });
   const src = d.source ? H.source(root, d.source, Math.min(892, Y + HH + 22)) : null;

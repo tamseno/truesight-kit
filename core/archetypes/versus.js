@@ -14,21 +14,21 @@ ARCH.versus = (root, ctx, H, d) => {
   const col = (side, spec, x) => {
     const c = H.put(root, H.card({ w: CW, h: CH }), x, Y);
     D(c, 0, 0, CW, 8, `background:${side ? GRN : RED};opacity:.9`);
-    const head = D(c, 38, 34, CW - 76, 56, 'display:flex;align-items:center;gap:18px;font:800 40px Geist,Noto;letter-spacing:-.025em;white-space:nowrap', `${H.md(spec.title || '')}${spec.tag ? H.tag(spec.tag, side ? GRN : RED) : ''}`);
-    D(c, 38, 108, CW - 76, 2, 'background:rgba(21,22,28,.07)');
+    const head = D(c, 38, 34, CW - 76, 56, 'display:flex;align-items:center;gap:18px;font:var(--fwd) 40px var(--fd);letter-spacing:calc(-.025em * var(--trk));white-space:nowrap', `${H.md(spec.title || '')}${spec.tag ? H.tag(spec.tag, side ? GRN : RED) : ''}`);
+    D(c, 38, 108, CW - 76, 2, 'background:var(--line)');
     const n = spec.items.length, cols = !twoCol && n > 5 ? 2 : 1, perCol = Math.ceil(n / cols), RH = Math.min(RHmax, (CH - 132) / perCol);
     const rows = spec.items.map((it, i) => {
       const cc = Math.floor(i / perCol), rr = i % perCol, w = (CW - 76) / cols;
       const r = D(c, 38 + cc * w, 124 + rr * RH, w - 20, RH - 8, 'display:flex;align-items:center;gap:22px');
       const ic = D(r, 0, 0, 46, 46, 'position:relative;flex:none', side ? IC.check(GRN) : IC.x(RED)); ic.style.position = 'relative'; ic.style.left = ic.style.top = '';
-      const tx = r.appendChild(H.h('div', '', `<div class="strike" style="display:inline-block;font:700 ${twoCol ? 38 : 40}px/1.15 Geist,Noto;letter-spacing:-.015em;white-space:nowrap">${H.md(it.text)}</div>${it.sub ? `<div style="font:600 24px Geist,Noto;color:#8a8d99;margin-top:5px;white-space:nowrap">${H.md(it.sub)}</div>` : ''}`));
+      const tx = r.appendChild(H.h('div', '', `<div class="strike" style="display:inline-block;font:700 ${twoCol ? 38 : 40}px/1.15 Geist,Noto;letter-spacing:calc(-.015em * var(--trk));white-space:nowrap">${H.md(it.text)}</div>${it.sub ? `<div style="font:600 24px var(--fb);color:var(--sub);margin-top:5px;white-space:nowrap">${H.md(it.sub)}</div>` : ''}`));
       tx.style.minWidth = '0'; H.fit(tx.firstChild, w - 100, 26);
       return { r, ic, st: tx.querySelector('.strike'), t0: it._t };
     });
     return { c, head, rows, side };
   };
   const cols = [col(0, L, 88)]; if (R) cols.push(col(1, R, 88 + CW + 32));
-  const vd = d.verdict ? D(root, 88, Y + CH + 28, 1744, 84, 'border-radius:22px;background:#15161c;color:#fff;display:flex;align-items:center;justify-content:center;font:800 38px Geist,Noto;letter-spacing:-.02em;box-shadow:0 24px 50px -20px rgba(20,22,40,.5)', `<span>${H.md(d.verdict.text || d.verdict)}</span>`) : null;
+  const vd = d.verdict ? D(root, 88, Y + CH + 28, 1744, 84, 'border-radius:22px;background:var(--inv);color:var(--inv-ink);display:flex;align-items:center;justify-content:center;font:var(--fwd) 38px var(--fd);letter-spacing:calc(-.02em * var(--trk));box-shadow:0 24px 50px -20px rgba(20,22,40,.5)', `<span>${H.md(d.verdict.text || d.verdict)}</span>`) : null;
   const tV = vd ? H.when(ctx, d.verdict.at, TT[TT.length - 1] + .8) : 0;
   TT.forEach((x, i) => ctx.cue(x, all[i].side ? 'pop' : 'tick', .4)); if (vd) ctx.cue(tV, 'whoosh', .35);
   // camera: lean into the column being talked about

@@ -8,9 +8,9 @@ ARCH.swarm = (root, ctx, H, d, sc) => {
   const Y0 = sc.title ? 250 : 170, GH = sc.title ? 600 : 700;
   // counter column
   const lbl = D(root, 120, Y0 + 40, 640, 34, '', `<span class="eyebrow">${H.esc(d.label || '')}</span>`);
-  const big = D(root, 110, Y0 + 90, 700, 250, 'font:800 230px/1 Geist;letter-spacing:-.06em;white-space:nowrap;font-variant-numeric:tabular-nums'); big.classList.add('onbg');
-  const st1 = D(root, 120, Y0 + 370, 640, 60, 'display:flex;align-items:center;gap:14px;font:700 32px Geist,Noto;white-space:nowrap', `<span style="width:44px;height:44px">${H.IC.user('#15161c')}</span><span>${H.esc(d.fromLabel || 'By hand')}</span><span style="font:800 32px Maple;color:#8a8d99">${from}</span>`); st1.classList.add('onbg');
-  const st2 = D(root, 120, Y0 + 440, 680, 60, 'display:flex;align-items:center;gap:14px;font:700 32px Geist,Noto;white-space:nowrap', `<span class="cs" style="display:flex;gap:4px"></span><span>${H.esc(d.toLabel || 'Managed by bots')}</span><span style="font:800 32px Maple;color:var(--accent)">${to}${H.esc(d.suffix || '')}</span>`); st2.classList.add('onbg');
+  const big = D(root, 110, Y0 + 90, 700, 250, 'font:var(--fwd) 230px/1 var(--fd);letter-spacing:calc(-.06em * var(--trk));white-space:nowrap;font-variant-numeric:tabular-nums'); big.classList.add('onbg');
+  const st1 = D(root, 120, Y0 + 370, 640, 60, 'display:flex;align-items:center;gap:14px;font:700 32px var(--fb);white-space:nowrap', `<span style="width:44px;height:44px">${H.youSvg}</span><span>${H.esc(d.fromLabel || 'By hand')}</span><span style="font:800 32px var(--fm);color:var(--sub)">${from}</span>`); st1.classList.add('onbg');
+  const st2 = D(root, 120, Y0 + 440, 680, 60, 'display:flex;align-items:center;gap:14px;font:700 32px var(--fb);white-space:nowrap', `<span class="cs" style="display:flex;gap:4px"></span><span>${H.esc(d.toLabel || 'Managed by bots')}</span><span style="font:800 32px var(--fm);color:var(--accent)">${to}${H.esc(d.suffix || '')}</span>`); st2.classList.add('onbg');
   const castK = d.cast || H.BOT_ORDER.slice(0, 5);
   const mini = castK.map(k => { const a = H.avatar(k, 40); st2.querySelector('.cs').appendChild(a.el); return a; });
   // tile field
@@ -37,7 +37,7 @@ ARCH.swarm = (root, ctx, H, d, sc) => {
       const man = manual.has(i), ts_ = man ? t1 + order.indexOf(i) * .03 : t2 + .15 + (x.d / maxD) * 1.4 + rnd(i) * .2;
       const on = A(t, ts_, .25), pulse = on > .99 ? .82 + .18 * Math.sin(t * (1.5 + rnd(i + 7) * 2.5) + i) : 1;
       x.e.style.opacity = lerp(.1, man ? 1 : .92, on * pulse).toFixed(3);
-      x.e.style.color = on > .02 ? (man ? '#15161c' : 'var(--accent)') : '';
+      x.e.style.color = on > .02 ? (man ? 'var(--bg-ink)' : 'var(--accent)') : '';
       x.e.classList.toggle('onbg', on <= .02);
       x.e.style.scale = (on > 0 && on < 1 ? lerp(.4, 1, E.spring(on)) : 1).toFixed(3);
     });
