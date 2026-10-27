@@ -1,0 +1,11 @@
+{
+ "name": "TrueSight AI",
+ "cast": {
+  "director": { "name": "Director", "zh": "导演", "c": "#33c9a6", "shape": "circle" },
+  "animator": { "name": "Animator", "zh": "写片", "c": "#f5a524", "shape": "circle" },
+  "render":   { "name": "Render",   "zh": "渲染", "c": "#5a5cf0", "shape": "tri" },
+  "critic":   { "name": "Critic",   "zh": "评审", "c": "#8b5cf6", "shape": "hex" },
+  "delivery": { "name": "Delivery", "zh": "交付", "c": "#3a86f4", "shape": "circle" }
+ },
+ "themes": {}
+}

@@ -1,0 +1,7 @@
+episodes/*/frames_*/
+episodes/*/stills/
+episodes/*/tts/
+episodes/*/*.wav
+episodes/*/*.mp4
+.venv/
+node_modules/

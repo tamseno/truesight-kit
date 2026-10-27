@@ -1,0 +1,23 @@
+{
+ "meta": { "title": "NEW EPISODE", "edge_voice": "en-US-AndrewMultilingualNeural", "edge_rate": "+2%", "say": {} },
+ "scenes": [
+  { "id": "s01", "type": "hero", "theme": "paper", "chapter": "Hook",
+    "lines": ["You [input]. You wake up to [visible result].", "No [tool everyone assumes]. [N] bots on one computer."],
+    "data": { "proof": { "image": "media/proof.jpg", "label": "Made overnight", "until": "No" }, "logos": [{ "name": "Product A", "mark": "grok" }, { "name": "Product B", "color": "#d97757" }], "title": "A *one-line*\npromise", "meta": "what · where · when" } },
+  { "id": "s02", "type": "statement", "theme": "paper", "chapter": "Hook", "trans": "zoom",
+    "lines": ["This is how to build it, and the parts most tutorials skip."],
+    "data": { "lines": [{ "text": "The parts most", "at": "parts" }, { "text": "tutorials *skip*.", "at": "tutorials" }] } },
+  { "id": "s03", "type": "versus", "theme": "paper", "chapter": "Demo vs system", "label": "The usual way", "title": "Everyone stops at the same place",
+    "lines": ["Most people get [half result]. That's a demo.", "A system is different: someone plans, someone builds, someone checks."],
+    "data": { "left": { "title": "Demo", "tag": "DEMO", "items": [{ "text": "[half result]", "at": "Most" }] }, "right": { "title": "System", "tag": "SYSTEM", "items": [{ "text": "Someone *plans*", "at": "plans" }, { "text": "Someone *checks*", "at": "checks" }] } } },
+  { "id": "s04", "type": "rules", "theme": "lilac", "chapter": "1 · First step", "step": 1, "label": "Step one", "title": "[Step title]",
+    "lines": ["Step one. [what to do].", "[rule one]. [rule two]."],
+    "data": { "file": "rules.md", "items": [{ "text": "[rule one]", "at": "rule one" }, { "text": "[rule two]", "at": "rule two" }] } },
+  { "id": "s05", "type": "checklist", "theme": "paper", "chapter": "Start tonight", "label": "Tonight", "title": "Start with one",
+    "lines": ["To start tonight: [one], [two], and run one small test.", "Only when it survives end to end, turn on the automation."],
+    "data": { "items": [{ "text": "[one]", "at": "one" }, { "text": "[two]", "at": "two" }, { "text": "Run one small test", "at": "test" }], "gate": { "text": "Then turn on the automation", "at": "turn on" }, "resources": { "items": ["file-1", "file-2"] } } },
+  { "id": "s06", "type": "statement", "theme": "night", "chapter": "Start tonight", "trans": "zoom",
+    "lines": ["[Opening event] proved [one-off]. [Our system] makes it [repeatable]."],
+    "data": { "color": "#ffffff", "lines": [{ "text": "[one-off]?", "at": "proved" }, { "text": "[System] makes it *every night*.", "at": "makes" }] } }
+ ]
+}

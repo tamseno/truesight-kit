@@ -1,0 +1,4456 @@
+{
+ "fps": 60,
+ "w": 1920,
+ "h": 1080,
+ "total": 260.733,
+ "meta": {
+  "title": "Build an Overnight AI Motion Design Studio (Grok Bot × Claude Opus 5.5)",
+  "edge_voice": "en-US-AndrewMultilingualNeural",
+  "edge_rate": "+2%"
+ },
+ "scenes": [
+  {
+   "id": "s01",
+   "type": "hero",
+   "theme": "paper",
+   "chapter": "Hook",
+   "data": {
+    "proof": {
+     "frames": "media/proof/%04d.jpg",
+     "count": 90,
+     "fps": 30,
+     "label": "Made overnight · No After Effects",
+     "until": "No After"
+    },
+    "logos": [
+     {
+      "name": "Grok Bot",
+      "mark": "grok"
+     },
+     {
+      "name": "Claude Opus 5.5",
+      "color": "#d97757"
+     }
+    ],
+    "title": "An *overnight*\nmotion design studio",
+    "meta": "five bots · one cloud computer · 21:00 → 08:00"
+   },
+   "start": 0.0,
+   "lines": [
+    {
+     "text": "You go to bed with an idea. You wake up to a finished, reviewed motion graphic.",
+     "s": 0.35,
+     "e": 4.82,
+     "w": [
+      [
+       0.301,
+       0.362,
+       "You"
+      ],
+      [
+       0.362,
+       0.448,
+       "go"
+      ],
+      [
+       0.448,
+       0.521,
+       "to"
+      ],
+      [
+       0.521,
+       0.779,
+       "bed"
+      ],
+      [
+       0.791,
+       0.901,
+       "with"
+      ],
+      [
+       0.901,
+       0.987,
+       "an"
+      ],
+      [
+       0.987,
+       1.526,
+       "idea."
+      ],
+      [
+       1.918,
+       2.029,
+       "You"
+      ],
+      [
+       2.041,
+       2.249,
+       "wake"
+      ],
+      [
+       2.249,
+       2.409,
+       "up"
+      ],
+      [
+       2.421,
+       2.58,
+       "to"
+      ],
+      [
+       2.58,
+       2.641,
+       "a"
+      ],
+      [
+       2.641,
+       3.291,
+       "finished,"
+      ],
+      [
+       3.512,
+       3.977,
+       "reviewed"
+      ],
+      [
+       3.99,
+       4.284,
+       "motion"
+      ],
+      [
+       4.296,
+       4.798,
+       "graphic."
+      ]
+     ]
+    },
+    {
+     "text": "No After Effects. No timeline. Five bots on one cloud computer, working the night shift.",
+     "s": 5.12,
+     "e": 11.18,
+     "w": [
+      [
+       5.075,
+       5.296,
+       "No"
+      ],
+      [
+       5.296,
+       5.578,
+       "After"
+      ],
+      [
+       5.578,
+       6.129,
+       "Effects."
+      ],
+      [
+       6.533,
+       6.68,
+       "No"
+      ],
+      [
+       6.68,
+       7.269,
+       "timeline."
+      ],
+      [
+       7.722,
+       7.955,
+       "Five"
+      ],
+      [
+       7.955,
+       8.249,
+       "bots"
+      ],
+      [
+       8.384,
+       8.617,
+       "on"
+      ],
+      [
+       8.617,
+       8.899,
+       "one"
+      ],
+      [
+       8.911,
+       9.229,
+       "cloud"
+      ],
+      [
+       9.242,
+       9.695,
+       "computer,"
+      ],
+      [
+       10.124,
+       10.369,
+       "working"
+      ],
+      [
+       10.369,
+       10.418,
+       "the"
+      ],
+      [
+       10.418,
+       10.639,
+       "night"
+      ],
+      [
+       10.651,
+       11.166,
+       "shift."
+      ]
+     ]
+    }
+   ],
+   "dur": 11.78
+  },
+  {
+   "id": "s02",
+   "type": "statement",
+   "theme": "paper",
+   "chapter": "Hook",
+   "trans": "zoom",
+   "data": {
+    "lines": [
+     {
+      "text": "The parts most",
+      "at": "parts"
+     },
+     {
+      "text": "tutorials *skip*.",
+      "at": "tutorials"
+     }
+    ]
+   },
+   "start": 11.78,
+   "lines": [
+    {
+     "text": "This is how to build that studio, and the parts most tutorials skip.",
+     "s": 0.35,
+     "e": 4.355,
+     "w": [
+      [
+       0.312,
+       0.422,
+       "This"
+      ],
+      [
+       0.422,
+       0.496,
+       "is"
+      ],
+      [
+       0.508,
+       0.594,
+       "how"
+      ],
+      [
+       0.606,
+       0.716,
+       "to"
+      ],
+      [
+       0.729,
+       1.109,
+       "build"
+      ],
+      [
+       1.109,
+       1.305,
+       "that"
+      ],
+      [
+       1.317,
+       2.003,
+       "studio,"
+      ],
+      [
+       2.285,
+       2.628,
+       "and"
+      ],
+      [
+       2.947,
+       3.02,
+       "the"
+      ],
+      [
+       3.033,
+       3.302,
+       "parts"
+      ],
+      [
+       3.302,
+       3.511,
+       "most"
+      ],
+      [
+       3.511,
+       3.976,
+       "tutorials"
+      ],
+      [
+       3.976,
+       4.344,
+       "skip."
+      ]
+     ]
+    }
+   ],
+   "dur": 4.955
+  },
+  {
+   "id": "s03",
+   "type": "versus",
+   "theme": "paper",
+   "chapter": "Demo vs studio",
+   "label": "The one-prompt era",
+   "title": "Everyone stops at the same place",
+   "data": {
+    "left": {
+     "title": "One prompt",
+     "tag": "DEMO",
+     "items": [
+      {
+       "text": "One great clip",
+       "at": "one great"
+      },
+      {
+       "text": "Laptop rendering all night",
+       "at": "laptop"
+      },
+      {
+       "text": "Nobody checks the result",
+       "at": "studio"
+      }
+     ]
+    },
+    "right": {
+     "title": "A studio",
+     "tag": "SYSTEM",
+     "items": [
+      {
+       "text": "Someone *plans*",
+       "at": "plans"
+      },
+      {
+       "text": "Someone *builds* and *renders*",
+       "at": "builds"
+      },
+      {
+       "text": "Someone *judges* and *ships*",
+       "at": "judges"
+      }
+     ]
+    }
+   },
+   "start": 16.735,
+   "lines": [
+    {
+     "text": "In September, one prompt template for code-only UI animation went viral.",
+     "s": 0.35,
+     "e": 5.376,
+     "w": [
+      [
+       0.301,
+       0.399,
+       "In"
+      ],
+      [
+       0.399,
+       1.036,
+       "September,"
+      ],
+      [
+       1.441,
+       1.735,
+       "one"
+      ],
+      [
+       1.735,
+       2.041,
+       "prompt"
+      ],
+      [
+       2.041,
+       2.458,
+       "template"
+      ],
+      [
+       2.641,
+       2.825,
+       "for"
+      ],
+      [
+       2.825,
+       3.426,
+       "code-only"
+      ],
+      [
+       3.426,
+       3.83,
+       "UI"
+      ],
+      [
+       3.842,
+       4.492,
+       "animation"
+      ],
+      [
+       4.7,
+       4.884,
+       "went"
+      ],
+      [
+       4.884,
+       5.387,
+       "viral."
+      ]
+     ]
+    },
+    {
+     "text": "Most people got one great clip, and a laptop that rendered all night.",
+     "s": 5.676,
+     "e": 9.232,
+     "w": [
+      [
+       5.636,
+       5.808,
+       "Most"
+      ],
+      [
+       5.808,
+       6.053,
+       "people"
+      ],
+      [
+       6.053,
+       6.249,
+       "got"
+      ],
+      [
+       6.261,
+       6.555,
+       "one"
+      ],
+      [
+       6.555,
+       6.825,
+       "great"
+      ],
+      [
+       6.825,
+       7.192,
+       "clip,"
+      ],
+      [
+       7.462,
+       7.511,
+       "and"
+      ],
+      [
+       7.511,
+       7.56,
+       "a"
+      ],
+      [
+       7.572,
+       8.185,
+       "laptop"
+      ],
+      [
+       8.197,
+       8.381,
+       "that"
+      ],
+      [
+       8.393,
+       8.675,
+       "rendered"
+      ],
+      [
+       8.675,
+       8.835,
+       "all"
+      ],
+      [
+       8.835,
+       9.214,
+       "night."
+      ]
+     ]
+    },
+    {
+     "text": "A studio is different. Someone plans, builds, renders, judges, and ships.",
+     "s": 9.532,
+     "e": 15.191,
+     "w": [
+      [
+       9.489,
+       9.55,
+       "A"
+      ],
+      [
+       9.55,
+       10.175,
+       "studio"
+      ],
+      [
+       10.273,
+       10.433,
+       "is"
+      ],
+      [
+       10.433,
+       10.898,
+       "different."
+      ],
+      [
+       11.303,
+       11.548,
+       "Someone"
+      ],
+      [
+       11.56,
+       12.148,
+       "plans,"
+      ],
+      [
+       12.357,
+       12.933,
+       "builds,"
+      ],
+      [
+       13.153,
+       13.803,
+       "renders,"
+      ],
+      [
+       13.889,
+       14.391,
+       "judges,"
+      ],
+      [
+       14.403,
+       14.526,
+       "and"
+      ],
+      [
+       14.538,
+       15.163,
+       "ships."
+      ]
+     ]
+    }
+   ],
+   "dur": 15.791
+  },
+  {
+   "id": "s04",
+   "type": "post",
+   "theme": "mint",
+   "chapter": "The news",
+   "label": "Why Grok Bot",
+   "title": "You don't pick the model",
+   "data": {
+    "author": "Elon Musk",
+    "handle": "@elonmusk",
+    "date": "Oct 7, 2026",
+    "avatar": "EM",
+    "text": "Important note regarding Grok @Bot: Going forward, @SpaceX will use the *best back end model for any given task*, including *Claude Opus 5.5*, MidJourney, Suno and other leading APIs.",
+    "hlAt": [
+     "best back end",
+     "Claude Opus"
+    ],
+    "side": {
+     "title": "What it means",
+     "items": [
+      {
+       "text": "Simple requests",
+       "sub": "→ small, fast models",
+       "at": "Simple"
+      },
+      {
+       "text": "Hard requests",
+       "sub": "→ large models like Opus 5.5",
+       "at": "hard ones"
+      }
+     ]
+    },
+    "source": "x.com/elonmusk/status/2107724314451878104"
+   },
+   "start": 32.526,
+   "lines": [
+    {
+     "text": "On October seventh, Elon Musk posted that Grok Bot will use the best back end model for any given task.",
+     "s": 0.35,
+     "e": 6.499,
+     "w": [
+      [
+       0.315,
+       0.388,
+       "On"
+      ],
+      [
+       0.388,
+       0.817,
+       "October"
+      ],
+      [
+       0.83,
+       1.332,
+       "seventh,"
+      ],
+      [
+       1.565,
+       1.92,
+       "Elon"
+      ],
+      [
+       1.92,
+       2.165,
+       "Musk"
+      ],
+      [
+       2.165,
+       2.521,
+       "posted"
+      ],
+      [
+       2.521,
+       2.692,
+       "that"
+      ],
+      [
+       2.692,
+       3.084,
+       "Grok"
+      ],
+      [
+       3.084,
+       3.28,
+       "Bot"
+      ],
+      [
+       3.293,
+       3.391,
+       "will"
+      ],
+      [
+       3.403,
+       3.648,
+       "use"
+      ],
+      [
+       3.648,
+       3.758,
+       "the"
+      ],
+      [
+       3.771,
+       4.102,
+       "best"
+      ],
+      [
+       4.114,
+       4.432,
+       "back"
+      ],
+      [
+       4.567,
+       4.702,
+       "end"
+      ],
+      [
+       4.702,
+       5.045,
+       "model"
+      ],
+      [
+       5.168,
+       5.364,
+       "for"
+      ],
+      [
+       5.511,
+       5.707,
+       "any"
+      ],
+      [
+       5.707,
+       5.928,
+       "given"
+      ],
+      [
+       5.928,
+       6.479,
+       "task."
+      ]
+     ]
+    },
+    {
+     "text": "That includes Claude Opus 5.5. Simple requests go to small models, hard ones to large models.",
+     "s": 6.799,
+     "e": 14.327,
+     "w": [
+      [
+       6.753,
+       6.863,
+       "That"
+      ],
+      [
+       6.863,
+       7.317,
+       "includes"
+      ],
+      [
+       7.329,
+       7.831,
+       "Claude"
+      ],
+      [
+       7.991,
+       8.383,
+       "Opus"
+      ],
+      [
+       8.53,
+       9.694,
+       "5.5."
+      ],
+      [
+       10.099,
+       10.405,
+       "Simple"
+      ],
+      [
+       10.417,
+       10.883,
+       "requests"
+      ],
+      [
+       10.895,
+       11.018,
+       "go"
+      ],
+      [
+       11.018,
+       11.079,
+       "to"
+      ],
+      [
+       11.079,
+       11.483,
+       "small"
+      ],
+      [
+       11.483,
+       12.059,
+       "models,"
+      ],
+      [
+       12.415,
+       12.709,
+       "hard"
+      ],
+      [
+       12.709,
+       13.126,
+       "ones"
+      ],
+      [
+       13.273,
+       13.383,
+       "to"
+      ],
+      [
+       13.383,
+       13.763,
+       "large"
+      ],
+      [
+       13.763,
+       14.327,
+       "models."
+      ]
+     ]
+    }
+   ],
+   "dur": 14.927
+  },
+  {
+   "id": "s05",
+   "type": "statement",
+   "theme": "mint",
+   "chapter": "The news",
+   "trans": "cut",
+   "data": {
+    "eyebrow": "The catch",
+    "lines": [
+     {
+      "text": "No model picker.",
+      "at": "picker"
+     },
+     {
+      "text": "No effort dial.",
+      "at": "effort"
+     },
+     {
+      "text": "Replace it with *structure*.",
+      "at": "replace"
+     }
+    ]
+   },
+   "start": 47.453,
+   "lines": [
+    {
+     "text": "Here's the catch.",
+     "s": 0.35,
+     "e": 1.072,
+     "w": [
+      [
+       0.308,
+       0.492,
+       "Here's"
+      ],
+      [
+       0.492,
+       0.566,
+       "the"
+      ],
+      [
+       0.566,
+       1.031,
+       "catch."
+      ]
+     ]
+    },
+    {
+     "text": "There's no model picker, and no effort dial. So you replace the missing dial with structure.",
+     "s": 1.372,
+     "e": 6.455,
+     "w": [
+      [
+       1.327,
+       1.474,
+       "There's"
+      ],
+      [
+       1.487,
+       1.646,
+       "no"
+      ],
+      [
+       1.646,
+       1.965,
+       "model"
+      ],
+      [
+       1.965,
+       2.393,
+       "picker,"
+      ],
+      [
+       2.663,
+       2.773,
+       "and"
+      ],
+      [
+       2.773,
+       2.982,
+       "no"
+      ],
+      [
+       2.994,
+       3.288,
+       "effort"
+      ],
+      [
+       3.288,
+       3.705,
+       "dial."
+      ],
+      [
+       4.097,
+       4.207,
+       "So"
+      ],
+      [
+       4.207,
+       4.317,
+       "you"
+      ],
+      [
+       4.317,
+       4.771,
+       "replace"
+      ],
+      [
+       4.771,
+       4.869,
+       "the"
+      ],
+      [
+       4.881,
+       5.384,
+       "missing"
+      ],
+      [
+       5.384,
+       5.715,
+       "dial"
+      ],
+      [
+       5.715,
+       5.813,
+       "with"
+      ],
+      [
+       5.825,
+       6.438,
+       "structure."
+      ]
+     ]
+    }
+   ],
+   "dur": 7.055
+  },
+  {
+   "id": "s06",
+   "type": "flow",
+   "theme": "lavender",
+   "chapter": "Ground rules",
+   "label": "The machine",
+   "title": "One computer, shared by every bot",
+   "data": {
+    "cols": [
+     [
+      {
+       "id": "d",
+       "cast": "director",
+       "at": "Every bot"
+      },
+      {
+       "id": "a",
+       "cast": "animator",
+       "at": "Every bot"
+      },
+      {
+       "id": "r",
+       "cast": "render",
+       "at": "Every bot"
+      },
+      {
+       "id": "c",
+       "cast": "critic",
+       "at": "Every bot"
+      },
+      {
+       "id": "v",
+       "cast": "delivery",
+       "at": "Every bot"
+      }
+     ],
+     [
+      {
+       "id": "f",
+       "label": "Same files",
+       "sub": "/workspace",
+       "color": "#f5c451",
+       "at": "Same files"
+      },
+      {
+       "id": "l",
+       "label": "Same logins",
+       "sub": "browser sessions",
+       "color": "#3a86f4",
+       "at": "browser"
+      },
+      {
+       "id": "t",
+       "label": "Same terminal",
+       "sub": "bash · linux",
+       "color": "#15161c",
+       "at": "terminal"
+      }
+     ]
+    ],
+    "edges": [
+     [
+      "d",
+      "f"
+     ],
+     [
+      "a",
+      "f"
+     ],
+     [
+      "r",
+      "l"
+     ],
+     [
+      "c",
+      "t"
+     ],
+     [
+      "v",
+      "t"
+     ],
+     [
+      "d",
+      "l"
+     ],
+     [
+      "r",
+      "t"
+     ]
+    ]
+   },
+   "start": 54.508,
+   "lines": [
+    {
+     "text": "Every bot on your account shares one persistent cloud computer.",
+     "s": 0.35,
+     "e": 3.857,
+     "w": [
+      [
+       0.312,
+       0.533,
+       "Every"
+      ],
+      [
+       0.533,
+       0.851,
+       "bot"
+      ],
+      [
+       0.863,
+       0.974,
+       "on"
+      ],
+      [
+       0.974,
+       1.096,
+       "your"
+      ],
+      [
+       1.096,
+       1.464,
+       "account"
+      ],
+      [
+       1.464,
+       1.905,
+       "shares"
+      ],
+      [
+       1.991,
+       2.346,
+       "one"
+      ],
+      [
+       2.359,
+       2.996,
+       "persistent"
+      ],
+      [
+       2.996,
+       3.327,
+       "cloud"
+      ],
+      [
+       3.339,
+       3.841,
+       "computer."
+      ]
+     ]
+    },
+    {
+     "text": "Same files, same browser logins, same terminal. Closing your laptop doesn't stop any of it.",
+     "s": 4.157,
+     "e": 10.125,
+     "w": [
+      [
+       4.122,
+       4.379,
+       "Same"
+      ],
+      [
+       4.379,
+       4.955,
+       "files,"
+      ],
+      [
+       5.2,
+       5.433,
+       "same"
+      ],
+      [
+       5.446,
+       5.887,
+       "browser"
+      ],
+      [
+       5.887,
+       6.487,
+       "logins,"
+      ],
+      [
+       6.732,
+       7.014,
+       "same"
+      ],
+      [
+       7.014,
+       7.529,
+       "terminal."
+      ],
+      [
+       7.933,
+       8.215,
+       "Closing"
+      ],
+      [
+       8.215,
+       8.325,
+       "your"
+      ],
+      [
+       8.325,
+       8.926,
+       "laptop"
+      ],
+      [
+       9.036,
+       9.294,
+       "doesn't"
+      ],
+      [
+       9.294,
+       9.637,
+       "stop"
+      ],
+      [
+       9.649,
+       9.845,
+       "any"
+      ],
+      [
+       9.857,
+       9.955,
+       "of"
+      ],
+      [
+       9.955,
+       10.115,
+       "it."
+      ]
+     ]
+    }
+   ],
+   "dur": 10.725
+  },
+  {
+   "id": "s07",
+   "type": "versus",
+   "theme": "lavender",
+   "chapter": "Ground rules",
+   "label": "The fine print",
+   "title": "Files survive. Installs don't.",
+   "trans": "slide",
+   "data": {
+    "left": {
+     "title": "Lost on update",
+     "tag": "GONE",
+     "items": [
+      {
+       "text": "Installed packages",
+       "at": "packages"
+      },
+      {
+       "text": "Apps and background services",
+       "at": "background"
+      },
+      {
+       "text": "Anything running when it sleeps",
+       "at": "sleeps"
+      }
+     ]
+    },
+    "right": {
+     "title": "Survives",
+     "tag": "KEPT",
+     "items": [
+      {
+       "text": "Files in /workspace",
+       "at": "files"
+      },
+      {
+       "text": "Browser logins",
+       "at": "logins"
+      }
+     ]
+    }
+   },
+   "start": 65.233,
+   "lines": [
+    {
+     "text": "But read the fine print. Your files and logins survive updates.",
+     "s": 0.35,
+     "e": 4.338,
+     "w": [
+      [
+       0.305,
+       0.464,
+       "But"
+      ],
+      [
+       0.477,
+       0.685,
+       "read"
+      ],
+      [
+       0.697,
+       0.758,
+       "the"
+      ],
+      [
+       0.771,
+       1.089,
+       "fine"
+      ],
+      [
+       1.089,
+       1.469,
+       "print."
+      ],
+      [
+       1.874,
+       1.947,
+       "Your"
+      ],
+      [
+       1.947,
+       2.388,
+       "files"
+      ],
+      [
+       2.401,
+       2.523,
+       "and"
+      ],
+      [
+       2.523,
+       3.124,
+       "logins"
+      ],
+      [
+       3.246,
+       3.687,
+       "survive"
+      ],
+      [
+       3.687,
+       4.312,
+       "updates."
+      ]
+     ]
+    },
+    {
+     "text": "Installed packages, apps and background services don't. And the computer sleeps when it's idle.",
+     "s": 4.638,
+     "e": 10.407,
+     "w": [
+      [
+       4.589,
+       5.042,
+       "Installed"
+      ],
+      [
+       5.042,
+       5.728,
+       "packages,"
+      ],
+      [
+       5.925,
+       6.341,
+       "apps"
+      ],
+      [
+       6.464,
+       6.586,
+       "and"
+      ],
+      [
+       6.599,
+       7.224,
+       "background"
+      ],
+      [
+       7.224,
+       7.714,
+       "services"
+      ],
+      [
+       7.714,
+       8.081,
+       "don't."
+      ],
+      [
+       8.461,
+       8.523,
+       "And"
+      ],
+      [
+       8.523,
+       8.584,
+       "the"
+      ],
+      [
+       8.584,
+       9.025,
+       "computer"
+      ],
+      [
+       9.025,
+       9.65,
+       "sleeps"
+      ],
+      [
+       9.76,
+       9.858,
+       "when"
+      ],
+      [
+       9.871,
+       9.981,
+       "it's"
+      ],
+      [
+       9.993,
+       10.385,
+       "idle."
+      ]
+     ]
+    }
+   ],
+   "dur": 11.007
+  },
+  {
+   "id": "s08",
+   "type": "terminal",
+   "theme": "lavender",
+   "chapter": "Ground rules",
+   "label": "Design for it",
+   "title": "No daemons. Everything restartable.",
+   "data": {
+    "list": {
+     "title": "bootstrap.sh installs",
+     "items": [
+      {
+       "text": "FFmpeg",
+       "sub": "encode · blend · mix",
+       "at": "FFmpeg"
+      },
+      {
+       "text": "Python",
+       "sub": "beat grid · analysis",
+       "at": "Python"
+      },
+      {
+       "text": "Headless browser",
+       "sub": "frame capture",
+       "at": "headless"
+      }
+     ]
+    },
+    "term": {
+     "title": "/workspace/studio",
+     "cmd": "bash bootstrap.sh",
+     "at": "bootstrap",
+     "out": [
+      {
+       "text": "  ✓ ffmpeg 7.1",
+       "cls": "g",
+       "at": "FFmpeg"
+      },
+      {
+       "text": "  ✓ python 3.12",
+       "cls": "g",
+       "at": "Python"
+      },
+      {
+       "text": "  ✓ chromium headless",
+       "cls": "g",
+       "at": "headless"
+      },
+      {
+       "text": "$ node render.mjs film_017 --resume",
+       "cls": "p",
+       "at": "resumable"
+      },
+      {
+       "text": "  resuming at frame 577 (576 on disk)",
+       "cls": "y",
+       "at": "nap"
+      }
+     ],
+     "progress": {
+      "label": "{3600} frames",
+      "at": "nap"
+     }
+    }
+   },
+   "start": 76.24,
+   "lines": [
+    {
+     "text": "So, one bootstrap script reinstalls FFmpeg, Python and a headless browser in one command.",
+     "s": 0.35,
+     "e": 6.441,
+     "w": [
+      [
+       0.317,
+       0.537,
+       "So,"
+      ],
+      [
+       0.55,
+       0.807,
+       "one"
+      ],
+      [
+       0.807,
+       1.297,
+       "bootstrap"
+      ],
+      [
+       1.309,
+       1.689,
+       "script"
+      ],
+      [
+       1.689,
+       2.535,
+       "reinstalls"
+      ],
+      [
+       2.608,
+       3.552,
+       "FFmpeg,"
+      ],
+      [
+       3.822,
+       4.447,
+       "Python"
+      ],
+      [
+       4.557,
+       4.643,
+       "and"
+      ],
+      [
+       4.643,
+       4.68,
+       "a"
+      ],
+      [
+       4.68,
+       5.059,
+       "headless"
+      ],
+      [
+       5.059,
+       5.574,
+       "browser"
+      ],
+      [
+       5.586,
+       5.721,
+       "in"
+      ],
+      [
+       5.721,
+       5.917,
+       "one"
+      ],
+      [
+       5.917,
+       6.42,
+       "command."
+      ]
+     ]
+    },
+    {
+     "text": "And every render must be resumable, so a nap at three a.m. costs minutes, not the whole job.",
+     "s": 6.741,
+     "e": 12.735,
+     "w": [
+      [
+       6.704,
+       6.9,
+       "And"
+      ],
+      [
+       6.913,
+       7.219,
+       "every"
+      ],
+      [
+       7.231,
+       7.648,
+       "render"
+      ],
+      [
+       7.795,
+       8.028,
+       "must"
+      ],
+      [
+       8.028,
+       8.15,
+       "be"
+      ],
+      [
+       8.15,
+       8.714,
+       "resumable,"
+      ],
+      [
+       9.094,
+       9.229,
+       "so"
+      ],
+      [
+       9.229,
+       9.266,
+       "a"
+      ],
+      [
+       9.278,
+       9.547,
+       "nap"
+      ],
+      [
+       9.547,
+       9.621,
+       "at"
+      ],
+      [
+       9.621,
+       9.964,
+       "three"
+      ],
+      [
+       9.964,
+       10.393,
+       "a.m."
+      ],
+      [
+       10.503,
+       10.871,
+       "costs"
+      ],
+      [
+       10.883,
+       11.386,
+       "minutes,"
+      ],
+      [
+       11.778,
+       11.986,
+       "not"
+      ],
+      [
+       11.986,
+       12.047,
+       "the"
+      ],
+      [
+       12.06,
+       12.292,
+       "whole"
+      ],
+      [
+       12.293,
+       12.697,
+       "job."
+      ]
+     ]
+    }
+   ],
+   "dur": 13.335
+  },
+  {
+   "id": "s09",
+   "type": "stats",
+   "theme": "sky",
+   "chapter": "Ground rules",
+   "label": "The hardware",
+   "title": "Why code beats a 3D renderer here",
+   "data": {
+    "items": [
+     {
+      "label": "CPU",
+      "value": 8,
+      "prefix": "~",
+      "suffix": " cores",
+      "at": "eight"
+     },
+     {
+      "label": "RAM",
+      "value": 16,
+      "prefix": "~",
+      "suffix": " GB",
+      "at": "sixteen"
+     },
+     {
+      "label": "GPU",
+      "value": "none",
+      "tone": "bad",
+      "sub": "so: HTML · CSS · SVG",
+      "at": "no GPU"
+     }
+    ],
+    "source": "user reports, not official specs"
+   },
+   "start": 89.575,
+   "lines": [
+    {
+     "text": "Users report about eight CPU cores, sixteen gigs of RAM, and no GPU.",
+     "s": 0.35,
+     "e": 5.72,
+     "w": [
+      [
+       0.314,
+       0.645,
+       "Users"
+      ],
+      [
+       0.645,
+       1.037,
+       "report"
+      ],
+      [
+       1.086,
+       1.392,
+       "about"
+      ],
+      [
+       1.54,
+       1.662,
+       "eight"
+      ],
+      [
+       1.674,
+       2.263,
+       "CPU"
+      ],
+      [
+       2.263,
+       2.863,
+       "cores,"
+      ],
+      [
+       3.096,
+       3.647,
+       "sixteen"
+      ],
+      [
+       3.647,
+       3.905,
+       "gigs"
+      ],
+      [
+       3.905,
+       4.003,
+       "of"
+      ],
+      [
+       4.003,
+       4.395,
+       "RAM,"
+      ],
+      [
+       4.787,
+       4.91,
+       "and"
+      ],
+      [
+       4.91,
+       5.081,
+       "no"
+      ],
+      [
+       5.081,
+       5.682,
+       "GPU."
+      ]
+     ]
+    },
+    {
+     "text": "So you animate with HTML, CSS and SVG. The bottleneck isn't the model. It's capturing frames.",
+     "s": 6.02,
+     "e": 13.313,
+     "w": [
+      [
+       5.973,
+       6.083,
+       "So"
+      ],
+      [
+       6.083,
+       6.218,
+       "you"
+      ],
+      [
+       6.218,
+       6.549,
+       "animate"
+      ],
+      [
+       6.549,
+       6.659,
+       "with"
+      ],
+      [
+       6.671,
+       7.333,
+       "HTML,"
+      ],
+      [
+       7.762,
+       8.595,
+       "CSS"
+      ],
+      [
+       8.608,
+       8.926,
+       "and"
+      ],
+      [
+       9.024,
+       9.625,
+       "SVG."
+      ],
+      [
+       10.029,
+       10.103,
+       "The"
+      ],
+      [
+       10.115,
+       10.752,
+       "bottleneck"
+      ],
+      [
+       10.911,
+       11.095,
+       "isn't"
+      ],
+      [
+       11.095,
+       11.157,
+       "the"
+      ],
+      [
+       11.157,
+       11.61,
+       "model."
+      ],
+      [
+       12.014,
+       12.125,
+       "It's"
+      ],
+      [
+       12.137,
+       12.639,
+       "capturing"
+      ],
+      [
+       12.652,
+       13.301,
+       "frames."
+      ]
+     ]
+    }
+   ],
+   "dur": 13.913
+  },
+  {
+   "id": "s10",
+   "type": "rules",
+   "theme": "lilac",
+   "chapter": "1 · House style",
+   "step": 1,
+   "label": "House style",
+   "title": "Write the rules down once",
+   "data": {
+    "file": "house-style · SKILL.md",
+    "tag": "SHARED BY ALL BOTS",
+    "items": [
+     {
+      "text": "Every frame is a *pure function of time*",
+      "code": "render(t)",
+      "at": "pure"
+     },
+     {
+      "text": "Fonts load from files",
+      "code": "fonts/*.woff2",
+      "at": "Fonts"
+     },
+     {
+      "text": "Something new every 2–4 seconds",
+      "code": "no dead air",
+      "at": "Something"
+     }
+    ]
+   },
+   "start": 103.488,
+   "lines": [
+    {
+     "text": "Step one. Write the studio's rules down once, as a skill every bot shares.",
+     "s": 0.35,
+     "e": 5.392,
+     "w": [
+      [
+       0.306,
+       0.539,
+       "Step"
+      ],
+      [
+       0.539,
+       0.809,
+       "one."
+      ],
+      [
+       1.201,
+       1.348,
+       "Write"
+      ],
+      [
+       1.36,
+       1.433,
+       "the"
+      ],
+      [
+       1.446,
+       1.924,
+       "studio's"
+      ],
+      [
+       1.936,
+       2.206,
+       "rules"
+      ],
+      [
+       2.218,
+       2.5,
+       "down"
+      ],
+      [
+       2.5,
+       3.027,
+       "once,"
+      ],
+      [
+       3.272,
+       3.406,
+       "as"
+      ],
+      [
+       3.407,
+       3.456,
+       "a"
+      ],
+      [
+       3.468,
+       3.946,
+       "skill"
+      ],
+      [
+       4.215,
+       4.46,
+       "every"
+      ],
+      [
+       4.473,
+       4.73,
+       "bot"
+      ],
+      [
+       4.742,
+       5.38,
+       "shares."
+      ]
+     ]
+    },
+    {
+     "text": "Every frame is a pure function of time. Fonts load from files. Something new appears every two to four seconds.",
+     "s": 5.692,
+     "e": 13.237,
+     "w": [
+      [
+       5.651,
+       5.908,
+       "Every"
+      ],
+      [
+       5.908,
+       6.435,
+       "frame"
+      ],
+      [
+       6.619,
+       6.704,
+       "is"
+      ],
+      [
+       6.704,
+       6.778,
+       "a"
+      ],
+      [
+       6.778,
+       7.207,
+       "pure"
+      ],
+      [
+       7.219,
+       7.624,
+       "function"
+      ],
+      [
+       7.624,
+       7.709,
+       "of"
+      ],
+      [
+       7.709,
+       8.101,
+       "time."
+      ],
+      [
+       8.518,
+       8.702,
+       "Fonts"
+      ],
+      [
+       8.702,
+       8.935,
+       "load"
+      ],
+      [
+       8.935,
+       9.07,
+       "from"
+      ],
+      [
+       9.082,
+       9.682,
+       "files."
+      ],
+      [
+       10.075,
+       10.418,
+       "Something"
+      ],
+      [
+       10.418,
+       10.601,
+       "new"
+      ],
+      [
+       10.601,
+       11.19,
+       "appears"
+      ],
+      [
+       11.325,
+       11.606,
+       "every"
+      ],
+      [
+       11.606,
+       12.048,
+       "two"
+      ],
+      [
+       12.182,
+       12.305,
+       "to"
+      ],
+      [
+       12.305,
+       12.611,
+       "four"
+      ],
+      [
+       12.611,
+       13.224,
+       "seconds."
+      ]
+     ]
+    }
+   ],
+   "dur": 13.837
+  },
+  {
+   "id": "s11",
+   "type": "versus",
+   "theme": "lilac",
+   "chapter": "1 · House style",
+   "step": 1,
+   "label": "The ban list",
+   "title": "Ban defaults by name",
+   "trans": "slide",
+   "data": {
+    "left": {
+     "title": "Banned",
+     "tag": "5 RULES",
+     "items": [
+      {
+       "text": "Centered title on a gradient",
+       "at": "Centered"
+      },
+      {
+       "text": "Everything fading in at once",
+       "at": "fading"
+      },
+      {
+       "text": "Particle bursts",
+       "at": "Particle"
+      },
+      {
+       "text": "Bouncy easing",
+       "at": "Bouncy"
+      },
+      {
+       "text": "Dead air",
+       "at": "Models"
+      }
+     ]
+    },
+    "verdict": {
+     "text": "Every new cliché gets *its own line*",
+     "at": "every new"
+    }
+   },
+   "start": 117.325,
+   "lines": [
+    {
+     "text": "Then a ban list. Centered titles on gradients. Everything fading in at once. Particle bursts. Bouncy easing.",
+     "s": 0.35,
+     "e": 7.802,
+     "w": [
+      [
+       0.313,
+       0.399,
+       "Then"
+      ],
+      [
+       0.399,
+       0.448,
+       "a"
+      ],
+      [
+       0.46,
+       0.779,
+       "ban"
+      ],
+      [
+       0.791,
+       1.22,
+       "list."
+      ],
+      [
+       1.624,
+       1.918,
+       "Centered"
+      ],
+      [
+       1.918,
+       2.36,
+       "titles"
+      ],
+      [
+       2.372,
+       2.47,
+       "on"
+      ],
+      [
+       2.482,
+       3.242,
+       "gradients."
+      ],
+      [
+       3.622,
+       4.063,
+       "Everything"
+      ],
+      [
+       4.063,
+       4.529,
+       "fading"
+      ],
+      [
+       4.541,
+       4.627,
+       "in"
+      ],
+      [
+       4.639,
+       4.713,
+       "at"
+      ],
+      [
+       4.725,
+       5.276,
+       "once."
+      ],
+      [
+       5.656,
+       5.95,
+       "Particle"
+      ],
+      [
+       5.963,
+       6.526,
+       "bursts."
+      ],
+      [
+       6.943,
+       7.335,
+       "Bouncy"
+      ],
+      [
+       7.347,
+       7.776,
+       "easing."
+      ]
+     ]
+    },
+    {
+     "text": "Models swap one default for another, so every new cliché gets its own line.",
+     "s": 8.102,
+     "e": 12.721,
+     "w": [
+      [
+       8.051,
+       8.369,
+       "Models"
+      ],
+      [
+       8.382,
+       8.713,
+       "swap"
+      ],
+      [
+       8.725,
+       8.933,
+       "one"
+      ],
+      [
+       8.933,
+       9.374,
+       "default"
+      ],
+      [
+       9.374,
+       9.558,
+       "for"
+      ],
+      [
+       9.558,
+       9.913,
+       "another,"
+      ],
+      [
+       10.281,
+       10.489,
+       "so"
+      ],
+      [
+       10.502,
+       10.796,
+       "every"
+      ],
+      [
+       10.796,
+       11.065,
+       "new"
+      ],
+      [
+       11.078,
+       11.813,
+       "cliché"
+      ],
+      [
+       11.911,
+       12.07,
+       "gets"
+      ],
+      [
+       12.083,
+       12.205,
+       "its"
+      ],
+      [
+       12.205,
+       12.364,
+       "own"
+      ],
+      [
+       12.364,
+       12.683,
+       "line."
+      ]
+     ]
+    }
+   ],
+   "dur": 13.321
+  },
+  {
+   "id": "s12",
+   "type": "roster",
+   "theme": "paper",
+   "chapter": "2 · Five roles",
+   "step": 2,
+   "label": "The roster",
+   "title": "Five bots, one job each",
+   "data": {
+    "items": [
+     {
+      "cast": "director",
+      "role": "PLAN",
+      "desc": "Request → storyboard",
+      "lines": [
+       "Brief",
+       "Storyboard",
+       "Delivery"
+      ],
+      "at": "Director"
+     },
+     {
+      "cast": "animator",
+      "role": "BUILD",
+      "desc": "Writes the film as code",
+      "code": "frame(t) {\n  x = spring(t)\n  draw(x)\n}",
+      "at": "Animator"
+     },
+     {
+      "cast": "render",
+      "role": "RENDER",
+      "desc": "The *only* one who renders",
+      "lines": [
+       "job 1 · done",
+       "job 2 · rendering",
+       "job 3 · queued"
+      ],
+      "at": "Renderer"
+     },
+     {
+      "cast": "critic",
+      "role": "JUDGE",
+      "desc": "Scores. Never writes code.",
+      "big": "8.6",
+      "at": "Critic"
+     },
+     {
+      "cast": "delivery",
+      "role": "SHIP",
+      "desc": "Hands you the file",
+      "lines": [
+       "film.mp4",
+       "08:00 · sent"
+      ],
+      "at": "Delivery"
+     }
+    ]
+   },
+   "start": 130.646,
+   "lines": [
+    {
+     "text": "Step two. The Director turns your request into a storyboard. The Animator writes the film as code.",
+     "s": 0.35,
+     "e": 6.335,
+     "w": [
+      [
+       0.309,
+       0.554,
+       "Step"
+      ],
+      [
+       0.566,
+       0.885,
+       "two."
+      ],
+      [
+       1.289,
+       1.338,
+       "The"
+      ],
+      [
+       1.338,
+       1.878,
+       "Director"
+      ],
+      [
+       1.89,
+       2.209,
+       "turns"
+      ],
+      [
+       2.221,
+       2.331,
+       "your"
+      ],
+      [
+       2.331,
+       3.03,
+       "request"
+      ],
+      [
+       3.189,
+       3.385,
+       "into"
+      ],
+      [
+       3.397,
+       3.446,
+       "a"
+      ],
+      [
+       3.459,
+       4.071,
+       "storyboard."
+      ],
+      [
+       4.451,
+       4.512,
+       "The"
+      ],
+      [
+       4.525,
+       5.076,
+       "Animator"
+      ],
+      [
+       5.076,
+       5.358,
+       "writes"
+      ],
+      [
+       5.358,
+       5.444,
+       "the"
+      ],
+      [
+       5.456,
+       5.811,
+       "film"
+      ],
+      [
+       5.812,
+       5.922,
+       "as"
+      ],
+      [
+       5.922,
+       6.326,
+       "code."
+      ]
+     ]
+    },
+    {
+     "text": "The Renderer is the only one allowed to render. The Critic scores and never writes code. Delivery hands you the file.",
+     "s": 6.635,
+     "e": 13.581,
+     "w": [
+      [
+       6.59,
+       6.664,
+       "The"
+      ],
+      [
+       6.664,
+       7.166,
+       "Renderer"
+      ],
+      [
+       7.301,
+       7.411,
+       "is"
+      ],
+      [
+       7.411,
+       7.534,
+       "the"
+      ],
+      [
+       7.619,
+       7.938,
+       "only"
+      ],
+      [
+       7.938,
+       8.183,
+       "one"
+      ],
+      [
+       8.183,
+       8.624,
+       "allowed"
+      ],
+      [
+       8.624,
+       8.698,
+       "to"
+      ],
+      [
+       8.698,
+       9.188,
+       "render."
+      ],
+      [
+       9.605,
+       9.654,
+       "The"
+      ],
+      [
+       9.654,
+       9.899,
+       "Critic"
+      ],
+      [
+       9.899,
+       10.536,
+       "scores"
+      ],
+      [
+       10.72,
+       10.891,
+       "and"
+      ],
+      [
+       10.891,
+       11.198,
+       "never"
+      ],
+      [
+       11.198,
+       11.455,
+       "writes"
+      ],
+      [
+       11.455,
+       11.835,
+       "code."
+      ],
+      [
+       12.227,
+       12.619,
+       "Delivery"
+      ],
+      [
+       12.619,
+       12.963,
+       "hands"
+      ],
+      [
+       12.963,
+       13.024,
+       "you"
+      ],
+      [
+       13.024,
+       13.097,
+       "the"
+      ],
+      [
+       13.11,
+       13.563,
+       "file."
+      ]
+     ]
+    }
+   ],
+   "dur": 14.181
+  },
+  {
+   "id": "s13",
+   "type": "statement",
+   "theme": "paper",
+   "chapter": "2 · Five roles",
+   "step": 2,
+   "trans": "zoom",
+   "data": {
+    "eyebrow": "Why a separate critic?",
+    "lines": [
+     {
+      "text": "Anyone grading their own work",
+      "at": "anyone"
+     },
+     {
+      "text": "goes easy on it.",
+      "at": "goes"
+     }
+    ],
+    "sub": {
+     "text": "*Models included.*",
+     "at": "Models"
+    }
+   },
+   "start": 144.827,
+   "lines": [
+    {
+     "text": "Why a separate critic? Because anyone grading their own work goes easy on it. Models included.",
+     "s": 0.35,
+     "e": 5.906,
+     "w": [
+      [
+       0.302,
+       0.424,
+       "Why"
+      ],
+      [
+       0.424,
+       0.486,
+       "a"
+      ],
+      [
+       0.498,
+       0.841,
+       "separate"
+      ],
+      [
+       0.841,
+       1.233,
+       "critic?"
+      ],
+      [
+       1.638,
+       2.017,
+       "Because"
+      ],
+      [
+       2.03,
+       2.336,
+       "anyone"
+      ],
+      [
+       2.336,
+       2.667,
+       "grading"
+      ],
+      [
+       2.667,
+       2.802,
+       "their"
+      ],
+      [
+       2.802,
+       3.133,
+       "own"
+      ],
+      [
+       3.28,
+       3.525,
+       "work"
+      ],
+      [
+       3.525,
+       3.794,
+       "goes"
+      ],
+      [
+       3.892,
+       4.309,
+       "easy"
+      ],
+      [
+       4.321,
+       4.481,
+       "on"
+      ],
+      [
+       4.481,
+       4.652,
+       "it."
+      ],
+      [
+       5.044,
+       5.375,
+       "Models"
+      ],
+      [
+       5.388,
+       5.89,
+       "included."
+      ]
+     ]
+    }
+   ],
+   "dur": 6.506
+  },
+  {
+   "id": "s14",
+   "type": "stepper",
+   "theme": "sand",
+   "chapter": "3 · Project folder",
+   "step": 3,
+   "label": "State",
+   "title": "The folder is the state machine",
+   "data": {
+    "steps": [
+     {
+      "label": "Brief",
+      "file": "brief.md",
+      "at": "Brief"
+     },
+     {
+      "label": "Storyboard",
+      "file": "storyboard.APPROVED",
+      "at": "storyboard"
+     },
+     {
+      "label": "Code",
+      "file": "code.READY",
+      "at": "code"
+     },
+     {
+      "label": "Final pass",
+      "file": "final.PASS",
+      "at": "final"
+     },
+     {
+      "label": "Delivered",
+      "file": "delivered.mp4",
+      "at": "delivered"
+     }
+    ],
+    "caption": {
+     "text": "Bots forget. Chats scroll away. *Files don't.*",
+     "at": "Files"
+    }
+   },
+   "start": 151.333,
+   "lines": [
+    {
+     "text": "Step three. Bots forget. Chats scroll away. Files don't.",
+     "s": 0.35,
+     "e": 4.384,
+     "w": [
+      [
+       0.313,
+       0.558,
+       "Step"
+      ],
+      [
+       0.558,
+       1.036,
+       "three."
+      ],
+      [
+       1.441,
+       1.6,
+       "Bots"
+      ],
+      [
+       1.6,
+       1.967,
+       "forget."
+      ],
+      [
+       2.347,
+       2.556,
+       "Chats"
+      ],
+      [
+       2.568,
+       2.874,
+       "scroll"
+      ],
+      [
+       2.874,
+       3.205,
+       "away."
+      ],
+      [
+       3.683,
+       4.014,
+       "Files"
+      ],
+      [
+       4.014,
+       4.369,
+       "don't."
+      ]
+     ]
+    },
+    {
+     "text": "Every stage is a file. Brief, storyboard approved, code ready, final pass, delivered.",
+     "s": 4.684,
+     "e": 10.704,
+     "w": [
+      [
+       4.645,
+       4.866,
+       "Every"
+      ],
+      [
+       4.866,
+       5.478,
+       "stage"
+      ],
+      [
+       5.589,
+       5.699,
+       "is"
+      ],
+      [
+       5.699,
+       5.736,
+       "a"
+      ],
+      [
+       5.748,
+       6.226,
+       "file."
+      ],
+      [
+       6.63,
+       7.035,
+       "Brief,"
+      ],
+      [
+       7.255,
+       7.709,
+       "storyboard"
+      ],
+      [
+       7.709,
+       8.236,
+       "approved,"
+      ],
+      [
+       8.444,
+       8.763,
+       "code"
+      ],
+      [
+       8.763,
+       9.143,
+       "ready,"
+      ],
+      [
+       9.326,
+       9.67,
+       "final"
+      ],
+      [
+       9.682,
+       10.16,
+       "pass,"
+      ],
+      [
+       10.209,
+       10.687,
+       "delivered."
+      ]
+     ]
+    }
+   ],
+   "dur": 11.304
+  },
+  {
+   "id": "s15",
+   "type": "grid",
+   "theme": "paper",
+   "chapter": "4 · Storyboard gate",
+   "step": 4,
+   "label": "Storyboard gate",
+   "title": "Approve the plan, then build",
+   "data": {
+    "cols": 4,
+    "items": [
+     {
+      "label": "Pill idle",
+      "glyph": "pill"
+     },
+     {
+      "label": "Shrink",
+      "glyph": "dot"
+     },
+     {
+      "label": "Spinner",
+      "glyph": "spinner"
+     },
+     {
+      "label": "Check",
+      "glyph": "check"
+     },
+     {
+      "label": "Player",
+      "glyph": "play"
+     },
+     {
+      "label": "Progress",
+      "glyph": "bar"
+     },
+     {
+      "label": "Type",
+      "glyph": "text:Aa"
+     },
+     {
+      "label": "Done",
+      "glyph": "done"
+     }
+    ],
+    "footer": {
+     "text": "Nothing gets built until *you approve it*",
+     "button": "Approve",
+     "at": "nothing"
+    }
+   },
+   "start": 162.637,
+   "lines": [
+    {
+     "text": "Step four. Show the state list on the beat grid before writing any code.",
+     "s": 0.35,
+     "e": 4.821,
+     "w": [
+      [
+       0.306,
+       0.539,
+       "Step"
+      ],
+      [
+       0.551,
+       0.955,
+       "four."
+      ],
+      [
+       1.335,
+       1.495,
+       "Show"
+      ],
+      [
+       1.507,
+       1.58,
+       "the"
+      ],
+      [
+       1.593,
+       1.862,
+       "state"
+      ],
+      [
+       1.862,
+       2.205,
+       "list"
+      ],
+      [
+       2.205,
+       2.291,
+       "on"
+      ],
+      [
+       2.291,
+       2.389,
+       "the"
+      ],
+      [
+       2.45,
+       2.683,
+       "beat"
+      ],
+      [
+       2.683,
+       3.051,
+       "grid"
+      ],
+      [
+       3.063,
+       3.517,
+       "before"
+      ],
+      [
+       3.529,
+       4.019,
+       "writing"
+      ],
+      [
+       4.166,
+       4.362,
+       "any"
+      ],
+      [
+       4.374,
+       4.791,
+       "code."
+      ]
+     ]
+    },
+    {
+     "text": "Fixing a line costs one message. Fixing a finished scene costs a rewrite. So nothing gets built until you approve it.",
+     "s": 5.121,
+     "e": 12.61,
+     "w": [
+      [
+       5.115,
+       5.385,
+       "Fixing"
+      ],
+      [
+       5.385,
+       5.434,
+       "a"
+      ],
+      [
+       5.446,
+       5.838,
+       "line"
+      ],
+      [
+       6.108,
+       6.549,
+       "costs"
+      ],
+      [
+       6.549,
+       6.917,
+       "one"
+      ],
+      [
+       6.917,
+       7.505,
+       "message."
+      ],
+      [
+       7.946,
+       8.228,
+       "Fixing"
+      ],
+      [
+       8.228,
+       8.277,
+       "a"
+      ],
+      [
+       8.277,
+       8.669,
+       "finished"
+      ],
+      [
+       8.669,
+       9.073,
+       "scene"
+      ],
+      [
+       9.306,
+       9.649,
+       "costs"
+      ],
+      [
+       9.662,
+       9.711,
+       "a"
+      ],
+      [
+       9.711,
+       10.213,
+       "rewrite."
+      ],
+      [
+       10.617,
+       10.74,
+       "So"
+      ],
+      [
+       10.752,
+       11.046,
+       "nothing"
+      ],
+      [
+       11.046,
+       11.206,
+       "gets"
+      ],
+      [
+       11.206,
+       11.549,
+       "built"
+      ],
+      [
+       11.647,
+       11.929,
+       "until"
+      ],
+      [
+       11.929,
+       12.051,
+       "you"
+      ],
+      [
+       12.051,
+       12.419,
+       "approve"
+      ],
+      [
+       12.419,
+       12.591,
+       "it."
+      ]
+     ]
+    }
+   ],
+   "dur": 13.21
+  },
+  {
+   "id": "s16",
+   "type": "terminal",
+   "theme": "ice",
+   "chapter": "5 · Render pipeline",
+   "step": 5,
+   "label": "Rendering",
+   "title": "Every frame, drawn on demand",
+   "data": {
+    "term": {
+     "title": "render.mjs",
+     "cmd": "node render.mjs film_017 workers=8",
+     "at": "script",
+     "out": [
+      {
+       "text": "seek(2.100) → f000126.jpg",
+       "cls": "d",
+       "at": "exact"
+      },
+      {
+       "text": "seek(2.117) → f000127.jpg",
+       "cls": "d",
+       "at": "screenshots"
+      },
+      {
+       "text": "seek(2.133) → f000128.jpg",
+       "cls": "d",
+       "at": "moves"
+      },
+      {
+       "text": "frames/  414 / 900 on disk",
+       "cls": "y",
+       "at": "numbered"
+      },
+      {
+       "text": "restart → picks up at the first missing frame",
+       "cls": "g",
+       "at": "progress bar"
+      }
+     ],
+     "progress": {
+      "label": "{900} frames",
+      "at": "numbered"
+     }
+    }
+   },
+   "start": 175.847,
+   "lines": [
+    {
+     "text": "Step five. Rendering never plays in real time. A script asks for one exact moment, screenshots it, and moves on.",
+     "s": 0.35,
+     "e": 7.484,
+     "w": [
+      [
+       0.319,
+       0.54,
+       "Step"
+      ],
+      [
+       0.54,
+       0.956,
+       "five."
+      ],
+      [
+       1.361,
+       1.679,
+       "Rendering"
+      ],
+      [
+       1.679,
+       1.912,
+       "never"
+      ],
+      [
+       1.924,
+       2.292,
+       "plays"
+      ],
+      [
+       2.292,
+       2.402,
+       "in"
+      ],
+      [
+       2.402,
+       2.611,
+       "real"
+      ],
+      [
+       2.611,
+       2.966,
+       "time."
+      ],
+      [
+       3.358,
+       3.407,
+       "A"
+      ],
+      [
+       3.407,
+       3.701,
+       "script"
+      ],
+      [
+       3.701,
+       3.971,
+       "asks"
+      ],
+      [
+       3.983,
+       4.118,
+       "for"
+      ],
+      [
+       4.13,
+       4.326,
+       "one"
+      ],
+      [
+       4.326,
+       4.755,
+       "exact"
+      ],
+      [
+       4.755,
+       5.111,
+       "moment,"
+      ],
+      [
+       5.503,
+       6.226,
+       "screenshots"
+      ],
+      [
+       6.238,
+       6.361,
+       "it,"
+      ],
+      [
+       6.79,
+       6.875,
+       "and"
+      ],
+      [
+       6.875,
+       7.157,
+       "moves"
+      ],
+      [
+       7.157,
+       7.451,
+       "on."
+      ]
+     ]
+    },
+    {
+     "text": "Frames land on disk as numbered files. That folder is the progress bar.",
+     "s": 7.784,
+     "e": 12.659,
+     "w": [
+      [
+       7.771,
+       8.077,
+       "Frames"
+      ],
+      [
+       8.077,
+       8.359,
+       "land"
+      ],
+      [
+       8.359,
+       8.482,
+       "on"
+      ],
+      [
+       8.482,
+       8.923,
+       "disk"
+      ],
+      [
+       9.303,
+       9.437,
+       "as"
+      ],
+      [
+       9.45,
+       9.756,
+       "numbered"
+      ],
+      [
+       9.768,
+       10.406,
+       "files."
+      ],
+      [
+       10.81,
+       10.92,
+       "That"
+      ],
+      [
+       10.92,
+       11.509,
+       "folder"
+      ],
+      [
+       11.643,
+       11.741,
+       "is"
+      ],
+      [
+       11.741,
+       11.815,
+       "the"
+      ],
+      [
+       11.827,
+       12.293,
+       "progress"
+      ],
+      [
+       12.293,
+       12.636,
+       "bar."
+      ]
+     ]
+    }
+   ],
+   "dur": 13.259
+  },
+  {
+   "id": "s17",
+   "type": "stats",
+   "theme": "ice",
+   "chapter": "5 · Render pipeline",
+   "step": 5,
+   "label": "The numbers",
+   "title": "What it costs on two cores",
+   "trans": "slide",
+   "data": {
+    "items": [
+     {
+      "label": "Test box",
+      "value": 2,
+      "suffix": " cores",
+      "sub": "Linux · no GPU",
+      "at": "two-core"
+     },
+     {
+      "label": "Clip",
+      "value": 15,
+      "suffix": " s",
+      "sub": "60 fps",
+      "at": "fifteen"
+     }
+    ],
+    "bars": [
+     {
+      "label": "Draft",
+      "value": 48,
+      "suffix": " s",
+      "at": "draft"
+     },
+     {
+      "label": "Final",
+      "value": 360,
+      "suffix": " s",
+      "color": "#8b5cf6",
+      "at": "final"
+     }
+    ]
+   },
+   "start": 189.106,
+   "lines": [
+    {
+     "text": "On a two-core Linux box with no GPU, a fifteen-second test rendered as a draft in forty-eight seconds.",
+     "s": 0.35,
+     "e": 7.229,
+     "w": [
+      [
+       0.31,
+       0.408,
+       "On"
+      ],
+      [
+       0.408,
+       0.481,
+       "a"
+      ],
+      [
+       0.481,
+       0.984,
+       "two-core"
+      ],
+      [
+       0.984,
+       1.265,
+       "Linux"
+      ],
+      [
+       1.265,
+       1.719,
+       "box"
+      ],
+      [
+       1.817,
+       1.988,
+       "with"
+      ],
+      [
+       1.988,
+       2.332,
+       "no"
+      ],
+      [
+       2.332,
+       3.042,
+       "GPU,"
+      ],
+      [
+       3.435,
+       3.496,
+       "a"
+      ],
+      [
+       3.496,
+       4.403,
+       "fifteen-second"
+      ],
+      [
+       4.403,
+       4.697,
+       "test"
+      ],
+      [
+       4.697,
+       5.015,
+       "rendered"
+      ],
+      [
+       5.028,
+       5.162,
+       "as"
+      ],
+      [
+       5.162,
+       5.211,
+       "a"
+      ],
+      [
+       5.212,
+       5.812,
+       "draft"
+      ],
+      [
+       5.959,
+       6.082,
+       "in"
+      ],
+      [
+       6.094,
+       6.621,
+       "forty-eight"
+      ],
+      [
+       6.633,
+       7.234,
+       "seconds."
+      ]
+     ]
+    },
+    {
+     "text": "The final, at sixty frames with motion blur, took about six minutes.",
+     "s": 7.529,
+     "e": 11.722,
+     "w": [
+      [
+       7.483,
+       7.57,
+       "The"
+      ],
+      [
+       7.581,
+       8.06,
+       "final,"
+      ],
+      [
+       8.464,
+       8.538,
+       "at"
+      ],
+      [
+       8.538,
+       8.918,
+       "sixty"
+      ],
+      [
+       8.93,
+       9.346,
+       "frames"
+      ],
+      [
+       9.346,
+       9.444,
+       "with"
+      ],
+      [
+       9.456,
+       9.824,
+       "motion"
+      ],
+      [
+       9.824,
+       10.192,
+       "blur,"
+      ],
+      [
+       10.474,
+       10.634,
+       "took"
+      ],
+      [
+       10.634,
+       10.89,
+       "about"
+      ],
+      [
+       10.902,
+       11.184,
+       "six"
+      ],
+      [
+       11.196,
+       11.712,
+       "minutes."
+      ]
+     ]
+    }
+   ],
+   "dur": 12.322
+  },
+  {
+   "id": "s18",
+   "type": "scorecard",
+   "theme": "lilac",
+   "chapter": "6 · Critic loop",
+   "step": 6,
+   "label": "The rubric",
+   "title": "Six scores. Eight or better.",
+   "data": {
+    "file": "review_log.md",
+    "title": "Critic scorecard",
+    "rows": [
+     {
+      "label": "Hook",
+      "sub": "first 2 s",
+      "r1": 5,
+      "r2": 8,
+      "issue": "Hook is flat"
+     },
+     {
+      "label": "Readability",
+      "sub": "on a phone",
+      "r1": 6,
+      "r2": 8,
+      "issue": "Text too small"
+     },
+     {
+      "label": "Motion",
+      "r1": 8,
+      "r2": 9
+     },
+     {
+      "label": "Variety",
+      "r1": 7,
+      "r2": 8,
+      "issue": "Shots repeat"
+     },
+     {
+      "label": "Composition",
+      "r1": 9,
+      "r2": 9
+     },
+     {
+      "label": "Brand",
+      "r1": 8,
+      "r2": 9
+     }
+    ],
+    "r1At": "hook",
+    "flagAt": "three worst",
+    "r2At": "Three failed",
+    "side": [
+     {
+      "text": "Only the *3 worst* go back",
+      "sub": "Fixes stay focused",
+      "at": "three worst"
+     },
+     {
+      "text": "3 failed rounds → *it asks you*",
+      "sub": "No burning usage at 3 a.m.",
+      "at": "stops"
+     }
+    ]
+   },
+   "start": 201.428,
+   "lines": [
+    {
+     "text": "Step six. The critic scores six things: hook, readability on a phone, motion, variety, composition and brand.",
+     "s": 0.35,
+     "e": 8.763,
+     "w": [
+      [
+       0.322,
+       0.555,
+       "Step"
+      ],
+      [
+       0.555,
+       1.106,
+       "six."
+      ],
+      [
+       1.523,
+       1.584,
+       "The"
+      ],
+      [
+       1.584,
+       1.842,
+       "critic"
+      ],
+      [
+       1.854,
+       2.283,
+       "scores"
+      ],
+      [
+       2.295,
+       2.638,
+       "six"
+      ],
+      [
+       2.638,
+       3.104,
+       "things:"
+      ],
+      [
+       3.521,
+       3.79,
+       "hook,"
+      ],
+      [
+       4.219,
+       4.856,
+       "readability"
+      ],
+      [
+       4.869,
+       4.954,
+       "on"
+      ],
+      [
+       4.954,
+       4.991,
+       "a"
+      ],
+      [
+       4.991,
+       5.432,
+       "phone,"
+      ],
+      [
+       5.861,
+       6.388,
+       "motion,"
+      ],
+      [
+       6.731,
+       7.283,
+       "variety,"
+      ],
+      [
+       7.454,
+       8.141,
+       "composition"
+      ],
+      [
+       8.153,
+       8.251,
+       "and"
+      ],
+      [
+       8.251,
+       8.766,
+       "brand."
+      ]
+     ]
+    },
+    {
+     "text": "Everything has to reach eight. Only the three worst problems go back. Three failed rounds, and the studio stops and asks you.",
+     "s": 9.063,
+     "e": 16.324,
+     "w": [
+      [
+       9.013,
+       9.331,
+       "Everything"
+      ],
+      [
+       9.331,
+       9.54,
+       "has"
+      ],
+      [
+       9.552,
+       9.638,
+       "to"
+      ],
+      [
+       9.638,
+       9.92,
+       "reach"
+      ],
+      [
+       9.92,
+       10.214,
+       "eight."
+      ],
+      [
+       10.594,
+       10.765,
+       "Only"
+      ],
+      [
+       10.778,
+       10.863,
+       "the"
+      ],
+      [
+       10.863,
+       11.28,
+       "three"
+      ],
+      [
+       11.28,
+       11.697,
+       "worst"
+      ],
+      [
+       11.697,
+       12.064,
+       "problems"
+      ],
+      [
+       12.077,
+       12.224,
+       "go"
+      ],
+      [
+       12.224,
+       12.677,
+       "back."
+      ],
+      [
+       13.143,
+       13.412,
+       "Three"
+      ],
+      [
+       13.425,
+       13.78,
+       "failed"
+      ],
+      [
+       13.78,
+       14.319,
+       "rounds,"
+      ],
+      [
+       14.528,
+       14.613,
+       "and"
+      ],
+      [
+       14.613,
+       14.675,
+       "the"
+      ],
+      [
+       14.687,
+       15.091,
+       "studio"
+      ],
+      [
+       15.103,
+       15.581,
+       "stops"
+      ],
+      [
+       15.594,
+       15.716,
+       "and"
+      ],
+      [
+       15.716,
+       16.059,
+       "asks"
+      ],
+      [
+       16.059,
+       16.292,
+       "you."
+      ]
+     ]
+    }
+   ],
+   "dur": 16.924
+  },
+  {
+   "id": "s19",
+   "type": "clock",
+   "theme": "night",
+   "chapter": "6 · Critic loop",
+   "step": 6,
+   "label": "The night shift",
+   "title": "Routines run the clock",
+   "data": {
+    "from": "21:00",
+    "to": "08:30",
+    "events": [
+     {
+      "time": "21:00",
+      "label": "Picks up requests",
+      "cast": "director",
+      "at": "nine"
+     },
+     {
+      "time": "01:30",
+      "label": "Works the queue",
+      "cast": "render",
+      "at": "Through"
+     },
+     {
+      "time": "08:00",
+      "label": "Sends what passed",
+      "cast": "delivery",
+      "at": "eight"
+     }
+    ]
+   },
+   "start": 218.352,
+   "lines": [
+    {
+     "text": "Routines run the clock. At nine p.m., the Director picks up requests.",
+     "s": 0.35,
+     "e": 4.983,
+     "w": [
+      [
+       0.31,
+       0.923,
+       "Routines"
+      ],
+      [
+       0.984,
+       1.155,
+       "run"
+      ],
+      [
+       1.168,
+       1.229,
+       "the"
+      ],
+      [
+       1.241,
+       1.695,
+       "clock."
+      ],
+      [
+       2.099,
+       2.197,
+       "At"
+      ],
+      [
+       2.209,
+       2.528,
+       "nine"
+      ],
+      [
+       2.528,
+       3.018,
+       "p.m.,"
+      ],
+      [
+       3.447,
+       3.521,
+       "the"
+      ],
+      [
+       3.533,
+       3.937,
+       "Director"
+      ],
+      [
+       3.937,
+       4.17,
+       "picks"
+      ],
+      [
+       4.17,
+       4.256,
+       "up"
+      ],
+      [
+       4.256,
+       4.967,
+       "requests."
+      ]
+     ]
+    },
+    {
+     "text": "Through the night, the Renderer works the queue. At eight a.m., Delivery sends you what passed.",
+     "s": 5.283,
+     "e": 10.779,
+     "w": [
+      [
+       5.259,
+       5.369,
+       "Through"
+      ],
+      [
+       5.369,
+       5.43,
+       "the"
+      ],
+      [
+       5.43,
+       5.749,
+       "night,"
+      ],
+      [
+       6.153,
+       6.239,
+       "the"
+      ],
+      [
+       6.239,
+       6.656,
+       "Renderer"
+      ],
+      [
+       6.668,
+       6.962,
+       "works"
+      ],
+      [
+       6.962,
+       7.036,
+       "the"
+      ],
+      [
+       7.048,
+       7.477,
+       "queue."
+      ],
+      [
+       7.881,
+       8.016,
+       "At"
+      ],
+      [
+       8.114,
+       8.298,
+       "eight"
+      ],
+      [
+       8.31,
+       8.727,
+       "a.m.,"
+      ],
+      [
+       8.972,
+       9.56,
+       "Delivery"
+      ],
+      [
+       9.683,
+       9.977,
+       "sends"
+      ],
+      [
+       9.977,
+       10.05,
+       "you"
+      ],
+      [
+       10.05,
+       10.197,
+       "what"
+      ],
+      [
+       10.197,
+       10.761,
+       "passed."
+      ]
+     ]
+    }
+   ],
+   "dur": 11.379
+  },
+  {
+   "id": "s20",
+   "type": "cards",
+   "theme": "peach",
+   "chapter": "What breaks",
+   "label": "Failure modes",
+   "title": "Plan for what breaks",
+   "data": {
+    "items": [
+     {
+      "title": "Usage runs out",
+      "fix": "Keep checks cheap, cap the runs",
+      "at": "Usage",
+      "fixAt": "cheap"
+     },
+     {
+      "title": "Sleep mid-render",
+      "fix": "Resume from the frames on disk",
+      "at": "Sleep",
+      "fixAt": "Resume"
+     },
+     {
+      "title": "Routines paused",
+      "fix": "Check in once a day",
+      "at": "paused",
+      "fixAt": "Check in"
+     },
+     {
+      "title": "Computer rebuilt",
+      "fix": "Copy every film off the machine",
+      "at": "copy",
+      "fixAt": "film"
+     }
+    ]
+   },
+   "start": 229.731,
+   "lines": [
+    {
+     "text": "Plan for what breaks. Usage runs out? Keep checks cheap.",
+     "s": 0.35,
+     "e": 3.598,
+     "w": [
+      [
+       0.319,
+       0.478,
+       "Plan"
+      ],
+      [
+       0.478,
+       0.576,
+       "for"
+      ],
+      [
+       0.576,
+       0.711,
+       "what"
+      ],
+      [
+       0.711,
+       1.201,
+       "breaks."
+      ],
+      [
+       1.606,
+       1.875,
+       "Usage"
+      ],
+      [
+       1.888,
+       2.12,
+       "runs"
+      ],
+      [
+       2.133,
+       2.402,
+       "out?"
+      ],
+      [
+       2.795,
+       2.942,
+       "Keep"
+      ],
+      [
+       2.954,
+       3.223,
+       "checks"
+      ],
+      [
+       3.236,
+       3.579,
+       "cheap."
+      ]
+     ]
+    },
+    {
+     "text": "Sleep mid-render? Resume from disk. Routines paused? Check in daily. And copy every film off the computer.",
+     "s": 3.898,
+     "e": 11.107,
+     "w": [
+      [
+       3.866,
+       4.135,
+       "Sleep"
+      ],
+      [
+       4.135,
+       4.613,
+       "mid-render?"
+      ],
+      [
+       5.006,
+       5.434,
+       "Resume"
+      ],
+      [
+       5.446,
+       5.642,
+       "from"
+      ],
+      [
+       5.642,
+       6.071,
+       "disk."
+      ],
+      [
+       6.44,
+       6.844,
+       "Routines"
+      ],
+      [
+       6.844,
+       7.432,
+       "paused?"
+      ],
+      [
+       7.824,
+       8.02,
+       "Check"
+      ],
+      [
+       8.02,
+       8.105,
+       "in"
+      ],
+      [
+       8.107,
+       8.522,
+       "daily."
+      ],
+      [
+       8.89,
+       8.988,
+       "And"
+      ],
+      [
+       8.988,
+       9.516,
+       "copy"
+      ],
+      [
+       9.638,
+       9.92,
+       "every"
+      ],
+      [
+       9.92,
+       10.25,
+       "film"
+      ],
+      [
+       10.25,
+       10.471,
+       "off"
+      ],
+      [
+       10.484,
+       10.556,
+       "the"
+      ],
+      [
+       10.556,
+       11.096,
+       "computer."
+      ]
+     ]
+    }
+   ],
+   "dur": 11.707
+  },
+  {
+   "id": "s21",
+   "type": "checklist",
+   "theme": "paper",
+   "chapter": "Start tonight",
+   "label": "Tonight",
+   "title": "Start with one film",
+   "data": {
+    "title": "Start tonight",
+    "items": [
+     {
+      "text": "Write the house style skill",
+      "at": "house"
+     },
+     {
+      "text": "Create the five bots",
+      "at": "five bots"
+     },
+     {
+      "text": "Add the beat script",
+      "at": "beat"
+     },
+     {
+      "text": "Run one 15-second test",
+      "at": "fifteen"
+     }
+    ],
+    "gate": {
+     "text": "Then turn on the routine",
+     "at": "turn on"
+    },
+    "resources": {
+     "title": "In the description",
+     "items": [
+      "house-style/SKILL.md",
+      "bootstrap.sh",
+      "beats.py"
+     ]
+    }
+   },
+   "start": 241.438,
+   "lines": [
+    {
+     "text": "To start tonight: write the house style skill, create the five bots, add the beat script, and run one fifteen-second test.",
+     "s": 0.35,
+     "e": 7.758,
+     "w": [
+      [
+       0.312,
+       0.361,
+       "To"
+      ],
+      [
+       0.361,
+       0.582,
+       "start"
+      ],
+      [
+       0.582,
+       0.937,
+       "tonight:"
+      ],
+      [
+       1.464,
+       1.648,
+       "write"
+      ],
+      [
+       1.66,
+       1.734,
+       "the"
+      ],
+      [
+       1.734,
+       2.04,
+       "house"
+      ],
+      [
+       2.052,
+       2.371,
+       "style"
+      ],
+      [
+       2.371,
+       2.812,
+       "skill,"
+      ],
+      [
+       2.971,
+       3.204,
+       "create"
+      ],
+      [
+       3.204,
+       3.29,
+       "the"
+      ],
+      [
+       3.29,
+       3.707,
+       "five"
+      ],
+      [
+       3.707,
+       4.221,
+       "bots,"
+      ],
+      [
+       4.613,
+       4.785,
+       "add"
+      ],
+      [
+       4.785,
+       4.846,
+       "the"
+      ],
+      [
+       4.846,
+       5.079,
+       "beat"
+      ],
+      [
+       5.091,
+       5.508,
+       "script,"
+      ],
+      [
+       5.937,
+       6.047,
+       "and"
+      ],
+      [
+       6.047,
+       6.317,
+       "run"
+      ],
+      [
+       6.317,
+       6.587,
+       "one"
+      ],
+      [
+       6.599,
+       7.297,
+       "fifteen-second"
+      ],
+      [
+       7.297,
+       7.738,
+       "test."
+      ]
+     ]
+    },
+    {
+     "text": "Only when one film survives the whole pipeline, turn on the routine.",
+     "s": 8.058,
+     "e": 12.045,
+     "w": [
+      [
+       8.017,
+       8.2,
+       "Only"
+      ],
+      [
+       8.2,
+       8.348,
+       "when"
+      ],
+      [
+       8.348,
+       8.69,
+       "one"
+      ],
+      [
+       8.702,
+       9.058,
+       "film"
+      ],
+      [
+       9.058,
+       9.658,
+       "survives"
+      ],
+      [
+       9.658,
+       9.732,
+       "the"
+      ],
+      [
+       9.744,
+       10.038,
+       "whole"
+      ],
+      [
+       10.05,
+       10.724,
+       "pipeline,"
+      ],
+      [
+       11.104,
+       11.3,
+       "turn"
+      ],
+      [
+       11.3,
+       11.386,
+       "on"
+      ],
+      [
+       11.398,
+       11.436,
+       "the"
+      ],
+      [
+       11.436,
+       12.0,
+       "routine."
+      ]
+     ]
+    }
+   ],
+   "dur": 12.645
+  },
+  {
+   "id": "s22",
+   "type": "statement",
+   "theme": "night",
+   "chapter": "Start tonight",
+   "trans": "zoom",
+   "data": {
+    "color": "#ffffff",
+    "size": 104,
+    "lines": [
+     {
+      "text": "One beautiful video?",
+      "at": "viral"
+     },
+     {
+      "text": "A studio makes one *every night*.",
+      "at": "studio"
+     }
+    ]
+   },
+   "start": 254.083,
+   "lines": [
+    {
+     "text": "The viral clips proved a model can make one beautiful video. A studio makes one every night.",
+     "s": 0.35,
+     "e": 6.05,
+     "w": [
+      [
+       0.307,
+       0.356,
+       "The"
+      ],
+      [
+       0.368,
+       0.785,
+       "viral"
+      ],
+      [
+       0.785,
+       1.226,
+       "clips"
+      ],
+      [
+       1.447,
+       1.765,
+       "proved"
+      ],
+      [
+       1.765,
+       1.802,
+       "a"
+      ],
+      [
+       1.814,
+       2.292,
+       "model"
+      ],
+      [
+       2.415,
+       2.537,
+       "can"
+      ],
+      [
+       2.537,
+       2.733,
+       "make"
+      ],
+      [
+       2.734,
+       3.077,
+       "one"
+      ],
+      [
+       3.089,
+       3.506,
+       "beautiful"
+      ],
+      [
+       3.506,
+       3.996,
+       "video."
+      ],
+      [
+       4.4,
+       4.449,
+       "A"
+      ],
+      [
+       4.449,
+       4.805,
+       "studio"
+      ],
+      [
+       4.805,
+       5.099,
+       "makes"
+      ],
+      [
+       5.111,
+       5.393,
+       "one"
+      ],
+      [
+       5.405,
+       5.626,
+       "every"
+      ],
+      [
+       5.638,
+       6.042,
+       "night."
+      ]
+     ]
+    }
+   ],
+   "dur": 6.65
+  }
+ ]
+}

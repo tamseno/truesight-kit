@@ -1,0 +1,121 @@
+{
+ "meta": { "title": "Build an Overnight AI Motion Design Studio (Grok Bot × Claude Opus 5.5)", "edge_voice": "en-US-AndrewMultilingualNeural", "edge_rate": "+2%" },
+ "scenes": [
+  { "id": "s01", "type": "hero", "theme": "paper", "chapter": "Hook",
+    "lines": ["You go to bed with an idea. You wake up to a finished, reviewed motion graphic.", "No After Effects. No timeline. Five bots on one cloud computer, working the night shift."],
+    "data": { "proof": { "frames": "media/proof/%04d.jpg", "count": 90, "fps": 30, "label": "Made overnight · No After Effects", "until": "No After" },
+      "logos": [{ "name": "Grok Bot", "mark": "grok" }, { "name": "Claude Opus 5.5", "color": "#d97757" }],
+      "title": "An *overnight*\nmotion design studio", "meta": "five bots · one cloud computer · 21:00 → 08:00" } },
+
+  { "id": "s02", "type": "statement", "theme": "paper", "chapter": "Hook", "trans": "zoom",
+    "lines": ["This is how to build that studio, and the parts most tutorials skip."],
+    "data": { "lines": [{ "text": "The parts most", "at": "parts" }, { "text": "tutorials *skip*.", "at": "tutorials" }] } },
+
+  { "id": "s03", "type": "versus", "theme": "paper", "chapter": "Demo vs studio", "label": "The one-prompt era", "title": "Everyone stops at the same place",
+    "lines": ["In September, one prompt template for code-only UI animation went viral.", "Most people got one great clip, and a laptop that rendered all night.", "A studio is different. Someone plans, builds, renders, judges, and ships."],
+    "data": { "left": { "title": "One prompt", "tag": "DEMO", "items": [{ "text": "One great clip", "at": "one great" }, { "text": "Laptop rendering all night", "at": "laptop" }, { "text": "Nobody checks the result", "at": "studio" }] },
+      "right": { "title": "A studio", "tag": "SYSTEM", "items": [{ "text": "Someone *plans*", "at": "plans" }, { "text": "Someone *builds* and *renders*", "at": "builds" }, { "text": "Someone *judges* and *ships*", "at": "judges" }] } } },
+
+  { "id": "s04", "type": "post", "theme": "mint", "chapter": "The news", "label": "Why Grok Bot", "title": "You don't pick the model",
+    "lines": ["On October seventh, Elon Musk posted that Grok Bot will use the best back end model for any given task.", "That includes Claude Opus 5.5. Simple requests go to small models, hard ones to large models."],
+    "data": { "author": "Elon Musk", "handle": "@elonmusk", "date": "Oct 7, 2026", "avatar": "EM",
+      "text": "Important note regarding Grok @Bot: Going forward, @SpaceX will use the *best back end model for any given task*, including *Claude Opus 5.5*, MidJourney, Suno and other leading APIs.",
+      "hlAt": ["best back end", "Claude Opus"],
+      "side": { "title": "What it means", "items": [{ "text": "Simple requests", "sub": "→ small, fast models", "at": "Simple" }, { "text": "Hard requests", "sub": "→ large models like Opus 5.5", "at": "hard ones" }] },
+      "source": "x.com/elonmusk/status/2107724314451878104" } },
+
+  { "id": "s05", "type": "statement", "theme": "mint", "chapter": "The news", "trans": "cut",
+    "lines": ["Here's the catch.", "There's no model picker, and no effort dial. So you replace the missing dial with structure."],
+    "data": { "eyebrow": "The catch", "lines": [{ "text": "No model picker.", "at": "picker" }, { "text": "No effort dial.", "at": "effort" }, { "text": "Replace it with *structure*.", "at": "replace" }] } },
+
+  { "id": "s06", "type": "flow", "theme": "lavender", "chapter": "Ground rules", "label": "The machine", "title": "One computer, shared by every bot",
+    "lines": ["Every bot on your account shares one persistent cloud computer.", "Same files, same browser logins, same terminal. Closing your laptop doesn't stop any of it."],
+    "data": { "cols": [[{ "id": "d", "cast": "director", "at": "Every bot" }, { "id": "a", "cast": "animator", "at": "Every bot" }, { "id": "r", "cast": "render", "at": "Every bot" }, { "id": "c", "cast": "critic", "at": "Every bot" }, { "id": "v", "cast": "delivery", "at": "Every bot" }],
+        [{ "id": "f", "label": "Same files", "sub": "/workspace", "color": "#f5c451", "at": "Same files" }, { "id": "l", "label": "Same logins", "sub": "browser sessions", "color": "#3a86f4", "at": "browser" }, { "id": "t", "label": "Same terminal", "sub": "bash · linux", "color": "#15161c", "at": "terminal" }]],
+      "edges": [["d","f"],["a","f"],["r","l"],["c","t"],["v","t"],["d","l"],["r","t"]] } },
+
+  { "id": "s07", "type": "versus", "theme": "lavender", "chapter": "Ground rules", "label": "The fine print", "title": "Files survive. Installs don't.", "trans": "slide",
+    "lines": ["But read the fine print. Your files and logins survive updates.", "Installed packages, apps and background services don't. And the computer sleeps when it's idle."],
+    "data": { "left": { "title": "Lost on update", "tag": "GONE", "items": [{ "text": "Installed packages", "at": "packages" }, { "text": "Apps and background services", "at": "background" }, { "text": "Anything running when it sleeps", "at": "sleeps" }] },
+      "right": { "title": "Survives", "tag": "KEPT", "items": [{ "text": "Files in /workspace", "at": "files" }, { "text": "Browser logins", "at": "logins" }] } } },
+
+  { "id": "s08", "type": "terminal", "theme": "lavender", "chapter": "Ground rules", "label": "Design for it", "title": "No daemons. Everything restartable.",
+    "lines": ["So, one bootstrap script reinstalls FFmpeg, Python and a headless browser in one command.", "And every render must be resumable, so a nap at three a.m. costs minutes, not the whole job."],
+    "data": { "list": { "title": "bootstrap.sh installs", "items": [{ "text": "FFmpeg", "sub": "encode · blend · mix", "at": "FFmpeg" }, { "text": "Python", "sub": "beat grid · analysis", "at": "Python" }, { "text": "Headless browser", "sub": "frame capture", "at": "headless" }] },
+      "term": { "title": "/workspace/studio", "cmd": "bash bootstrap.sh", "at": "bootstrap",
+        "out": [{ "text": "  ✓ ffmpeg 7.1", "cls": "g", "at": "FFmpeg" }, { "text": "  ✓ python 3.12", "cls": "g", "at": "Python" }, { "text": "  ✓ chromium headless", "cls": "g", "at": "headless" }, { "text": "$ node render.mjs film_017 --resume", "cls": "p", "at": "resumable" }, { "text": "  resuming at frame 577 (576 on disk)", "cls": "y", "at": "nap" }],
+        "progress": { "label": "{3600} frames", "at": "nap" } } } },
+
+  { "id": "s09", "type": "stats", "theme": "sky", "chapter": "Ground rules", "label": "The hardware", "title": "Why code beats a 3D renderer here",
+    "lines": ["Users report about eight CPU cores, sixteen gigs of RAM, and no GPU.", "So you animate with HTML, CSS and SVG. The bottleneck isn't the model. It's capturing frames."],
+    "data": { "items": [{ "label": "CPU", "value": 8, "prefix": "~", "suffix": " cores", "at": "eight" }, { "label": "RAM", "value": 16, "prefix": "~", "suffix": " GB", "at": "sixteen" }, { "label": "GPU", "value": "none", "tone": "bad", "sub": "so: HTML · CSS · SVG", "at": "no GPU" }],
+      "source": "user reports, not official specs" } },
+
+  { "id": "s10", "type": "rules", "theme": "lilac", "chapter": "1 · House style", "step": 1, "label": "House style", "title": "Write the rules down once",
+    "lines": ["Step one. Write the studio's rules down once, as a skill every bot shares.", "Every frame is a pure function of time. Fonts load from files. Something new appears every two to four seconds."],
+    "data": { "file": "house-style · SKILL.md", "tag": "SHARED BY ALL BOTS", "items": [{ "text": "Every frame is a *pure function of time*", "code": "render(t)", "at": "pure" }, { "text": "Fonts load from files", "code": "fonts/*.woff2", "at": "Fonts" }, { "text": "Something new every 2–4 seconds", "code": "no dead air", "at": "Something" }] } },
+
+  { "id": "s11", "type": "versus", "theme": "lilac", "chapter": "1 · House style", "step": 1, "label": "The ban list", "title": "Ban defaults by name", "trans": "slide",
+    "lines": ["Then a ban list. Centered titles on gradients. Everything fading in at once. Particle bursts. Bouncy easing.", "Models swap one default for another, so every new cliché gets its own line."],
+    "data": { "left": { "title": "Banned", "tag": "5 RULES", "items": [{ "text": "Centered title on a gradient", "at": "Centered" }, { "text": "Everything fading in at once", "at": "fading" }, { "text": "Particle bursts", "at": "Particle" }, { "text": "Bouncy easing", "at": "Bouncy" }, { "text": "Dead air", "at": "Models" }] },
+      "verdict": { "text": "Every new cliché gets *its own line*", "at": "every new" } } },
+
+  { "id": "s12", "type": "roster", "theme": "paper", "chapter": "2 · Five roles", "step": 2, "label": "The roster", "title": "Five bots, one job each",
+    "lines": ["Step two. The Director turns your request into a storyboard. The Animator writes the film as code.", "The Renderer is the only one allowed to render. The Critic scores and never writes code. Delivery hands you the file."],
+    "data": { "items": [
+      { "cast": "director", "role": "PLAN", "desc": "Request → storyboard", "lines": ["Brief", "Storyboard", "Delivery"], "at": "Director" },
+      { "cast": "animator", "role": "BUILD", "desc": "Writes the film as code", "code": "frame(t) {\n  x = spring(t)\n  draw(x)\n}", "at": "Animator" },
+      { "cast": "render", "role": "RENDER", "desc": "The *only* one who renders", "lines": ["job 1 · done", "job 2 · rendering", "job 3 · queued"], "at": "Renderer" },
+      { "cast": "critic", "role": "JUDGE", "desc": "Scores. Never writes code.", "big": "8.6", "at": "Critic" },
+      { "cast": "delivery", "role": "SHIP", "desc": "Hands you the file", "lines": ["film.mp4", "08:00 · sent"], "at": "Delivery" } ] } },
+
+  { "id": "s13", "type": "statement", "theme": "paper", "chapter": "2 · Five roles", "step": 2, "trans": "zoom",
+    "lines": ["Why a separate critic? Because anyone grading their own work goes easy on it. Models included."],
+    "data": { "eyebrow": "Why a separate critic?", "lines": [{ "text": "Anyone grading their own work", "at": "anyone" }, { "text": "goes easy on it.", "at": "goes" }], "sub": { "text": "*Models included.*", "at": "Models" } } },
+
+  { "id": "s14", "type": "stepper", "theme": "sand", "chapter": "3 · Project folder", "step": 3, "label": "State", "title": "The folder is the state machine",
+    "lines": ["Step three. Bots forget. Chats scroll away. Files don't.", "Every stage is a file. Brief, storyboard approved, code ready, final pass, delivered."],
+    "data": { "steps": [{ "label": "Brief", "file": "brief.md", "at": "Brief" }, { "label": "Storyboard", "file": "storyboard.APPROVED", "at": "storyboard" }, { "label": "Code", "file": "code.READY", "at": "code" }, { "label": "Final pass", "file": "final.PASS", "at": "final" }, { "label": "Delivered", "file": "delivered.mp4", "at": "delivered" }],
+      "caption": { "text": "Bots forget. Chats scroll away. *Files don't.*", "at": "Files" } } },
+
+  { "id": "s15", "type": "grid", "theme": "paper", "chapter": "4 · Storyboard gate", "step": 4, "label": "Storyboard gate", "title": "Approve the plan, then build",
+    "lines": ["Step four. Show the state list on the beat grid before writing any code.", "Fixing a line costs one message. Fixing a finished scene costs a rewrite. So nothing gets built until you approve it."],
+    "data": { "cols": 4, "items": [{ "label": "Pill idle", "glyph": "pill" }, { "label": "Shrink", "glyph": "dot" }, { "label": "Spinner", "glyph": "spinner" }, { "label": "Check", "glyph": "check" }, { "label": "Player", "glyph": "play" }, { "label": "Progress", "glyph": "bar" }, { "label": "Type", "glyph": "text:Aa" }, { "label": "Done", "glyph": "done" }],
+      "footer": { "text": "Nothing gets built until *you approve it*", "button": "Approve", "at": "nothing" } } },
+
+  { "id": "s16", "type": "terminal", "theme": "ice", "chapter": "5 · Render pipeline", "step": 5, "label": "Rendering", "title": "Every frame, drawn on demand",
+    "lines": ["Step five. Rendering never plays in real time. A script asks for one exact moment, screenshots it, and moves on.", "Frames land on disk as numbered files. That folder is the progress bar."],
+    "data": { "term": { "title": "render.mjs", "cmd": "node render.mjs film_017 workers=8", "at": "script",
+        "out": [{ "text": "seek(2.100) → f000126.jpg", "cls": "d", "at": "exact" }, { "text": "seek(2.117) → f000127.jpg", "cls": "d", "at": "screenshots" }, { "text": "seek(2.133) → f000128.jpg", "cls": "d", "at": "moves" }, { "text": "frames/  414 / 900 on disk", "cls": "y", "at": "numbered" }, { "text": "restart → picks up at the first missing frame", "cls": "g", "at": "progress bar" }],
+        "progress": { "label": "{900} frames", "at": "numbered" } } } },
+
+  { "id": "s17", "type": "stats", "theme": "ice", "chapter": "5 · Render pipeline", "step": 5, "label": "The numbers", "title": "What it costs on two cores", "trans": "slide",
+    "lines": ["On a two-core Linux box with no GPU, a fifteen-second test rendered as a draft in forty-eight seconds.", "The final, at sixty frames with motion blur, took about six minutes."],
+    "data": { "items": [{ "label": "Test box", "value": 2, "suffix": " cores", "sub": "Linux · no GPU", "at": "two-core" }, { "label": "Clip", "value": 15, "suffix": " s", "sub": "60 fps", "at": "fifteen" }],
+      "bars": [{ "label": "Draft", "value": 48, "suffix": " s", "at": "draft" }, { "label": "Final", "value": 360, "suffix": " s", "color": "#8b5cf6", "at": "final" }] } },
+
+  { "id": "s18", "type": "scorecard", "theme": "lilac", "chapter": "6 · Critic loop", "step": 6, "label": "The rubric", "title": "Six scores. Eight or better.",
+    "lines": ["Step six. The critic scores six things: hook, readability on a phone, motion, variety, composition and brand.", "Everything has to reach eight. Only the three worst problems go back. Three failed rounds, and the studio stops and asks you."],
+    "data": { "file": "review_log.md", "title": "Critic scorecard", "rows": [{ "label": "Hook", "sub": "first 2 s", "r1": 5, "r2": 8, "issue": "Hook is flat" }, { "label": "Readability", "sub": "on a phone", "r1": 6, "r2": 8, "issue": "Text too small" }, { "label": "Motion", "r1": 8, "r2": 9 }, { "label": "Variety", "r1": 7, "r2": 8, "issue": "Shots repeat" }, { "label": "Composition", "r1": 9, "r2": 9 }, { "label": "Brand", "r1": 8, "r2": 9 }],
+      "r1At": "hook", "flagAt": "three worst", "r2At": "Three failed",
+      "side": [{ "text": "Only the *3 worst* go back", "sub": "Fixes stay focused", "at": "three worst" }, { "text": "3 failed rounds → *it asks you*", "sub": "No burning usage at 3 a.m.", "at": "stops" }] } },
+
+  { "id": "s19", "type": "clock", "theme": "night", "chapter": "6 · Critic loop", "step": 6, "label": "The night shift", "title": "Routines run the clock",
+    "lines": ["Routines run the clock. At nine p.m., the Director picks up requests.", "Through the night, the Renderer works the queue. At eight a.m., Delivery sends you what passed."],
+    "data": { "from": "21:00", "to": "08:30", "events": [{ "time": "21:00", "label": "Picks up requests", "cast": "director", "at": "nine" }, { "time": "01:30", "label": "Works the queue", "cast": "render", "at": "Through" }, { "time": "08:00", "label": "Sends what passed", "cast": "delivery", "at": "eight" }] } },
+
+  { "id": "s20", "type": "cards", "theme": "peach", "chapter": "What breaks", "label": "Failure modes", "title": "Plan for what breaks",
+    "lines": ["Plan for what breaks. Usage runs out? Keep checks cheap.", "Sleep mid-render? Resume from disk. Routines paused? Check in daily. And copy every film off the computer."],
+    "data": { "items": [{ "title": "Usage runs out", "fix": "Keep checks cheap, cap the runs", "at": "Usage", "fixAt": "cheap" }, { "title": "Sleep mid-render", "fix": "Resume from the frames on disk", "at": "Sleep", "fixAt": "Resume" }, { "title": "Routines paused", "fix": "Check in once a day", "at": "paused", "fixAt": "Check in" }, { "title": "Computer rebuilt", "fix": "Copy every film off the machine", "at": "copy", "fixAt": "film" }] } },
+
+  { "id": "s21", "type": "checklist", "theme": "paper", "chapter": "Start tonight", "label": "Tonight", "title": "Start with one film",
+    "lines": ["To start tonight: write the house style skill, create the five bots, add the beat script, and run one fifteen-second test.", "Only when one film survives the whole pipeline, turn on the routine."],
+    "data": { "title": "Start tonight", "items": [{ "text": "Write the house style skill", "at": "house" }, { "text": "Create the five bots", "at": "five bots" }, { "text": "Add the beat script", "at": "beat" }, { "text": "Run one 15-second test", "at": "fifteen" }],
+      "gate": { "text": "Then turn on the routine", "at": "turn on" },
+      "resources": { "title": "In the description", "items": ["house-style/SKILL.md", "bootstrap.sh", "beats.py"] } } },
+
+  { "id": "s22", "type": "statement", "theme": "night", "chapter": "Start tonight", "trans": "zoom",
+    "lines": ["The viral clips proved a model can make one beautiful video. A studio makes one every night."],
+    "data": { "color": "#ffffff", "size": 104, "lines": [{ "text": "One beautiful video?", "at": "viral" }, { "text": "A studio makes one *every night*.", "at": "studio" }] } }
+ ]
+}

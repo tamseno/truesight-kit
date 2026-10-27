@@ -1,0 +1,205 @@
+[
+ {
+  "still": "s07_50",
+  "scene": "s07",
+  "kind": "small",
+  "fs": 20,
+  "txt": "GONE"
+ },
+ {
+  "still": "s07_50",
+  "scene": "s07",
+  "kind": "small",
+  "fs": 20,
+  "txt": "KEPT"
+ },
+ {
+  "still": "s03_50",
+  "scene": "s03",
+  "kind": "small",
+  "fs": 20,
+  "txt": "DEMO"
+ },
+ {
+  "still": "s03_50",
+  "scene": "s03",
+  "kind": "small",
+  "fs": 20,
+  "txt": "SYSTEM"
+ },
+ {
+  "still": "s11_50",
+  "scene": "s11",
+  "kind": "small",
+  "fs": 20,
+  "txt": "5 RULES"
+ },
+ {
+  "still": "s15_50",
+  "scene": "s15",
+  "kind": "small",
+  "fs": 20,
+  "txt": "01"
+ },
+ {
+  "still": "s15_50",
+  "scene": "s15",
+  "kind": "small",
+  "fs": 20,
+  "txt": "02"
+ },
+ {
+  "still": "s15_50",
+  "scene": "s15",
+  "kind": "small",
+  "fs": 20,
+  "txt": "03"
+ },
+ {
+  "still": "s15_50",
+  "scene": "s15",
+  "kind": "small",
+  "fs": 20,
+  "txt": "04"
+ },
+ {
+  "still": "s15_50",
+  "scene": "s15",
+  "kind": "small",
+  "fs": 20,
+  "txt": "05"
+ },
+ {
+  "still": "s09_50",
+  "scene": "s09",
+  "kind": "small",
+  "fs": 15,
+  "txt": "Source"
+ },
+ {
+  "still": "s09_50",
+  "scene": "s09",
+  "kind": "small",
+  "fs": 20,
+  "txt": "user reports, not official specs"
+ },
+ {
+  "still": "s15_95",
+  "scene": "s15",
+  "kind": "small",
+  "fs": 20,
+  "txt": "06"
+ },
+ {
+  "still": "s15_95",
+  "scene": "s15",
+  "kind": "small",
+  "fs": 20,
+  "txt": "07"
+ },
+ {
+  "still": "s15_95",
+  "scene": "s15",
+  "kind": "small",
+  "fs": 20,
+  "txt": "08"
+ },
+ {
+  "still": "s12_50",
+  "scene": "s12",
+  "kind": "small",
+  "fs": 20,
+  "txt": "PLAN"
+ },
+ {
+  "still": "s12_50",
+  "scene": "s12",
+  "kind": "small",
+  "fs": 20,
+  "txt": "BUILD"
+ },
+ {
+  "still": "s12_50",
+  "scene": "s12",
+  "kind": "small",
+  "fs": 20,
+  "txt": "RENDER"
+ },
+ {
+  "still": "s04_50",
+  "scene": "s04",
+  "kind": "small",
+  "fs": 15,
+  "txt": "Source"
+ },
+ {
+  "still": "s04_50",
+  "scene": "s04",
+  "kind": "small",
+  "fs": 20,
+  "txt": "x.com/elonmusk/status/210772431445187810"
+ },
+ {
+  "still": "s16_50",
+  "scene": "s16",
+  "kind": "small",
+  "fs": 20,
+  "txt": "render.mjs"
+ },
+ {
+  "still": "s20_50",
+  "scene": "s20",
+  "kind": "small",
+  "fs": 20,
+  "txt": "RISK"
+ },
+ {
+  "still": "s08_50",
+  "scene": "s08",
+  "kind": "small",
+  "fs": 20,
+  "txt": "/workspace/studio"
+ },
+ {
+  "still": "s10_50",
+  "scene": "s10",
+  "kind": "small",
+  "fs": 20,
+  "txt": "SHARED BY ALL BOTS"
+ },
+ {
+  "still": "s18_50",
+  "scene": "s18",
+  "kind": "small",
+  "fs": 20,
+  "txt": "≥ 8"
+ },
+ {
+  "still": "s04_95",
+  "scene": "s04",
+  "kind": "small",
+  "fs": 20,
+  "txt": "1"
+ },
+ {
+  "still": "s04_95",
+  "scene": "s04",
+  "kind": "small",
+  "fs": 20,
+  "txt": "2"
+ },
+ {
+  "still": "s12_95",
+  "scene": "s12",
+  "kind": "small",
+  "fs": 20,
+  "txt": "JUDGE"
+ },
+ {
+  "still": "s12_95",
+  "scene": "s12",
+  "kind": "small",
+  "fs": 20,
+  "txt": "SHIP"
+ }
+]
