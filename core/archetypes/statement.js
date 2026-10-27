@@ -4,19 +4,21 @@
 ARCH.statement = (root, ctx, H, d) => {
   const { h, put, set, A, SP, E, lerp, D } = H;
   const lines = d.lines || [{ text: d.text || '', at: d.at }];
-  const size = d.size || 112, LH = size * 1.08, center = d.align !== 'left';
+  const FW = H.W, FH = H.H, AB = H.AREA({}), PAD = AB.x, LW = AB.w, MID = FH === 1080 ? 540 : FH * .44;
+  const size = d.size || (FW < 1400 ? 96 : 112), LH = size * 1.08, center = d.align !== 'left';
   const T = H.times(ctx, lines, .03, .6); T[0] = Math.min(T[0], .3);
-  const total = lines.length * LH, y0 = 540 - total / 2 - (d.sub ? 40 : 0) - 30;
-  const eb = d.eyebrow ? D(root, center ? 0 : 140, y0 - 64, center ? 1920 : 1600, 30, `text-align:${center ? 'center' : 'left'}`, `<span class="eyebrow">${H.esc(d.eyebrow)}</span>`) : null;
+  const total = lines.length * LH, y0 = MID - total / 2 - (d.sub ? 40 : 0) - 30;
+  const eb = d.eyebrow ? D(root, center ? 0 : PAD, y0 - 64, center ? FW : LW, 30, `text-align:${center ? 'center' : 'left'}`, `<span class="eyebrow">${H.esc(d.eyebrow)}</span>`) : null;
   const rows = lines.map((ln, i) => {
-    const el = put(root, h('div', 'kin'), center ? 0 : 140, y0 + i * LH, center ? 1920 : 1640);
+    const el = put(root, h('div', 'kin'), center ? PAD : PAD, y0 + i * LH, LW);
     el.style.cssText += `;font-size:${size}px;text-align:${center ? 'center' : 'left'};white-space:nowrap${d.color ? ';color:' + d.color : ''}`;
     // split into words, keep *hl* spans whole
     const parts = String(ln.text).match(/\*[^*]+\*\S*|\S+/g) || [];
     el.innerHTML = parts.map(p => p.startsWith('*') ? (m => `<span class="wd"><span class="hl">${H.esc(m[1])}</span>${H.esc(m[2])}</span>`)(p.match(/^\*([^*]+)\*(.*)$/)) : `<span class="wd">${H.esc(p)}</span>`).join(' ');
+    H.fit(el, LW, 40);
     return { el, wds: [...el.querySelectorAll('.wd')], hls: [...el.querySelectorAll('.hl')] };
   });
-  const sub = d.sub ? D(root, center ? 0 : 140, y0 + total + 34, center ? 1920 : 1600, 50, `text-align:${center ? 'center' : 'left'};font:600 34px var(--fb);color:var(--sub)`, H.md(d.sub.text || d.sub)) : null;
+  const sub = d.sub ? D(root, PAD, y0 + total + 34, LW, 50, `text-align:${center ? 'center' : 'left'};font:600 34px var(--fb);color:var(--sub)`, H.md(d.sub.text || d.sub)) : null;
   const tSub = d.sub ? H.when(ctx, d.sub.at, T[T.length - 1] + .8) : 0;
   T.forEach(t0 => ctx.cue(t0, 'swoosh', .25));
   return t => {
@@ -32,3 +34,4 @@ ARCH.statement = (root, ctx, H, d) => {
   };
 };
 ARCH.statement.noHeader = true;
+ARCH.statement.formats = ['*'];

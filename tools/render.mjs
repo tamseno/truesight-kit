@@ -19,7 +19,7 @@ const srv = http.createServer((q, r) => {
   if (u === '/') {
     const ar = ls(path.join(CORE, 'archetypes')), sc = ls(path.join(EP, 'scenes')), lib = ls(path.join(CORE, 'lib'));
     r.writeHead(200, { 'content-type': 'text/html', 'cache-control': 'no-store' });
-    return r.end(`<!doctype html><meta charset="utf-8"><link rel="icon" href="data:,"><link rel="stylesheet" href="core/style.css"><div id="stage"></div><script src="core/engine.js"></script><script src="core/looks.js"></script>`
+    return r.end(`<!doctype html><meta charset="utf-8"><link rel="icon" href="data:,"><link rel="stylesheet" href="core/style.css"><div id="stage"></div><script src="core/engine.js"></script><script src="core/looks.js"></script><script src="core/formats.js"></script>`
       + lib.map(f => `<script src="core/lib/${f}"></script>`).join('') + ar.map(f => `<script src="core/archetypes/${f}"></script>`).join('') + sc.map(f => `<script src="scenes/${f}"></script>`).join('')
       + `<script>addEventListener('load',()=>{const q=new URLSearchParams(location.search);if(q.has('t')){const t=+q.get('t');{const go=()=>window.READY?renderAt(t):setTimeout(go,100);go();}}})</script>`);
   }
@@ -46,7 +46,7 @@ const per = Math.ceil(jobs.length / WK), chunks = [...Array(WK)].map((_, i) => j
 const exe = A.chrome || 'C:/Program Files/Google/Chrome/Application/chrome.exe'; let done = 0; const t0 = Date.now(); let cues = null; const QA = [], WARN = [];
 if (A.lint || A.catalog) { chunks.length = 0; chunks.push([]); }
 await Promise.all(chunks.map(async (list, w) => {
-  const b = await puppeteer.launch({ executablePath: exe, headless: true, defaultViewport: { width: 1920, height: 1080, deviceScaleFactor: 1 }, args: ['--force-device-scale-factor=1', '--enable-gpu-rasterization', '--ignore-gpu-blocklist', '--use-angle=d3d11', '--disable-background-timer-throttling', '--disable-renderer-backgrounding', '--hide-scrollbars', '--mute-audio', '--font-render-hinting=none', `--user-data-dir=D:/hark/_sys/tmp/a07f-kit-chrome-${A.tag || 'main'}-${w}`] });
+  const b = await puppeteer.launch({ executablePath: exe, headless: true, defaultViewport: { width: TL.w || 1920, height: TL.h || 1080, deviceScaleFactor: 1 }, args: ['--force-device-scale-factor=1', '--enable-gpu-rasterization', '--ignore-gpu-blocklist', '--use-angle=d3d11', '--disable-background-timer-throttling', '--disable-renderer-backgrounding', '--hide-scrollbars', '--mute-audio', '--font-render-hinting=none', `--user-data-dir=D:/hark/_sys/tmp/a07f-kit-chrome-${A.tag || 'main'}-${w}`] });
   const pg = await b.newPage(); pg.on('pageerror', e => console.log('PAGEERR', e.message)); pg.on('console', m => { if (['error', 'warning', 'warn'].includes(m.type())) console.log('CONSOLE', m.text()); });
   await pg.goto(`http://127.0.0.1:${PORT}/`); await pg.waitForFunction('window.READY===true||window.ERR', { timeout: 120000 });
   const err = await pg.evaluate('window.ERR'); if (err) { console.log('ERR', err); process.exit(3); }
@@ -60,7 +60,7 @@ await Promise.all(chunks.map(async (list, w) => {
     if (A.resume && fs.existsSync(fp) && fs.statSync(fp).size > 20000) { done++; continue; }
     await pg.evaluate(t => window.renderAt(t), T);
     if (A.qa) for (const x of await pg.evaluate('window.QA()')) QA.push({ still: name, ...x });
-    const { data } = await cdp.send('Page.captureScreenshot', { format: 'jpeg', quality: Q, clip: { x: 0, y: 0, width: 1920, height: 1080, scale: 1 }, optimizeForSpeed: true });
+    const { data } = await cdp.send('Page.captureScreenshot', { format: 'jpeg', quality: Q, clip: { x: 0, y: 0, width: TL.w || 1920, height: TL.h || 1080, scale: 1 }, optimizeForSpeed: true });
     fs.writeFileSync(fp, Buffer.from(data, 'base64'));
     if (++done % 1200 === 0) console.log(`${done}/${jobs.length} ${((Date.now() - t0) / 1000).toFixed(1)}s`);
   }

@@ -16,7 +16,7 @@ ARCH.board = (root, ctx, H, d, sc) => {
     const l = H.put(root, H.card({ w: CW, h: HH }), 88 + i * (CW + GAP), Y); l.style.background = 'color-mix(in srgb,var(--surface) 78%,transparent)'; l.style.backdropFilter = 'blur(6px)';
     const tone = TONE[i] || '#6b6e7b';
     D(l, 28, 28, CW - 56, 40, `display:flex;align-items:center;gap:12px;font:var(--fwd) 30px var(--fd);letter-spacing:calc(-.01em * var(--trk));white-space:nowrap`, `<i style="width:14px;height:14px;border-radius:5px;background:${tone};display:inline-block"></i>${H.esc(c)}`);
-    const cnt = D(l, CW - 28 - 60, 26, 60, 44, `border-radius:12px;background:color-mix(in srgb,${tone} 12%,#fff);color:${tone};font:800 22px var(--fb);display:flex;align-items:center;justify-content:center`);
+    const cnt = D(l, CW - 28 - 60, 26, 60, 44, `border-radius:12px;background:color-mix(in srgb,${tone} 16%,transparent);color:${tone};font:800 22px var(--fb);display:flex;align-items:center;justify-content:center`);
     return { l, cnt, x: 88 + i * (CW + GAP) };
   });
   // event model: every card's lane over time; layout = order of arrival per lane

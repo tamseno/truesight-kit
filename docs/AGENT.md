@@ -6,9 +6,9 @@ archetypes only where they genuinely fit. Two episodes made with this kit should
 
 Reference while you work:
 - `docs/CATALOG.md` — every look, element (with props + a working example), motion, layout, transition, recipe.
-- `docs/gallery/*.jpg` — what they look like: `looks.jpg`, `elements-*.jpg`, `motions-<kind>.jpg` (5-frame strips), `layouts.jpg`.
+- `docs/gallery/*.jpg` — what they look like: `looks.jpg`, `elements-*.jpg`, `motions-<kind>.jpg` (5-frame strips), `layouts.jpg`, `formats.jpg` (the same scenes in all four formats).
 - `episodes/compose-demo/script.json` — seven composed scenes to copy patterns from.
-- Output spec: 1920×1080, 60 fps, always.
+- Output spec: 60 fps always, at the format's full size — 1920×1080 long-form; 1080×1920 Shorts/TikTok/Reels; 1080×1080 and 1080×1350 feed (§8).
 
 ## 1. Pipeline
 
@@ -98,6 +98,8 @@ each chapter at least one shot that only makes sense for this topic.
 - One emphasis per beat (`pulse`, `glow`, `circle`, `underline` …); don't stack three on the same word.
 - Camera: 0–3 beats per scene, zoom ≤ 1.08; `reset` before the scene's last line if you pushed in.
 - No bouncy cartoon easing, no particle bursts, no centered-title-on-gradient as a default, no dead air.
+- **Backgrounds are soft color only** (the look's gradients and drifting light). Never grids, dot screens, scanlines,
+  radar-style beams or ruled paper — not as a background, not as a full-frame `shape`/`html` overlay.
 - Transitions: `cut` for contrast, `whip` for a topic jump, `wipe` into chapter cards, `slide`/`push` within a chapter.
 
 ## 6. QA — what to check in the stills
@@ -112,5 +114,47 @@ each chapter at least one shot that only makes sense for this topic.
 - Element `id` is reserved for references — the PR card number is `num`, the terminal output is `output`.
 - `text` hugs its content (so underline/circle wrap the words); set `"hug": false` to keep the full box (e.g. for alignment).
 - Elements inside `card`/`window` clip; annotations (`circle`, `box`, `ping`) live on the element's wrapper and may extend past it.
-- Keep `box` coordinates inside 0–1920 × 0–1080; the camera may push in by up to 8%.
+- Keep `box` coordinates inside the canvas (1920×1080 landscape, 1080×1920 vertical …); the camera may push in by up to 8%.
+- In vertical, a `box` is laid out at its size ÷ 1.5 and scaled up (`ui`); give text elements the final on-screen box and they size themselves. Set `"ui": 1` on an element to opt out.
 - A scene with `"push": false` has no ambient push-in (useful for diagrams that must stay pixel-aligned).
+
+## 8. Formats — Shorts, TikTok, Reels, feed posts
+One kit, every platform. Set `"meta": { "format": "…" }` (default `landscape`):
+
+| format | canvas | for | captions |
+|---|---|---|---|
+| `landscape` | 1920×1080 | YouTube long-form | pill karaoke subtitle |
+| `vertical` (alias `short`) | 1080×1920 | YouTube Shorts, TikTok, Instagram Reels | pop captions: 1–3 big words, the spoken word lit |
+| `square` | 1080×1080 | Instagram / LinkedIn / X feed | pill |
+| `portrait` | 1080×1350 | Instagram / Facebook feed (4:5) | pill |
+
+Always 60 fps. What the format changes for you: canvas, header position (it wraps on narrow canvases), the content
+area every layout divides, element scale (`ui`: compose elements lay out at slot ÷ ui and scale up, so a phone gets
+bigger type — vertical 1.5×), caption style, progress bar, safe zones, and the codec (`make.ps1 -Codec auto`:
+HEVC for landscape, H.264 for the rest). Layouts follow the area's shape: on a tall area `split`, `hero`, `row`,
+`thirds`, `cols`, `bento`, `grid`, `cascade`, `columns-hero` stack top-to-bottom and keep their slot names — so a
+scene built with slots reflows into any format. `box` coordinates are canvas pixels and do not reflow (lint warns
+when a box runs past the canvas). Recipes marked "landscape only" in the catalog render scaled into the content
+area with a `landscape-only` warning; in short and feed formats build those scenes with `compose`
+(`code`, `list`, `terminal`, `table`, `pr`, `phone` elements cover them). `chapter`, `endcard`, `statement`, `chat`
+and `compose` adapt.
+
+**Vertical (Shorts / TikTok / Reels) — how a good one is built**
+- **Length 20–60 s**, 5–9 scenes of 2.5–6 s. Every scene `compose`. One idea and one big thing per frame.
+- **Hook in the first second.** The first frame already shows the claim (a contrarian line or a number) — no fade
+  from empty, no logo sting, no title card. First line ≤ 8 words.
+- **Safe zones** (`qa=1` checks them): platform UI covers the top 200 px, the bottom 470 px (caption, description,
+  buttons) and the right 132 px below mid-height (like/comment/share rail). The content area (x 72–948,
+  y 236–1290 bare, 500–1290 under a title) is already safe; pop captions sit at y ≈ 1372.
+- **Usually no title header** — the bare area gives the visual the room. Big type: `display`/`huge` text, 1–4 words per line.
+- **Pace**: `meta.edge_rate` "+5%"–"+10%", `gap` 0.18, `lead` 0.15. Something changes every 1.5–3 s. Transitions
+  `cut`, `whip`, `zoom` — no `wipe` chapter cards.
+- **Ending**: no end screen (Shorts have none). End on a line that loops back into the first (the viewer rewatches)
+  or one call-to-action tag ("Full breakdown on the channel"). An `endcard` in vertical becomes a centred follow card.
+- **Looks** that read best on a phone: high contrast — `brutal`, `neon`, `clean`, `terminal`.
+- **Cut-down from a long video**: copy its 5–8 strongest compose scenes into a new episode with `format: "vertical"`,
+  rewrite the narration for 30–45 s, keep slot-based scenes as they are (they reflow) and re-place any `box`.
+- Example: `episodes/grokbot-short` (brutal, 7 scenes, ~29 s). Template: `episodes/_template-short`.
+
+**Square / portrait (feed)**: viewers often watch muted — keep the pill captions on, put the claim in the first frame,
+15–60 s. Side-by-side layouts still fit (the areas are wider than tall).

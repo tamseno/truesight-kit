@@ -1,0 +1,1090 @@
+{
+ "fps": 60,
+ "w": 1080,
+ "h": 1920,
+ "total": 42.2,
+ "meta": {
+  "title": "You're using Grok Bot wrong (Short)",
+  "format": "vertical",
+  "look": "brutal",
+  "edge_voice": "en-US-AndrewMultilingualNeural",
+  "edge_rate": "+8%",
+  "say": {},
+  "lead": 0.15,
+  "gap": 0.18,
+  "tail": 0.35,
+  "cast": {
+   "eng": {
+    "name": "Engineer Bot",
+    "role": "outer loop",
+    "c": "#3b5bff",
+    "shape": "square"
+   }
+  }
+ },
+ "scenes": [
+  {
+   "id": "h1",
+   "type": "compose",
+   "theme": "paper",
+   "chapter": "short",
+   "data": {
+    "els": [
+     {
+      "el": "text",
+      "style": "display",
+      "text": "You're using\nGrok Bot\n*wrong*.",
+      "box": [
+       72,
+       280,
+       876,
+       420
+      ],
+      "size": 120,
+      "in": "words@0",
+      "do": [
+       "hl@wrong"
+      ]
+     },
+     {
+      "el": "bubble",
+      "from": "you",
+      "text": "Write me a login page.",
+      "box": [
+       72,
+       800,
+       876,
+       130
+      ],
+      "in": "right@Most",
+      "do": [
+       "strike@code+0.2"
+      ]
+     },
+     {
+      "el": "tag",
+      "text": "THE CODER",
+      "color": "bad",
+      "filled": true,
+      "size": 30,
+      "box": [
+       72,
+       980,
+       420,
+       72
+      ],
+      "in": "stamp@code"
+     }
+    ]
+   },
+   "start": 0.0,
+   "lines": [
+    {
+     "text": "You're using Grok Bot wrong.",
+     "s": 0.15,
+     "e": 3.032,
+     "w": [
+      [
+       0.039,
+       0.319,
+       "You're"
+      ],
+      [
+       0.319,
+       1.039,
+       "using"
+      ],
+      [
+       1.039,
+       1.512,
+       "Grok"
+      ],
+      [
+       1.512,
+       1.986,
+       "Bot"
+      ],
+      [
+       2.459,
+       2.779,
+       "wrong."
+      ]
+     ]
+    },
+    {
+     "text": "Most people make it write code.",
+     "s": 3.212,
+     "e": 5.381,
+     "w": [
+      [
+       3.178,
+       3.458,
+       "Most"
+      ],
+      [
+       3.458,
+       3.798,
+       "people"
+      ],
+      [
+       3.798,
+       4.518,
+       "make"
+      ],
+      [
+       4.518,
+       4.718,
+       "it"
+      ],
+      [
+       4.718,
+       4.938,
+       "write"
+      ],
+      [
+       4.938,
+       5.198,
+       "code."
+      ]
+     ]
+    }
+   ],
+   "dur": 5.731
+  },
+  {
+   "id": "h2",
+   "type": "compose",
+   "theme": "peach",
+   "chapter": "short",
+   "trans": "cut",
+   "data": {
+    "els": [
+     {
+      "el": "text",
+      "style": "label",
+      "text": "The Grok Bot team",
+      "box": [
+       72,
+       300,
+       876,
+       44
+      ],
+      "align": "center",
+      "in": "fade@team"
+     },
+     {
+      "el": "text",
+      "style": "display",
+      "text": "Coder",
+      "box": [
+       72,
+       380,
+       876,
+       150
+      ],
+      "align": "center",
+      "in": "words@team",
+      "do": [
+       "strike@opposite",
+       "dim@opposite+0.3"
+      ]
+     },
+     {
+      "el": "glyph",
+      "text": "↓",
+      "box": [
+       390,
+       560,
+       300,
+       200
+      ],
+      "in": "pop@built"
+     },
+     {
+      "el": "text",
+      "style": "display",
+      "text": "*Manager*",
+      "box": [
+       72,
+       790,
+       876,
+       170
+      ],
+      "align": "center",
+      "in": {
+       "m": "stamp",
+       "at": "opposite",
+       "turn": -3
+      }
+     }
+    ]
+   },
+   "start": 5.731,
+   "lines": [
+    {
+     "text": "The team that built it does the opposite.",
+     "s": 0.15,
+     "e": 3.689,
+     "w": [
+      [
+       -0.007,
+       0.153,
+       "The"
+      ],
+      [
+       0.153,
+       0.513,
+       "team"
+      ],
+      [
+       0.513,
+       0.833,
+       "that"
+      ],
+      [
+       0.833,
+       1.293,
+       "built"
+      ],
+      [
+       1.293,
+       1.593,
+       "it"
+      ],
+      [
+       1.593,
+       2.113,
+       "does"
+      ],
+      [
+       2.113,
+       2.613,
+       "the"
+      ],
+      [
+       2.613,
+       3.413,
+       "opposite."
+      ]
+     ]
+    }
+   ],
+   "dur": 4.039
+  },
+  {
+   "id": "h3",
+   "type": "compose",
+   "theme": "mint",
+   "chapter": "short",
+   "trans": "whip",
+   "data": {
+    "els": [
+     {
+      "id": "b",
+      "el": "avatar",
+      "who": "eng",
+      "label": true,
+      "box": [
+       390,
+       250,
+       300,
+       260
+      ],
+      "in": "pop@bots",
+      "loop": "float"
+     },
+     {
+      "id": "a",
+      "el": "card",
+      "icon": "term",
+      "kicker": "inner loop",
+      "title": "Cloud coding agent",
+      "box": [
+       72,
+       640,
+       876,
+       170
+      ],
+      "in": "rise@hand"
+     },
+     {
+      "id": "p",
+      "el": "pr",
+      "num": "#4821",
+      "title": "Fix onboarding crash",
+      "state": "OPEN",
+      "checks": [
+       {
+        "text": "tests"
+       }
+      ],
+      "box": [
+       72,
+       940,
+       876,
+       200
+      ],
+      "in": "rise@task+0.25"
+     },
+     {
+      "el": "arrow",
+      "from": "b",
+      "to": "a",
+      "bend": 0,
+      "in": "fade@hand+0.3"
+     },
+     {
+      "el": "arrow",
+      "from": "a",
+      "to": "p",
+      "bend": 0,
+      "in": "fade@task+0.45"
+     }
+    ]
+   },
+   "start": 9.77,
+   "lines": [
+    {
+     "text": "Their bots hand every coding task to a cloud agent.",
+     "s": 0.15,
+     "e": 4.193,
+     "w": [
+      [
+       0.086,
+       0.366,
+       "Their"
+      ],
+      [
+       0.366,
+       0.806,
+       "bots"
+      ],
+      [
+       0.806,
+       1.066,
+       "hand"
+      ],
+      [
+       1.066,
+       1.706,
+       "every"
+      ],
+      [
+       1.706,
+       2.026,
+       "coding"
+      ],
+      [
+       2.026,
+       2.306,
+       "task"
+      ],
+      [
+       2.306,
+       3.386,
+       "to"
+      ],
+      [
+       3.386,
+       3.546,
+       "a"
+      ],
+      [
+       3.546,
+       3.726,
+       "cloud"
+      ],
+      [
+       3.726,
+       4.026,
+       "agent."
+      ]
+     ]
+    }
+   ],
+   "dur": 4.543
+  },
+  {
+   "id": "h4",
+   "type": "compose",
+   "theme": "lavender",
+   "chapter": "short",
+   "trans": "zoom",
+   "data": {
+    "els": [
+     {
+      "el": "text",
+      "style": "title",
+      "text": "Bring back *proof*",
+      "box": [
+       72,
+       250,
+       876,
+       110
+      ],
+      "align": "center",
+      "in": "mask@rule",
+      "do": [
+       "hl@proof"
+      ]
+     },
+     {
+      "el": "phone",
+      "title": "Before",
+      "bad": true,
+      "box": [
+       110,
+       420,
+       330,
+       640
+      ],
+      "in": "left@Screenshots"
+     },
+     {
+      "el": "phone",
+      "title": "After",
+      "box": [
+       560,
+       420,
+       330,
+       640
+      ],
+      "in": "rise@Screenshots+0.3"
+     },
+     {
+      "el": "tag",
+      "icon": "check",
+      "text": "TESTS GREEN",
+      "color": "good",
+      "filled": true,
+      "size": 28,
+      "box": [
+       540,
+       1090,
+       370,
+       66
+      ],
+      "in": "pop@green"
+     },
+     {
+      "el": "stamp",
+      "text": "OR IT GOES BACK",
+      "tone": "bad",
+      "box": [
+       110,
+       690,
+       780,
+       150
+      ],
+      "in": {
+       "m": "stamp",
+       "at": "goes back",
+       "turn": -5
+      }
+     }
+    ]
+   },
+   "start": 14.313,
+   "lines": [
+    {
+     "text": "With one rule: bring back proof.",
+     "s": 0.15,
+     "e": 2.936,
+     "w": [
+      [
+       0.033,
+       0.293,
+       "With"
+      ],
+      [
+       0.293,
+       0.613,
+       "one"
+      ],
+      [
+       0.613,
+       0.933,
+       "rule:"
+      ],
+      [
+       1.133,
+       2.073,
+       "bring"
+      ],
+      [
+       2.073,
+       2.353,
+       "back"
+      ],
+      [
+       2.353,
+       2.693,
+       "proof."
+      ]
+     ]
+    },
+    {
+     "text": "Screenshots and green tests, or it goes back.",
+     "s": 3.116,
+     "e": 6.882,
+     "w": [
+      [
+       2.989,
+       3.509,
+       "Screenshots"
+      ],
+      [
+       3.509,
+       3.989,
+       "and"
+      ],
+      [
+       3.989,
+       4.769,
+       "green"
+      ],
+      [
+       4.769,
+       5.129,
+       "tests,"
+      ],
+      [
+       5.129,
+       5.889,
+       "or"
+      ],
+      [
+       5.889,
+       6.269,
+       "it"
+      ],
+      [
+       6.269,
+       6.509,
+       "goes"
+      ],
+      [
+       6.509,
+       6.729,
+       "back."
+      ]
+     ]
+    }
+   ],
+   "dur": 7.232
+  },
+  {
+   "id": "h5",
+   "type": "compose",
+   "theme": "sky",
+   "chapter": "short",
+   "trans": "whip",
+   "data": {
+    "els": [
+     {
+      "el": "number",
+      "value": 200,
+      "suffix": "+",
+      "label": "agents at once",
+      "box": [
+       72,
+       250,
+       876,
+       260
+      ],
+      "size": 190,
+      "in": "zoom@more",
+      "align": "center",
+      "d": 0.8
+     },
+     {
+      "el": "text",
+      "style": "heading",
+      "text": "15 by hand",
+      "box": [
+       72,
+       520,
+       876,
+       70
+      ],
+      "in": "left@fifteen",
+      "do": [
+       "strike@two hundred"
+      ],
+      "align": "center"
+     },
+     {
+      "el": "tiles",
+      "count": 200,
+      "cols": 20,
+      "steps": [
+       {
+        "n": 15,
+        "at": "fifteen",
+        "color": "ink"
+       },
+       {
+        "n": 200,
+        "at": "two hundred"
+       }
+      ],
+      "box": [
+       72,
+       640,
+       876,
+       560
+      ],
+      "in": "fade@engineer"
+     }
+    ]
+   },
+   "start": 21.545,
+   "lines": [
+    {
+     "text": "One engineer went from juggling fifteen agents to more than two hundred.",
+     "s": 0.15,
+     "e": 5.284,
+     "w": [
+      [
+       0.123,
+       0.403,
+       "One"
+      ],
+      [
+       0.403,
+       0.923,
+       "engineer"
+      ],
+      [
+       0.923,
+       1.483,
+       "went"
+      ],
+      [
+       1.483,
+       1.743,
+       "from"
+      ],
+      [
+       1.743,
+       2.163,
+       "juggling"
+      ],
+      [
+       2.163,
+       2.783,
+       "fifteen"
+      ],
+      [
+       2.783,
+       3.463,
+       "agents"
+      ],
+      [
+       3.463,
+       4.403,
+       "to"
+      ],
+      [
+       4.403,
+       4.583,
+       "more"
+      ],
+      [
+       4.583,
+       4.723,
+       "than"
+      ],
+      [
+       4.723,
+       4.843,
+       "two"
+      ],
+      [
+       4.843,
+       5.103,
+       "hundred."
+      ]
+     ]
+    }
+   ],
+   "dur": 5.634
+  },
+  {
+   "id": "h6",
+   "type": "compose",
+   "theme": "night",
+   "chapter": "short",
+   "trans": "cut",
+   "data": {
+    "els": [
+     {
+      "el": "text",
+      "style": "huge",
+      "text": "03:00",
+      "box": [
+       72,
+       260,
+       876,
+       190
+      ],
+      "align": "center",
+      "in": "chars@three",
+      "do": [
+       "dim@eight"
+      ]
+     },
+     {
+      "el": "text",
+      "style": "body",
+      "text": "dead code · load time · bundle size",
+      "box": [
+       72,
+       460,
+       876,
+       56
+      ],
+      "align": "center",
+      "in": "fade@audit"
+     },
+     {
+      "el": "text",
+      "style": "huge",
+      "text": "08:00",
+      "box": [
+       72,
+       560,
+       876,
+       190
+      ],
+      "align": "center",
+      "in": "chars@eight"
+     },
+     {
+      "el": "group",
+      "box": [
+       72,
+       770,
+       876,
+       520
+      ],
+      "layout": {
+       "type": "rows",
+       "n": 3,
+       "gap": 18
+      },
+      "kids": [
+       {
+        "el": "pr",
+        "num": "#4830",
+        "title": "Remove dead feature flags",
+        "state": "READY",
+        "checks": [
+         {
+          "text": "CI"
+         }
+        ],
+        "in": "rise@PRs"
+       },
+       {
+        "el": "pr",
+        "num": "#4831",
+        "title": "Cut bundle size 8%",
+        "state": "READY",
+        "checks": [
+         {
+          "text": "CI"
+         }
+        ],
+        "in": "rise@PRs+0.2"
+       },
+       {
+        "el": "pr",
+        "num": "#4832",
+        "title": "Lazy-load settings screen",
+        "state": "READY",
+        "checks": [
+         {
+          "text": "CI"
+         }
+        ],
+        "in": "rise@PRs+0.4"
+       }
+      ]
+     }
+    ]
+   },
+   "start": 27.179,
+   "lines": [
+    {
+     "text": "Every night at three, the bots audit the codebase.",
+     "s": 0.15,
+     "e": 4.015,
+     "w": [
+      [
+       -0.009,
+       0.251,
+       "Every"
+      ],
+      [
+       0.251,
+       0.631,
+       "night"
+      ],
+      [
+       0.631,
+       0.831,
+       "at"
+      ],
+      [
+       0.831,
+       1.091,
+       "three,"
+      ],
+      [
+       1.311,
+       1.631,
+       "the"
+      ],
+      [
+       1.631,
+       1.991,
+       "bots"
+      ],
+      [
+       1.991,
+       2.731,
+       "audit"
+      ],
+      [
+       2.731,
+       3.291,
+       "the"
+      ],
+      [
+       3.291,
+       3.671,
+       "codebase."
+      ]
+     ]
+    },
+    {
+     "text": "By eight, the PRs are waiting.",
+     "s": 4.195,
+     "e": 6.837,
+     "w": [
+      [
+       4.077,
+       4.277,
+       "By"
+      ],
+      [
+       4.277,
+       4.677,
+       "eight,"
+      ],
+      [
+       4.737,
+       5.717,
+       "the"
+      ],
+      [
+       5.717,
+       6.117,
+       "PRs"
+      ],
+      [
+       6.117,
+       6.237,
+       "are"
+      ],
+      [
+       6.237,
+       6.497,
+       "waiting."
+      ]
+     ]
+    }
+   ],
+   "dur": 7.187
+  },
+  {
+   "id": "h7",
+   "type": "compose",
+   "theme": "paper",
+   "chapter": "short",
+   "trans": "zoom",
+   "data": {
+    "els": [
+     {
+      "el": "text",
+      "style": "display",
+      "text": "Write your code",
+      "box": [
+       72,
+       330,
+       876,
+       140
+      ],
+      "align": "center",
+      "in": "chars@stop",
+      "do": [
+       "strike@run"
+      ]
+     },
+     {
+      "el": "text",
+      "style": "display",
+      "text": "Run your *loop*",
+      "box": [
+       72,
+       540,
+       876,
+       160
+      ],
+      "align": "center",
+      "in": "mask@run",
+      "do": [
+       "hl@loop",
+       "underline@loop+0.5"
+      ]
+     },
+     {
+      "el": "tag",
+      "icon": "play",
+      "text": "FULL PLAYBOOK ON THE CHANNEL",
+      "color": "accent",
+      "filled": true,
+      "size": 26,
+      "box": [
+       150,
+       820,
+       720,
+       70
+      ],
+      "in": "pop@playbook",
+      "align": "center"
+     }
+    ]
+   },
+   "start": 34.366,
+   "lines": [
+    {
+     "text": "So stop asking Grok Bot to write your code.",
+     "s": 0.15,
+     "e": 3.439,
+     "w": [
+      [
+       0.027,
+       0.267,
+       "So"
+      ],
+      [
+       0.267,
+       0.747,
+       "stop"
+      ],
+      [
+       0.747,
+       1.107,
+       "asking"
+      ],
+      [
+       1.107,
+       1.287,
+       "Grok"
+      ],
+      [
+       1.287,
+       1.467,
+       "Bot"
+      ],
+      [
+       1.647,
+       2.047,
+       "to"
+      ],
+      [
+       2.047,
+       2.367,
+       "write"
+      ],
+      [
+       2.367,
+       3.027,
+       "your"
+      ],
+      [
+       3.027,
+       3.287,
+       "code."
+      ]
+     ]
+    },
+    {
+     "text": "Ask it to run your loop. Full playbook on the channel.",
+     "s": 3.619,
+     "e": 7.484,
+     "w": [
+      [
+       3.461,
+       3.821,
+       "Ask"
+      ],
+      [
+       3.821,
+       4.041,
+       "it"
+      ],
+      [
+       4.041,
+       4.141,
+       "to"
+      ],
+      [
+       4.141,
+       4.361,
+       "run"
+      ],
+      [
+       4.361,
+       4.581,
+       "your"
+      ],
+      [
+       4.581,
+       4.841,
+       "loop."
+      ],
+      [
+       5.141,
+       5.661,
+       "Full"
+      ],
+      [
+       5.661,
+       6.201,
+       "playbook"
+      ],
+      [
+       6.201,
+       6.741,
+       "on"
+      ],
+      [
+       6.741,
+       6.901,
+       "the"
+      ],
+      [
+       6.901,
+       7.161,
+       "channel."
+      ]
+     ]
+    }
+   ],
+   "dur": 7.834
+  }
+ ]
+}

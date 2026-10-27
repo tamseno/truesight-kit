@@ -1,10 +1,192 @@
 {
+ "formats": {
+  "landscape": {
+   "about": "16:9 long-form (YouTube). 1920×1080.",
+   "size": [
+    1920,
+    1080
+   ],
+   "ui": 1,
+   "captions": "pill",
+   "safe": null,
+   "area": {
+    "title": [
+     88,
+     240,
+     1744,
+     632
+    ],
+    "bare": [
+     88,
+     110,
+     1744,
+     800
+    ]
+   }
+  },
+  "vertical": {
+   "about": "9:16 short-form (YouTube Shorts, TikTok, Reels). 1080×1920. Keep text out of the bottom 470 px and the right 132 px (the content area already does).",
+   "size": [
+    1080,
+    1920
+   ],
+   "ui": 1.5,
+   "captions": "pop",
+   "safe": {
+    "top": 200,
+    "right": 132,
+    "bottom": 470,
+    "left": 40
+   },
+   "area": {
+    "title": [
+     72,
+     500,
+     876,
+     790
+    ],
+    "bare": [
+     72,
+     236,
+     876,
+     1054
+    ]
+   }
+  },
+  "square": {
+   "about": "1:1 feed post (Instagram, LinkedIn, X). 1080×1080.",
+   "size": [
+    1080,
+    1080
+   ],
+   "ui": 1.15,
+   "captions": "pill",
+   "safe": null,
+   "area": {
+    "title": [
+     64,
+     236,
+     952,
+     640
+    ],
+    "bare": [
+     64,
+     96,
+     952,
+     780
+    ]
+   }
+  },
+  "portrait": {
+   "about": "4:5 feed video (Instagram, Facebook). 1080×1350.",
+   "size": [
+    1080,
+    1350
+   ],
+   "ui": 1.2,
+   "captions": "pill",
+   "safe": null,
+   "area": {
+    "title": [
+     64,
+     270,
+     952,
+     830
+    ],
+    "bare": [
+     64,
+     110,
+     952,
+     990
+    ]
+   }
+  }
+ },
+ "recipeFormats": {
+  "board": [
+   "landscape"
+  ],
+  "cards": [
+   "landscape"
+  ],
+  "chapter": [
+   "*"
+  ],
+  "chat": [
+   "*"
+  ],
+  "checklist": [
+   "landscape"
+  ],
+  "clock": [
+   "landscape"
+  ],
+  "code": [
+   "landscape"
+  ],
+  "compare": [
+   "landscape"
+  ],
+  "compose": [
+   "*"
+  ],
+  "endcard": [
+   "*"
+  ],
+  "flow": [
+   "landscape"
+  ],
+  "grid": [
+   "landscape"
+  ],
+  "hero": [
+   "landscape"
+  ],
+  "loop": [
+   "landscape"
+  ],
+  "post": [
+   "landscape"
+  ],
+  "roster": [
+   "landscape"
+  ],
+  "rules": [
+   "landscape"
+  ],
+  "scorecard": [
+   "landscape"
+  ],
+  "statement": [
+   "*"
+  ],
+  "stats": [
+   "landscape"
+  ],
+  "stepper": [
+   "landscape"
+  ],
+  "swarm": [
+   "landscape"
+  ],
+  "table": [
+   "landscape"
+  ],
+  "terminal": [
+   "landscape"
+  ],
+  "timeline": [
+   "landscape"
+  ],
+  "versus": [
+   "landscape"
+  ]
+ },
  "looks": {
   "clean": {
    "name": "Clean",
    "about": "Soft white cards on drifting pastel light. Friendly, product-launch feel.",
    "dark": false,
-   "background": "mesh",
    "transition": "lift",
    "feel": {
     "w": 9.5,
@@ -17,9 +199,8 @@
   },
   "editorial": {
    "name": "Editorial",
-   "about": "Magazine layout: serif headlines, hairline rules, paper, one red accent. Calm, authoritative.",
+   "about": "Magazine feel: serif headlines, hairline card outlines, warm paper tones, one red accent. Calm, authoritative.",
    "dark": false,
-   "background": "paper",
    "transition": "slide",
    "feel": {
     "w": 7.5,
@@ -32,9 +213,8 @@
   },
   "blueprint": {
    "name": "Blueprint",
-   "about": "Engineering drawing: navy grid, cyan line work, condensed DIN type, mono labels. Precise, technical.",
+   "about": "Engineering night: deep navy gradients, cyan outlines, condensed DIN type, mono labels. Precise, technical.",
    "dark": true,
-   "background": "grid",
    "transition": "push",
    "feel": {
     "w": 12,
@@ -47,9 +227,8 @@
   },
   "neon": {
    "name": "Neon",
-   "about": "Night-mode product film: near-black, glowing edges, electric violet and cyan. Energetic.",
+   "about": "Night-mode product film: near-black with violet and cyan glows, glowing card edges. Energetic.",
    "dark": true,
-   "background": "beams",
    "transition": "zoom",
    "feel": {
     "w": 11.5,
@@ -62,9 +241,8 @@
   },
   "brutal": {
    "name": "Brutal",
-   "about": "Neo-brutalist: flat saturated color, thick black outlines, hard offset shadows, heavy type. Loud, playful, confident.",
+   "about": "Neo-brutalist: flat saturated color fields, thick black outlines, hard offset shadows, heavy type. Loud, playful, confident.",
    "dark": false,
-   "background": "dots",
    "transition": "slide",
    "feel": {
     "w": 13,
@@ -79,7 +257,6 @@
    "name": "Glass",
    "about": "Frosted panels over saturated color fields, geometric type. Premium, consumer-tech.",
    "dark": true,
-   "background": "mesh",
    "transition": "zoom",
    "feel": {
     "w": 8.5,
@@ -92,9 +269,8 @@
   },
   "terminal": {
    "name": "Terminal",
-   "about": "Phosphor terminal: black-green, monospace everywhere, scanlines, hard cuts. Hacker, raw.",
+   "about": "Phosphor terminal: black-green gradients, monospace everywhere, hard cuts. Hacker, raw.",
    "dark": true,
-   "background": "scan",
    "transition": "cut",
    "feel": {
     "w": 14,
@@ -138,7 +314,8 @@
     "label": "string",
     "sub": "string",
     "color": "ink|accent|good|bad",
-    "size": "px"
+    "size": "px",
+    "align": "left|center"
    },
    "size": [
     600,
@@ -202,7 +379,7 @@
    }
   },
   "card": {
-   "about": "A content card: optional icon, kicker tag, title, body, footer. tone colors a top stripe.",
+   "about": "A content card: optional icon, kicker, title, body, footer; tone colors a top stripe. Wide, short boxes switch to a row (icon left) automatically; row: true/false forces it.",
    "props": {
     "icon": "icon name",
     "kicker": "string",
@@ -211,7 +388,8 @@
     "footer": "md",
     "tone": "good|bad|warn|accent",
     "align": "left|center",
-    "size": "title px"
+    "size": "title px",
+    "row": "bool"
    },
    "size": [
     520,

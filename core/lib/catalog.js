@@ -24,7 +24,9 @@
   window.KIT_CATALOG = () => {
     const pick = (o, f) => Object.fromEntries(Object.entries(o).map(([k, v]) => [k, f(v, k)]));
     return {
-      looks: pick(window.LOOKS || {}, (l, k) => ({ name: l.name || k, about: l.about || '', dark: !!l.dark, background: l.bg, transition: l.trans, feel: l.feel })),
+      formats: Object.fromEntries(Object.entries(window.FORMATS || {}).filter(([k, f]) => f.name === k).map(([k, f]) => [k, { about: f.about, size: [f.W, f.H], ui: f.ui, captions: f.sub.mode, safe: f.safe, area: f.area }])),
+      recipeFormats: Object.fromEntries(Object.entries(window.ARCH || {}).map(([k, a]) => [k, a.formats || ['landscape']])),
+      looks: pick(window.LOOKS || {}, (l, k) => ({ name: l.name || k, about: l.about || '', dark: !!l.dark, transition: l.trans, feel: l.feel })),
       elements: pick(H.EL, e => ({ about: e.about, props: e.props, size: e.size, example: H.EL_DEMO[e.name] || {} })),
       motions: pick(H.MOTIONS, m => ({ kind: m.kind, about: m.about, params: m.params })),
       layouts: pick(H.LAYOUTS, l => ({ about: l.about, params: l.params })),

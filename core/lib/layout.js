@@ -1,6 +1,8 @@
 // Layout library — named ways to divide the content area into slots for "compose" scenes.
 // H.layout(spec, area) -> { name: rect, ... } plus .list (slots in order). spec = "split" | { type: "split", ratio: .55, gap: 40 }.
-// area = the content box (with a scene title: x 88, y 240, w 1744, h 632; without: x 88, y 110, w 1744, h 800).
+// area = the content box the format gives (landscape with a title: x 88, y 240, w 1744, h 632; see core/formats.js).
+// Layouts follow the shape of the area: on a tall area (vertical / Shorts) side-by-side layouts stack top-to-bottom and keep
+// their slot names (split.left is on top, split.right below), so one script reflows across formats. flow: "across" | "down" forces it.
 // Slots can be addressed by name ("left") or by index (0, 1, ...).
 (() => {
   const H = window.H;
@@ -26,5 +28,20 @@
   def('cascade', 'n overlapping cards stepping down-right (s0..), like a stack of windows.', { n: 'count', w: 'card w', h: 'card h', step: '[dx, dy]' }, (a, o) => { const n = o.n || 3, w = o.w || 900, hh = o.h || 460, [dx, dy] = o.step || [110, 70], x0 = a.x + (a.w - w - dx * (n - 1)) / 2, y0 = a.y + (a.h - hh - dy * (n - 1)) / 2, out = {}; for (let i = 0; i < n; i++) out['s' + i] = R(x0 + i * dx, y0 + i * dy, w, hh); return out; });
   def('row', 'n boxes of h height in a centred row (i0..).', { n: 'count', h: 'px', gap: 'px' }, (a, o) => { const n = o.n || 3, g = o.gap ?? 28, hh = Math.min(a.h, o.h || 300), w = (a.w - g * (n - 1)) / n, y = a.y + (a.h - hh) / 2, out = {}; for (let i = 0; i < n; i++) out['i' + i] = R(a.x + i * (w + g), y, w, hh); return out; });
   def('columns-hero', 'Big statement on the left third, n stacked items on the right (k0..).', { n: 'items', gap: 'px' }, (a, o) => { const g = o.gap ?? 22, lw = a.w * .38, out = { lead: R(a.x, a.y, lw - 40, a.h) }; Object.assign(out, rows(R(a.x + lw, a.y, a.w - lw, a.h), o.n || 3, g, Array.from({ length: o.n || 3 }, (_, i) => 'k' + i))); return out; });
-  H.layout = (spec, area) => { const s = typeof spec === 'string' ? { type: spec } : (spec || { type: 'full' }); const l = L[s.type] || L.full; if (!L[s.type]) H.WARN.push({ scene: '?', kind: 'unknown-layout', what: s.type }); const o = l.fn(area, s); o.list = Object.keys(o).filter(k => k !== 'list').map(k => o[k]); return o; };
+  // tall variants: same slot names, stacked
+  const ks = (p, n) => Array.from({ length: n }, (_, i) => p + i);
+  const TALL = {
+    split: (a, o) => { const g = o.gap ?? 40, th = (a.h - g) * (o.ratio ?? .5); return { left: R(a.x, a.y, a.w, th), right: R(a.x, a.y + th + g, a.w, a.h - g - th) }; },
+    hero: (a, o) => { const g = o.gap ?? 40, th = (a.h - g) * (o.ratio ?? .42); return { text: R(a.x, a.y, a.w, th), visual: R(a.x, a.y + th + g, a.w, a.h - th - g) }; },
+    'hero-r': (a, o) => { const g = o.gap ?? 40, vh = (a.h - g) * (o.ratio ?? .56); return { visual: R(a.x, a.y, a.w, vh), text: R(a.x, a.y + vh + g, a.w, a.h - vh - g) }; },
+    thirds: (a, o) => rows(a, 3, o.gap ?? 28, ['a', 'b', 'c']),
+    cols: (a, o) => rows(a, o.n || 4, o.gap ?? 24, ks('c', o.n || 4)),
+    row: (a, o) => { const n = o.n || 3, g = o.gap ?? 28, hh = Math.min((a.h - g * (n - 1)) / n, Math.max(o.h || 300, 160)), y0 = a.y + (a.h - hh * n - g * (n - 1)) / 2, out = {}; for (let i = 0; i < n; i++) out['i' + i] = R(a.x, y0 + i * (hh + g), a.w, hh); return out; },
+    bento: (a, o) => { const g = o.gap ?? 28, mh = (a.h - g) * (o.ratio ?? .6), sw = (a.w - g) / 2, y = a.y + mh + g, bh = a.h - mh - g; return { main: R(a.x, a.y, a.w, mh), side0: R(a.x, y, sw, bh), side1: R(a.x + sw + g, y, sw, bh) }; },
+    'columns-hero': (a, o) => { const g = o.gap ?? 22, n = o.n || 3, lh = a.h * .3, out = { lead: R(a.x, a.y, a.w, lh - 24) }; Object.assign(out, rows(R(a.x, a.y + lh, a.w, a.h - lh), n, g, ks('k', n))); return out; },
+    grid: (a, o) => { const c = o.cols || 3, r = o.rows || 2; return L.grid.fn(a, { ...o, cols: Math.min(c, r), rows: Math.max(c, r) }); },
+    cascade: (a, o) => { const n = o.n || 3, st = o.step || [110, 70]; return L.cascade.fn(a, { ...o, w: Math.min(o.w || 900, a.w - 36 * (n - 1)), step: [36, Math.max(st[1], 110)] }); },
+  };
+  H.layout = (spec, area) => { const s = typeof spec === 'string' ? { type: spec } : (spec || { type: 'full' }); const l = L[s.type] || L.full; if (!L[s.type]) H.WARN.push({ scene: '?', kind: 'unknown-layout', what: s.type });
+    const tall = s.flow === 'down' || (s.flow !== 'across' && area.h > area.w * .9), o = (tall && TALL[s.type] ? TALL[s.type] : l.fn)(area, s); o.list = Object.keys(o).filter(k => k !== 'list').map(k => o[k]); return o; };
 })();

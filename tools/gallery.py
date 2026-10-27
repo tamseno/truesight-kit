@@ -4,6 +4,7 @@
 #   elements-N.jpg       every element with its catalog example
 #   motions-<kind>.jpg   every motion as a 5-frame strip (how it moves, not just where it ends)
 #   layouts.jpg          every layout's slots
+#   formats.jpg          the same scenes in every format (landscape, vertical, square, portrait)   — only this one: python tools/gallery.py formats
 # Also refreshes docs/catalog.json + docs/CATALOG.md.
 import json, os, subprocess, sys, shutil, math
 from PIL import Image, ImageDraw, ImageFont
@@ -100,6 +101,43 @@ def frames(pairs, out, look=None):
     return {(sid, t): os.path.join(EP, out, f'f{round((S[sid]["start"] + t) * 60):05d}.jpg') for sid, t in pairs}
 def label(im, text, xy=(14, 10), size=F):
     d = ImageDraw.Draw(im); x, y = xy; bb = d.textbbox((x, y), text, font=size); d.rectangle((bb[0] - 8, bb[1] - 6, bb[2] + 8, bb[3] + 6), fill=(18, 19, 26)); d.text((x, y), text, font=size, fill=(255, 255, 255))
+# formats: the same scenes rendered at every canvas — slot layouts reflow, the chapter card restacks
+def formats_sheet():
+    import copy
+    SIZES = {'landscape': (1920, 1080), 'vertical': (1080, 1920), 'square': (1080, 1080), 'portrait': (1080, 1350)}
+    base = [
+        {'id': 'f_split', 'type': 'compose', 'theme': 'mint', 'label': 'The trap', 'title': 'Wrong way vs right way', 'dur': 3, 'data': {'layout': {'type': 'split', 'gap': 90}, 'els': [
+            {'id': 'a', 'el': 'card', 'slot': 'left', 'tone': 'bad', 'icon': 'x', 'kicker': 'The trap', 'title': 'Ask it to write code', 'body': 'You get code. Nobody checks it.', 'in': 'none'},
+            {'id': 'b', 'el': 'card', 'slot': 'right', 'tone': 'good', 'icon': 'check', 'kicker': 'The playbook', 'title': 'Ask it to run the loop', 'body': 'Brief, delegate, demand proof.', 'in': 'none'},
+            {'el': 'arrow', 'from': 'a', 'to': 'b', 'bend': 0, 'in': 'none'}]}},
+        {'id': 'f_row', 'type': 'compose', 'theme': 'lilac', 'dur': 3, 'data': {'layout': {'type': 'row', 'n': 3, 'h': 340, 'gap': 90}, 'els': [
+            {'id': 'p1', 'el': 'card', 'slot': 0, 'icon': 'chat', 'title': 'Brief', 'in': 'none'}, {'id': 'p2', 'el': 'card', 'slot': 1, 'icon': 'term', 'title': 'Delegate', 'in': 'none'},
+            {'id': 'p3', 'el': 'card', 'slot': 2, 'icon': 'check', 'title': 'Verify', 'in': 'none'},
+            {'el': 'arrow', 'from': 'p1', 'to': 'p2', 'bend': 0, 'in': 'none'}, {'el': 'arrow', 'from': 'p2', 'to': 'p3', 'bend': 0, 'in': 'none'}]}},
+        {'id': 'f_num', 'type': 'compose', 'theme': 'sky', 'dur': 3, 'data': {'layout': {'type': 'hero-r', 'ratio': .5}, 'els': [
+            {'el': 'tiles', 'slot': 'visual', 'count': 120, 'steps': [{'n': 120}], 'in': 'none'},
+            {'el': 'number', 'slot': 'text', 'value': 200, 'suffix': '+', 'label': 'agents at once', 'in': 'none'}]}},
+        {'id': 'f_chap', 'type': 'chapter', 'theme': 'ink', 'dur': 3, 'data': {'title': 'The handoff', 'sub': 'What a good brief contains', 'short': 'Handoff'}},
+    ]
+    root = os.path.join(EP, 'g_fmt'); shutil.rmtree(root, ignore_errors=True); shots = {}
+    for fmt, (w, h) in SIZES.items():
+        d = os.path.join(root, fmt); os.makedirs(d, exist_ok=True); sc = copy.deepcopy(base); t = 0
+        for x in sc: x['lines'] = []; x['start'] = t; x['chapter'] = 'formats'; x['push'] = False; x['trans'] = 'cut'; t += x['dur']
+        json.dump({'fps': 60, 'w': w, 'h': h, 'total': t, 'meta': {'look': 'clean', 'format': fmt}, 'scenes': sc}, open(os.path.join(d, 'timeline.json'), 'w', encoding='utf8'), ensure_ascii=False)
+        fr = [round((x['start'] + 2.6) * 60) for x in sc]
+        subprocess.run(['node', os.path.join(KIT, 'tools', 'render.mjs'), f'ep={d}', f'frames={",".join(map(str, fr))}', 'out=f', 'workers=4'], cwd=KIT, capture_output=True)
+        for x, f in zip(sc, fr): shots[(fmt, x['id'])] = os.path.join(d, 'f', f'f{f:05d}.jpg')
+    TH = 520; ws = {f: round(TH * w / h) for f, (w, h) in SIZES.items()}; W_ = sum(ws.values()) + 10 * len(ws) + 10
+    sheet = Image.new('RGB', (W_, len(base) * (TH + 10) + 54), 'white'); d = ImageDraw.Draw(sheet); x = 10
+    for f in SIZES: d.text((x + 4, 14), f'{f}  {SIZES[f][0]}x{SIZES[f][1]}', font=F, fill=(20, 20, 28)); x += ws[f] + 10
+    for r, b in enumerate(base):
+        x = 10
+        for f in SIZES:
+            p_ = shots[(f, b['id'])]
+            if os.path.exists(p_): sheet.paste(Image.open(p_).resize((ws[f], TH)), (x, 54 + r * (TH + 10)))
+            x += ws[f] + 10
+    sheet.save(os.path.join(OUT, 'formats.jpg'), quality=84); shutil.rmtree(root, ignore_errors=True)
+if sys.argv[1:] == ['formats']: formats_sheet(); print('gallery: formats.jpg'); sys.exit(0)
 # looks
 looks = list(CAT['looks']); tiles = []
 for lk in looks:
@@ -129,6 +167,7 @@ for s in la_scenes:
 cols = 4; sheet = Image.new('RGB', (cols * 650, math.ceil(len(tiles) / cols) * 370), 'white')
 for i, im in enumerate(tiles): sheet.paste(im, ((i % cols) * 650, (i // cols) * 370))
 sheet.save(os.path.join(OUT, 'layouts.jpg'), quality=84)
+formats_sheet()
 for d_ in os.listdir(EP):
     if d_.startswith('g_'): shutil.rmtree(os.path.join(EP, d_), ignore_errors=True)
 print('gallery:', ', '.join(sorted(os.listdir(OUT))))

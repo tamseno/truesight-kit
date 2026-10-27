@@ -7,11 +7,11 @@
 //                 report?: [{ k: "PRs ready", v: "14", tone?: "good"|"bad" }] } ] }
 ARCH.chat = (root, ctx, H, d, sc) => {
   const { h, set, A, SP, E, P, lerp, D, IC } = H;
-  const full = !sc.title, WX = full ? 150 : 88, WY = full ? 96 : 236, WW = full ? 1620 : 1744, WH = full ? 816 : 636;
+  const full = !sc.title, AR = H.AREA(sc), WX = AR.x, WY = AR.y, WW = AR.w, WH = AR.h, NARROW = H.W < 1400;
   const me = d.bot || H.BOT_ORDER[0];
   const wnd = H.put(root, H.card({ w: WW, h: WH }), WX, WY); wnd.style.borderRadius = '26px';
   // sidebar
-  const SW = 340, side = D(wnd, 0, 0, SW, WH, 'background:var(--code-bg);color:#fff');
+  const SW = NARROW ? 0 : 340, side = D(wnd, 0, 0, SW, WH, 'background:var(--code-bg);color:#fff'); if (NARROW) side.style.display = 'none';
   D(side, 28, 28, SW - 56, 40, 'display:flex;align-items:center;gap:12px;font:800 25px var(--fb);white-space:nowrap', `${H.grok(34).innerHTML}<span>${H.esc(d.app || 'Grok Bot')}</span>`);
   D(side, 28, 92, SW - 56, 26, 'font:800 20px var(--fb);letter-spacing:.14em;color:rgba(255,255,255,.4)', 'BOTS');
   const sb = (d.sidebar || H.BOT_ORDER.slice(0, 6)).map((k, i) => {
@@ -32,7 +32,7 @@ ARCH.chat = (root, ctx, H, d, sc) => {
     `<span style="font:700 22px var(--fm);color:var(--sub);background:var(--surface);border-radius:8px;padding:2px 9px;box-shadow:0 0 0 1px var(--line)">/</span><span style="font:700 22px var(--fm);color:var(--sub);background:var(--surface);border-radius:8px;padding:2px 9px;box-shadow:0 0 0 1px var(--line)">@</span><span>${H.esc(d.composer || `Message ${H.nameOf(me)}…`)}</span>`);
   // messages
   const msgs = d.messages || [], T = H.times(ctx, msgs, .04, .84);
-  const PAD = 30, GAP = 22, BW = Math.min(900, MW - 200);
+  const PAD = NARROW ? 22 : 30, GAP = 22, BW = Math.min(900, MW - (NARROW ? 90 : 200));
   let y = 26;
   const rows = msgs.map((m, i) => {
     const you = !m.from || m.from === 'you' || m.from === 'user';
@@ -83,8 +83,8 @@ ARCH.chat = (root, ctx, H, d, sc) => {
   });
   // camera: settle in on the thread, then lean toward the newest message as the thread fills
   ctx.cam(.1, { x: 960, y: 540, z: 1, d: .1 });
-  rows.forEach((rw, i) => { if (i > 0 && (rw.m.report || rw.m.approval || rw.m.shots)) ctx.focus(rw.t - .2, { x: WX + MX + PAD, y: WY + 86 + Math.min(VH - rw.hh, rw.y), w: BW, h: rw.hh }, { z: 1.07, k: .3, d: 1.2 }); });
-  if (full) ctx.cam(T[0], { x: 960 + 70, y: 560, z: 1.035, d: 2.4 });
+  rows.forEach((rw, i) => { if (i > 0 && (rw.m.report || rw.m.approval || rw.m.shots)) ctx.focus(rw.t - .2, { x: WX + MX + PAD, y: WY + 86 + Math.min(VH - rw.hh, rw.y), w: BW, h: rw.hh }, { z: 1.045, k: .3, d: 1.2 }); });
+  if (full && !NARROW) ctx.cam(T[0], { x: H.W / 2 + 70, y: H.H / 2 + 20, z: 1.035, d: 2.4 });
   return t => {
     enter(wnd, t, .05, { dy: 46, rx: 6 });
     tav.update(t); sb.forEach(({ av, k }) => av.update(t, { bob: k === me ? 2.6 : 1.4 }));
@@ -110,3 +110,4 @@ ARCH.chat = (root, ctx, H, d, sc) => {
   };
   function enter(el, t, s, o) { return H.enter(el, t, s, o); }
 };
+ARCH.chat.formats = ['*'];

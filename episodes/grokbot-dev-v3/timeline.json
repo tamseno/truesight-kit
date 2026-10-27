@@ -1,0 +1,9783 @@
+{
+ "fps": 60,
+ "w": 1920,
+ "h": 1080,
+ "total": 477.85,
+ "meta": {
+  "title": "Grok Bot Isn't Your Coder. It's Your Engineering Manager. (v3, blueprint)",
+  "edge_voice": "en-US-AndrewMultilingualNeural",
+  "edge_rate": "+4%",
+  "say": {},
+  "colors": {
+   "accent": "#5a5cf0"
+  },
+  "cast": {
+   "ios": {
+    "name": "iOS Bot",
+    "role": "iOS app",
+    "c": "#2fc7a4",
+    "shape": "square"
+   },
+   "desktop": {
+    "name": "Desktop Bot",
+    "role": "Desktop + CI",
+    "c": "#f5a524",
+    "shape": "tri"
+   },
+   "infra": {
+    "name": "Infra Bot",
+    "role": "Infrastructure",
+    "c": "#8b5cf6",
+    "shape": "hex"
+   },
+   "android": {
+    "name": "Android Bot",
+    "role": "Android app",
+    "c": "#3a86f4",
+    "shape": "diamond"
+   },
+   "harness": {
+    "name": "Harness Bot",
+    "role": "Bot harness",
+    "c": "#5a5cf0",
+    "shape": "circle"
+   },
+   "ops": {
+    "name": "Ops Bot",
+    "role": "Operations",
+    "c": "#f0628a",
+    "shape": "circle"
+   }
+  },
+  "look": "blueprint"
+ },
+ "scenes": [
+  {
+   "id": "s01",
+   "type": "compose",
+   "theme": "paper",
+   "chapter": "Intro",
+   "data": {
+    "els": [
+     {
+      "el": "text",
+      "style": "label",
+      "text": "Wednesday · cloud computer",
+      "box": [
+       140,
+       170,
+       760,
+       40
+      ],
+      "in": "fade@eight"
+     },
+     {
+      "el": "text",
+      "style": "huge",
+      "text": "07:58",
+      "box": [
+       128,
+       205,
+       900,
+       200
+      ],
+      "in": "chars@eight"
+     },
+     {
+      "el": "text",
+      "style": "body",
+      "text": "Laptop closed since last night.",
+      "box": [
+       140,
+       420,
+       820,
+       54
+      ],
+      "color": "sub",
+      "in": "rise@laptop"
+     },
+     {
+      "id": "toast",
+      "el": "toast",
+      "box": [
+       1060,
+       190,
+       740,
+       140
+      ],
+      "app": "Grok Bot · iOS Bot",
+      "title": "Night shift report",
+      "body": "6 pull requests moved overnight",
+      "icon": "bolt",
+      "time": "07:58",
+      "in": "drop@busy",
+      "do": [
+       "ping@busy+0.4"
+      ]
+     },
+     {
+      "el": "group",
+      "box": [
+       140,
+       560,
+       1640,
+       300
+      ],
+      "layout": {
+       "type": "cols",
+       "n": 3,
+       "gap": 30
+      },
+      "kids": [
+       {
+        "el": "stat",
+        "label": "Ready for review",
+        "value": 9,
+        "in": "rise@Nine"
+       },
+       {
+        "el": "stat",
+        "label": "Auto-merged",
+        "value": 4,
+        "tone": "good",
+        "in": "rise@Four"
+       },
+       {
+        "id": "needs",
+        "el": "stat",
+        "label": "Needs you",
+        "value": 1,
+        "tone": "bad",
+        "sub": "touches auth",
+        "in": "rise@one that",
+        "do": [
+         {
+          "m": "glow",
+          "at": "That's you",
+          "keep": true,
+          "color": "var(--bad)"
+         }
+        ]
+       }
+      ]
+     }
+    ],
+    "beats": [
+     {
+      "at": "one that",
+      "cam": {
+       "focus": "needs",
+       "z": 1.05,
+       "k": 0.3
+      }
+     },
+     {
+      "at": "That's you",
+      "focus": "needs"
+     }
+    ]
+   },
+   "start": 0.0,
+   "lines": [
+    {
+     "text": "It's eight a.m. You haven't touched your laptop since last night.",
+     "s": 0.35,
+     "e": 4.201,
+     "w": [
+      [
+       0.163,
+       0.438,
+       "It's"
+      ],
+      [
+       0.438,
+       0.713,
+       "eight"
+      ],
+      [
+       0.713,
+       0.988,
+       "a.m."
+      ],
+      [
+       1.263,
+       1.703,
+       "You"
+      ],
+      [
+       1.703,
+       2.183,
+       "haven't"
+      ],
+      [
+       2.183,
+       2.543,
+       "touched"
+      ],
+      [
+       2.543,
+       2.823,
+       "your"
+      ],
+      [
+       2.823,
+       3.123,
+       "laptop"
+      ],
+      [
+       3.123,
+       3.623,
+       "since"
+      ],
+      [
+       3.623,
+       3.823,
+       "last"
+      ],
+      [
+       3.823,
+       4.103,
+       "night."
+      ]
+     ]
+    },
+    {
+     "text": "But your bot has been busy. Nine pull requests ready for review. Four already merged.",
+     "s": 4.501,
+     "e": 9.142,
+     "w": [
+      [
+       4.411,
+       4.611,
+       "But"
+      ],
+      [
+       4.611,
+       4.731,
+       "your"
+      ],
+      [
+       4.731,
+       4.891,
+       "bot"
+      ],
+      [
+       4.891,
+       5.051,
+       "has"
+      ],
+      [
+       5.051,
+       5.231,
+       "been"
+      ],
+      [
+       5.231,
+       5.571,
+       "busy."
+      ],
+      [
+       5.731,
+       6.051,
+       "Nine"
+      ],
+      [
+       6.051,
+       6.291,
+       "pull"
+      ],
+      [
+       6.291,
+       6.531,
+       "requests"
+      ],
+      [
+       6.531,
+       6.951,
+       "ready"
+      ],
+      [
+       6.951,
+       7.111,
+       "for"
+      ],
+      [
+       7.111,
+       7.351,
+       "review."
+      ],
+      [
+       7.811,
+       8.251,
+       "Four"
+      ],
+      [
+       8.251,
+       8.631,
+       "already"
+      ],
+      [
+       8.631,
+       8.931,
+       "merged."
+      ]
+     ]
+    },
+    {
+     "text": "And one that needs a human. That's you.",
+     "s": 9.442,
+     "e": 12.693,
+     "w": [
+      [
+       9.313,
+       9.593,
+       "And"
+      ],
+      [
+       9.593,
+       9.853,
+       "one"
+      ],
+      [
+       9.853,
+       10.253,
+       "that"
+      ],
+      [
+       10.253,
+       10.573,
+       "needs"
+      ],
+      [
+       10.573,
+       10.773,
+       "a"
+      ],
+      [
+       10.773,
+       11.093,
+       "human."
+      ],
+      [
+       11.093,
+       11.683,
+       "That's"
+      ],
+      [
+       12.273,
+       12.453,
+       "you."
+      ]
+     ]
+    }
+   ],
+   "dur": 13.293
+  },
+  {
+   "id": "s02",
+   "type": "compose",
+   "theme": "paper",
+   "chapter": "Intro",
+   "trans": "zoom",
+   "label": "Not a fantasy",
+   "title": "From 15 agents to 200",
+   "data": {
+    "layout": {
+     "type": "split",
+     "ratio": 0.36
+    },
+    "els": [
+     {
+      "el": "text",
+      "slot": "left",
+      "style": "label",
+      "text": "Cloud agents at once",
+      "h": 40,
+      "y": 300,
+      "in": "fade@guide"
+     },
+     {
+      "el": "number",
+      "slot": "left",
+      "value": 200,
+      "suffix": "+",
+      "h": 220,
+      "y": 350,
+      "sub": "managed by bots",
+      "in": "zoom@two hundred"
+     },
+     {
+      "el": "text",
+      "slot": "left",
+      "style": "heading",
+      "text": "15 by hand",
+      "h": 66,
+      "y": 650,
+      "in": "left@fifteen",
+      "do": [
+       "strike@two hundred"
+      ]
+     },
+     {
+      "el": "group",
+      "box": [
+       930,
+       250,
+       760,
+       84
+      ],
+      "layout": {
+       "type": "cols",
+       "n": 5,
+       "gap": 20
+      },
+      "kids": [
+       {
+        "el": "avatar",
+        "who": "ios",
+        "in": "pop@bots manage+0.0"
+       },
+       {
+        "el": "avatar",
+        "who": "desktop",
+        "in": "pop@bots manage+0.1"
+       },
+       {
+        "el": "avatar",
+        "who": "infra",
+        "in": "pop@bots manage+0.2"
+       },
+       {
+        "el": "avatar",
+        "who": "android",
+        "in": "pop@bots manage+0.3"
+       },
+       {
+        "el": "avatar",
+        "who": "harness",
+        "in": "pop@bots manage+0.4"
+       }
+      ]
+     },
+     {
+      "el": "tiles",
+      "box": [
+       790,
+       360,
+       1040,
+       490
+      ],
+      "count": 200,
+      "cols": 20,
+      "steps": [
+       {
+        "n": 15,
+        "at": "fifteen",
+        "color": "ink"
+       },
+       {
+        "n": 200,
+        "at": "two hundred"
+       }
+      ],
+      "in": "fade@guide"
+     },
+     {
+      "el": "source",
+      "text": "x.ai/bot/guides/grok-bot-for-engineering",
+      "in": "fade@guide"
+     }
+    ],
+    "beats": [
+     {
+      "at": "two hundred",
+      "cam": {
+       "x": 1060,
+       "y": 560,
+       "z": 1.03
+      }
+     }
+    ]
+   },
+   "start": 13.293,
+   "lines": [
+    {
+     "text": "This isn't a fantasy. In xAI's own engineering guide, one engineer describes managing fifteen cloud coding agents by hand.",
+     "s": 0.35,
+     "e": 8.741,
+     "w": [
+      [
+       0.312,
+       0.492,
+       "This"
+      ],
+      [
+       0.492,
+       0.852,
+       "isn't"
+      ],
+      [
+       0.852,
+       0.852,
+       "a"
+      ],
+      [
+       0.852,
+       1.212,
+       "fantasy."
+      ],
+      [
+       1.352,
+       1.432,
+       "In"
+      ],
+      [
+       1.432,
+       1.582,
+       "xAI's"
+      ],
+      [
+       1.732,
+       1.912,
+       "own"
+      ],
+      [
+       1.912,
+       2.312,
+       "engineering"
+      ],
+      [
+       2.312,
+       2.672,
+       "guide,"
+      ],
+      [
+       2.852,
+       3.332,
+       "one"
+      ],
+      [
+       3.332,
+       3.812,
+       "engineer"
+      ],
+      [
+       3.812,
+       4.192,
+       "describes"
+      ],
+      [
+       4.192,
+       4.952,
+       "managing"
+      ],
+      [
+       4.952,
+       5.412,
+       "fifteen"
+      ],
+      [
+       5.872,
+       6.772,
+       "cloud"
+      ],
+      [
+       6.772,
+       6.992,
+       "coding"
+      ],
+      [
+       6.992,
+       7.512,
+       "agents"
+      ],
+      [
+       7.512,
+       8.372,
+       "by"
+      ],
+      [
+       8.372,
+       8.592,
+       "hand."
+      ]
+     ]
+    },
+    {
+     "text": "Now their bots manage more than two hundred of them at the same time.",
+     "s": 9.041,
+     "e": 13.707,
+     "w": [
+      [
+       9.015,
+       9.355,
+       "Now"
+      ],
+      [
+       9.435,
+       10.055,
+       "their"
+      ],
+      [
+       10.055,
+       10.315,
+       "bots"
+      ],
+      [
+       10.315,
+       10.715,
+       "manage"
+      ],
+      [
+       10.715,
+       11.075,
+       "more"
+      ],
+      [
+       11.075,
+       11.235,
+       "than"
+      ],
+      [
+       11.235,
+       11.415,
+       "two"
+      ],
+      [
+       11.415,
+       11.695,
+       "hundred"
+      ],
+      [
+       11.695,
+       11.875,
+       "of"
+      ],
+      [
+       11.875,
+       12.075,
+       "them"
+      ],
+      [
+       12.075,
+       13.075,
+       "at"
+      ],
+      [
+       13.075,
+       13.235,
+       "the"
+      ],
+      [
+       13.235,
+       13.415,
+       "same"
+      ],
+      [
+       13.415,
+       13.555,
+       "time."
+      ]
+     ]
+    }
+   ],
+   "dur": 14.307
+  },
+  {
+   "id": "s03",
+   "type": "compose",
+   "theme": "paper",
+   "chapter": "Intro",
+   "trans": "cut",
+   "data": {
+    "els": [
+     {
+      "el": "text",
+      "style": "label",
+      "text": "The shift",
+      "box": [
+       160,
+       250,
+       1600,
+       40
+      ],
+      "align": "center",
+      "in": "fade@difference"
+     },
+     {
+      "el": "text",
+      "style": "display",
+      "text": "a better prompt",
+      "box": [
+       160,
+       320,
+       1600,
+       130
+      ],
+      "align": "center",
+      "in": "words@better",
+      "do": [
+       "strike@job"
+      ]
+     },
+     {
+      "el": "text",
+      "style": "display",
+      "text": "the *job* you give it",
+      "box": [
+       160,
+       470,
+       1600,
+       130
+      ],
+      "align": "center",
+      "in": "mask@job",
+      "do": [
+       "hl@job+0.4"
+      ]
+     },
+     {
+      "id": "coder",
+      "el": "tag",
+      "text": "CODER",
+      "box": [
+       610,
+       710,
+       260,
+       64
+      ],
+      "color": "bad",
+      "size": 26,
+      "in": "pop@coder",
+      "do": [
+       "dim@the manager"
+      ]
+     },
+     {
+      "el": "glyph",
+      "text": "→",
+      "box": [
+       890,
+       700,
+       140,
+       84
+      ],
+      "in": "pop@shipping"
+     },
+     {
+      "el": "tag",
+      "text": "MANAGER",
+      "box": [
+       1060,
+       710,
+       330,
+       64
+      ],
+      "color": "good",
+      "filled": true,
+      "size": 26,
+      "in": {
+       "m": "stamp",
+       "at": "the manager",
+       "turn": -4
+      }
+     }
+    ]
+   },
+   "start": 27.6,
+   "lines": [
+    {
+     "text": "The difference isn't a better prompt. It's the job you give Grok Bot.",
+     "s": 0.35,
+     "e": 4.564,
+     "w": [
+      [
+       0.343,
+       0.483,
+       "The"
+      ],
+      [
+       0.483,
+       0.843,
+       "difference"
+      ],
+      [
+       0.843,
+       1.323,
+       "isn't"
+      ],
+      [
+       1.323,
+       1.383,
+       "a"
+      ],
+      [
+       1.383,
+       1.583,
+       "better"
+      ],
+      [
+       1.583,
+       1.883,
+       "prompt."
+      ],
+      [
+       1.883,
+       2.153,
+       "It's"
+      ],
+      [
+       2.423,
+       2.543,
+       "the"
+      ],
+      [
+       2.543,
+       2.783,
+       "job"
+      ],
+      [
+       2.783,
+       3.023,
+       "you"
+      ],
+      [
+       3.023,
+       3.263,
+       "give"
+      ],
+      [
+       3.263,
+       3.616,
+       "Grok"
+      ],
+      [
+       3.616,
+       3.97,
+       "Bot."
+      ]
+     ]
+    },
+    {
+     "text": "Most people make it the coder. The people shipping the most make it the manager.",
+     "s": 4.864,
+     "e": 9.662,
+     "w": [
+      [
+       4.83,
+       5.13,
+       "Most"
+      ],
+      [
+       5.13,
+       5.41,
+       "people"
+      ],
+      [
+       5.41,
+       5.67,
+       "make"
+      ],
+      [
+       5.67,
+       5.79,
+       "it"
+      ],
+      [
+       5.79,
+       5.91,
+       "the"
+      ],
+      [
+       5.91,
+       6.27,
+       "coder."
+      ],
+      [
+       6.29,
+       6.45,
+       "The"
+      ],
+      [
+       6.45,
+       6.71,
+       "people"
+      ],
+      [
+       6.71,
+       7.09,
+       "shipping"
+      ],
+      [
+       7.09,
+       7.45,
+       "the"
+      ],
+      [
+       7.45,
+       7.75,
+       "most"
+      ],
+      [
+       7.75,
+       8.81,
+       "make"
+      ],
+      [
+       8.81,
+       8.99,
+       "it"
+      ],
+      [
+       8.99,
+       9.09,
+       "the"
+      ],
+      [
+       9.09,
+       9.35,
+       "manager."
+      ]
+     ]
+    }
+   ],
+   "dur": 10.262
+  },
+  {
+   "id": "s04",
+   "type": "hero",
+   "theme": "paper",
+   "chapter": "Intro",
+   "trans": "zoom",
+   "data": {
+    "logos": [
+     {
+      "name": "Grok Bot",
+      "mark": "grok"
+     },
+     {
+      "name": "Cursor agents",
+      "color": "#15161c"
+     },
+     {
+      "name": "GitHub",
+      "color": "#6e40c9"
+     }
+    ],
+    "title": "Grok Bot as your\n*engineering manager*",
+    "meta": "handoff · proof · PR board · night shift",
+    "stack": [
+     {
+      "kind": "msg",
+      "text": "Onboarding crashes on small iPhones. P1."
+     },
+     {
+      "kind": "tool",
+      "text": "Cursor cloud agent",
+      "sub": "fix/onboarding-small-screens",
+      "who": "ios"
+     },
+     {
+      "kind": "pr",
+      "id": "#4821",
+      "title": "Onboarding on small screens",
+      "ok": [
+       "Checks pass",
+       "Proof attached"
+      ],
+      "state": "READY"
+     }
+    ]
+   },
+   "start": 37.862,
+   "lines": [
+    {
+     "text": "This video is the playbook: how to set it up, how to hand off work, and how to keep the loop closed while you sleep.",
+     "s": 0.35,
+     "e": 7.455,
+     "w": [
+      [
+       0.345,
+       0.505,
+       "This"
+      ],
+      [
+       0.505,
+       0.825,
+       "video"
+      ],
+      [
+       0.825,
+       1.045,
+       "is"
+      ],
+      [
+       1.045,
+       1.205,
+       "the"
+      ],
+      [
+       1.205,
+       1.705,
+       "playbook:"
+      ],
+      [
+       1.805,
+       2.225,
+       "how"
+      ],
+      [
+       2.225,
+       2.405,
+       "to"
+      ],
+      [
+       2.405,
+       2.625,
+       "set"
+      ],
+      [
+       2.625,
+       2.745,
+       "it"
+      ],
+      [
+       2.745,
+       3.005,
+       "up,"
+      ],
+      [
+       3.025,
+       3.365,
+       "how"
+      ],
+      [
+       3.365,
+       3.605,
+       "to"
+      ],
+      [
+       3.605,
+       3.785,
+       "hand"
+      ],
+      [
+       3.785,
+       3.965,
+       "off"
+      ],
+      [
+       3.965,
+       4.245,
+       "work,"
+      ],
+      [
+       4.385,
+       4.845,
+       "and"
+      ],
+      [
+       4.845,
+       5.005,
+       "how"
+      ],
+      [
+       5.005,
+       5.145,
+       "to"
+      ],
+      [
+       5.145,
+       5.405,
+       "keep"
+      ],
+      [
+       5.405,
+       5.665,
+       "the"
+      ],
+      [
+       5.665,
+       5.905,
+       "loop"
+      ],
+      [
+       5.905,
+       6.305,
+       "closed"
+      ],
+      [
+       6.305,
+       6.945,
+       "while"
+      ],
+      [
+       6.945,
+       7.125,
+       "you"
+      ],
+      [
+       7.125,
+       7.285,
+       "sleep."
+      ]
+     ]
+    }
+   ],
+   "dur": 8.055
+  },
+  {
+   "id": "s05",
+   "type": "compose",
+   "theme": "mint",
+   "chapter": "Coder vs. manager",
+   "trans": "slide",
+   "label": "The trap",
+   "title": "Coder vs. manager",
+   "data": {
+    "els": [
+     {
+      "id": "lh",
+      "el": "text",
+      "style": "heading",
+      "text": "Bot as *coder*",
+      "box": [
+       130,
+       270,
+       760,
+       70
+      ],
+      "in": "rise@trap"
+     },
+     {
+      "id": "ll",
+      "el": "list",
+      "box": [
+       130,
+       370,
+       760,
+       360
+      ],
+      "marker": "x",
+      "items": [
+       {
+        "text": "Codes on one shared machine",
+        "at": "every bot shares"
+       },
+       {
+        "text": "Every bot sees every login",
+        "at": "logins"
+       },
+       {
+        "text": "You review a transcript",
+        "sub": "not a diff",
+        "at": "transcript"
+       }
+      ],
+      "in": "fade@trap"
+     },
+     {
+      "el": "divider",
+      "vertical": true,
+      "box": [
+       930,
+       280,
+       60,
+       440
+      ],
+      "in": "unfold@trap"
+     },
+     {
+      "id": "rh",
+      "el": "text",
+      "style": "heading",
+      "text": "Bot as *manager*",
+      "box": [
+       1030,
+       270,
+       760,
+       70
+      ],
+      "in": "rise@built for",
+      "do": [
+       "hl@hands"
+      ]
+     },
+     {
+      "id": "rl",
+      "el": "list",
+      "box": [
+       1030,
+       370,
+       760,
+       360
+      ],
+      "marker": "check",
+      "items": [
+       {
+        "text": "Hands code to a cloud agent",
+        "at": "hands"
+       },
+       {
+        "text": "Demands proof",
+        "at": "demands"
+       },
+       {
+        "text": "Watches the PR until it's green",
+        "at": "watches"
+       }
+      ],
+      "in": "fade@built for"
+     }
+    ],
+    "beats": [
+     {
+      "at": "So give",
+      "focus": [
+       "rh",
+       "rl"
+      ]
+     }
+    ]
+   },
+   "start": 45.917,
+   "lines": [
+    {
+     "text": "Here's the trap. Grok Bot has a terminal and a browser on a cloud computer, so yes, it can write code.",
+     "s": 0.35,
+     "e": 6.24,
+     "w": [
+      [
+       0.312,
+       0.482,
+       "Here's"
+      ],
+      [
+       0.652,
+       0.832,
+       "the"
+      ],
+      [
+       0.832,
+       1.032,
+       "trap."
+      ],
+      [
+       1.032,
+       1.252,
+       "Grok"
+      ],
+      [
+       1.252,
+       1.472,
+       "Bot"
+      ],
+      [
+       1.692,
+       1.972,
+       "has"
+      ],
+      [
+       1.972,
+       2.192,
+       "a"
+      ],
+      [
+       2.192,
+       2.592,
+       "terminal"
+      ],
+      [
+       2.592,
+       2.972,
+       "and"
+      ],
+      [
+       2.972,
+       3.032,
+       "a"
+      ],
+      [
+       3.032,
+       3.372,
+       "browser"
+      ],
+      [
+       3.372,
+       3.632,
+       "on"
+      ],
+      [
+       3.632,
+       3.692,
+       "a"
+      ],
+      [
+       3.692,
+       3.892,
+       "cloud"
+      ],
+      [
+       3.892,
+       4.212,
+       "computer,"
+      ],
+      [
+       4.732,
+       5.132,
+       "so"
+      ],
+      [
+       5.132,
+       5.352,
+       "yes,"
+      ],
+      [
+       5.412,
+       5.512,
+       "it"
+      ],
+      [
+       5.512,
+       5.692,
+       "can"
+      ],
+      [
+       5.692,
+       5.872,
+       "write"
+      ],
+      [
+       5.872,
+       6.092,
+       "code."
+      ]
+     ]
+    },
+    {
+     "text": "But every bot shares that one machine and its logins, and you'd be reviewing a chat transcript instead of a diff.",
+     "s": 6.54,
+     "e": 13.079,
+     "w": [
+      [
+       6.501,
+       6.701,
+       "But"
+      ],
+      [
+       6.701,
+       6.981,
+       "every"
+      ],
+      [
+       6.981,
+       7.261,
+       "bot"
+      ],
+      [
+       7.261,
+       7.581,
+       "shares"
+      ],
+      [
+       7.581,
+       7.921,
+       "that"
+      ],
+      [
+       7.921,
+       8.121,
+       "one"
+      ],
+      [
+       8.121,
+       8.441,
+       "machine"
+      ],
+      [
+       8.441,
+       8.701,
+       "and"
+      ],
+      [
+       8.701,
+       8.821,
+       "its"
+      ],
+      [
+       8.821,
+       9.281,
+       "logins,"
+      ],
+      [
+       9.341,
+       9.561,
+       "and"
+      ],
+      [
+       9.561,
+       9.741,
+       "you'd"
+      ],
+      [
+       9.741,
+       9.821,
+       "be"
+      ],
+      [
+       9.821,
+       10.201,
+       "reviewing"
+      ],
+      [
+       10.201,
+       10.381,
+       "a"
+      ],
+      [
+       10.381,
+       10.581,
+       "chat"
+      ],
+      [
+       10.581,
+       10.961,
+       "transcript"
+      ],
+      [
+       10.961,
+       11.601,
+       "instead"
+      ],
+      [
+       11.601,
+       12.121,
+       "of"
+      ],
+      [
+       12.121,
+       12.241,
+       "a"
+      ],
+      [
+       12.241,
+       12.761,
+       "diff."
+      ]
+     ]
+    },
+    {
+     "text": "So give it the job it's built for. It hands the code to a cloud agent, demands proof, and watches the pull request until it's green.",
+     "s": 13.379,
+     "e": 20.659,
+     "w": [
+      [
+       13.286,
+       13.486,
+       "So"
+      ],
+      [
+       13.486,
+       13.806,
+       "give"
+      ],
+      [
+       13.806,
+       13.906,
+       "it"
+      ],
+      [
+       13.906,
+       13.986,
+       "the"
+      ],
+      [
+       13.986,
+       14.246,
+       "job"
+      ],
+      [
+       14.246,
+       14.406,
+       "it's"
+      ],
+      [
+       14.566,
+       14.786,
+       "built"
+      ],
+      [
+       14.786,
+       15.046,
+       "for."
+      ],
+      [
+       15.206,
+       15.506,
+       "It"
+      ],
+      [
+       15.506,
+       15.746,
+       "hands"
+      ],
+      [
+       15.746,
+       15.966,
+       "the"
+      ],
+      [
+       15.966,
+       16.186,
+       "code"
+      ],
+      [
+       16.186,
+       16.326,
+       "to"
+      ],
+      [
+       16.326,
+       16.426,
+       "a"
+      ],
+      [
+       16.426,
+       16.606,
+       "cloud"
+      ],
+      [
+       16.606,
+       16.946,
+       "agent,"
+      ],
+      [
+       17.066,
+       17.546,
+       "demands"
+      ],
+      [
+       17.546,
+       17.886,
+       "proof,"
+      ],
+      [
+       18.186,
+       18.506,
+       "and"
+      ],
+      [
+       18.506,
+       18.766,
+       "watches"
+      ],
+      [
+       18.766,
+       18.906,
+       "the"
+      ],
+      [
+       18.906,
+       19.046,
+       "pull"
+      ],
+      [
+       19.046,
+       19.306,
+       "request"
+      ],
+      [
+       19.306,
+       20.026,
+       "until"
+      ],
+      [
+       20.026,
+       20.176,
+       "it's"
+      ],
+      [
+       20.326,
+       20.486,
+       "green."
+      ]
+     ]
+    }
+   ],
+   "dur": 21.259
+  },
+  {
+   "id": "s06",
+   "type": "compose",
+   "theme": "mint",
+   "chapter": "Coder vs. manager",
+   "label": "Two loops",
+   "title": "The outer loop feeds the inner loop",
+   "data": {
+    "els": [
+     {
+      "id": "outer",
+      "el": "shape",
+      "kind": "ring",
+      "stroke": "accent",
+      "width": 6,
+      "box": [
+       640,
+       250,
+       660,
+       600
+      ],
+      "in": "iris@outer loop"
+     },
+     {
+      "el": "text",
+      "style": "label",
+      "text": "Outer loop · Grok Bot",
+      "box": [
+       640,
+       300,
+       660,
+       36
+      ],
+      "align": "center",
+      "color": "accent",
+      "in": "fade@outer loop"
+     },
+     {
+      "id": "inner",
+      "el": "shape",
+      "kind": "ring",
+      "stroke": "accent2",
+      "width": 6,
+      "box": [
+       800,
+       420,
+       340,
+       300
+      ],
+      "in": "iris@inner loop",
+      "do": [
+       "pulse@clean brief"
+      ]
+     },
+     {
+      "el": "text",
+      "style": "caption",
+      "text": "cloud agent\none repo · one task",
+      "box": [
+       810,
+       500,
+       320,
+       110
+      ],
+      "align": "center",
+      "lines": 2,
+      "hug": false,
+      "color": "accent2",
+      "in": "fade@inner loop"
+     },
+     {
+      "id": "i1",
+      "el": "card",
+      "icon": "chat",
+      "title": "Slack reports",
+      "box": [
+       100,
+       300,
+       430,
+       110
+      ],
+      "in": "left@Slack"
+     },
+     {
+      "id": "i2",
+      "el": "card",
+      "icon": "bug",
+      "title": "Bug tracker",
+      "box": [
+       100,
+       450,
+       430,
+       110
+      ],
+      "in": "left@bug tracker"
+     },
+     {
+      "id": "i3",
+      "el": "card",
+      "icon": "user",
+      "title": "Your messages",
+      "box": [
+       100,
+       600,
+       430,
+       110
+      ],
+      "in": "left@your messages"
+     },
+     {
+      "el": "arrow",
+      "from": "i1",
+      "to": "outer",
+      "bend": -0.15,
+      "in": "fade@Slack"
+     },
+     {
+      "el": "arrow",
+      "from": "i2",
+      "to": "outer",
+      "bend": 0,
+      "in": "fade@bug tracker"
+     },
+     {
+      "el": "arrow",
+      "from": "i3",
+      "to": "outer",
+      "bend": 0.15,
+      "in": "fade@your messages"
+     },
+     {
+      "id": "pr",
+      "el": "pr",
+      "num": "#4821",
+      "title": "Fix onboarding crash",
+      "state": "OPEN",
+      "checks": [
+       {
+        "text": "tests"
+       }
+      ],
+      "box": [
+       1400,
+       470,
+       430,
+       190
+      ],
+      "in": "right@real tests"
+     },
+     {
+      "el": "arrow",
+      "from": "inner",
+      "to": "pr",
+      "bend": 0,
+      "in": "fade@real tests"
+     },
+     {
+      "el": "note",
+      "text": "Dead ends *stay out*",
+      "side": "bottom",
+      "tone": "bad",
+      "box": [
+       1400,
+       280,
+       430,
+       100
+      ],
+      "in": "drop@dead ends"
+     }
+    ],
+    "beats": [
+     {
+      "at": "outer loop is",
+      "cam": {
+       "focus": "outer",
+       "z": 1.04,
+       "k": 0.2
+      }
+     },
+     {
+      "at": "dead ends",
+      "cam": "reset"
+     }
+    ]
+   },
+   "start": 67.176,
+   "lines": [
+    {
+     "text": "Think of it as two loops. The inner loop is a coding agent: one repo, one task, real tests.",
+     "s": 0.35,
+     "e": 5.644,
+     "w": [
+      [
+       0.249,
+       0.429,
+       "Think"
+      ],
+      [
+       0.429,
+       0.529,
+       "of"
+      ],
+      [
+       0.529,
+       0.609,
+       "it"
+      ],
+      [
+       0.609,
+       0.749,
+       "as"
+      ],
+      [
+       0.749,
+       1.009,
+       "two"
+      ],
+      [
+       1.009,
+       1.249,
+       "loops."
+      ],
+      [
+       1.489,
+       1.609,
+       "The"
+      ],
+      [
+       1.609,
+       1.829,
+       "inner"
+      ],
+      [
+       1.829,
+       2.049,
+       "loop"
+      ],
+      [
+       2.049,
+       2.369,
+       "is"
+      ],
+      [
+       2.369,
+       2.469,
+       "a"
+      ],
+      [
+       2.469,
+       2.729,
+       "coding"
+      ],
+      [
+       2.729,
+       3.009,
+       "agent:"
+      ],
+      [
+       3.089,
+       3.329,
+       "one"
+      ],
+      [
+       3.329,
+       3.629,
+       "repo,"
+      ],
+      [
+       3.829,
+       4.129,
+       "one"
+      ],
+      [
+       4.129,
+       4.389,
+       "task,"
+      ],
+      [
+       4.669,
+       5.069,
+       "real"
+      ],
+      [
+       5.069,
+       5.189,
+       "tests."
+      ]
+     ]
+    },
+    {
+     "text": "The outer loop is Grok Bot. It reads Slack, the bug tracker and your messages, and turns them into that one task.",
+     "s": 5.944,
+     "e": 12.773,
+     "w": [
+      [
+       5.868,
+       6.068,
+       "The"
+      ],
+      [
+       6.068,
+       6.448,
+       "outer"
+      ],
+      [
+       6.448,
+       6.688,
+       "loop"
+      ],
+      [
+       6.688,
+       6.967,
+       "is"
+      ],
+      [
+       6.967,
+       7.127,
+       "Grok"
+      ],
+      [
+       7.127,
+       7.288,
+       "Bot."
+      ],
+      [
+       7.448,
+       7.648,
+       "It"
+      ],
+      [
+       7.648,
+       7.948,
+       "reads"
+      ],
+      [
+       7.948,
+       8.188,
+       "Slack,"
+      ],
+      [
+       8.388,
+       8.848,
+       "the"
+      ],
+      [
+       8.848,
+       9.147,
+       "bug"
+      ],
+      [
+       9.147,
+       9.388,
+       "tracker"
+      ],
+      [
+       9.567,
+       9.848,
+       "and"
+      ],
+      [
+       9.848,
+       9.948,
+       "your"
+      ],
+      [
+       9.948,
+       10.328,
+       "messages,"
+      ],
+      [
+       10.328,
+       11.028,
+       "and"
+      ],
+      [
+       11.028,
+       11.528,
+       "turns"
+      ],
+      [
+       11.528,
+       11.688,
+       "them"
+      ],
+      [
+       11.688,
+       11.888,
+       "into"
+      ],
+      [
+       11.888,
+       12.048,
+       "that"
+      ],
+      [
+       12.048,
+       12.228,
+       "one"
+      ],
+      [
+       12.228,
+       12.468,
+       "task."
+      ]
+     ]
+    },
+    {
+     "text": "The brainstorming and the dead ends stay outside. The agent only ever sees a clean brief.",
+     "s": 13.073,
+     "e": 18.482,
+     "w": [
+      [
+       12.994,
+       13.194,
+       "The"
+      ],
+      [
+       13.194,
+       14.114,
+       "brainstorming"
+      ],
+      [
+       14.114,
+       14.194,
+       "and"
+      ],
+      [
+       14.194,
+       14.314,
+       "the"
+      ],
+      [
+       14.314,
+       14.514,
+       "dead"
+      ],
+      [
+       14.514,
+       14.634,
+       "ends"
+      ],
+      [
+       14.754,
+       15.074,
+       "stay"
+      ],
+      [
+       15.074,
+       15.414,
+       "outside."
+      ],
+      [
+       15.414,
+       15.934,
+       "The"
+      ],
+      [
+       15.934,
+       16.074,
+       "agent"
+      ],
+      [
+       16.214,
+       16.374,
+       "only"
+      ],
+      [
+       16.374,
+       16.614,
+       "ever"
+      ],
+      [
+       16.614,
+       16.934,
+       "sees"
+      ],
+      [
+       16.934,
+       17.894,
+       "a"
+      ],
+      [
+       17.894,
+       18.154,
+       "clean"
+      ],
+      [
+       18.154,
+       18.334,
+       "brief."
+      ]
+     ]
+    }
+   ],
+   "dur": 19.082
+  },
+  {
+   "id": "s07",
+   "type": "post",
+   "theme": "mint",
+   "chapter": "Coder vs. manager",
+   "trans": "slide",
+   "label": "September 30",
+   "title": "Built for exactly this",
+   "data": {
+    "author": "Grok Bot",
+    "handle": "@bot",
+    "date": "Sep 30, 2026",
+    "avatar": "GB",
+    "text": "Grok Bot is now more powerful for building software. Bots can *hand off coding tasks to Cursor*, *manage your PRs* with GitHub and Origin plugins, and *share video demos* of what they build.",
+    "hlAt": [
+     "hand off",
+     "manage pull",
+     "video demos"
+    ],
+    "side": {
+     "title": "What changed",
+     "items": [
+      {
+       "text": "Cursor handoff",
+       "sub": "code runs in a clean agent",
+       "at": "Cursor"
+      },
+      {
+       "text": "PR plugins",
+       "sub": "GitHub and Origin, no clicking",
+       "at": "GitHub"
+      },
+      {
+       "text": "Video demos",
+       "sub": "proof you can watch",
+       "at": "demos"
+      }
+     ]
+    },
+    "source": "@bot on X · Sep 30, 2026 (via teslanorth.com)"
+   },
+   "start": 86.258,
+   "lines": [
+    {
+     "text": "And on September thirtieth, the Grok Bot team leaned straight into this.",
+     "s": 0.35,
+     "e": 4.786,
+     "w": [
+      [
+       0.188,
+       0.468,
+       "And"
+      ],
+      [
+       0.468,
+       0.708,
+       "on"
+      ],
+      [
+       0.708,
+       1.068,
+       "September"
+      ],
+      [
+       1.068,
+       1.398,
+       "thirtieth,"
+      ],
+      [
+       1.728,
+       2.048,
+       "the"
+      ],
+      [
+       2.048,
+       2.201,
+       "Grok"
+      ],
+      [
+       2.201,
+       2.355,
+       "Bot"
+      ],
+      [
+       2.508,
+       2.788,
+       "team"
+      ],
+      [
+       2.788,
+       3.468,
+       "leaned"
+      ],
+      [
+       3.468,
+       4.108,
+       "straight"
+      ],
+      [
+       4.108,
+       4.408,
+       "into"
+      ],
+      [
+       4.408,
+       4.628,
+       "this."
+      ]
+     ]
+    },
+    {
+     "text": "Bots can now hand off coding tasks to Cursor, manage pull requests through GitHub, and share video demos of what they build.",
+     "s": 5.086,
+     "e": 12.881,
+     "w": [
+      [
+       5.028,
+       5.308,
+       "Bots"
+      ],
+      [
+       5.308,
+       5.488,
+       "can"
+      ],
+      [
+       5.488,
+       5.688,
+       "now"
+      ],
+      [
+       5.688,
+       5.948,
+       "hand"
+      ],
+      [
+       5.948,
+       6.128,
+       "off"
+      ],
+      [
+       6.128,
+       6.368,
+       "coding"
+      ],
+      [
+       6.368,
+       6.708,
+       "tasks"
+      ],
+      [
+       6.708,
+       7.168,
+       "to"
+      ],
+      [
+       7.168,
+       7.748,
+       "Cursor,"
+      ],
+      [
+       7.788,
+       8.468,
+       "manage"
+      ],
+      [
+       8.468,
+       8.608,
+       "pull"
+      ],
+      [
+       8.608,
+       9.228,
+       "requests"
+      ],
+      [
+       9.228,
+       9.368,
+       "through"
+      ],
+      [
+       9.508,
+       9.788,
+       "GitHub,"
+      ],
+      [
+       9.788,
+       10.868,
+       "and"
+      ],
+      [
+       10.868,
+       11.368,
+       "share"
+      ],
+      [
+       11.368,
+       11.628,
+       "video"
+      ],
+      [
+       11.628,
+       11.928,
+       "demos"
+      ],
+      [
+       11.928,
+       12.188,
+       "of"
+      ],
+      [
+       12.188,
+       12.328,
+       "what"
+      ],
+      [
+       12.328,
+       12.528,
+       "they"
+      ],
+      [
+       12.528,
+       12.668,
+       "build."
+      ]
+     ]
+    }
+   ],
+   "dur": 13.481
+  },
+  {
+   "id": "s08",
+   "type": "table",
+   "theme": "mint",
+   "chapter": "Coder vs. manager",
+   "label": "Who does what",
+   "title": "Split the work",
+   "data": {
+    "cols": [
+     {
+      "title": "Grok Bot",
+      "sub": "outer loop",
+      "cast": "ios"
+     },
+     {
+      "title": "Cloud agent",
+      "sub": "inner loop"
+     },
+     {
+      "title": "You",
+      "sub": "owner"
+     }
+    ],
+    "rows": [
+     {
+      "label": "Gather context, write the brief",
+      "cells": [
+       true,
+       false,
+       false
+      ],
+      "at": "gathers"
+     },
+     {
+      "label": "Edit code, run tests",
+      "cells": [
+       false,
+       true,
+       false
+      ],
+      "at": "edits"
+     },
+     {
+      "label": "Check the proof",
+      "cells": [
+       true,
+       false,
+       false
+      ],
+      "at": "checks"
+     },
+     {
+      "label": "Keep going overnight",
+      "cells": [
+       true,
+       true,
+       false
+      ],
+      "at": "overnight"
+     },
+     {
+      "label": "Merge",
+      "cells": [
+       "low-risk only",
+       false,
+       true
+      ],
+      "at": "merging"
+     }
+    ],
+    "highlight": {
+     "col": 0,
+     "at": "unless",
+     "text": "The bot runs the *loop*. You own the *merge*."
+    }
+   },
+   "start": 99.739,
+   "lines": [
+    {
+     "text": "So split the work. The bot gathers context and writes the brief. The agent edits code and runs the tests.",
+     "s": 0.35,
+     "e": 7.021,
+     "w": [
+      [
+       0.28,
+       0.42,
+       "So"
+      ],
+      [
+       0.42,
+       0.66,
+       "split"
+      ],
+      [
+       0.66,
+       0.84,
+       "the"
+      ],
+      [
+       0.84,
+       1.14,
+       "work."
+      ],
+      [
+       1.34,
+       1.62,
+       "The"
+      ],
+      [
+       1.62,
+       1.86,
+       "bot"
+      ],
+      [
+       1.86,
+       2.3,
+       "gathers"
+      ],
+      [
+       2.3,
+       2.68,
+       "context"
+      ],
+      [
+       2.68,
+       3.52,
+       "and"
+      ],
+      [
+       3.52,
+       3.9,
+       "writes"
+      ],
+      [
+       3.9,
+       4.1,
+       "the"
+      ],
+      [
+       4.1,
+       4.32,
+       "brief."
+      ],
+      [
+       4.52,
+       4.94,
+       "The"
+      ],
+      [
+       4.94,
+       5.2,
+       "agent"
+      ],
+      [
+       5.2,
+       5.42,
+       "edits"
+      ],
+      [
+       5.42,
+       5.68,
+       "code"
+      ],
+      [
+       5.68,
+       6.08,
+       "and"
+      ],
+      [
+       6.08,
+       6.28,
+       "runs"
+      ],
+      [
+       6.28,
+       6.44,
+       "the"
+      ],
+      [
+       6.44,
+       6.68,
+       "tests."
+      ]
+     ]
+    },
+    {
+     "text": "The bot checks the proof and keeps going overnight. And merging stays with you, unless the change is genuinely low risk.",
+     "s": 7.321,
+     "e": 13.777,
+     "w": [
+      [
+       7.208,
+       7.368,
+       "The"
+      ],
+      [
+       7.368,
+       7.548,
+       "bot"
+      ],
+      [
+       7.548,
+       7.768,
+       "checks"
+      ],
+      [
+       7.768,
+       7.988,
+       "the"
+      ],
+      [
+       7.988,
+       8.148,
+       "proof"
+      ],
+      [
+       8.148,
+       8.348,
+       "and"
+      ],
+      [
+       8.348,
+       8.488,
+       "keeps"
+      ],
+      [
+       8.488,
+       8.688,
+       "going"
+      ],
+      [
+       8.688,
+       9.188,
+       "overnight."
+      ],
+      [
+       9.188,
+       9.648,
+       "And"
+      ],
+      [
+       9.648,
+       10.028,
+       "merging"
+      ],
+      [
+       10.028,
+       10.308,
+       "stays"
+      ],
+      [
+       10.308,
+       10.628,
+       "with"
+      ],
+      [
+       10.628,
+       10.828,
+       "you,"
+      ],
+      [
+       11.588,
+       12.028,
+       "unless"
+      ],
+      [
+       12.028,
+       12.308,
+       "the"
+      ],
+      [
+       12.308,
+       12.568,
+       "change"
+      ],
+      [
+       12.568,
+       12.768,
+       "is"
+      ],
+      [
+       12.768,
+       12.898,
+       "genuinely"
+      ],
+      [
+       13.028,
+       13.408,
+       "low"
+      ],
+      [
+       13.408,
+       13.588,
+       "risk."
+      ]
+     ]
+    }
+   ],
+   "dur": 14.377
+  },
+  {
+   "id": "s09",
+   "type": "chapter",
+   "theme": "ink",
+   "chapter": "1 · Setup",
+   "trans": "wipe",
+   "data": {
+    "title": "One bot, one domain",
+    "sub": "Set up the team before the work",
+    "short": "Setup"
+   },
+   "min_dur": 3.4,
+   "start": 114.116,
+   "lines": [
+    {
+     "text": "Chapter one. Set up the team before you hand it any work.",
+     "s": 0.35,
+     "e": 4.423,
+     "w": [
+      [
+       0.232,
+       0.532,
+       "Chapter"
+      ],
+      [
+       0.532,
+       0.852,
+       "one."
+      ],
+      [
+       1.072,
+       1.512,
+       "Set"
+      ],
+      [
+       1.512,
+       1.852,
+       "up"
+      ],
+      [
+       1.852,
+       2.112,
+       "the"
+      ],
+      [
+       2.112,
+       2.512,
+       "team"
+      ],
+      [
+       2.512,
+       3.012,
+       "before"
+      ],
+      [
+       3.012,
+       3.312,
+       "you"
+      ],
+      [
+       3.312,
+       3.512,
+       "hand"
+      ],
+      [
+       3.512,
+       3.692,
+       "it"
+      ],
+      [
+       3.692,
+       3.992,
+       "any"
+      ],
+      [
+       3.992,
+       4.212,
+       "work."
+      ]
+     ]
+    }
+   ],
+   "dur": 5.023
+  },
+  {
+   "id": "s10",
+   "type": "roster",
+   "theme": "lavender",
+   "chapter": "1 · Setup",
+   "label": "The roster",
+   "title": "Each bot owns one area",
+   "data": {
+    "from": "Task",
+    "to": "PR",
+    "items": [
+     {
+      "cast": "ios",
+      "role": "IOS",
+      "desc": "Mobile app and shared layer",
+      "lines": [
+       "Simulator runs",
+       "Before / after shots"
+      ],
+      "at": "iOS"
+     },
+     {
+      "cast": "desktop",
+      "role": "DESKTOP · CI",
+      "desc": "Client and build pipeline",
+      "code": "ci.yml\n timeout: 12m",
+      "at": "desktop"
+     },
+     {
+      "cast": "infra",
+      "role": "INFRA",
+      "desc": "Servers and unowned bugs",
+      "lines": [
+       "Alerts",
+       "Triage"
+      ],
+      "at": "infrastructure"
+     },
+     {
+      "cast": "android",
+      "role": "ANDROID",
+      "desc": "The Android client",
+      "lines": [
+       "Emulator runs",
+       "Play builds"
+      ],
+      "at": "Android"
+     },
+     {
+      "cast": "harness",
+      "role": "HARNESS",
+      "desc": "The bot harness itself",
+      "code": "skills/\n handoff.md",
+      "at": "harness"
+     }
+    ]
+   },
+   "start": 119.139,
+   "lines": [
+    {
+     "text": "In the official guide, each engineer bot owns one area: iOS, the desktop app and its CI, infrastructure, Android, and the bot harness itself.",
+     "s": 0.35,
+     "e": 8.531,
+     "w": [
+      [
+       0.208,
+       0.408,
+       "In"
+      ],
+      [
+       0.408,
+       0.468,
+       "the"
+      ],
+      [
+       0.468,
+       0.748,
+       "official"
+      ],
+      [
+       0.748,
+       1.108,
+       "guide,"
+      ],
+      [
+       1.328,
+       1.548,
+       "each"
+      ],
+      [
+       1.548,
+       1.848,
+       "engineer"
+      ],
+      [
+       1.848,
+       2.068,
+       "bot"
+      ],
+      [
+       2.068,
+       2.308,
+       "owns"
+      ],
+      [
+       2.308,
+       2.608,
+       "one"
+      ],
+      [
+       2.608,
+       2.968,
+       "area:"
+      ],
+      [
+       3.108,
+       3.588,
+       "iOS,"
+      ],
+      [
+       3.908,
+       4.048,
+       "the"
+      ],
+      [
+       4.048,
+       4.388,
+       "desktop"
+      ],
+      [
+       4.388,
+       4.688,
+       "app"
+      ],
+      [
+       4.768,
+       5.128,
+       "and"
+      ],
+      [
+       5.128,
+       5.268,
+       "its"
+      ],
+      [
+       5.268,
+       5.548,
+       "CI,"
+      ],
+      [
+       5.548,
+       5.948,
+       "infrastructure,"
+      ],
+      [
+       6.328,
+       6.868,
+       "Android,"
+      ],
+      [
+       7.068,
+       7.628,
+       "and"
+      ],
+      [
+       7.628,
+       7.728,
+       "the"
+      ],
+      [
+       7.728,
+       7.868,
+       "bot"
+      ],
+      [
+       7.868,
+       8.128,
+       "harness"
+      ],
+      [
+       8.128,
+       8.308,
+       "itself."
+      ]
+     ]
+    },
+    {
+     "text": "They can work across areas, but each has its own memory and limited context, so they're sharpest where they own the specs.",
+     "s": 8.831,
+     "e": 16.025,
+     "w": [
+      [
+       8.725,
+       8.885,
+       "They"
+      ],
+      [
+       8.885,
+       8.965,
+       "can"
+      ],
+      [
+       8.965,
+       9.205,
+       "work"
+      ],
+      [
+       9.205,
+       9.485,
+       "across"
+      ],
+      [
+       9.485,
+       9.885,
+       "areas,"
+      ],
+      [
+       10.165,
+       10.625,
+       "but"
+      ],
+      [
+       10.625,
+       10.785,
+       "each"
+      ],
+      [
+       10.785,
+       11.025,
+       "has"
+      ],
+      [
+       11.025,
+       11.185,
+       "its"
+      ],
+      [
+       11.185,
+       11.385,
+       "own"
+      ],
+      [
+       11.385,
+       11.745,
+       "memory"
+      ],
+      [
+       11.745,
+       12.065,
+       "and"
+      ],
+      [
+       12.065,
+       12.305,
+       "limited"
+      ],
+      [
+       12.305,
+       12.825,
+       "context,"
+      ],
+      [
+       13.425,
+       13.905,
+       "so"
+      ],
+      [
+       13.905,
+       14.365,
+       "they're"
+      ],
+      [
+       14.365,
+       14.905,
+       "sharpest"
+      ],
+      [
+       14.905,
+       15.205,
+       "where"
+      ],
+      [
+       15.205,
+       15.365,
+       "they"
+      ],
+      [
+       15.365,
+       15.505,
+       "own"
+      ],
+      [
+       15.505,
+       15.612,
+       "the"
+      ],
+      [
+       15.612,
+       15.718,
+       "specs."
+      ]
+     ]
+    }
+   ],
+   "dur": 16.625
+  },
+  {
+   "id": "s11",
+   "type": "code",
+   "theme": "lavender",
+   "chapter": "1 · Setup",
+   "trans": "slide",
+   "label": "The role",
+   "title": "Write the role in three layers",
+   "data": {
+    "file": "desktop-bot · role.md",
+    "tabs": [
+     "handoff.md"
+    ],
+    "lang": "md",
+    "code": "# Desktop Bot · desktop app + CI\n\n## Rules (never change)\n- Never push to main. Never touch deploy keys.\n- Every task ships with proof: tests + screenshots.\n- Stop and ask before anything irreversible.\n\n## Job (owned)\n- Own the desktop client and its CI pipeline.\n- Keep CI under 12 minutes.\n\n## Current assignment\n- Fix the Windows Arm64 onboarding crash.",
+    "focus": [
+     {
+      "lines": [
+       3,
+       6
+      ],
+      "at": "Rules"
+     },
+     {
+      "lines": [
+       8,
+       10
+      ],
+      "at": "job it owns"
+     },
+     {
+      "lines": [
+       12,
+       13
+      ],
+      "at": "current assignment"
+     }
+    ],
+    "notes": [
+     {
+      "line": 4,
+      "text": "Hard limits live here",
+      "at": "never change"
+     },
+     {
+      "line": 13,
+      "text": "Swap this. Keep the rules.",
+      "tone": "good",
+      "at": "swap"
+     }
+    ]
+   },
+   "start": 135.764,
+   "lines": [
+    {
+     "text": "Then write each bot's role in three layers.",
+     "s": 0.35,
+     "e": 3.659,
+     "w": [
+      [
+       0.272,
+       0.552,
+       "Then"
+      ],
+      [
+       0.692,
+       1.232,
+       "write"
+      ],
+      [
+       1.232,
+       1.892,
+       "each"
+      ],
+      [
+       1.892,
+       2.002,
+       "bot's"
+      ],
+      [
+       2.112,
+       2.352,
+       "role"
+      ],
+      [
+       2.352,
+       2.732,
+       "in"
+      ],
+      [
+       2.732,
+       2.932,
+       "three"
+      ],
+      [
+       2.932,
+       3.292,
+       "layers."
+      ]
+     ]
+    },
+    {
+     "text": "Rules that never change. The job it owns. And the current assignment, which you can swap without touching the rules.",
+     "s": 3.959,
+     "e": 9.62,
+     "w": [
+      [
+       3.882,
+       4.222,
+       "Rules"
+      ],
+      [
+       4.222,
+       4.442,
+       "that"
+      ],
+      [
+       4.442,
+       4.621,
+       "never"
+      ],
+      [
+       4.621,
+       4.922,
+       "change."
+      ],
+      [
+       5.182,
+       5.301,
+       "The"
+      ],
+      [
+       5.301,
+       5.562,
+       "job"
+      ],
+      [
+       5.562,
+       5.701,
+       "it"
+      ],
+      [
+       5.701,
+       5.961,
+       "owns."
+      ],
+      [
+       5.961,
+       6.281,
+       "And"
+      ],
+      [
+       6.281,
+       6.401,
+       "the"
+      ],
+      [
+       6.401,
+       6.701,
+       "current"
+      ],
+      [
+       6.701,
+       7.141,
+       "assignment,"
+      ],
+      [
+       7.741,
+       7.981,
+       "which"
+      ],
+      [
+       7.981,
+       8.141,
+       "you"
+      ],
+      [
+       8.141,
+       8.262,
+       "can"
+      ],
+      [
+       8.262,
+       8.502,
+       "swap"
+      ],
+      [
+       8.502,
+       8.742,
+       "without"
+      ],
+      [
+       8.742,
+       9.141,
+       "touching"
+      ],
+      [
+       9.141,
+       9.322,
+       "the"
+      ],
+      [
+       9.322,
+       9.502,
+       "rules."
+      ]
+     ]
+    }
+   ],
+   "dur": 10.22
+  },
+  {
+   "id": "s12",
+   "type": "compose",
+   "theme": "lavender",
+   "chapter": "1 · Setup",
+   "label": "Before you sign in",
+   "title": "One computer, shared by every bot",
+   "data": {
+    "layout": {
+     "type": "columns-hero",
+     "n": 3
+    },
+    "els": [
+     {
+      "el": "group",
+      "box": [
+       100,
+       252,
+       600,
+       80
+      ],
+      "layout": {
+       "type": "cols",
+       "n": 5,
+       "gap": 14
+      },
+      "kids": [
+       {
+        "el": "avatar",
+        "who": "ios",
+        "in": "pop@Every bot+0.0"
+       },
+       {
+        "el": "avatar",
+        "who": "desktop",
+        "in": "pop@Every bot+0.1"
+       },
+       {
+        "el": "avatar",
+        "who": "infra",
+        "in": "pop@Every bot+0.2"
+       },
+       {
+        "el": "avatar",
+        "who": "android",
+        "in": "pop@Every bot+0.3"
+       },
+       {
+        "el": "avatar",
+        "who": "harness",
+        "in": "pop@Every bot+0.4"
+       }
+      ]
+     },
+     {
+      "id": "tree",
+      "el": "tree",
+      "title": "one cloud computer",
+      "box": [
+       100,
+       350,
+       600,
+       500
+      ],
+      "items": [
+       "/workspace/",
+       "  repos/",
+       "  notes.md",
+       "  .env",
+       "~/.ssh/",
+       "browser sessions"
+      ],
+      "hl": [
+       3
+      ],
+      "in": "rise@cloud computer",
+      "do": [
+       "circle@slash workspace"
+      ]
+     },
+     {
+      "id": "k0",
+      "el": "card",
+      "slot": "k0",
+      "icon": "shield",
+      "tone": "bad",
+      "kicker": "Not a boundary",
+      "title": "Separate bots share everything",
+      "in": "right@security boundary"
+     },
+     {
+      "id": "k1",
+      "el": "card",
+      "slot": "k1",
+      "icon": "branch",
+      "tone": "accent",
+      "kicker": "Repo access",
+      "title": "A fork or scoped token. *No deploy keys.*",
+      "in": "right@fork"
+     },
+     {
+      "id": "k2",
+      "el": "card",
+      "slot": "k2",
+      "icon": "key",
+      "tone": "warn",
+      "kicker": "Secrets",
+      "title": "Secure input only. Never in chat.",
+      "in": "right@secure input"
+     },
+     {
+      "el": "source",
+      "text": "docs.x.ai · Grok Bot computer and security docs",
+      "in": "fade@One warning"
+     }
+    ],
+    "beats": [
+     {
+      "at": "Separate",
+      "focus": "k0"
+     },
+     {
+      "at": "fork",
+      "focus": "k1"
+     },
+     {
+      "at": "secure input",
+      "focus": "k2"
+     },
+     {
+      "at": "slash workspace",
+      "focus": "tree"
+     },
+     {
+      "at": "every bot can",
+      "focus": "all"
+     }
+    ]
+   },
+   "start": 145.984,
+   "lines": [
+    {
+     "text": "One warning before you connect anything. Every bot on your account shares one cloud computer, with the same files and logins.",
+     "s": 0.35,
+     "e": 7.486,
+     "w": [
+      [
+       0.284,
+       0.544,
+       "One"
+      ],
+      [
+       0.544,
+       0.694,
+       "warning"
+      ],
+      [
+       0.844,
+       1.104,
+       "before"
+      ],
+      [
+       1.104,
+       1.264,
+       "you"
+      ],
+      [
+       1.264,
+       1.484,
+       "connect"
+      ],
+      [
+       1.484,
+       1.784,
+       "anything."
+      ],
+      [
+       2.004,
+       2.324,
+       "Every"
+      ],
+      [
+       2.324,
+       2.524,
+       "bot"
+      ],
+      [
+       2.524,
+       2.724,
+       "on"
+      ],
+      [
+       2.724,
+       2.844,
+       "your"
+      ],
+      [
+       2.844,
+       3.144,
+       "account"
+      ],
+      [
+       3.144,
+       3.664,
+       "shares"
+      ],
+      [
+       3.664,
+       4.004,
+       "one"
+      ],
+      [
+       4.004,
+       4.324,
+       "cloud"
+      ],
+      [
+       4.324,
+       4.644,
+       "computer,"
+      ],
+      [
+       5.304,
+       5.824,
+       "with"
+      ],
+      [
+       5.824,
+       6.084,
+       "the"
+      ],
+      [
+       6.084,
+       6.264,
+       "same"
+      ],
+      [
+       6.264,
+       6.664,
+       "files"
+      ],
+      [
+       6.664,
+       6.884,
+       "and"
+      ],
+      [
+       6.884,
+       7.284,
+       "logins."
+      ]
+     ]
+    },
+    {
+     "text": "Separate bots are not a security boundary. So give them a fork or a scoped token. Never deploy keys.",
+     "s": 7.786,
+     "e": 14.08,
+     "w": [
+      [
+       7.784,
+       8.024,
+       "Separate"
+      ],
+      [
+       8.024,
+       8.364,
+       "bots"
+      ],
+      [
+       8.364,
+       8.544,
+       "are"
+      ],
+      [
+       8.544,
+       8.684,
+       "not"
+      ],
+      [
+       8.684,
+       8.764,
+       "a"
+      ],
+      [
+       8.764,
+       9.064,
+       "security"
+      ],
+      [
+       9.064,
+       9.524,
+       "boundary."
+      ],
+      [
+       9.724,
+       9.884,
+       "So"
+      ],
+      [
+       9.884,
+       10.044,
+       "give"
+      ],
+      [
+       10.044,
+       10.224,
+       "them"
+      ],
+      [
+       10.224,
+       10.364,
+       "a"
+      ],
+      [
+       10.364,
+       10.664,
+       "fork"
+      ],
+      [
+       10.664,
+       11.144,
+       "or"
+      ],
+      [
+       11.144,
+       11.284,
+       "a"
+      ],
+      [
+       11.284,
+       11.374,
+       "scoped"
+      ],
+      [
+       11.464,
+       11.864,
+       "token."
+      ],
+      [
+       12.624,
+       13.024,
+       "Never"
+      ],
+      [
+       13.024,
+       13.424,
+       "deploy"
+      ],
+      [
+       13.424,
+       13.704,
+       "keys."
+      ]
+     ]
+    },
+    {
+     "text": "Enter secrets through the secure input, never in chat, and keep them out of slash workspace, where every bot can read them.",
+     "s": 14.38,
+     "e": 20.341,
+     "w": [
+      [
+       14.216,
+       14.536,
+       "Enter"
+      ],
+      [
+       14.536,
+       14.976,
+       "secrets"
+      ],
+      [
+       14.976,
+       15.216,
+       "through"
+      ],
+      [
+       15.216,
+       15.316,
+       "the"
+      ],
+      [
+       15.316,
+       15.536,
+       "secure"
+      ],
+      [
+       15.536,
+       15.876,
+       "input,"
+      ],
+      [
+       15.876,
+       16.156,
+       "never"
+      ],
+      [
+       16.156,
+       16.376,
+       "in"
+      ],
+      [
+       16.376,
+       16.616,
+       "chat,"
+      ],
+      [
+       16.616,
+       17.216,
+       "and"
+      ],
+      [
+       17.216,
+       17.376,
+       "keep"
+      ],
+      [
+       17.376,
+       17.536,
+       "them"
+      ],
+      [
+       17.536,
+       17.716,
+       "out"
+      ],
+      [
+       17.716,
+       17.836,
+       "of"
+      ],
+      [
+       17.836,
+       17.976,
+       "slash"
+      ],
+      [
+       17.976,
+       18.356,
+       "workspace,"
+      ],
+      [
+       18.356,
+       19.036,
+       "where"
+      ],
+      [
+       19.036,
+       19.396,
+       "every"
+      ],
+      [
+       19.396,
+       19.636,
+       "bot"
+      ],
+      [
+       19.636,
+       19.836,
+       "can"
+      ],
+      [
+       19.836,
+       20.036,
+       "read"
+      ],
+      [
+       20.036,
+       20.236,
+       "them."
+      ]
+     ]
+    }
+   ],
+   "dur": 20.941
+  },
+  {
+   "id": "s13",
+   "type": "chapter",
+   "theme": "ink",
+   "chapter": "2 · Handoff",
+   "trans": "wipe",
+   "data": {
+    "title": "The handoff",
+    "sub": "What a good brief contains",
+    "short": "Handoff"
+   },
+   "min_dur": 3.4,
+   "start": 166.925,
+   "lines": [
+    {
+     "text": "Chapter two. The handoff.",
+     "s": 0.35,
+     "e": 2.431,
+     "w": [
+      [
+       0.227,
+       0.627,
+       "Chapter"
+      ],
+      [
+       0.627,
+       1.027,
+       "two."
+      ],
+      [
+       1.207,
+       1.667,
+       "The"
+      ],
+      [
+       1.667,
+       2.287,
+       "handoff."
+      ]
+     ]
+    }
+   ],
+   "dur": 3.4
+  },
+  {
+   "id": "s14",
+   "type": "chat",
+   "theme": "sky",
+   "chapter": "2 · Handoff",
+   "label": "In practice",
+   "title": "One line in, a full brief out",
+   "data": {
+    "bot": "ios",
+    "messages": [
+     {
+      "from": "you",
+      "text": "Onboarding crashes on small iPhones since yesterday's release. P1.",
+      "at": "bug report"
+     },
+     {
+      "from": "ios",
+      "time": "14:02",
+      "text": "On it. 3 Slack reports + the crash trace. It's the new layout on 320pt screens.",
+      "at": "Slack thread"
+     },
+     {
+      "from": "ios",
+      "time": "14:03",
+      "tool": {
+       "text": "Started Cursor cloud agent",
+       "detail": "fix/onboarding-small-screens"
+      },
+      "chips": [
+       "/ios-best-practices",
+       "/run-ios-e2e"
+      ],
+      "at": "starts a Cursor"
+     },
+     {
+      "from": "ios",
+      "time": "14:03",
+      "text": "Proof required: *before/after screenshots* on iPhone SE, and *e2e green*.",
+      "at": "what proof"
+     }
+    ]
+   },
+   "start": 170.325,
+   "lines": [
+    {
+     "text": "Here's what that looks like. You drop a one-line bug report.",
+     "s": 0.35,
+     "e": 3.961,
+     "w": [
+      [
+       0.22,
+       0.52,
+       "Here's"
+      ],
+      [
+       0.52,
+       0.64,
+       "what"
+      ],
+      [
+       0.64,
+       0.82,
+       "that"
+      ],
+      [
+       0.82,
+       1.06,
+       "looks"
+      ],
+      [
+       1.06,
+       1.34,
+       "like."
+      ],
+      [
+       1.48,
+       1.84,
+       "You"
+      ],
+      [
+       1.84,
+       2.22,
+       "drop"
+      ],
+      [
+       2.22,
+       2.78,
+       "a"
+      ],
+      [
+       2.78,
+       3.01,
+       "one-line"
+      ],
+      [
+       3.24,
+       3.42,
+       "bug"
+      ],
+      [
+       3.42,
+       3.62,
+       "report."
+      ]
+     ]
+    },
+    {
+     "text": "The bot pulls the Slack thread and the crash trace, then starts a Cursor cloud agent with the right skills loaded.",
+     "s": 4.261,
+     "e": 10.932,
+     "w": [
+      [
+       4.202,
+       4.382,
+       "The"
+      ],
+      [
+       4.382,
+       4.602,
+       "bot"
+      ],
+      [
+       4.602,
+       4.862,
+       "pulls"
+      ],
+      [
+       4.862,
+       5.042,
+       "the"
+      ],
+      [
+       5.042,
+       5.132,
+       "Slack"
+      ],
+      [
+       5.222,
+       5.502,
+       "thread"
+      ],
+      [
+       5.502,
+       5.802,
+       "and"
+      ],
+      [
+       5.802,
+       5.882,
+       "the"
+      ],
+      [
+       5.882,
+       6.082,
+       "crash"
+      ],
+      [
+       6.082,
+       6.442,
+       "trace,"
+      ],
+      [
+       6.642,
+       7.382,
+       "then"
+      ],
+      [
+       7.382,
+       8.022,
+       "starts"
+      ],
+      [
+       8.022,
+       8.182,
+       "a"
+      ],
+      [
+       8.182,
+       8.622,
+       "Cursor"
+      ],
+      [
+       8.622,
+       8.882,
+       "cloud"
+      ],
+      [
+       8.882,
+       9.302,
+       "agent"
+      ],
+      [
+       9.302,
+       9.822,
+       "with"
+      ],
+      [
+       9.822,
+       9.962,
+       "the"
+      ],
+      [
+       9.962,
+       10.122,
+       "right"
+      ],
+      [
+       10.122,
+       10.362,
+       "skills"
+      ],
+      [
+       10.362,
+       10.682,
+       "loaded."
+      ]
+     ]
+    },
+    {
+     "text": "And it says, up front, what proof it expects back.",
+     "s": 11.232,
+     "e": 14.731,
+     "w": [
+      [
+       11.032,
+       11.292,
+       "And"
+      ],
+      [
+       11.292,
+       11.392,
+       "it"
+      ],
+      [
+       11.392,
+       11.612,
+       "says,"
+      ],
+      [
+       11.792,
+       12.292,
+       "up"
+      ],
+      [
+       12.292,
+       12.612,
+       "front,"
+      ],
+      [
+       12.732,
+       13.552,
+       "what"
+      ],
+      [
+       13.552,
+       13.812,
+       "proof"
+      ],
+      [
+       13.812,
+       14.012,
+       "it"
+      ],
+      [
+       14.012,
+       14.232,
+       "expects"
+      ],
+      [
+       14.232,
+       14.362,
+       "back."
+      ]
+     ]
+    }
+   ],
+   "dur": 15.331
+  },
+  {
+   "id": "s15",
+   "type": "code",
+   "theme": "sky",
+   "chapter": "2 · Handoff",
+   "trans": "slide",
+   "label": "The brief",
+   "title": "Everything the agent needs",
+   "data": {
+    "file": "handoff · fix-onboarding.md",
+    "lang": "md",
+    "code": "## Task\nFix the onboarding crash on screens under 375pt.\n\n## Context\n3 Slack reports · crash trace #8812 · since v4.12\n\n## Skills\n/ios-best-practices  /run-ios-e2e\n\n## Proof expected\n- Before vs after screenshots, iPhone SE\n- e2e suite green\n\n## Stop and ask if\n- The fix touches auth or payments",
+    "focus": [
+     {
+      "lines": [
+       1,
+       2
+      ],
+      "at": "The task"
+     },
+     {
+      "lines": [
+       4,
+       5
+      ],
+      "at": "context"
+     },
+     {
+      "lines": [
+       7,
+       8
+      ],
+      "at": "skills"
+     },
+     {
+      "lines": [
+       10,
+       12
+      ],
+      "at": "proof"
+     },
+     {
+      "lines": [
+       14,
+       15
+      ],
+      "at": "stop and ask"
+     }
+    ]
+   },
+   "start": 185.656,
+   "lines": [
+    {
+     "text": "That brief is the whole game. The task. The context it already gathered.",
+     "s": 0.35,
+     "e": 4.599,
+     "w": [
+      [
+       0.302,
+       0.502,
+       "That"
+      ],
+      [
+       0.502,
+       0.822,
+       "brief"
+      ],
+      [
+       0.822,
+       1.062,
+       "is"
+      ],
+      [
+       1.062,
+       1.182,
+       "the"
+      ],
+      [
+       1.182,
+       1.442,
+       "whole"
+      ],
+      [
+       1.442,
+       1.822,
+       "game."
+      ],
+      [
+       1.882,
+       2.022,
+       "The"
+      ],
+      [
+       2.022,
+       2.282,
+       "task."
+      ],
+      [
+       2.462,
+       3.142,
+       "The"
+      ],
+      [
+       3.142,
+       3.542,
+       "context"
+      ],
+      [
+       3.542,
+       3.722,
+       "it"
+      ],
+      [
+       3.722,
+       3.942,
+       "already"
+      ],
+      [
+       3.942,
+       4.362,
+       "gathered."
+      ]
+     ]
+    },
+    {
+     "text": "Which skills to load. What proof to bring back. And when to stop and ask, instead of guessing.",
+     "s": 4.899,
+     "e": 10.62,
+     "w": [
+      [
+       4.794,
+       5.034,
+       "Which"
+      ],
+      [
+       5.034,
+       5.354,
+       "skills"
+      ],
+      [
+       5.354,
+       5.614,
+       "to"
+      ],
+      [
+       5.614,
+       5.874,
+       "load."
+      ],
+      [
+       5.914,
+       6.054,
+       "What"
+      ],
+      [
+       6.054,
+       6.334,
+       "proof"
+      ],
+      [
+       6.334,
+       6.474,
+       "to"
+      ],
+      [
+       6.474,
+       6.634,
+       "bring"
+      ],
+      [
+       6.634,
+       6.894,
+       "back."
+      ],
+      [
+       7.034,
+       7.354,
+       "And"
+      ],
+      [
+       7.354,
+       7.514,
+       "when"
+      ],
+      [
+       7.514,
+       7.654,
+       "to"
+      ],
+      [
+       7.654,
+       7.854,
+       "stop"
+      ],
+      [
+       7.854,
+       7.974,
+       "and"
+      ],
+      [
+       7.974,
+       8.194,
+       "ask,"
+      ],
+      [
+       8.314,
+       9.454,
+       "instead"
+      ],
+      [
+       9.454,
+       9.914,
+       "of"
+      ],
+      [
+       9.914,
+       10.134,
+       "guessing."
+      ]
+     ]
+    }
+   ],
+   "dur": 11.22
+  },
+  {
+   "id": "s16",
+   "type": "compose",
+   "theme": "sky",
+   "chapter": "2 · Handoff",
+   "trans": "push",
+   "data": {
+    "els": [
+     {
+      "el": "shape",
+      "kind": "rect",
+      "fill": "transparent",
+      "css": "border:3px dashed var(--line);border-radius:28px",
+      "box": [
+       110,
+       190,
+       840,
+       640
+      ],
+      "in": "fade@outer loop"
+     },
+     {
+      "el": "text",
+      "style": "label",
+      "text": "Stays with the bot",
+      "box": [
+       150,
+       210,
+       600,
+       36
+      ],
+      "in": "fade@outer loop"
+     },
+     {
+      "el": "note",
+      "text": "Maybe it's Redis?",
+      "tone": "warn",
+      "side": "left",
+      "box": [
+       150,
+       270,
+       340,
+       92
+      ],
+      "in": "pop@messy+0.00",
+      "do": [
+       {
+        "m": "turn",
+        "r": -4,
+        "at": 0,
+        "d": 0.01
+       }
+      ],
+      "loop": {
+       "m": "float",
+       "amt": 3,
+       "phase": 0
+      }
+     },
+     {
+      "el": "note",
+      "text": "3 Slack threads",
+      "tone": "accent",
+      "side": "left",
+      "box": [
+       500,
+       300,
+       340,
+       92
+      ],
+      "in": "pop@messy+0.14",
+      "do": [
+       {
+        "m": "turn",
+        "r": 3,
+        "at": 0,
+        "d": 0.01
+       }
+      ],
+      "loop": {
+       "m": "float",
+       "amt": 3,
+       "phase": 1
+      }
+     },
+     {
+      "el": "note",
+      "text": "Dead end: retry logic",
+      "tone": "bad",
+      "side": "left",
+      "box": [
+       170,
+       440,
+       340,
+       92
+      ],
+      "in": "pop@messy+0.28",
+      "do": [
+       {
+        "m": "turn",
+        "r": 2,
+        "at": 0,
+        "d": 0.01
+       }
+      ],
+      "loop": {
+       "m": "float",
+       "amt": 3,
+       "phase": 2
+      }
+     },
+     {
+      "el": "note",
+      "text": "Crash only on SE?",
+      "tone": "warn",
+      "side": "left",
+      "box": [
+       540,
+       470,
+       340,
+       92
+      ],
+      "in": "pop@messy+0.42",
+      "do": [
+       {
+        "m": "turn",
+        "r": -3,
+        "at": 0,
+        "d": 0.01
+       }
+      ],
+      "loop": {
+       "m": "float",
+       "amt": 3,
+       "phase": 3
+      }
+     },
+     {
+      "el": "note",
+      "text": "Old trace from v4.10",
+      "tone": "bad",
+      "side": "left",
+      "box": [
+       190,
+       610,
+       340,
+       92
+      ],
+      "in": "pop@messy+0.56",
+      "do": [
+       {
+        "m": "turn",
+        "r": -2,
+        "at": 0,
+        "d": 0.01
+       }
+      ],
+      "loop": {
+       "m": "float",
+       "amt": 3,
+       "phase": 4
+      }
+     },
+     {
+      "el": "note",
+      "text": "Flaky e2e?",
+      "tone": "warn",
+      "side": "left",
+      "box": [
+       570,
+       640,
+       340,
+       92
+      ],
+      "in": "pop@messy+0.70",
+      "do": [
+       {
+        "m": "turn",
+        "r": 4,
+        "at": 0,
+        "d": 0.01
+       }
+      ],
+      "loop": {
+       "m": "float",
+       "amt": 3,
+       "phase": 5
+      }
+     },
+     {
+      "el": "arrow",
+      "from": [
+       970,
+       510
+      ],
+      "to": [
+       1070,
+       510
+      ],
+      "bend": 0,
+      "in": "fade@agent gets"
+     },
+     {
+      "id": "task",
+      "el": "card",
+      "box": [
+       1090,
+       300,
+       720,
+       400
+      ],
+      "icon": "check",
+      "tone": "good",
+      "kicker": "The agent sees",
+      "title": "Fix the crash on screens under 375pt",
+      "body": "Proof: before/after on iPhone SE · e2e green",
+      "row": false,
+      "in": {
+       "m": "stamp",
+       "at": "clean task",
+       "turn": 0
+      }
+     }
+    ],
+    "beats": [
+     {
+      "at": "clean task",
+      "focus": "task"
+     },
+     {
+      "at": "clean task",
+      "cam": {
+       "focus": "task",
+       "z": 1.04,
+       "k": 0.25
+      }
+     }
+    ]
+   },
+   "start": 196.876,
+   "lines": [
+    {
+     "text": "That's the outer loop protecting the inner one. The messy thinking stays with the bot. The agent gets a clean task.",
+     "s": 0.35,
+     "e": 7.046,
+     "w": [
+      [
+       0.35,
+       0.62,
+       "That's"
+      ],
+      [
+       0.89,
+       1.19,
+       "the"
+      ],
+      [
+       1.19,
+       1.47,
+       "outer"
+      ],
+      [
+       1.47,
+       1.71,
+       "loop"
+      ],
+      [
+       1.71,
+       2.05,
+       "protecting"
+      ],
+      [
+       2.05,
+       2.43,
+       "the"
+      ],
+      [
+       2.43,
+       2.65,
+       "inner"
+      ],
+      [
+       2.65,
+       2.89,
+       "one."
+      ],
+      [
+       2.99,
+       3.21,
+       "The"
+      ],
+      [
+       3.21,
+       3.47,
+       "messy"
+      ],
+      [
+       3.47,
+       3.77,
+       "thinking"
+      ],
+      [
+       3.77,
+       4.05,
+       "stays"
+      ],
+      [
+       4.05,
+       4.35,
+       "with"
+      ],
+      [
+       4.35,
+       4.47,
+       "the"
+      ],
+      [
+       4.47,
+       4.63,
+       "bot."
+      ],
+      [
+       5.21,
+       5.69,
+       "The"
+      ],
+      [
+       5.69,
+       6.03,
+       "agent"
+      ],
+      [
+       6.03,
+       6.27,
+       "gets"
+      ],
+      [
+       6.27,
+       6.37,
+       "a"
+      ],
+      [
+       6.37,
+       6.55,
+       "clean"
+      ],
+      [
+       6.55,
+       6.83,
+       "task."
+      ]
+     ]
+    }
+   ],
+   "dur": 7.646
+  },
+  {
+   "id": "s17",
+   "type": "chapter",
+   "theme": "ink",
+   "chapter": "3 · The loop",
+   "trans": "wipe",
+   "data": {
+    "title": "Close the loop",
+    "sub": "Proof, not promises",
+    "short": "Feedback loop"
+   },
+   "min_dur": 3.4,
+   "start": 204.522,
+   "lines": [
+    {
+     "text": "Chapter three. Close the loop.",
+     "s": 0.35,
+     "e": 2.994,
+     "w": [
+      [
+       0.211,
+       0.691,
+       "Chapter"
+      ],
+      [
+       0.691,
+       1.431,
+       "three."
+      ],
+      [
+       1.691,
+       2.391,
+       "Close"
+      ],
+      [
+       2.391,
+       2.631,
+       "the"
+      ],
+      [
+       2.631,
+       2.851,
+       "loop."
+      ]
+     ]
+    }
+   ],
+   "dur": 3.594
+  },
+  {
+   "id": "s18",
+   "type": "loop",
+   "theme": "lilac",
+   "chapter": "3 · The loop",
+   "label": "The big idea",
+   "title": "Proof or it didn't happen",
+   "data": {
+    "nodes": [
+     {
+      "label": "Brief",
+      "sub": "task + proof required",
+      "icon": "chat",
+      "at": "complete feedback"
+     },
+     {
+      "label": "Agent works",
+      "sub": "code · tests · run",
+      "icon": "term",
+      "at": "agent works"
+     },
+     {
+      "label": "Proof",
+      "sub": "screenshots · test output",
+      "icon": "eye",
+      "at": "attaches proof"
+     },
+     {
+      "label": "Bot checks",
+      "sub": "does it match?",
+      "icon": "shield",
+      "at": "bot checks"
+     }
+    ],
+    "center": {
+     "text": "Until the goal is met",
+     "sub": "not until the agent says *done*",
+     "at": "Round after"
+    },
+    "rounds": [
+     {
+      "at": "pushes back",
+      "label": "ROUND 2"
+     },
+     {
+      "at": "Round after round",
+      "label": "ROUND 3"
+     }
+    ]
+   },
+   "start": 208.116,
+   "lines": [
+    {
+     "text": "The single most important idea in the guide: give the agent a complete feedback loop.",
+     "s": 0.35,
+     "e": 5.225,
+     "w": [
+      [
+       0.24,
+       0.4,
+       "The"
+      ],
+      [
+       0.4,
+       0.72,
+       "single"
+      ],
+      [
+       0.72,
+       1.02,
+       "most"
+      ],
+      [
+       1.02,
+       1.38,
+       "important"
+      ],
+      [
+       1.38,
+       1.86,
+       "idea"
+      ],
+      [
+       1.86,
+       2.08,
+       "in"
+      ],
+      [
+       2.08,
+       2.12,
+       "the"
+      ],
+      [
+       2.12,
+       2.4,
+       "guide:"
+      ],
+      [
+       2.48,
+       2.98,
+       "give"
+      ],
+      [
+       2.98,
+       3.3,
+       "the"
+      ],
+      [
+       3.3,
+       3.6,
+       "agent"
+      ],
+      [
+       3.6,
+       3.8,
+       "a"
+      ],
+      [
+       3.8,
+       4.22,
+       "complete"
+      ],
+      [
+       4.22,
+       4.8,
+       "feedback"
+      ],
+      [
+       4.8,
+       5.12,
+       "loop."
+      ]
+     ]
+    },
+    {
+     "text": "The agent works and attaches proof. The bot checks it, and if it doesn't match the request, it pushes back.",
+     "s": 5.525,
+     "e": 11.462,
+     "w": [
+      [
+       5.461,
+       5.661,
+       "The"
+      ],
+      [
+       5.661,
+       6.001,
+       "agent"
+      ],
+      [
+       6.001,
+       6.321,
+       "works"
+      ],
+      [
+       6.321,
+       6.781,
+       "and"
+      ],
+      [
+       6.781,
+       7.081,
+       "attaches"
+      ],
+      [
+       7.081,
+       7.441,
+       "proof."
+      ],
+      [
+       7.621,
+       7.801,
+       "The"
+      ],
+      [
+       7.801,
+       7.961,
+       "bot"
+      ],
+      [
+       7.961,
+       8.181,
+       "checks"
+      ],
+      [
+       8.181,
+       8.401,
+       "it,"
+      ],
+      [
+       8.501,
+       8.861,
+       "and"
+      ],
+      [
+       8.861,
+       8.981,
+       "if"
+      ],
+      [
+       8.981,
+       9.061,
+       "it"
+      ],
+      [
+       9.061,
+       9.321,
+       "doesn't"
+      ],
+      [
+       9.321,
+       9.481,
+       "match"
+      ],
+      [
+       9.481,
+       9.621,
+       "the"
+      ],
+      [
+       9.621,
+       9.841,
+       "request,"
+      ],
+      [
+       10.221,
+       10.861,
+       "it"
+      ],
+      [
+       10.861,
+       11.141,
+       "pushes"
+      ],
+      [
+       11.141,
+       11.321,
+       "back."
+      ]
+     ]
+    },
+    {
+     "text": "Round after round, until the goal is met. Not until the agent says it's done.",
+     "s": 11.762,
+     "e": 17.024,
+     "w": [
+      [
+       11.696,
+       12.036,
+       "Round"
+      ],
+      [
+       12.036,
+       12.256,
+       "after"
+      ],
+      [
+       12.256,
+       12.576,
+       "round,"
+      ],
+      [
+       12.576,
+       13.116,
+       "until"
+      ],
+      [
+       13.116,
+       13.336,
+       "the"
+      ],
+      [
+       13.336,
+       13.536,
+       "goal"
+      ],
+      [
+       13.536,
+       13.696,
+       "is"
+      ],
+      [
+       13.696,
+       13.916,
+       "met."
+      ],
+      [
+       14.516,
+       14.956,
+       "Not"
+      ],
+      [
+       14.956,
+       15.216,
+       "until"
+      ],
+      [
+       15.216,
+       15.416,
+       "the"
+      ],
+      [
+       15.416,
+       15.756,
+       "agent"
+      ],
+      [
+       15.756,
+       16.056,
+       "says"
+      ],
+      [
+       16.056,
+       16.316,
+       "it's"
+      ],
+      [
+       16.576,
+       16.796,
+       "done."
+      ]
+     ]
+    }
+   ],
+   "dur": 17.624
+  },
+  {
+   "id": "s19",
+   "type": "compare",
+   "theme": "lilac",
+   "chapter": "3 · The loop",
+   "trans": "slide",
+   "label": "Pushing back",
+   "title": "The bot actually looks",
+   "data": {
+    "who": "ios",
+    "log": "Reviewing the proof",
+    "left": {
+     "label": "Before",
+     "tone": "bad",
+     "phone": {
+      "title": "Welcome",
+      "bad": true
+     }
+    },
+    "right": {
+     "label": "After",
+     "phone": {
+      "title": "Welcome",
+      "bad": true
+     }
+    },
+    "checks": [
+     {
+      "text": "Button still clipped at 320pt",
+      "verdict": "fail",
+      "at": "still clipped"
+     },
+     {
+      "text": "Fixed on iPhone SE · e2e green",
+      "verdict": "pass",
+      "at": "Round two",
+      "swap": {
+       "phone": {
+        "title": "Welcome"
+       }
+      }
+     }
+    ],
+    "stamp": {
+     "text": "VERIFIED",
+     "at": "verified"
+    }
+   },
+   "start": 225.74,
+   "lines": [
+    {
+     "text": "Cloud agents can attach screenshots, and the bot really looks at them.",
+     "s": 0.35,
+     "e": 5.307,
+     "w": [
+      [
+       0.327,
+       0.467,
+       "Cloud"
+      ],
+      [
+       0.467,
+       0.827,
+       "agents"
+      ],
+      [
+       0.827,
+       1.187,
+       "can"
+      ],
+      [
+       1.187,
+       1.467,
+       "attach"
+      ],
+      [
+       1.467,
+       2.007,
+       "screenshots,"
+      ],
+      [
+       2.887,
+       3.447,
+       "and"
+      ],
+      [
+       3.447,
+       3.727,
+       "the"
+      ],
+      [
+       3.727,
+       3.927,
+       "bot"
+      ],
+      [
+       3.927,
+       4.167,
+       "really"
+      ],
+      [
+       4.167,
+       4.607,
+       "looks"
+      ],
+      [
+       4.607,
+       4.807,
+       "at"
+      ],
+      [
+       4.807,
+       5.067,
+       "them."
+      ]
+     ]
+    },
+    {
+     "text": "Here, the button is still clipped on the smallest screen, so it goes back to the agent instead of to you.",
+     "s": 5.607,
+     "e": 10.609,
+     "w": [
+      [
+       5.578,
+       5.778,
+       "Here,"
+      ],
+      [
+       5.918,
+       6.258,
+       "the"
+      ],
+      [
+       6.258,
+       6.518,
+       "button"
+      ],
+      [
+       6.518,
+       6.678,
+       "is"
+      ],
+      [
+       6.678,
+       6.858,
+       "still"
+      ],
+      [
+       6.858,
+       7.178,
+       "clipped"
+      ],
+      [
+       7.178,
+       7.338,
+       "on"
+      ],
+      [
+       7.338,
+       7.458,
+       "the"
+      ],
+      [
+       7.458,
+       7.598,
+       "smallest"
+      ],
+      [
+       7.738,
+       8.038,
+       "screen,"
+      ],
+      [
+       8.218,
+       8.458,
+       "so"
+      ],
+      [
+       8.458,
+       8.598,
+       "it"
+      ],
+      [
+       8.598,
+       8.738,
+       "goes"
+      ],
+      [
+       8.738,
+       8.958,
+       "back"
+      ],
+      [
+       8.958,
+       9.118,
+       "to"
+      ],
+      [
+       9.118,
+       9.158,
+       "the"
+      ],
+      [
+       9.158,
+       9.418,
+       "agent"
+      ],
+      [
+       9.418,
+       9.978,
+       "instead"
+      ],
+      [
+       9.978,
+       10.178,
+       "of"
+      ],
+      [
+       10.178,
+       10.298,
+       "to"
+      ],
+      [
+       10.298,
+       10.478,
+       "you."
+      ]
+     ]
+    },
+    {
+     "text": "Round two. Fixed, tests green, verified.",
+     "s": 10.909,
+     "e": 14.659,
+     "w": [
+      [
+       10.787,
+       11.007,
+       "Round"
+      ],
+      [
+       11.007,
+       11.407,
+       "two."
+      ],
+      [
+       11.907,
+       12.627,
+       "Fixed,"
+      ],
+      [
+       12.627,
+       13.227,
+       "tests"
+      ],
+      [
+       13.227,
+       13.547,
+       "green,"
+      ],
+      [
+       13.847,
+       14.287,
+       "verified."
+      ]
+     ]
+    }
+   ],
+   "dur": 15.259
+  },
+  {
+   "id": "s20",
+   "type": "compose",
+   "theme": "lilac",
+   "chapter": "3 · The loop",
+   "label": "Let it drive",
+   "title": "Give the agent the whole stack",
+   "data": {
+    "els": [
+     {
+      "id": "ph",
+      "el": "phone",
+      "title": "Welcome",
+      "box": [
+       160,
+       250,
+       300,
+       600
+      ],
+      "in": "rise@launch"
+     },
+     {
+      "el": "cursor",
+      "path": [
+       [
+        "dev build",
+        600,
+        420
+       ],
+       [
+        "click through",
+        310,
+        790
+       ]
+      ],
+      "clicks": [
+       "click through+0.6"
+      ]
+     },
+     {
+      "el": "stamp",
+      "text": "CAPTURED",
+      "tone": "accent",
+      "box": [
+       140,
+       470,
+       340,
+       110
+      ],
+      "in": {
+       "m": "stamp",
+       "at": "capture",
+       "turn": -6
+      }
+     },
+     {
+      "el": "list",
+      "box": [
+       520,
+       300,
+       430,
+       330
+      ],
+      "marker": "arrow",
+      "items": [
+       {
+        "text": "Chrome DevTools",
+        "sub": "web flows",
+        "at": "Chrome"
+       },
+       {
+        "text": "A CLI",
+        "sub": "services",
+        "at": "CLI"
+       },
+       {
+        "text": "Accessibility APIs",
+        "sub": "iOS simulator",
+        "at": "Accessibility"
+       }
+      ],
+      "in": "fade@Chrome"
+     },
+     {
+      "el": "terminal",
+      "box": [
+       1000,
+       250,
+       830,
+       420
+      ],
+      "title": "cloud agent · fix/onboarding-small-screens",
+      "cmd": "pnpm dev:ios --device \"iPhone SE\"",
+      "at": "launch",
+      "output": [
+       {
+        "text": "✓ simulator booted · iPhone SE",
+        "cls": "g",
+        "at": "click through"
+       },
+       {
+        "text": "→ tap Continue · capture after.png",
+        "cls": "d",
+        "at": "capture"
+       },
+       {
+        "text": "✓ e2e: 42 passed",
+        "cls": "g",
+        "at": "Chrome"
+       }
+      ],
+      "in": "tilt@drive"
+     },
+     {
+      "id": "skill",
+      "el": "card",
+      "box": [
+       1000,
+       700,
+       830,
+       150
+      ],
+      "icon": "file",
+      "tone": "good",
+      "kicker": "New repo skill",
+      "title": "`/run-ios-e2e`",
+      "in": "rise@package",
+      "do": [
+       "glow@reusable"
+      ]
+     }
+    ],
+    "beats": [
+     {
+      "at": "package",
+      "focus": "skill"
+     }
+    ]
+   },
+   "start": 240.999,
+   "lines": [
+    {
+     "text": "For that loop to work, the agent has to drive the stack end to end: launch a dev build, click through it, capture the result.",
+     "s": 0.35,
+     "e": 6.715,
+     "w": [
+      [
+       0.307,
+       0.407,
+       "For"
+      ],
+      [
+       0.407,
+       0.627,
+       "that"
+      ],
+      [
+       0.627,
+       0.807,
+       "loop"
+      ],
+      [
+       0.807,
+       0.927,
+       "to"
+      ],
+      [
+       0.927,
+       1.187,
+       "work,"
+      ],
+      [
+       1.347,
+       1.527,
+       "the"
+      ],
+      [
+       1.527,
+       1.807,
+       "agent"
+      ],
+      [
+       1.807,
+       2.007,
+       "has"
+      ],
+      [
+       2.007,
+       2.167,
+       "to"
+      ],
+      [
+       2.167,
+       2.347,
+       "drive"
+      ],
+      [
+       2.347,
+       2.507,
+       "the"
+      ],
+      [
+       2.507,
+       2.687,
+       "stack"
+      ],
+      [
+       2.687,
+       2.907,
+       "end"
+      ],
+      [
+       2.907,
+       3.027,
+       "to"
+      ],
+      [
+       3.027,
+       3.327,
+       "end:"
+      ],
+      [
+       3.407,
+       3.787,
+       "launch"
+      ],
+      [
+       3.787,
+       3.927,
+       "a"
+      ],
+      [
+       3.927,
+       4.087,
+       "dev"
+      ],
+      [
+       4.087,
+       4.287,
+       "build,"
+      ],
+      [
+       4.467,
+       5.287,
+       "click"
+      ],
+      [
+       5.287,
+       5.447,
+       "through"
+      ],
+      [
+       5.447,
+       5.647,
+       "it,"
+      ],
+      [
+       5.687,
+       6.067,
+       "capture"
+      ],
+      [
+       6.067,
+       6.307,
+       "the"
+      ],
+      [
+       6.307,
+       6.507,
+       "result."
+      ]
+     ]
+    },
+    {
+     "text": "Chrome DevTools for the web. A CLI for services. Accessibility APIs for the iOS simulator.",
+     "s": 7.015,
+     "e": 13.511,
+     "w": [
+      [
+       6.9,
+       7.1,
+       "Chrome"
+      ],
+      [
+       7.1,
+       7.76,
+       "DevTools"
+      ],
+      [
+       7.76,
+       7.96,
+       "for"
+      ],
+      [
+       7.96,
+       8.18,
+       "the"
+      ],
+      [
+       8.18,
+       8.42,
+       "web."
+      ],
+      [
+       8.42,
+       8.72,
+       "A"
+      ],
+      [
+       8.72,
+       9.02,
+       "CLI"
+      ],
+      [
+       9.32,
+       9.58,
+       "for"
+      ],
+      [
+       9.58,
+       10.02,
+       "services."
+      ],
+      [
+       10.74,
+       11.26,
+       "Accessibility"
+      ],
+      [
+       11.26,
+       11.78,
+       "APIs"
+      ],
+      [
+       11.78,
+       12.32,
+       "for"
+      ],
+      [
+       12.32,
+       12.48,
+       "the"
+      ],
+      [
+       12.48,
+       12.72,
+       "iOS"
+      ],
+      [
+       12.72,
+       13.08,
+       "simulator."
+      ]
+     ]
+    },
+    {
+     "text": "And when it figures out a flow, have it package that into a reusable repo skill.",
+     "s": 13.811,
+     "e": 18.925,
+     "w": [
+      [
+       13.72,
+       13.92,
+       "And"
+      ],
+      [
+       13.92,
+       14.16,
+       "when"
+      ],
+      [
+       14.16,
+       14.26,
+       "it"
+      ],
+      [
+       14.26,
+       14.48,
+       "figures"
+      ],
+      [
+       14.48,
+       14.72,
+       "out"
+      ],
+      [
+       14.72,
+       14.8,
+       "a"
+      ],
+      [
+       14.8,
+       15.02,
+       "flow,"
+      ],
+      [
+       15.16,
+       15.48,
+       "have"
+      ],
+      [
+       15.48,
+       15.66,
+       "it"
+      ],
+      [
+       15.66,
+       16.02,
+       "package"
+      ],
+      [
+       16.02,
+       16.62,
+       "that"
+      ],
+      [
+       16.62,
+       17.46,
+       "into"
+      ],
+      [
+       17.46,
+       17.74,
+       "a"
+      ],
+      [
+       17.74,
+       18.2,
+       "reusable"
+      ],
+      [
+       18.2,
+       18.48,
+       "repo"
+      ],
+      [
+       18.48,
+       18.74,
+       "skill."
+      ]
+     ]
+    }
+   ],
+   "dur": 19.525
+  },
+  {
+   "id": "s21",
+   "type": "compose",
+   "theme": "lilac",
+   "chapter": "3 · The loop",
+   "trans": "zoom",
+   "data": {
+    "els": [
+     {
+      "el": "text",
+      "style": "label",
+      "text": "The rule",
+      "box": [
+       160,
+       260,
+       1600,
+       40
+      ],
+      "align": "center",
+      "in": "fade@rule"
+     },
+     {
+      "el": "text",
+      "style": "display",
+      "text": "No feedback loop",
+      "box": [
+       160,
+       320,
+       1600,
+       130
+      ],
+      "align": "center",
+      "in": "chars@check"
+     },
+     {
+      "el": "glyph",
+      "text": "=",
+      "box": [
+       860,
+       455,
+       200,
+       120
+      ],
+      "in": "pop@without"
+     },
+     {
+      "el": "text",
+      "style": "display",
+      "text": "no *autonomy*",
+      "box": [
+       160,
+       590,
+       1600,
+       140
+      ],
+      "align": "center",
+      "in": "mask@without",
+      "do": [
+       "hl@without+0.5"
+      ]
+     }
+    ]
+   },
+   "start": 260.524,
+   "lines": [
+    {
+     "text": "So here's the rule. If the agent can't check its own work, it can't work without you.",
+     "s": 0.35,
+     "e": 5.261,
+     "w": [
+      [
+       0.258,
+       0.458,
+       "So"
+      ],
+      [
+       0.458,
+       0.728,
+       "here's"
+      ],
+      [
+       0.998,
+       1.138,
+       "the"
+      ],
+      [
+       1.138,
+       1.358,
+       "rule."
+      ],
+      [
+       1.518,
+       1.778,
+       "If"
+      ],
+      [
+       1.778,
+       1.938,
+       "the"
+      ],
+      [
+       1.938,
+       2.258,
+       "agent"
+      ],
+      [
+       2.258,
+       2.578,
+       "can't"
+      ],
+      [
+       2.578,
+       2.818,
+       "check"
+      ],
+      [
+       2.818,
+       3.098,
+       "its"
+      ],
+      [
+       3.098,
+       3.258,
+       "own"
+      ],
+      [
+       3.258,
+       3.558,
+       "work,"
+      ],
+      [
+       3.698,
+       4.278,
+       "it"
+      ],
+      [
+       4.278,
+       4.538,
+       "can't"
+      ],
+      [
+       4.538,
+       4.658,
+       "work"
+      ],
+      [
+       4.658,
+       4.938,
+       "without"
+      ],
+      [
+       4.938,
+       5.178,
+       "you."
+      ]
+     ]
+    }
+   ],
+   "dur": 5.861
+  },
+  {
+   "id": "s22",
+   "type": "chapter",
+   "theme": "ink",
+   "chapter": "4 · PR board",
+   "trans": "wipe",
+   "data": {
+    "title": "The PR board",
+    "sub": "Scale past the context window",
+    "short": "PR board"
+   },
+   "min_dur": 3.4,
+   "start": 266.385,
+   "lines": [
+    {
+     "text": "Chapter four. Scale past the context window.",
+     "s": 0.35,
+     "e": 4.128,
+     "w": [
+      [
+       0.215,
+       0.555,
+       "Chapter"
+      ],
+      [
+       0.555,
+       0.895,
+       "four."
+      ],
+      [
+       1.235,
+       1.775,
+       "Scale"
+      ],
+      [
+       1.775,
+       2.255,
+       "past"
+      ],
+      [
+       2.255,
+       3.095,
+       "the"
+      ],
+      [
+       3.095,
+       3.615,
+       "context"
+      ],
+      [
+       3.615,
+       3.775,
+       "window."
+      ]
+     ]
+    }
+   ],
+   "dur": 4.728
+  },
+  {
+   "id": "s23",
+   "type": "board",
+   "theme": "ice",
+   "chapter": "4 · PR board",
+   "label": "Every 30 minutes",
+   "title": "A shared board the bots maintain",
+   "data": {
+    "cols": [
+     "Working",
+     "Ready for review",
+     "Merged"
+    ],
+    "colTone": [
+     "#f5a524",
+     "#3a6cf4",
+     "#8b5cf6"
+    ],
+    "items": [
+     {
+      "id": "#4797",
+      "title": "Retry flaky uploads",
+      "who": "infra",
+      "col": 2,
+      "at": "Long chats"
+     },
+     {
+      "id": "#4815",
+      "title": "Arm64 crash on launch",
+      "who": "desktop",
+      "col": 1,
+      "at": "shared database",
+      "moves": [
+       {
+        "col": 0,
+        "at": "moves back",
+        "flag": "CI failing"
+       }
+      ]
+     },
+     {
+      "id": "#4821",
+      "title": "Small-screen onboarding",
+      "who": "ios",
+      "col": 0,
+      "at": "every pull",
+      "moves": [
+       {
+        "col": 1,
+        "at": "Clean ones",
+        "ok": "Checks pass"
+       }
+      ]
+     },
+     {
+      "id": "#4826",
+      "title": "Android deep links",
+      "who": "android",
+      "col": 0,
+      "at": "request"
+     }
+    ],
+    "sweeps": [
+     {
+      "at": "Every thirty",
+      "label": "10:30 · sweep"
+     }
+    ]
+   },
+   "start": 271.113,
+   "lines": [
+    {
+     "text": "Long chats scroll away, so the bots keep a shared database of every pull request.",
+     "s": 0.35,
+     "e": 6.391,
+     "w": [
+      [
+       0.319,
+       0.919,
+       "Long"
+      ],
+      [
+       0.919,
+       1.069,
+       "chats"
+      ],
+      [
+       1.219,
+       1.699,
+       "scroll"
+      ],
+      [
+       1.699,
+       1.889,
+       "away,"
+      ],
+      [
+       2.079,
+       2.379,
+       "so"
+      ],
+      [
+       2.379,
+       2.519,
+       "the"
+      ],
+      [
+       2.519,
+       2.739,
+       "bots"
+      ],
+      [
+       2.739,
+       3.019,
+       "keep"
+      ],
+      [
+       3.019,
+       3.139,
+       "a"
+      ],
+      [
+       3.139,
+       3.439,
+       "shared"
+      ],
+      [
+       3.439,
+       3.859,
+       "database"
+      ],
+      [
+       3.859,
+       4.619,
+       "of"
+      ],
+      [
+       4.619,
+       4.939,
+       "every"
+      ],
+      [
+       4.939,
+       5.679,
+       "pull"
+      ],
+      [
+       5.679,
+       5.959,
+       "request."
+      ]
+     ]
+    },
+    {
+     "text": "Every thirty minutes, they sweep it: bug-bot comments, failing CI, merge conflicts.",
+     "s": 6.691,
+     "e": 12.74,
+     "w": [
+      [
+       6.526,
+       6.786,
+       "Every"
+      ],
+      [
+       6.786,
+       6.926,
+       "thirty"
+      ],
+      [
+       7.066,
+       7.426,
+       "minutes,"
+      ],
+      [
+       7.426,
+       7.826,
+       "they"
+      ],
+      [
+       7.826,
+       8.206,
+       "sweep"
+      ],
+      [
+       8.206,
+       8.366,
+       "it:"
+      ],
+      [
+       8.366,
+       8.736,
+       "bug-bot"
+      ],
+      [
+       9.106,
+       9.466,
+       "comments,"
+      ],
+      [
+       9.466,
+       9.776,
+       "failing"
+      ],
+      [
+       10.086,
+       10.486,
+       "CI,"
+      ],
+      [
+       11.226,
+       11.946,
+       "merge"
+      ],
+      [
+       11.946,
+       12.106,
+       "conflicts."
+      ]
+     ]
+    },
+    {
+     "text": "Anything off goes straight back to the agent, and the row moves back to Working. Clean ones move to Ready for review.",
+     "s": 13.04,
+     "e": 19.318,
+     "w": [
+      [
+       12.902,
+       13.242,
+       "Anything"
+      ],
+      [
+       13.242,
+       13.542,
+       "off"
+      ],
+      [
+       13.542,
+       13.722,
+       "goes"
+      ],
+      [
+       13.722,
+       14.042,
+       "straight"
+      ],
+      [
+       14.042,
+       14.302,
+       "back"
+      ],
+      [
+       14.302,
+       14.502,
+       "to"
+      ],
+      [
+       14.502,
+       14.562,
+       "the"
+      ],
+      [
+       14.562,
+       14.862,
+       "agent,"
+      ],
+      [
+       14.862,
+       15.202,
+       "and"
+      ],
+      [
+       15.202,
+       15.502,
+       "the"
+      ],
+      [
+       15.502,
+       15.682,
+       "row"
+      ],
+      [
+       15.682,
+       15.902,
+       "moves"
+      ],
+      [
+       15.902,
+       16.222,
+       "back"
+      ],
+      [
+       16.222,
+       16.402,
+       "to"
+      ],
+      [
+       16.402,
+       16.682,
+       "Working."
+      ],
+      [
+       17.362,
+       17.802,
+       "Clean"
+      ],
+      [
+       17.802,
+       18.082,
+       "ones"
+      ],
+      [
+       18.082,
+       18.302,
+       "move"
+      ],
+      [
+       18.302,
+       18.482,
+       "to"
+      ],
+      [
+       18.482,
+       18.662,
+       "Ready"
+      ],
+      [
+       18.662,
+       18.862,
+       "for"
+      ],
+      [
+       18.862,
+       19.062,
+       "review."
+      ]
+     ]
+    }
+   ],
+   "dur": 19.918
+  },
+  {
+   "id": "s24",
+   "type": "compose",
+   "theme": "ice",
+   "chapter": "4 · PR board",
+   "trans": "slide",
+   "label": "Who merges?",
+   "title": "Auto-merge only when it's boring",
+   "data": {
+    "els": [
+     {
+      "id": "in",
+      "el": "pr",
+      "num": "#4821",
+      "title": "Small-screen onboarding",
+      "state": "READY",
+      "checks": [
+       {
+        "text": "CI"
+       },
+       {
+        "text": "Proof"
+       }
+      ],
+      "box": [
+       100,
+       440,
+       540,
+       200
+      ],
+      "in": "left@Clean PRs"
+     },
+     {
+      "id": "rev",
+      "el": "card",
+      "icon": "eye",
+      "kicker": "automatic",
+      "title": "Code review run",
+      "box": [
+       740,
+       455,
+       440,
+       170
+      ],
+      "in": "rise@automatic code"
+     },
+     {
+      "id": "auto",
+      "el": "card",
+      "icon": "merge",
+      "tone": "good",
+      "kicker": "confident · low blast radius",
+      "title": "Auto-merge",
+      "box": [
+       1300,
+       270,
+       530,
+       170
+      ],
+      "in": "right@merges on its own"
+     },
+     {
+      "id": "you",
+      "el": "card",
+      "icon": "user",
+      "kicker": "proof attached",
+      "title": "You review",
+      "box": [
+       1300,
+       640,
+       530,
+       170
+      ],
+      "in": "right@waits for you"
+     },
+     {
+      "el": "arrow",
+      "from": "in",
+      "to": "rev",
+      "bend": 0,
+      "in": "fade@automatic code"
+     },
+     {
+      "el": "arrow",
+      "from": "rev",
+      "to": "auto",
+      "bend": -0.2,
+      "in": "fade@highly confident"
+     },
+     {
+      "el": "arrow",
+      "from": "rev",
+      "to": "you",
+      "bend": 0.2,
+      "in": "fade@Everything else"
+     },
+     {
+      "el": "tag",
+      "icon": "clock",
+      "text": "MINUTES, NOT AN AFTERNOON",
+      "color": "accent2",
+      "box": [
+       100,
+       700,
+       700,
+       56
+      ],
+      "in": "pop@minutes"
+     }
+    ],
+    "beats": [
+     {
+      "at": "highly confident",
+      "focus": [
+       "in",
+       "rev",
+       "auto"
+      ]
+     },
+     {
+      "at": "Everything else",
+      "focus": [
+       "in",
+       "rev",
+       "you"
+      ]
+     },
+     {
+      "at": "minutes",
+      "focus": "all"
+     }
+    ]
+   },
+   "start": 291.031,
+   "lines": [
+    {
+     "text": "Clean PRs get an automatic code review. If the review is highly confident and the blast radius is low, it merges on its own.",
+     "s": 0.35,
+     "e": 7.441,
+     "w": [
+      [
+       0.224,
+       0.464,
+       "Clean"
+      ],
+      [
+       0.464,
+       0.984,
+       "PRs"
+      ],
+      [
+       0.984,
+       1.204,
+       "get"
+      ],
+      [
+       1.204,
+       1.344,
+       "an"
+      ],
+      [
+       1.344,
+       1.724,
+       "automatic"
+      ],
+      [
+       1.724,
+       2.124,
+       "code"
+      ],
+      [
+       2.124,
+       2.404,
+       "review."
+      ],
+      [
+       2.564,
+       2.904,
+       "If"
+      ],
+      [
+       2.904,
+       2.984,
+       "the"
+      ],
+      [
+       2.984,
+       3.204,
+       "review"
+      ],
+      [
+       3.204,
+       3.384,
+       "is"
+      ],
+      [
+       3.384,
+       3.704,
+       "highly"
+      ],
+      [
+       3.704,
+       4.224,
+       "confident"
+      ],
+      [
+       4.224,
+       4.764,
+       "and"
+      ],
+      [
+       4.764,
+       4.924,
+       "the"
+      ],
+      [
+       4.924,
+       5.124,
+       "blast"
+      ],
+      [
+       5.124,
+       5.484,
+       "radius"
+      ],
+      [
+       5.484,
+       5.704,
+       "is"
+      ],
+      [
+       5.704,
+       5.924,
+       "low,"
+      ],
+      [
+       6.044,
+       6.484,
+       "it"
+      ],
+      [
+       6.484,
+       6.824,
+       "merges"
+      ],
+      [
+       6.824,
+       6.964,
+       "on"
+      ],
+      [
+       6.964,
+       7.104,
+       "its"
+      ],
+      [
+       7.104,
+       7.284,
+       "own."
+      ]
+     ]
+    },
+    {
+     "text": "Everything else waits for you, with the proof attached, so your review takes minutes instead of an afternoon.",
+     "s": 7.741,
+     "e": 13.567,
+     "w": [
+      [
+       7.598,
+       7.958,
+       "Everything"
+      ],
+      [
+       7.958,
+       8.338,
+       "else"
+      ],
+      [
+       8.338,
+       8.618,
+       "waits"
+      ],
+      [
+       8.618,
+       8.898,
+       "for"
+      ],
+      [
+       8.898,
+       9.138,
+       "you,"
+      ],
+      [
+       9.138,
+       9.778,
+       "with"
+      ],
+      [
+       9.778,
+       9.918,
+       "the"
+      ],
+      [
+       9.918,
+       10.138,
+       "proof"
+      ],
+      [
+       10.138,
+       10.378,
+       "attached,"
+      ],
+      [
+       10.658,
+       10.898,
+       "so"
+      ],
+      [
+       10.898,
+       11.098,
+       "your"
+      ],
+      [
+       11.098,
+       11.358,
+       "review"
+      ],
+      [
+       11.358,
+       11.578,
+       "takes"
+      ],
+      [
+       11.578,
+       11.918,
+       "minutes"
+      ],
+      [
+       11.918,
+       12.678,
+       "instead"
+      ],
+      [
+       12.678,
+       12.898,
+       "of"
+      ],
+      [
+       12.898,
+       12.998,
+       "an"
+      ],
+      [
+       12.998,
+       13.278,
+       "afternoon."
+      ]
+     ]
+    }
+   ],
+   "dur": 14.167
+  },
+  {
+   "id": "s25",
+   "type": "compose",
+   "theme": "ice",
+   "chapter": "4 · PR board",
+   "label": "Their numbers",
+   "title": "What the team reports",
+   "data": {
+    "layout": {
+     "type": "bento",
+     "ratio": 0.56
+    },
+    "els": [
+     {
+      "el": "panel",
+      "slot": "main",
+      "in": "rise@team"
+     },
+     {
+      "el": "quote",
+      "slot": "main",
+      "pad": 44,
+      "text": "Lauren shipped *2,000+ PRs* in the past month.",
+      "by": "Grok Bot for Engineering",
+      "role": "x.ai guide",
+      "in": "rise@One engineer",
+      "do": [
+       "hl@two thousand"
+      ]
+     },
+     {
+      "el": "stat",
+      "slot": "side0",
+      "label": "Grok Bot foundation",
+      "value": 4,
+      "suffix": " weeks",
+      "sub": "built with Grok Bot",
+      "in": "rise@four weeks"
+     },
+     {
+      "el": "stat",
+      "slot": "side1",
+      "label": "iOS app v0",
+      "value": 3,
+      "suffix": " weeks",
+      "sub": "using only Grok Bot",
+      "tone": "accent",
+      "in": "rise@in three"
+     },
+     {
+      "el": "source",
+      "text": "x.ai/bot/guides/grok-bot-for-engineering · self-reported",
+      "in": "fade@team"
+     }
+    ]
+   },
+   "start": 305.198,
+   "lines": [
+    {
+     "text": "Here's what the team behind Grok Bot reports. One engineer shipped more than two thousand pull requests in a month.",
+     "s": 0.35,
+     "e": 6.375,
+     "w": [
+      [
+       0.227,
+       0.377,
+       "Here's"
+      ],
+      [
+       0.527,
+       0.647,
+       "what"
+      ],
+      [
+       0.647,
+       0.747,
+       "the"
+      ],
+      [
+       0.747,
+       0.967,
+       "team"
+      ],
+      [
+       0.967,
+       1.207,
+       "behind"
+      ],
+      [
+       1.207,
+       1.427,
+       "Grok"
+      ],
+      [
+       1.427,
+       1.567,
+       "Bot"
+      ],
+      [
+       1.567,
+       1.847,
+       "reports."
+      ],
+      [
+       2.067,
+       2.507,
+       "One"
+      ],
+      [
+       2.507,
+       3.007,
+       "engineer"
+      ],
+      [
+       3.007,
+       3.407,
+       "shipped"
+      ],
+      [
+       3.407,
+       3.887,
+       "more"
+      ],
+      [
+       3.887,
+       4.127,
+       "than"
+      ],
+      [
+       4.127,
+       4.287,
+       "two"
+      ],
+      [
+       4.287,
+       4.747,
+       "thousand"
+      ],
+      [
+       4.747,
+       5.487,
+       "pull"
+      ],
+      [
+       5.487,
+       5.867,
+       "requests"
+      ],
+      [
+       5.867,
+       6.127,
+       "in"
+      ],
+      [
+       6.127,
+       6.167,
+       "a"
+      ],
+      [
+       6.167,
+       6.287,
+       "month."
+      ]
+     ]
+    },
+    {
+     "text": "The foundation of Grok Bot itself was built in four weeks. The first iOS app, in three, using only Grok Bot.",
+     "s": 6.675,
+     "e": 13.379,
+     "w": [
+      [
+       6.532,
+       6.772,
+       "The"
+      ],
+      [
+       6.772,
+       7.092,
+       "foundation"
+      ],
+      [
+       7.092,
+       7.572,
+       "of"
+      ],
+      [
+       7.572,
+       7.699,
+       "Grok"
+      ],
+      [
+       7.699,
+       7.825,
+       "Bot"
+      ],
+      [
+       7.952,
+       8.192,
+       "itself"
+      ],
+      [
+       8.192,
+       8.552,
+       "was"
+      ],
+      [
+       8.552,
+       8.832,
+       "built"
+      ],
+      [
+       8.832,
+       9.012,
+       "in"
+      ],
+      [
+       9.012,
+       9.192,
+       "four"
+      ],
+      [
+       9.192,
+       9.592,
+       "weeks."
+      ],
+      [
+       9.692,
+       10.032,
+       "The"
+      ],
+      [
+       10.032,
+       10.272,
+       "first"
+      ],
+      [
+       10.272,
+       10.612,
+       "iOS"
+      ],
+      [
+       10.612,
+       10.952,
+       "app,"
+      ],
+      [
+       11.152,
+       11.612,
+       "in"
+      ],
+      [
+       11.612,
+       11.852,
+       "three,"
+      ],
+      [
+       11.992,
+       12.492,
+       "using"
+      ],
+      [
+       12.492,
+       12.832,
+       "only"
+      ],
+      [
+       12.832,
+       12.972,
+       "Grok"
+      ],
+      [
+       12.972,
+       13.112,
+       "Bot."
+      ]
+     ]
+    }
+   ],
+   "dur": 13.979
+  },
+  {
+   "id": "s26",
+   "type": "chapter",
+   "theme": "ink",
+   "chapter": "5 · Night shift",
+   "trans": "wipe",
+   "data": {
+    "title": "The night shift",
+    "sub": "Routines that work while you sleep",
+    "short": "Night shift"
+   },
+   "min_dur": 3.4,
+   "start": 319.177,
+   "lines": [
+    {
+     "text": "Chapter five. The night shift.",
+     "s": 0.35,
+     "e": 3.041,
+     "w": [
+      [
+       0.216,
+       0.636,
+       "Chapter"
+      ],
+      [
+       0.636,
+       0.886,
+       "five."
+      ],
+      [
+       1.136,
+       1.676,
+       "The"
+      ],
+      [
+       1.676,
+       2.376,
+       "night"
+      ],
+      [
+       2.376,
+       2.676,
+       "shift."
+      ]
+     ]
+    }
+   ],
+   "dur": 3.641
+  },
+  {
+   "id": "s27",
+   "type": "clock",
+   "theme": "night",
+   "chapter": "5 · Night shift",
+   "label": "Routines",
+   "title": "A night in the org",
+   "data": {
+    "from": "22:00",
+    "to": "08:30",
+    "events": [
+     {
+      "time": "22:00",
+      "label": "Sweep every 30 min",
+      "cast": "desktop",
+      "at": "thirty minutes"
+     },
+     {
+      "time": "03:00",
+      "label": "Nightly audit",
+      "cast": "harness",
+      "at": "three"
+     },
+     {
+      "time": "05:00",
+      "label": "Ops 1:1s",
+      "cast": "ops",
+      "at": "five"
+     },
+     {
+      "time": "08:00",
+      "label": "You review",
+      "at": "eight"
+     }
+    ]
+   },
+   "start": 322.818,
+   "lines": [
+    {
+     "text": "Routines turn all of this into a schedule. Every thirty minutes, the PR sweep.",
+     "s": 0.35,
+     "e": 5.695,
+     "w": [
+      [
+       0.314,
+       0.754,
+       "Routines"
+      ],
+      [
+       0.754,
+       1.094,
+       "turn"
+      ],
+      [
+       1.094,
+       1.454,
+       "all"
+      ],
+      [
+       1.454,
+       1.594,
+       "of"
+      ],
+      [
+       1.594,
+       1.814,
+       "this"
+      ],
+      [
+       1.814,
+       2.054,
+       "into"
+      ],
+      [
+       2.054,
+       2.234,
+       "a"
+      ],
+      [
+       2.234,
+       2.594,
+       "schedule."
+      ],
+      [
+       2.714,
+       3.174,
+       "Every"
+      ],
+      [
+       3.174,
+       3.304,
+       "thirty"
+      ],
+      [
+       3.434,
+       3.794,
+       "minutes,"
+      ],
+      [
+       4.014,
+       5.014,
+       "the"
+      ],
+      [
+       5.014,
+       5.274,
+       "PR"
+      ],
+      [
+       5.274,
+       5.494,
+       "sweep."
+      ]
+     ]
+    },
+    {
+     "text": "At three a.m., the nightly audit: dead code, load time, bundle size. At five, the ops bot meets every engineer bot.",
+     "s": 5.995,
+     "e": 12.817,
+     "w": [
+      [
+       5.958,
+       6.058,
+       "At"
+      ],
+      [
+       6.058,
+       6.218,
+       "three"
+      ],
+      [
+       6.218,
+       6.488,
+       "a.m.,"
+      ],
+      [
+       6.758,
+       7.018,
+       "the"
+      ],
+      [
+       7.018,
+       7.358,
+       "nightly"
+      ],
+      [
+       7.358,
+       7.598,
+       "audit:"
+      ],
+      [
+       7.758,
+       7.998,
+       "dead"
+      ],
+      [
+       7.998,
+       8.258,
+       "code,"
+      ],
+      [
+       8.478,
+       8.878,
+       "load"
+      ],
+      [
+       8.878,
+       9.138,
+       "time,"
+      ],
+      [
+       9.238,
+       9.498,
+       "bundle"
+      ],
+      [
+       9.498,
+       9.778,
+       "size."
+      ],
+      [
+       10.018,
+       10.478,
+       "At"
+      ],
+      [
+       10.478,
+       10.878,
+       "five,"
+      ],
+      [
+       11.038,
+       11.378,
+       "the"
+      ],
+      [
+       11.378,
+       11.578,
+       "ops"
+      ],
+      [
+       11.578,
+       11.778,
+       "bot"
+      ],
+      [
+       11.778,
+       11.978,
+       "meets"
+      ],
+      [
+       11.978,
+       12.198,
+       "every"
+      ],
+      [
+       12.198,
+       12.518,
+       "engineer"
+      ],
+      [
+       12.518,
+       12.658,
+       "bot."
+      ]
+     ]
+    },
+    {
+     "text": "And at eight, you wake up to a list of PRs that are ready to merge.",
+     "s": 13.117,
+     "e": 18.304,
+     "w": [
+      [
+       12.923,
+       13.243,
+       "And"
+      ],
+      [
+       13.243,
+       13.723,
+       "at"
+      ],
+      [
+       13.723,
+       14.103,
+       "eight,"
+      ],
+      [
+       14.243,
+       14.703,
+       "you"
+      ],
+      [
+       14.703,
+       14.923,
+       "wake"
+      ],
+      [
+       14.923,
+       15.183,
+       "up"
+      ],
+      [
+       15.183,
+       15.403,
+       "to"
+      ],
+      [
+       15.403,
+       15.743,
+       "a"
+      ],
+      [
+       15.743,
+       16.023,
+       "list"
+      ],
+      [
+       16.023,
+       16.143,
+       "of"
+      ],
+      [
+       16.143,
+       16.623,
+       "PRs"
+      ],
+      [
+       16.623,
+       16.923,
+       "that"
+      ],
+      [
+       16.923,
+       16.983,
+       "are"
+      ],
+      [
+       16.983,
+       17.663,
+       "ready"
+      ],
+      [
+       17.663,
+       17.883,
+       "to"
+      ],
+      [
+       17.883,
+       18.063,
+       "merge."
+      ]
+     ]
+    }
+   ],
+   "dur": 18.904
+  },
+  {
+   "id": "s28",
+   "type": "compose",
+   "theme": "night",
+   "chapter": "5 · Night shift",
+   "trans": "slide",
+   "label": "Nightly audits",
+   "title": "What to run at 3 a.m.",
+   "data": {
+    "layout": {
+     "type": "split",
+     "ratio": 0.56
+    },
+    "els": [
+     {
+      "el": "code",
+      "slot": "left",
+      "file": "routines.yaml",
+      "lang": "yaml",
+      "code": "nightly-audits:\n  - name: security-sweep\n    at: \"03:00\"\n  - name: ci-build-time\n    at: \"03:20\"\n  - name: i18n-gaps\n    at: \"03:40\"\n  - name: ios-desktop-parity\n    at: \"04:00\"\n  - name: catch-up-summary\n    at: \"07:30\"",
+      "focus": [
+       {
+        "lines": [
+         2,
+         3
+        ],
+        "at": "Security"
+       },
+       {
+        "lines": [
+         4,
+         5
+        ],
+        "at": "CI build"
+       },
+       {
+        "lines": [
+         6,
+         7
+        ],
+        "at": "translations"
+       },
+       {
+        "lines": [
+         8,
+         9
+        ],
+        "at": "Parity"
+       },
+       {
+        "lines": [
+         10,
+         11
+        ],
+        "at": "catch-up"
+       }
+      ],
+      "in": "tilt@guide"
+     },
+     {
+      "el": "text",
+      "slot": "right",
+      "style": "label",
+      "text": "What each one catches",
+      "h": 40,
+      "y": 260,
+      "in": "fade@worth"
+     },
+     {
+      "el": "list",
+      "slot": "right",
+      "h": 520,
+      "y": 320,
+      "marker": "dot",
+      "size": 32,
+      "items": [
+       {
+        "text": "Overlooked security issues",
+        "at": "Security"
+       },
+       {
+        "text": "Slow CI creep",
+        "at": "CI build"
+       },
+       {
+        "text": "Features in one language",
+        "at": "translations"
+       },
+       {
+        "text": "iOS vs desktop drift",
+        "at": "Parity"
+       },
+       {
+        "text": "What merged in 24 h",
+        "at": "catch-up"
+       }
+      ],
+      "in": "fade@worth"
+     }
+    ]
+   },
+   "start": 341.722,
+   "lines": [
+    {
+     "text": "The guide lists audits worth stealing.",
+     "s": 0.35,
+     "e": 3.966,
+     "w": [
+      [
+       0.268,
+       0.508,
+       "The"
+      ],
+      [
+       0.508,
+       0.888,
+       "guide"
+      ],
+      [
+       0.888,
+       1.588,
+       "lists"
+      ],
+      [
+       1.588,
+       2.668,
+       "audits"
+      ],
+      [
+       2.668,
+       3.288,
+       "worth"
+      ],
+      [
+       3.288,
+       3.788,
+       "stealing."
+      ]
+     ]
+    },
+    {
+     "text": "Security sweeps. CI build time. Missing translations. Parity between your iOS and desktop apps. And a catch-up summary of everything merged in the last day.",
+     "s": 4.266,
+     "e": 13.904,
+     "w": [
+      [
+       4.174,
+       4.414,
+       "Security"
+      ],
+      [
+       4.414,
+       4.954,
+       "sweeps."
+      ],
+      [
+       4.954,
+       5.134,
+       "CI"
+      ],
+      [
+       5.134,
+       5.434,
+       "build"
+      ],
+      [
+       5.434,
+       5.734,
+       "time."
+      ],
+      [
+       5.914,
+       6.474,
+       "Missing"
+      ],
+      [
+       6.474,
+       7.294,
+       "translations."
+      ],
+      [
+       7.834,
+       8.174,
+       "Parity"
+      ],
+      [
+       8.174,
+       8.434,
+       "between"
+      ],
+      [
+       8.434,
+       8.634,
+       "your"
+      ],
+      [
+       8.634,
+       8.954,
+       "iOS"
+      ],
+      [
+       8.954,
+       9.174,
+       "and"
+      ],
+      [
+       9.174,
+       9.514,
+       "desktop"
+      ],
+      [
+       9.514,
+       9.934,
+       "apps."
+      ],
+      [
+       10.074,
+       10.654,
+       "And"
+      ],
+      [
+       10.654,
+       11.014,
+       "a"
+      ],
+      [
+       11.014,
+       11.234,
+       "catch-up"
+      ],
+      [
+       11.454,
+       11.734,
+       "summary"
+      ],
+      [
+       11.734,
+       12.374,
+       "of"
+      ],
+      [
+       12.374,
+       12.634,
+       "everything"
+      ],
+      [
+       12.634,
+       13.034,
+       "merged"
+      ],
+      [
+       13.034,
+       13.274,
+       "in"
+      ],
+      [
+       13.274,
+       13.334,
+       "the"
+      ],
+      [
+       13.334,
+       13.554,
+       "last"
+      ],
+      [
+       13.554,
+       13.774,
+       "day."
+      ]
+     ]
+    }
+   ],
+   "dur": 14.504
+  },
+  {
+   "id": "s29",
+   "type": "compose",
+   "theme": "night",
+   "chapter": "5 · Night shift",
+   "trans": "zoom",
+   "data": {
+    "els": [
+     {
+      "el": "text",
+      "style": "label",
+      "text": "Their favorite nightly prompt",
+      "box": [
+       160,
+       220,
+       1600,
+       40
+      ],
+      "align": "center",
+      "in": "fade@favorite"
+     },
+     {
+      "el": "window",
+      "title": "routine · 23:00",
+      "tag": "nightly",
+      "box": [
+       260,
+       290,
+       1400,
+       500
+      ],
+      "in": "zoom@favorite"
+     },
+     {
+      "el": "text",
+      "style": "quote",
+      "text": "“You have six hours tonight. Build whatever you want. Have *fun*.”",
+      "box": [
+       340,
+       390,
+       1240,
+       340
+      ],
+      "lines": 3,
+      "hug": false,
+      "valign": "top",
+      "on": "card",
+      "in": {
+       "m": "type",
+       "at": "six hours",
+       "cps": 26
+      },
+      "do": [
+       "hl@Have fun+0.4"
+      ]
+     }
+    ]
+   },
+   "start": 356.226,
+   "lines": [
+    {
+     "text": "And their favorite nightly prompt of all. You have six hours tonight. Build whatever you want. Have fun.",
+     "s": 0.35,
+     "e": 6.023,
+     "w": [
+      [
+       0.191,
+       0.311,
+       "And"
+      ],
+      [
+       0.431,
+       0.571,
+       "their"
+      ],
+      [
+       0.571,
+       0.951,
+       "favorite"
+      ],
+      [
+       0.951,
+       1.411,
+       "nightly"
+      ],
+      [
+       1.411,
+       1.651,
+       "prompt"
+      ],
+      [
+       1.651,
+       1.811,
+       "of"
+      ],
+      [
+       1.811,
+       1.991,
+       "all."
+      ],
+      [
+       2.051,
+       2.231,
+       "You"
+      ],
+      [
+       2.231,
+       2.411,
+       "have"
+      ],
+      [
+       2.411,
+       2.671,
+       "six"
+      ],
+      [
+       2.671,
+       2.971,
+       "hours"
+      ],
+      [
+       2.971,
+       3.331,
+       "tonight."
+      ],
+      [
+       3.511,
+       3.931,
+       "Build"
+      ],
+      [
+       3.931,
+       4.271,
+       "whatever"
+      ],
+      [
+       4.271,
+       4.511,
+       "you"
+      ],
+      [
+       4.511,
+       4.731,
+       "want."
+      ],
+      [
+       5.151,
+       5.611,
+       "Have"
+      ],
+      [
+       5.611,
+       5.831,
+       "fun."
+      ]
+     ]
+    }
+   ],
+   "dur": 6.623
+  },
+  {
+   "id": "s30",
+   "type": "rules",
+   "theme": "ink",
+   "chapter": "5 · Night shift",
+   "label": "The fine print",
+   "title": "Routine rules that bite",
+   "data": {
+    "file": "docs.x.ai · skills and routines",
+    "tag": "FROM THE DOCS",
+    "items": [
+     {
+      "text": "Schedules at least *5 minutes* apart",
+      "code": "≥ 5 min",
+      "at": "five minutes"
+     },
+     {
+      "text": "*Test* does real work",
+      "sub": "safe inputs, approvals on",
+      "code": "no dry run",
+      "at": "Test"
+     },
+     {
+      "text": "Narrow triggers only",
+      "sub": "never “every new message”",
+      "code": "on: event",
+      "at": "broad"
+     },
+     {
+      "text": "Long time away → routines pause",
+      "code": "check in",
+      "at": "away"
+     }
+    ]
+   },
+   "start": 362.849,
+   "lines": [
+    {
+     "text": "A few details from the docs will save you money.",
+     "s": 0.35,
+     "e": 3.953,
+     "w": [
+      [
+       0.313,
+       0.593,
+       "A"
+      ],
+      [
+       0.593,
+       0.893,
+       "few"
+      ],
+      [
+       0.893,
+       1.373,
+       "details"
+      ],
+      [
+       1.373,
+       2.133,
+       "from"
+      ],
+      [
+       2.133,
+       2.273,
+       "the"
+      ],
+      [
+       2.273,
+       2.493,
+       "docs"
+      ],
+      [
+       2.493,
+       3.133,
+       "will"
+      ],
+      [
+       3.133,
+       3.433,
+       "save"
+      ],
+      [
+       3.433,
+       3.593,
+       "you"
+      ],
+      [
+       3.593,
+       3.753,
+       "money."
+      ]
+     ]
+    },
+    {
+     "text": "Schedules must be at least five minutes apart. Pressing Test does real work. And never use a broad trigger, like every new message.",
+     "s": 4.253,
+     "e": 10.988,
+     "w": [
+      [
+       4.246,
+       4.726,
+       "Schedules"
+      ],
+      [
+       4.726,
+       4.886,
+       "must"
+      ],
+      [
+       4.886,
+       5.086,
+       "be"
+      ],
+      [
+       5.086,
+       5.146,
+       "at"
+      ],
+      [
+       5.146,
+       5.306,
+       "least"
+      ],
+      [
+       5.306,
+       5.446,
+       "five"
+      ],
+      [
+       5.446,
+       5.666,
+       "minutes"
+      ],
+      [
+       5.666,
+       5.886,
+       "apart."
+      ],
+      [
+       6.206,
+       6.646,
+       "Pressing"
+      ],
+      [
+       6.646,
+       6.766,
+       "Test"
+      ],
+      [
+       6.766,
+       6.966,
+       "does"
+      ],
+      [
+       6.966,
+       7.166,
+       "real"
+      ],
+      [
+       7.166,
+       7.466,
+       "work."
+      ],
+      [
+       7.466,
+       7.766,
+       "And"
+      ],
+      [
+       7.766,
+       7.986,
+       "never"
+      ],
+      [
+       7.986,
+       8.346,
+       "use"
+      ],
+      [
+       8.346,
+       8.546,
+       "a"
+      ],
+      [
+       8.546,
+       8.726,
+       "broad"
+      ],
+      [
+       8.726,
+       9.006,
+       "trigger,"
+      ],
+      [
+       9.006,
+       9.946,
+       "like"
+      ],
+      [
+       9.946,
+       10.206,
+       "every"
+      ],
+      [
+       10.206,
+       10.406,
+       "new"
+      ],
+      [
+       10.406,
+       10.666,
+       "message."
+      ]
+     ]
+    },
+    {
+     "text": "If you're away for a long time, routines can be paused until you respond.",
+     "s": 11.288,
+     "e": 15.314,
+     "w": [
+      [
+       11.092,
+       11.352,
+       "If"
+      ],
+      [
+       11.352,
+       11.472,
+       "you're"
+      ],
+      [
+       11.472,
+       11.652,
+       "away"
+      ],
+      [
+       11.652,
+       11.852,
+       "for"
+      ],
+      [
+       11.852,
+       11.972,
+       "a"
+      ],
+      [
+       11.972,
+       12.112,
+       "long"
+      ],
+      [
+       12.112,
+       12.452,
+       "time,"
+      ],
+      [
+       12.492,
+       13.012,
+       "routines"
+      ],
+      [
+       13.012,
+       13.392,
+       "can"
+      ],
+      [
+       13.392,
+       13.552,
+       "be"
+      ],
+      [
+       13.552,
+       13.952,
+       "paused"
+      ],
+      [
+       13.952,
+       14.612,
+       "until"
+      ],
+      [
+       14.612,
+       14.832,
+       "you"
+      ],
+      [
+       14.832,
+       15.052,
+       "respond."
+      ]
+     ]
+    }
+   ],
+   "dur": 15.914
+  },
+  {
+   "id": "s31",
+   "type": "compose",
+   "theme": "ink",
+   "chapter": "5 · Night shift",
+   "trans": "slide",
+   "label": "When it's urgent",
+   "title": "Say the magic word",
+   "data": {
+    "els": [
+     {
+      "el": "bubble",
+      "from": "you",
+      "text": "Checkout is failing on Android. *This is P0.*",
+      "box": [
+       620,
+       255,
+       1180,
+       120
+      ],
+      "in": "right@P0"
+     },
+     {
+      "id": "watch",
+      "el": "toast",
+      "app": "Android Bot",
+      "title": "P0 watch started",
+      "body": "checking the agent's transcript every 5 min",
+      "icon": "bolt",
+      "box": [
+       120,
+       410,
+       780,
+       140
+      ],
+      "in": "drop@temporary routine",
+      "do": [
+       "ping@temporary routine+0.3"
+      ]
+     },
+     {
+      "el": "progress",
+      "value": 1,
+      "label": "{n} min watched",
+      "max": 20,
+      "box": [
+       120,
+       590,
+       780,
+       60
+      ],
+      "at": "every five",
+      "d": 3.5,
+      "in": "fade@every five"
+     },
+     {
+      "el": "bubble",
+      "from": "android",
+      "time": "21:19",
+      "text": "Agent was retrying a flaky test. Steered it to the real failure: *payment SDK timeout*.",
+      "box": [
+       120,
+       690,
+       1420,
+       140
+      ],
+      "in": "left@steers"
+     },
+     {
+      "el": "tag",
+      "icon": "warn",
+      "text": "BURNS TOKENS FAST",
+      "color": "warn",
+      "size": 24,
+      "box": [
+       1240,
+       450,
+       520,
+       60
+      ],
+      "in": "pop@burns",
+      "do": [
+       "shake@burns+0.3"
+      ]
+     }
+    ]
+   },
+   "start": 378.763,
+   "lines": [
+    {
+     "text": "One more trick. When something is truly urgent, tell the bot it's P0.",
+     "s": 0.35,
+     "e": 5.459,
+     "w": [
+      [
+       0.324,
+       0.484,
+       "One"
+      ],
+      [
+       0.484,
+       0.664,
+       "more"
+      ],
+      [
+       0.664,
+       0.884,
+       "trick."
+      ],
+      [
+       1.084,
+       1.464,
+       "When"
+      ],
+      [
+       1.464,
+       1.784,
+       "something"
+      ],
+      [
+       1.784,
+       2.044,
+       "is"
+      ],
+      [
+       2.044,
+       2.304,
+       "truly"
+      ],
+      [
+       2.304,
+       2.824,
+       "urgent,"
+      ],
+      [
+       3.084,
+       4.104,
+       "tell"
+      ],
+      [
+       4.104,
+       4.284,
+       "the"
+      ],
+      [
+       4.284,
+       4.404,
+       "bot"
+      ],
+      [
+       4.404,
+       4.574,
+       "it's"
+      ],
+      [
+       4.744,
+       5.144,
+       "P0."
+      ]
+     ]
+    },
+    {
+     "text": "It starts a temporary routine that checks the agent's transcript every five minutes, and steers it when it wastes time.",
+     "s": 5.759,
+     "e": 12.412,
+     "w": [
+      [
+       5.652,
+       5.812,
+       "It"
+      ],
+      [
+       5.812,
+       6.072,
+       "starts"
+      ],
+      [
+       6.072,
+       6.192,
+       "a"
+      ],
+      [
+       6.192,
+       6.532,
+       "temporary"
+      ],
+      [
+       6.532,
+       7.012,
+       "routine"
+      ],
+      [
+       7.012,
+       7.532,
+       "that"
+      ],
+      [
+       7.532,
+       7.832,
+       "checks"
+      ],
+      [
+       7.832,
+       7.972,
+       "the"
+      ],
+      [
+       7.972,
+       8.352,
+       "agent's"
+      ],
+      [
+       8.352,
+       8.692,
+       "transcript"
+      ],
+      [
+       8.692,
+       9.112,
+       "every"
+      ],
+      [
+       9.112,
+       9.312,
+       "five"
+      ],
+      [
+       9.312,
+       9.632,
+       "minutes,"
+      ],
+      [
+       10.452,
+       10.972,
+       "and"
+      ],
+      [
+       10.972,
+       11.492,
+       "steers"
+      ],
+      [
+       11.492,
+       11.592,
+       "it"
+      ],
+      [
+       11.592,
+       11.772,
+       "when"
+      ],
+      [
+       11.772,
+       11.872,
+       "it"
+      ],
+      [
+       11.872,
+       12.112,
+       "wastes"
+      ],
+      [
+       12.112,
+       12.252,
+       "time."
+      ]
+     ]
+    },
+    {
+     "text": "It burns tokens fast, so save it for real emergencies.",
+     "s": 12.712,
+     "e": 16.949,
+     "w": [
+      [
+       12.563,
+       12.763,
+       "It"
+      ],
+      [
+       12.763,
+       13.183,
+       "burns"
+      ],
+      [
+       13.183,
+       13.843,
+       "tokens"
+      ],
+      [
+       13.843,
+       14.303,
+       "fast,"
+      ],
+      [
+       14.543,
+       15.223,
+       "so"
+      ],
+      [
+       15.223,
+       15.563,
+       "save"
+      ],
+      [
+       15.563,
+       15.643,
+       "it"
+      ],
+      [
+       15.643,
+       15.803,
+       "for"
+      ],
+      [
+       15.803,
+       16.063,
+       "real"
+      ],
+      [
+       16.063,
+       16.223,
+       "emergencies."
+      ]
+     ]
+    }
+   ],
+   "dur": 17.549
+  },
+  {
+   "id": "s32",
+   "type": "chapter",
+   "theme": "ink",
+   "chapter": "6 · Ops",
+   "trans": "wipe",
+   "data": {
+    "title": "Keep the org sharp",
+    "sub": "Bots forget. Playbooks don't.",
+    "short": "Ops"
+   },
+   "min_dur": 3.4,
+   "start": 396.312,
+   "lines": [
+    {
+     "text": "Chapter six. Keep the org sharp.",
+     "s": 0.35,
+     "e": 3.59,
+     "w": [
+      [
+       0.21,
+       0.59,
+       "Chapter"
+      ],
+      [
+       0.59,
+       0.95,
+       "six."
+      ],
+      [
+       1.23,
+       1.89,
+       "Keep"
+      ],
+      [
+       1.89,
+       2.55,
+       "the"
+      ],
+      [
+       2.55,
+       2.83,
+       "org"
+      ],
+      [
+       2.83,
+       3.27,
+       "sharp."
+      ]
+     ]
+    }
+   ],
+   "dur": 4.19
+  },
+  {
+   "id": "s33",
+   "type": "stepper",
+   "theme": "sand",
+   "chapter": "6 · Ops",
+   "label": "The ops bot",
+   "title": "Every mistake becomes a rule",
+   "data": {
+    "steps": [
+     {
+      "label": "Mistake",
+      "file": "merged too fast",
+      "at": "mistake"
+     },
+     {
+      "label": "Postmortem",
+      "file": "root cause",
+      "at": "postmortem"
+     },
+     {
+      "label": "Playbook",
+      "file": "playbook.md",
+      "at": "updates"
+     },
+     {
+      "label": "Announce",
+      "file": "→ every bot",
+      "at": "announces"
+     },
+     {
+      "label": "Daily 1:1",
+      "file": "05:00 · repeat",
+      "at": "daily"
+     }
+    ],
+    "caption": {
+     "text": "Bots forget. *Playbooks don't.*",
+     "at": "nobody forgets"
+    }
+   },
+   "start": 400.502,
+   "lines": [
+    {
+     "text": "The one bot that writes no code is the ops bot. When an engineer bot makes a mistake, the ops bot runs a postmortem.",
+     "s": 0.35,
+     "e": 7.02,
+     "w": [
+      [
+       0.247,
+       0.407,
+       "The"
+      ],
+      [
+       0.407,
+       0.607,
+       "one"
+      ],
+      [
+       0.607,
+       0.807,
+       "bot"
+      ],
+      [
+       0.807,
+       1.047,
+       "that"
+      ],
+      [
+       1.047,
+       1.247,
+       "writes"
+      ],
+      [
+       1.247,
+       1.467,
+       "no"
+      ],
+      [
+       1.467,
+       1.767,
+       "code"
+      ],
+      [
+       1.767,
+       2.127,
+       "is"
+      ],
+      [
+       2.127,
+       2.287,
+       "the"
+      ],
+      [
+       2.287,
+       2.487,
+       "ops"
+      ],
+      [
+       2.487,
+       2.707,
+       "bot."
+      ],
+      [
+       2.747,
+       2.887,
+       "When"
+      ],
+      [
+       2.887,
+       3.047,
+       "an"
+      ],
+      [
+       3.047,
+       3.367,
+       "engineer"
+      ],
+      [
+       3.367,
+       3.607,
+       "bot"
+      ],
+      [
+       3.607,
+       3.847,
+       "makes"
+      ],
+      [
+       3.847,
+       3.967,
+       "a"
+      ],
+      [
+       3.967,
+       4.227,
+       "mistake,"
+      ],
+      [
+       4.487,
+       5.687,
+       "the"
+      ],
+      [
+       5.687,
+       5.907,
+       "ops"
+      ],
+      [
+       5.907,
+       6.087,
+       "bot"
+      ],
+      [
+       6.087,
+       6.347,
+       "runs"
+      ],
+      [
+       6.347,
+       6.467,
+       "a"
+      ],
+      [
+       6.467,
+       6.907,
+       "postmortem."
+      ]
+     ]
+    },
+    {
+     "text": "It finds the root cause, updates the playbook, and announces the change to every bot. Then it repeats it in a daily one-on-one, so nobody forgets.",
+     "s": 7.32,
+     "e": 15.521,
+     "w": [
+      [
+       7.178,
+       7.358,
+       "It"
+      ],
+      [
+       7.358,
+       7.618,
+       "finds"
+      ],
+      [
+       7.618,
+       7.738,
+       "the"
+      ],
+      [
+       7.738,
+       7.878,
+       "root"
+      ],
+      [
+       7.878,
+       8.238,
+       "cause,"
+      ],
+      [
+       8.578,
+       8.998,
+       "updates"
+      ],
+      [
+       8.998,
+       9.338,
+       "the"
+      ],
+      [
+       9.338,
+       9.798,
+       "playbook,"
+      ],
+      [
+       9.918,
+       10.138,
+       "and"
+      ],
+      [
+       10.138,
+       10.658,
+       "announces"
+      ],
+      [
+       10.658,
+       10.778,
+       "the"
+      ],
+      [
+       10.778,
+       11.058,
+       "change"
+      ],
+      [
+       11.058,
+       11.278,
+       "to"
+      ],
+      [
+       11.278,
+       11.518,
+       "every"
+      ],
+      [
+       11.518,
+       11.758,
+       "bot."
+      ],
+      [
+       11.878,
+       12.318,
+       "Then"
+      ],
+      [
+       12.318,
+       12.498,
+       "it"
+      ],
+      [
+       12.498,
+       12.838,
+       "repeats"
+      ],
+      [
+       12.838,
+       13.078,
+       "it"
+      ],
+      [
+       13.078,
+       13.198,
+       "in"
+      ],
+      [
+       13.198,
+       13.238,
+       "a"
+      ],
+      [
+       13.238,
+       13.478,
+       "daily"
+      ],
+      [
+       13.478,
+       13.898,
+       "one-on-one,"
+      ],
+      [
+       14.318,
+       14.798,
+       "so"
+      ],
+      [
+       14.798,
+       15.038,
+       "nobody"
+      ],
+      [
+       15.038,
+       15.538,
+       "forgets."
+      ]
+     ]
+    }
+   ],
+   "dur": 16.121
+  },
+  {
+   "id": "s34",
+   "type": "compose",
+   "theme": "sand",
+   "chapter": "6 · Ops",
+   "trans": "zoom",
+   "data": {
+    "layout": {
+     "type": "hero-r",
+     "ratio": 0.42
+    },
+    "els": [
+     {
+      "el": "avatar",
+      "slot": "visual",
+      "who": "harness",
+      "w": 420,
+      "h": 420,
+      "in": "pop@struggles",
+      "loop": "float"
+     },
+     {
+      "el": "text",
+      "slot": "text",
+      "style": "display",
+      "text": "A talented\n*intern*.",
+      "h": 260,
+      "y": 300,
+      "in": "words@treat",
+      "do": [
+       "hl@talented"
+      ]
+     },
+     {
+      "el": "list",
+      "slot": "text",
+      "h": 190,
+      "y": 610,
+      "marker": "check",
+      "items": [
+       {
+        "text": "Homework first",
+        "at": "homework"
+       },
+       {
+        "text": "Study your best engineers",
+        "at": "study"
+       }
+      ],
+      "in": "fade@homework"
+     }
+    ]
+   },
+   "start": 416.623,
+   "lines": [
+    {
+     "text": "And when a bot struggles, treat it like a talented intern. Ask it to do its homework, and to study how your best engineers do the job.",
+     "s": 0.35,
+     "e": 7.681,
+     "w": [
+      [
+       0.228,
+       0.408,
+       "And"
+      ],
+      [
+       0.408,
+       0.508,
+       "when"
+      ],
+      [
+       0.508,
+       0.558,
+       "a"
+      ],
+      [
+       0.608,
+       0.808,
+       "bot"
+      ],
+      [
+       0.808,
+       1.148,
+       "struggles,"
+      ],
+      [
+       1.328,
+       1.588,
+       "treat"
+      ],
+      [
+       1.588,
+       1.768,
+       "it"
+      ],
+      [
+       1.768,
+       1.908,
+       "like"
+      ],
+      [
+       1.908,
+       2.008,
+       "a"
+      ],
+      [
+       2.008,
+       2.368,
+       "talented"
+      ],
+      [
+       2.368,
+       2.668,
+       "intern."
+      ],
+      [
+       2.988,
+       3.348,
+       "Ask"
+      ],
+      [
+       3.348,
+       3.528,
+       "it"
+      ],
+      [
+       3.528,
+       3.628,
+       "to"
+      ],
+      [
+       3.628,
+       3.788,
+       "do"
+      ],
+      [
+       3.788,
+       3.888,
+       "its"
+      ],
+      [
+       3.888,
+       4.088,
+       "homework,"
+      ],
+      [
+       4.088,
+       4.988,
+       "and"
+      ],
+      [
+       4.988,
+       5.128,
+       "to"
+      ],
+      [
+       5.128,
+       5.448,
+       "study"
+      ],
+      [
+       5.448,
+       5.728,
+       "how"
+      ],
+      [
+       5.728,
+       6.368,
+       "your"
+      ],
+      [
+       6.368,
+       6.528,
+       "best"
+      ],
+      [
+       6.528,
+       6.888,
+       "engineers"
+      ],
+      [
+       6.888,
+       7.248,
+       "do"
+      ],
+      [
+       7.248,
+       7.408,
+       "the"
+      ],
+      [
+       7.408,
+       7.568,
+       "job."
+      ]
+     ]
+    }
+   ],
+   "dur": 8.281
+  },
+  {
+   "id": "s35",
+   "type": "versus",
+   "theme": "peach",
+   "chapter": "Limits",
+   "trans": "whip",
+   "label": "Honest limits",
+   "title": "When not to use Grok Bot",
+   "data": {
+    "left": {
+     "title": "Wrong tool for",
+     "tag": "LIMITS",
+     "items": [
+      {
+       "text": "Deterministic jobs",
+       "sub": "fixed rules → a script or CI job",
+       "at": "deterministic"
+      },
+      {
+       "text": "Hard real-time paths",
+       "sub": "it's not a low-latency service",
+       "at": "real-time"
+      },
+      {
+       "text": "Separate trust zones",
+       "sub": "bots share one computer",
+       "at": "trust zones"
+      },
+      {
+       "text": "Choosing the exact model",
+       "sub": "no model picker",
+       "at": "exact model"
+      }
+     ]
+    },
+    "verdict": {
+     "text": "Use it where *judgment* beats a cron job",
+     "at": "picker"
+    }
+   },
+   "start": 424.904,
+   "lines": [
+    {
+     "text": "Now the honest part. Don't use it for deterministic jobs. If the inputs and rules are fixed, write a script or a CI job.",
+     "s": 0.35,
+     "e": 7.247,
+     "w": [
+      [
+       0.196,
+       0.416,
+       "Now"
+      ],
+      [
+       0.416,
+       0.516,
+       "the"
+      ],
+      [
+       0.516,
+       0.816,
+       "honest"
+      ],
+      [
+       0.816,
+       1.036,
+       "part."
+      ],
+      [
+       1.196,
+       1.516,
+       "Don't"
+      ],
+      [
+       1.516,
+       1.696,
+       "use"
+      ],
+      [
+       1.696,
+       1.836,
+       "it"
+      ],
+      [
+       1.836,
+       1.956,
+       "for"
+      ],
+      [
+       1.956,
+       2.476,
+       "deterministic"
+      ],
+      [
+       2.476,
+       2.756,
+       "jobs."
+      ],
+      [
+       2.756,
+       3.096,
+       "If"
+      ],
+      [
+       3.096,
+       3.216,
+       "the"
+      ],
+      [
+       3.216,
+       3.636,
+       "inputs"
+      ],
+      [
+       3.636,
+       3.776,
+       "and"
+      ],
+      [
+       3.776,
+       3.886,
+       "rules"
+      ],
+      [
+       3.996,
+       4.256,
+       "are"
+      ],
+      [
+       4.256,
+       4.636,
+       "fixed,"
+      ],
+      [
+       4.816,
+       5.196,
+       "write"
+      ],
+      [
+       5.196,
+       5.396,
+       "a"
+      ],
+      [
+       5.396,
+       5.696,
+       "script"
+      ],
+      [
+       5.696,
+       6.376,
+       "or"
+      ],
+      [
+       6.376,
+       6.556,
+       "a"
+      ],
+      [
+       6.556,
+       6.816,
+       "CI"
+      ],
+      [
+       6.816,
+       7.076,
+       "job."
+      ]
+     ]
+    },
+    {
+     "text": "Keep it out of hard real-time paths. Don't treat separate bots as separate trust zones. And if you need to choose the exact model, there's no model picker.",
+     "s": 7.547,
+     "e": 15.696,
+     "w": [
+      [
+       7.407,
+       7.587,
+       "Keep"
+      ],
+      [
+       7.587,
+       7.747,
+       "it"
+      ],
+      [
+       7.747,
+       7.887,
+       "out"
+      ],
+      [
+       7.887,
+       8.067,
+       "of"
+      ],
+      [
+       8.067,
+       8.307,
+       "hard"
+      ],
+      [
+       8.307,
+       8.647,
+       "real-time"
+      ],
+      [
+       8.647,
+       8.987,
+       "paths."
+      ],
+      [
+       9.327,
+       9.627,
+       "Don't"
+      ],
+      [
+       9.627,
+       9.767,
+       "treat"
+      ],
+      [
+       9.767,
+       10.107,
+       "separate"
+      ],
+      [
+       10.107,
+       10.347,
+       "bots"
+      ],
+      [
+       10.347,
+       10.527,
+       "as"
+      ],
+      [
+       10.527,
+       10.787,
+       "separate"
+      ],
+      [
+       10.787,
+       11.067,
+       "trust"
+      ],
+      [
+       11.067,
+       11.347,
+       "zones."
+      ],
+      [
+       11.527,
+       11.947,
+       "And"
+      ],
+      [
+       11.947,
+       12.047,
+       "if"
+      ],
+      [
+       12.047,
+       12.127,
+       "you"
+      ],
+      [
+       12.127,
+       12.267,
+       "need"
+      ],
+      [
+       12.267,
+       12.387,
+       "to"
+      ],
+      [
+       12.387,
+       12.607,
+       "choose"
+      ],
+      [
+       12.607,
+       12.767,
+       "the"
+      ],
+      [
+       12.767,
+       12.927,
+       "exact"
+      ],
+      [
+       12.927,
+       13.367,
+       "model,"
+      ],
+      [
+       13.367,
+       14.057,
+       "there's"
+      ],
+      [
+       14.747,
+       14.967,
+       "no"
+      ],
+      [
+       14.967,
+       15.207,
+       "model"
+      ],
+      [
+       15.207,
+       15.567,
+       "picker."
+      ]
+     ]
+    }
+   ],
+   "dur": 16.296
+  },
+  {
+   "id": "s36",
+   "type": "checklist",
+   "theme": "paper",
+   "chapter": "This week",
+   "trans": "wipe",
+   "label": "This week",
+   "title": "Start with one bot",
+   "data": {
+    "title": "This week",
+    "items": [
+     {
+      "text": "One engineer bot, one domain",
+      "at": "one engineer"
+     },
+     {
+      "text": "A handoff skill that *demands proof*",
+      "at": "handoff"
+     },
+     {
+      "text": "Run one task by hand",
+      "sub": "fix the process, not the output",
+      "at": "by hand"
+     },
+     {
+      "text": "Add the 30-minute PR sweep",
+      "at": "sweep"
+     }
+    ],
+    "gate": {
+     "text": "Then turn on the nightly audit",
+     "at": "nightly"
+    },
+    "resources": {
+     "title": "In the description",
+     "items": [
+      "role.md · 3 layers",
+      "handoff-brief SKILL.md",
+      "pr-sweep routine",
+      "the official guide"
+     ]
+    }
+   },
+   "start": 441.2,
+   "lines": [
+    {
+     "text": "Here's how to start this week. Create one engineer bot for one domain. Write a handoff skill that demands proof.",
+     "s": 0.35,
+     "e": 6.33,
+     "w": [
+      [
+       0.23,
+       0.51,
+       "Here's"
+      ],
+      [
+       0.51,
+       0.59,
+       "how"
+      ],
+      [
+       0.59,
+       0.69,
+       "to"
+      ],
+      [
+       0.69,
+       0.91,
+       "start"
+      ],
+      [
+       0.91,
+       1.09,
+       "this"
+      ],
+      [
+       1.09,
+       1.31,
+       "week."
+      ],
+      [
+       1.47,
+       1.85,
+       "Create"
+      ],
+      [
+       1.85,
+       2.25,
+       "one"
+      ],
+      [
+       2.25,
+       2.67,
+       "engineer"
+      ],
+      [
+       2.67,
+       2.95,
+       "bot"
+      ],
+      [
+       2.95,
+       3.19,
+       "for"
+      ],
+      [
+       3.19,
+       3.41,
+       "one"
+      ],
+      [
+       3.41,
+       3.67,
+       "domain."
+      ],
+      [
+       3.89,
+       4.37,
+       "Write"
+      ],
+      [
+       4.37,
+       4.59,
+       "a"
+      ],
+      [
+       4.59,
+       4.91,
+       "handoff"
+      ],
+      [
+       4.91,
+       5.15,
+       "skill"
+      ],
+      [
+       5.15,
+       5.63,
+       "that"
+      ],
+      [
+       5.63,
+       5.89,
+       "demands"
+      ],
+      [
+       5.89,
+       6.19,
+       "proof."
+      ]
+     ]
+    },
+    {
+     "text": "Run one real task by hand, and fix the process, not just the output. Then add the thirty-minute PR sweep.",
+     "s": 6.63,
+     "e": 13.23,
+     "w": [
+      [
+       6.565,
+       6.785,
+       "Run"
+      ],
+      [
+       6.785,
+       7.045,
+       "one"
+      ],
+      [
+       7.045,
+       7.345,
+       "real"
+      ],
+      [
+       7.345,
+       7.625,
+       "task"
+      ],
+      [
+       7.625,
+       7.765,
+       "by"
+      ],
+      [
+       7.765,
+       8.045,
+       "hand,"
+      ],
+      [
+       8.045,
+       8.445,
+       "and"
+      ],
+      [
+       8.445,
+       8.685,
+       "fix"
+      ],
+      [
+       8.685,
+       8.845,
+       "the"
+      ],
+      [
+       8.845,
+       9.185,
+       "process,"
+      ],
+      [
+       9.365,
+       9.565,
+       "not"
+      ],
+      [
+       9.565,
+       9.765,
+       "just"
+      ],
+      [
+       9.765,
+       9.865,
+       "the"
+      ],
+      [
+       9.865,
+       10.065,
+       "output."
+      ],
+      [
+       10.245,
+       11.065,
+       "Then"
+      ],
+      [
+       11.065,
+       11.465,
+       "add"
+      ],
+      [
+       11.465,
+       12.005,
+       "the"
+      ],
+      [
+       12.005,
+       12.335,
+       "thirty-minute"
+      ],
+      [
+       12.665,
+       12.845,
+       "PR"
+      ],
+      [
+       12.845,
+       12.955,
+       "sweep."
+      ]
+     ]
+    },
+    {
+     "text": "Only when that runs clean for a week, turn on the nightly audit.",
+     "s": 13.53,
+     "e": 17.425,
+     "w": [
+      [
+       13.387,
+       13.667,
+       "Only"
+      ],
+      [
+       13.667,
+       13.867,
+       "when"
+      ],
+      [
+       13.867,
+       14.087,
+       "that"
+      ],
+      [
+       14.087,
+       14.267,
+       "runs"
+      ],
+      [
+       14.267,
+       14.547,
+       "clean"
+      ],
+      [
+       14.547,
+       14.807,
+       "for"
+      ],
+      [
+       14.807,
+       14.947,
+       "a"
+      ],
+      [
+       14.947,
+       15.227,
+       "week,"
+      ],
+      [
+       15.307,
+       15.847,
+       "turn"
+      ],
+      [
+       15.847,
+       16.227,
+       "on"
+      ],
+      [
+       16.227,
+       16.447,
+       "the"
+      ],
+      [
+       16.447,
+       17.127,
+       "nightly"
+      ],
+      [
+       17.127,
+       17.307,
+       "audit."
+      ]
+     ]
+    }
+   ],
+   "dur": 18.025
+  },
+  {
+   "id": "s37",
+   "type": "compose",
+   "theme": "night",
+   "chapter": "This week",
+   "trans": "zoom",
+   "data": {
+    "els": [
+     {
+      "el": "text",
+      "style": "display",
+      "text": "Write your code",
+      "box": [
+       160,
+       330,
+       1600,
+       130
+      ],
+      "align": "center",
+      "in": "chars@write",
+      "do": [
+       "strike@run"
+      ]
+     },
+     {
+      "el": "text",
+      "style": "display",
+      "text": "Run your *loop*",
+      "box": [
+       160,
+       540,
+       1600,
+       140
+      ],
+      "align": "center",
+      "in": "mask@run",
+      "do": [
+       "hl@loop",
+       "underline@loop+0.5"
+      ]
+     }
+    ]
+   },
+   "start": 459.225,
+   "lines": [
+    {
+     "text": "Don't ask Grok Bot to write your code. Ask it to run your loop.",
+     "s": 0.35,
+     "e": 4.025,
+     "w": [
+      [
+       0.291,
+       0.611,
+       "Don't"
+      ],
+      [
+       0.611,
+       0.771,
+       "ask"
+      ],
+      [
+       0.771,
+       0.971,
+       "Grok"
+      ],
+      [
+       0.971,
+       1.151,
+       "Bot"
+      ],
+      [
+       1.151,
+       1.331,
+       "to"
+      ],
+      [
+       1.331,
+       1.471,
+       "write"
+      ],
+      [
+       1.471,
+       1.591,
+       "your"
+      ],
+      [
+       1.591,
+       1.791,
+       "code."
+      ],
+      [
+       1.991,
+       2.391,
+       "Ask"
+      ],
+      [
+       2.391,
+       2.591,
+       "it"
+      ],
+      [
+       2.591,
+       2.831,
+       "to"
+      ],
+      [
+       2.831,
+       3.391,
+       "run"
+      ],
+      [
+       3.391,
+       3.531,
+       "your"
+      ],
+      [
+       3.671,
+       3.911,
+       "loop."
+      ]
+     ]
+    }
+   ],
+   "dur": 4.625
+  },
+  {
+   "id": "s38",
+   "type": "endcard",
+   "theme": "night",
+   "chapter": "This week",
+   "trans": "lift",
+   "min_dur": 14,
+   "data": {
+    "title": "Watch next",
+    "slots": [
+     {
+      "label": "The overnight AI motion studio"
+     },
+     {
+      "label": "Best for you"
+     }
+    ],
+    "channel": "TrueSight AI",
+    "logo": "assets/brand/logo.png",
+    "line": "Subscribe for honest, hands-on AI workflows."
+   },
+   "start": 463.85,
+   "lines": [
+    {
+     "text": "If you want to see this machine run a whole video studio overnight, that one's next.",
+     "s": 0.35,
+     "e": 5.201,
+     "w": [
+      [
+       0.207,
+       0.407,
+       "If"
+      ],
+      [
+       0.407,
+       0.487,
+       "you"
+      ],
+      [
+       0.487,
+       0.647,
+       "want"
+      ],
+      [
+       0.647,
+       0.747,
+       "to"
+      ],
+      [
+       0.747,
+       0.887,
+       "see"
+      ],
+      [
+       0.887,
+       1.067,
+       "this"
+      ],
+      [
+       1.067,
+       1.367,
+       "machine"
+      ],
+      [
+       1.367,
+       1.967,
+       "run"
+      ],
+      [
+       1.967,
+       2.207,
+       "a"
+      ],
+      [
+       2.207,
+       2.507,
+       "whole"
+      ],
+      [
+       2.507,
+       3.047,
+       "video"
+      ],
+      [
+       3.047,
+       3.367,
+       "studio"
+      ],
+      [
+       3.367,
+       3.787,
+       "overnight,"
+      ],
+      [
+       4.007,
+       4.587,
+       "that"
+      ],
+      [
+       4.587,
+       4.807,
+       "one's"
+      ],
+      [
+       4.807,
+       4.967,
+       "next."
+      ]
+     ]
+    }
+   ],
+   "dur": 14
+  }
+ ]
+}

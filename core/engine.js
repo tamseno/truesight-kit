@@ -3,7 +3,7 @@
 // v2: mesh-gradient themes + vignette, narration-following camera (ctx.cam / ctx.focus / sc.cam), whip/wipe/push transitions,
 //     per-episode cast (meta.cast), scenes are laid out visibly at build time so archetypes can measure and auto-fit text.
 (() => {
-const W = 1920, H = 1080;
+let W = 1920, H = 1080, FM = null, CAP = 'pill'; // canvas: set from the episode's format (core/formats.js) at boot
 // ---------------------------------------------------------------- math
 const cl = (v, a = 0, b = 1) => Math.min(b, Math.max(a, v));
 const P = (t, a, b) => cl((t - a) / (b - a));
@@ -202,10 +202,10 @@ function mkCtx(sc) {
     focus(t, r, o = {}) {
       if (r && r.nodeType) r = rectOf(r, this.root);
       const z = o.z ?? 1.05, k = o.k ?? .4;
-      this.cam(t, { x: lerp(960, r.x + r.w / 2, k), y: lerp(560, r.y + r.h / 2, k), z, d: o.d });
+      this.cam(t, { x: lerp(W / 2, r.x + r.w / 2, k), y: lerp(H / 2 + 20, r.y + r.h / 2, k), z, d: o.d });
     },
     // camera back to neutral
-    reset(t, d = 1.1) { this.cam(t, { x: 960, y: 540, z: 1, d }); },
+    reset(t, d = 1.1) { this.cam(t, { x: W / 2, y: H / 2, z: 1, d }); },
   };
 }
 // sound cues registered by scenes (absolute seconds) — exported for the mixer
@@ -234,7 +234,7 @@ let LK = null; // active look
 const themeOf = n => { if (LK && typeof LK.themes === 'function' && !(META_THEMES && META_THEMES[n])) return LK.themes(n); const t = THEME[n] || THEME.paper; return Array.isArray(t) ? { base: t, blobs: [[t[1], .4], [t[0], .4], [t[1], .3]] } : t; };
 const isDark = n => !!(LK && LK.dark) || !!themeOf(n).dark;
 let META_THEMES = null;
-let TL, stage, bgA, bgP, vig, dots, header, hLabel, hTitle, subEl, built = [], chap, chapSegs = [], stepB, lastStep = -2, wipeP;
+let TL, stage, bgA, vig, dots, header, hLabel, hTitle, subEl, built = [], chap, chapSegs = [], stepB, lastStep = -2, wipeP;
 function hex2rgb(x) { return [1, 3, 5].map(i => parseInt(x.slice(i, i + 2), 16)); }
 function mixRGB(c1, c2, k) { const a = hex2rgb(c1), b = hex2rgb(c2); return a.map((v, i) => Math.round(lerp(v, b[i], k))); }
 function mix(c1, c2, k) { return `rgb(${mixRGB(c1, c2, k).join(',')})`; }
@@ -244,6 +244,15 @@ async function boot() {
   TL = await (await fetch('timeline.json')).json(); window.TLDATA = TL;
   try { window.BRAND = await (await fetch('brand.json')).json(); } catch (e) { window.BRAND = {}; }
   const BR = window.BRAND, META = TL.meta || {};
+  // format: canvas size, title + content areas, caption style, platform safe zones
+  const FMS = window.FORMATS || {}, fmName = META.format || BR.format || 'landscape';
+  FM = FMS[fmName] || FMS.landscape; if (!FMS[fmName]) WARN.push({ scene: '-', kind: 'unknown-format', what: fmName });
+  W = FM.W; H = FM.H; CAP = META.captions || FM.sub.mode;
+  Object.assign(window.H, { W, H, FMT: FM }); window.FMT = FM;
+  window.H.AREA = sc => { const a = sc && sc.title && !sc.noHeader ? FM.area.title : FM.area.bare; return { x: a[0], y: a[1], w: a[2], h: a[3] }; };
+  if (TL.w && TL.h && (TL.w !== W || TL.h !== H)) WARN.push({ scene: '-', kind: 'format-size', what: `timeline ${TL.w}x${TL.h} vs format ${W}x${H}` });
+  for (const e of [document.documentElement, document.body]) { e.style.width = W + 'px'; e.style.height = H + 'px'; }
+  document.body.dataset.format = FM.name;
   const cast = META.cast || BR.cast;
   if (cast) { for (const k in BOTS) delete BOTS[k]; Object.assign(BOTS, cast); BOT_ORDER.splice(0, BOT_ORDER.length, ...Object.keys(cast)); }
   // look: tokens -> CSS variables, palettes, motion feel, background texture
@@ -262,8 +271,8 @@ async function boot() {
   // preload every face/weight used anywhere (hidden scenes don't trigger loads)
   const FACES = ['400','500','600','700','800','900'].flatMap(w => [`${w} 20px Noto`, `${w} 20px Geist`]).concat(['400 20px Maple', '700 20px Maple']);
   await Promise.all(FACES.map(f => document.fonts.load(f, '中文Ab1')));
-  stage = document.getElementById('stage');
-  bgA = put(stage, h('div', 'bg'), 0, 0, W, H); bgP = put(stage, h('div', 'bgp'), 0, 0, W, H);
+  stage = document.getElementById('stage'); stage.style.width = W + 'px'; stage.style.height = H + 'px';
+  bgA = put(stage, h('div', 'bg'), 0, 0, W, H); // backgrounds are soft color only: gradient + drifting light blobs (no grids, dots, scanlines, beams)
   dots = put(stage, h('div', 'dots'), -60, -60, W + 120, H + 120);
   for (let i = 0; i < 46; i++) { const d = h('i'); const s = 6 + rnd(i) * 26; Object.assign(d.style, { left: rnd(i + 9) * (W + 120) + 'px', top: rnd(i + 19) * (H + 120) + 'px', width: s + 'px', height: s + 'px', opacity: .25 + rnd(i + 29) * .5 }); d.dataset.z = (.3 + rnd(i + 39)).toFixed(2); dots.appendChild(d); }
   stars = put(stage, h('div', 'stars'), 0, 0, W, H);
@@ -277,7 +286,12 @@ async function boot() {
     if (!def) WARN.push({ scene: sc.id, kind: 'unknown-type', what: sc.type || '(none)' });
     let upd = () => { };
     root.style.display = 'block'; // lay out visibly so archetypes can measure (fit / rectOf / focus)
-    if (def) { try { upd = def(root, ctx, window.H) || upd; } catch (e) { console.error('scene build failed', sc.id, e); WARN.push({ scene: sc.id, kind: 'build-error', what: String(e.message) }); root.innerHTML = `<div class="todo">${sc.id} build error: ${esc(String(e.message))}</div>`; } }
+    // recipes designed for 16:9 render scaled into the content area in other formats (lint warns: build those scenes with compose)
+    const AR1 = !window.SCENES[sc.id] && sc.type && window.ARCH[sc.type];
+    const fits = FM.name === 'landscape' || window.SCENES[sc.id] || (AR1 && AR1.formats && (AR1.formats.includes('*') || AR1.formats.includes(FM.name)));
+    let host = root;
+    if (def && !fits) { WARN.push({ scene: sc.id, kind: 'landscape-only', what: sc.type }); host = put(root, h('div', 'scene-fit'), 0, 0, 1920, 1080); const a = window.H.AREA(sc), k = Math.min(a.w / 1744, a.h / 632); host.style.transformOrigin = '0 0'; host.style.transform = `translate(${(a.x + (a.w - 1744 * k) / 2 - 88 * k).toFixed(1)}px,${(a.y + (a.h - 632 * k) / 2 - 240 * k).toFixed(1)}px) scale(${k.toFixed(4)})`; ctx.root = host; }
+    if (def) { try { upd = def(host, ctx, window.H) || upd; if (!fits) ctx.cams = []; } catch (e) { console.error('scene build failed', sc.id, e); WARN.push({ scene: sc.id, kind: 'build-error', what: String(e.message) }); root.innerHTML = `<div class="todo">${sc.id} build error: ${esc(String(e.message))}</div>`; } }
     else root.appendChild(h('div', 'todo', `TODO ${sc.id}${sc.type ? ' (unknown type ' + esc(sc.type) + ')' : ''}`));
     root.style.display = 'none';
     // script camera keys: "cam": [{at, x, y, z, d}] (added on top of archetype keys) · "cam": false disables the camera
@@ -288,21 +302,23 @@ async function boot() {
     const tr = sc.trans || LK.trans; if (TL.scenes.indexOf(sc) > 0) { if (tr === 'whip' || tr === 'wipe') CUES.push({ t: +(sc.start - .05).toFixed(3), type: 'whoosh', gain: .5 }); else if (tr === 'slide' || tr === 'push') CUES.push({ t: +sc.start.toFixed(3), type: 'swoosh', gain: .35 }); }
     const AR0 = sc.type && window.ARCH[sc.type];
     const hasHeader = !!sc.title && !sc.noHeader && !(window.SCENES[sc.id] && window.SCENES[sc.id].noHeader) && !(AR0 && AR0.noHeader);
-    built.push({ sc, root, upd, ctx, hasHeader });
+    built.push({ sc, root, upd, ctx, hasHeader, area: window.H.AREA(hasHeader ? sc : { ...sc, title: '' }) });
   }
   vig = put(stage, h('div', 'vig'), 0, 0, W, H);
-  ghost = put(stage, h('div', 'header'), 88, 64); ghost.style.display = 'none';
-  header = put(stage, h('div', 'header'), 88, 64);
+  ghost = put(stage, h('div', 'header'), FM.header.x, FM.header.y); ghost.style.display = 'none';
+  header = put(stage, h('div', 'header'), FM.header.x, FM.header.y);
   hLabel = header.appendChild(h('div', 'hlabel')); hTitle = header.appendChild(h('div', 'htitle'));
+  for (const e of [header, ghost]) { e.style.width = FM.header.w + 'px'; if (FM.header.wrap) e.classList.add('wrap'); e.style.setProperty('--hsize', FM.header.size + 'px'); }
   wipeP = put(stage, h('div', 'wipe'), 0, 0, W + 240, H); wipeP.style.display = 'none';
-  subEl = put(stage, h('div', 'sub'), 0, 968); subEl.style.top = '968px';
+  subEl = put(stage, h('div', 'sub'), 0, 0); if (CAP === 'pop') subEl.classList.add('cap');
   // chapter bar (top edge, one segment per chapter) + step badge (top-right)
   chap = put(stage, h('div', 'chap'), 0, 0, W, 6);
   const CHS = []; TL.scenes.forEach(s => { const nm = s.chapter || ''; if (!CHS.length || CHS[CHS.length - 1].name !== nm) CHS.push({ name: nm, start: s.start, end: s.start + s.dur }); else CHS[CHS.length - 1].end = s.start + s.dur; });
-  if (CHS.length > 1) CHS.forEach(c => { const sg = chap.appendChild(h('div', 'seg')); sg.style.flex = String(c.end - c.start); const f = sg.appendChild(h('i')); chapSegs.push({ ...c, f }); });
+  if (FM.progress === 'bar') { const sg = chap.appendChild(h('div', 'seg')); sg.style.flex = '1'; chapSegs.push({ name: '', start: 0, end: TL.total, f: sg.appendChild(h('i')) }); }
+  else if (CHS.length > 1) CHS.forEach(c => { const sg = chap.appendChild(h('div', 'seg')); sg.style.flex = String(c.end - c.start); const f = sg.appendChild(h('i')); chapSegs.push({ ...c, f }); });
   else chap.style.display = 'none';
   window.CHAPTERS = CHS;
-  stepB = put(stage, h('div', 'stepb'), 0, 70); stepB.style.left = 'auto'; stepB.style.right = '88px';
+  stepB = put(stage, h('div', 'stepb'), 0, FM.header.y + 6); stepB.style.left = 'auto'; stepB.style.right = FM.header.x + 'px';
   window.MAXSTEP = Math.max(0, ...TL.scenes.map(s => +s.step || 0));
   // map word timings onto the original line text (edge-tts boundaries drop spaces/punctuation)
   for (const sc of TL.scenes) for (const ln of sc.lines) {
@@ -312,7 +328,7 @@ async function boot() {
     ln.ch = ch;
     // split into subtitle segments (<= ~26 chars), breaking after punctuation
     const PUN = '，。；：？！、,;:?!.'; const EN = /[A-Za-z]/.test(ln.text) && !/[一-鿿]/.test(ln.text);
-    const MAX = EN ? 54 : 26, MIN = EN ? 22 : 8; ln.segs = []; let a = 0;
+    const MAX = EN ? FM.sub.max : Math.round(FM.sub.max / 2), MIN = EN ? Math.round(FM.sub.max * .4) : 8; ln.segs = []; let a = 0;
     while (a < ch.length) {
       let b = Math.min(ch.length, a + MAX);
       if (b < ch.length) {
@@ -324,45 +340,37 @@ async function boot() {
       let e = b; while (e > a && ((!EN && PUN.includes(ch[e - 1])) || (EN && ',;:'.includes(ch[e - 1])) || ch[e - 1] === ' ')) e--; let s0 = a; while (s0 < e && ch[s0] === ' ') s0++;
       ln.segs.push({ a: s0, b: e, t0: ln.ct[s0] ?? ln.s }); a = b;
     }
+    // short-form captions: 1–3 words per chunk (<= FM.sub.max chars), new chunk after punctuation
+    ln.chunks = []; let cur = null;
+    ln.w.forEach(([w0, , tx]) => { if (!cur || cur.words.length >= 3 || (cur.len + tx.length > FM.sub.max && cur.words.length)) { cur = { words: [], len: 0, t0: w0 }; ln.chunks.push(cur); } cur.words.push({ text: tx, t: w0 }); cur.len += tx.length + 1; if (/[.,;:?!]$/.test(tx)) cur = null; });
   }
+  for (const sc of TL.scenes) { const L = sc.lines; L.forEach((ln, li) => ln.chunks.forEach((c, ci) => { const nx = ln.chunks[ci + 1]; c.t1 = nx ? nx.t0 : Math.min(ln.e + .35, L[li + 1] ? L[li + 1].s - .02 : sc.dur); c.key = sc.id + '_' + li + '_' + ci; })); }
   grain = put(stage, h('div', 'grain'), 0, 0, W, H); grain.style.opacity = LK.grain ?? .05;
   if (LK.dots === false) dots.style.display = 'none';
   await Promise.all(window.PRELOAD || []);
   window.CUES = CUES; window.TOTAL = TL.total; window.READY = true;
 }
 let stars, grain, ghost, lastHeader = -1;
-function chars(text, cls) { return [...text].map(c => `<span class="${cls}">${c === ' ' ? '&nbsp;' : esc(c)}</span>`).join(''); }
+// title characters, grouped per word so wrapped titles break between words
+function chars(text, cls) { return String(text).split(' ').map(w => `<span class="hw">${[...w].map(c => `<span class="${cls}">${esc(c)}</span>`).join('')}</span>`).join(' '); }
 const TR = .5; // transition overlap (s)
-// background texture layer of the look: paper rules, blueprint grid, dot screen, light beams, CRT scanlines
-function rgbOf(v, fb) { v = (v || '').trim(); if (/^#[0-9a-f]{6}$/i.test(v)) return hex2rgb(v).join(','); return fb; }
-let bgMode = null, ACC = '90,92,240', ACC2 = '47,199,164', LINE = '21,22,28';
-function bgPattern(T) {
-  const mode = (LK && LK.bg) || 'mesh';
-  if (bgMode !== mode) { bgMode = mode; const cs = getComputedStyle(document.documentElement); ACC = rgbOf(cs.getPropertyValue('--accent'), ACC); ACC2 = rgbOf(cs.getPropertyValue('--accent2'), ACC2); LINE = rgbOf(cs.getPropertyValue('--bg-ink'), LINE); bgP.style.mixBlendMode = mode === 'beams' ? 'screen' : 'normal'; }
-  const S = bgP.style;
-  if (mode === 'paper') { S.backgroundImage = `repeating-linear-gradient(0deg, rgba(${LINE},.045) 0 1px, transparent 1px 46px), linear-gradient(90deg, transparent 0 118px, rgba(200,50,30,.10) 118px 120px, transparent 120px)`; S.backgroundSize = ''; S.backgroundPosition = `0 ${(T * 2) % 46}px, 0 0`; }
-  else if (mode === 'grid') { const o = (-T * 5) % 200; S.backgroundImage = `linear-gradient(rgba(${LINE},.07) 1px, transparent 1px), linear-gradient(90deg, rgba(${LINE},.07) 1px, transparent 1px), linear-gradient(rgba(${LINE},.16) 1.5px, transparent 1.5px), linear-gradient(90deg, rgba(${LINE},.16) 1.5px, transparent 1.5px)`; S.backgroundSize = '40px 40px, 40px 40px, 200px 200px, 200px 200px'; S.backgroundPosition = `${o}px ${o * .5}px, ${o}px ${o * .5}px, ${o}px ${o * .5}px, ${o}px ${o * .5}px`; }
-  else if (mode === 'dots') { const o = (-T * 6) % 36; S.backgroundImage = `radial-gradient(circle at 3px 3px, rgba(${LINE},.2) 2.2px, transparent 2.8px)`; S.backgroundSize = '36px 36px'; S.backgroundPosition = `${o}px ${o}px`; }
-  else if (mode === 'beams') { const a = Math.sin(T * .12) * 14; S.backgroundImage = `conic-gradient(from ${(160 + a).toFixed(2)}deg at 50% -20%, transparent 0deg, rgba(${ACC},.16) 8deg, transparent 18deg, rgba(${ACC2},.10) 30deg, transparent 44deg, rgba(${ACC},.12) 52deg, transparent 64deg), radial-gradient(70% 40% at 50% 110%, rgba(${ACC},.18), transparent 70%)`; S.backgroundSize = ''; S.backgroundPosition = ''; }
-  else if (mode === 'scan') { const y = (T * 140) % 1300 - 200; S.backgroundImage = `repeating-linear-gradient(0deg, rgba(0,0,0,.28) 0 2px, transparent 2px 4px), linear-gradient(180deg, transparent ${y}px, rgba(${ACC},.06) ${y + 60}px, transparent ${y + 140}px)`; S.backgroundSize = ''; S.backgroundPosition = ''; }
-  else if (S.backgroundImage) S.backgroundImage = '';
-}
 // camera state of a scene at local time t -> css transform (origin 0 0) + zoom
 function camOf(b, t) {
-  let x = 960, y = 540, z = 1;
+  let x = W / 2, y = H / 2, z = 1;
   for (const k of b.ctx.cams) { const e = E.xio(P(t, k.t, k.t + k.d)); if (e <= 0) break; x = lerp(x, k.x ?? x, e); y = lerp(y, k.y ?? y, e); z = lerp(z, k.z ?? z, e); }
   const Z = z * (b.sc.push === false ? 1 : 1 + .018 * E.sine(P(t, 0, b.sc.dur)));
-  if (Z >= 1) { x = cl(x, 960 / Z, W - 960 / Z); y = cl(y, 540 / Z, H - 540 / Z); }
-  // gentle push-ins (<= 1.04) never crop the content box (x 88–1832, y ≤ 872 above the subtitles); deliberate close-ups (>= 1.07) may
+  if (Z >= 1) { x = cl(x, W / 2 / Z, W - W / 2 / Z); y = cl(y, H / 2 / Z, H - H / 2 / Z); }
+  // gentle push-ins (<= 1.04) never crop the content area or push it into the captions; deliberate close-ups (>= 1.07) may
+  const a = b.area, capTop = CAP === 'pop' ? FM.sub.y - 70 : FM.sub.bottom - 68;
   const safe = 1 - P(z, 1.04, 1.07); // judged on the shot's zoom, not the ambient push-in
   if (safe > 0 && Z > 1) {
-    const lo = 1832 - 912 / Z, hi = 88 + 912 / Z; x = lerp(x, lo <= hi ? cl(x, lo, hi) : 960, safe);
-    y = lerp(y, Math.max(y, 872 - 420 / Z), safe);
+    const m = W / 2 - 48, lo = a.x + a.w - m / Z, hi = a.x + m / Z; x = lerp(x, lo <= hi ? cl(x, lo, hi) : W / 2, safe);
+    y = lerp(y, Math.max(y, a.y + a.h - (capTop - H / 2 - 8) / Z), safe);
   }
-  if (b.hasHeader) y = Math.min(y, 236 + 330 / Z); // keep the content top (236) below the fixed header
-  return { tx: 960 - x * Z, ty: 540 - y * Z, Z };
+  if (b.hasHeader) y = Math.min(y, a.y + (H / 2 - a.y + 34) / Z); // keep the content top below the fixed title
+  return { tx: W / 2 - x * Z, ty: H / 2 - y * Z, Z };
 }
-const camCss = (c, dx = 0, dy = 0, ds = 1) => `translate3d(${(c.tx * ds + dx + 960 * (1 - ds)).toFixed(2)}px,${(c.ty * ds + dy + 540 * (1 - ds)).toFixed(2)}px,0) scale(${(c.Z * ds).toFixed(4)})`;
+const camCss = (c, dx = 0, dy = 0, ds = 1) => `translate3d(${(c.tx * ds + dx + W / 2 * (1 - ds)).toFixed(2)}px,${(c.ty * ds + dy + H / 2 * (1 - ds)).toFixed(2)}px,0) scale(${(c.Z * ds).toFixed(4)})`;
 window.renderAt = function (T) {
   T = Math.max(0, Math.min(T, TL.total - 1e-3));
   let i = TL.scenes.findIndex(s => T >= s.start && T < s.start + s.dur); if (i < 0) i = TL.scenes.length - 1;
@@ -376,7 +384,6 @@ window.renderAt = function (T) {
     return `radial-gradient(${rx}% ${ry}% at ${x.toFixed(2)}% ${y.toFixed(2)}%, rgba(${rgb.join(',')},${al.toFixed(3)}) 0%, rgba(${rgb.join(',')},0) 100%)`;
   });
   bgA.style.background = layers.join(',') + `,radial-gradient(120% 90% at 70% 10%, ${c1} 0%, ${c0} 62%)`;
-  bgPattern(T);
   const dk = (th.dark ? bk : 0) + (thp.dark && prev ? 1 - bk : 0);
   const night = (th.stars ? bk : 0) + (prev && thp.stars ? 1 - bk : 0);
   stars.style.opacity = night; dots.style.opacity = (.9 * (1 - dk) + .12 * dk).toFixed(3);
@@ -433,7 +440,7 @@ window.renderAt = function (T) {
   // header: per-char swap, rides the scene camera
   if (lastHeader !== i) { hLabel.innerHTML = `<b></b><span>${esc(cur.sc.label || '')}</span>`; hTitle.innerHTML = chars(cur.sc.title || '', 'c'); lastHeader = i; }
   const hd = trn === 'wipe' ? .32 : 0; // under a wipe the new title waits for the panel to cover the old one
-  const hc = hTitle.children, lk = A(t, .05 + hd, .5, E.quart);
+  const hc = hTitle.querySelectorAll('.c'), lk = A(t, .05 + hd, .5, E.quart);
   set(hLabel, { x: -14 * (1 - lk), o: lk });
   for (let k = 0; k < hc.length; k++) { const s0 = .08 + hd + k * .022, a = SP(t, s0, .9); set(hc[k], { y: 46 * (1 - a), o: A(t, s0, .3), b: 5 * (1 - A(t, s0, .35)) }); }
   const sdk = isDark(cur.sc.theme);
@@ -449,8 +456,22 @@ window.renderAt = function (T) {
   stepB.classList.toggle('dark', sdk);
   const sameStep = prev && (+prev.sc.step || 0) === st;
   set(stepB, { o: st ? (sameStep ? 1 : A(t, .15, .4, E.quart)) : 0, y: st && !sameStep ? -10 * (1 - A(t, .15, .5)) : 0 });
-  // subtitle: active line, karaoke
-  const L = cur.sc.lines; let li = -1;
+  // captions — short-form "pop": 1–3 big words, the spoken one lit
+  const L = cur.sc.lines;
+  if (CAP === 'pop' || CAP === 'none') {
+    let ck = null; if (CAP === 'pop' && !cur.sc.nosub) for (const ln of L) for (const c of ln.chunks) if (t >= c.t0 - .06 && t < c.t1) ck = c;
+    if (ck) {
+      if (subEl.dataset.key !== ck.key) {
+        subEl.innerHTML = ck.words.map(w => `<span class="w">${esc(w.text)}</span>`).join(' '); subEl.dataset.key = ck.key; subEl.style.fontSize = FM.sub.size + 'px';
+        const sf = FM.safe || { left: 60, right: 60 }, maxW = W - sf.left - sf.right - 40; fit(subEl, maxW, 40);
+        subEl.style.left = ((sf.left + W - sf.right) / 2 - subEl.offsetWidth / 2) + 'px'; subEl.style.top = (FM.sub.y - subEl.offsetHeight / 2) + 'px';
+      }
+      const ws = subEl.children; let on = -1; ck.words.forEach((w, k) => { if (t >= w.t - .03) on = k; });
+      for (let k = 0; k < ws.length; k++) { ws[k].classList.toggle('on', k === on); ws[k].classList.toggle('past', k < on); }
+      const k = SP(t, ck.t0 - .06, .35); set(subEl, { s: lerp(.86, 1, k), y: 14 * (1 - k), o: A(t, ck.t0 - .06, .08) });
+    } else set(subEl, { o: 0 });
+  } else {
+  let li = -1;
   for (let k = 0; k < L.length; k++) if (t >= L[k].s - .12 && t <= L[k].e + (k < L.length - 1 ? (L[k + 1].s - L[k].e) : .5)) li = k;
   if (li >= 0 && !cur.sc.nosub) {
     const ln = L[li];
@@ -459,12 +480,13 @@ window.renderAt = function (T) {
     if (subEl.dataset.key !== cur.sc.id + li + '_' + si) {
       subEl.innerHTML = ln.ch.slice(sg.a, sg.b).map(c => `<span class="w">${c === ' ' ? '&nbsp;' : esc(c)}</span>`).join('');
       subEl.dataset.key = cur.sc.id + li + '_' + si;
-      subEl.style.left = '0px'; const ww = subEl.offsetWidth; subEl.style.left = ((W - ww) / 2) + 'px'; subEl.style.top = (1036 - subEl.offsetHeight) + 'px';
+      subEl.style.left = '0px'; const ww = subEl.offsetWidth; subEl.style.left = ((W - ww) / 2) + 'px'; subEl.style.top = (FM.sub.bottom - subEl.offsetHeight) + 'px';
     }
     const ws = subEl.children; for (let k = 0; k < ws.length; k++) ws[k].classList.toggle('on', t >= ln.ct[sg.a + k] - .02);
     const sa = A(t, ln.s - .12, .25, E.quart), so = li === L.length - 1 ? 1 - A(t, ln.e + .3, .25) : 1;
     set(subEl, { y: 10 * (1 - sa), o: sa * so });
   } else set(subEl, { o: 0 });
+  }
   // grain offset
   const f = Math.floor(T * 60); grain.style.backgroundPosition = `${(rnd(f) * 200) | 0}px ${(rnd(f + 3) * 200) | 0}px`;
 };
@@ -479,11 +501,15 @@ window.QA = function (minPx = 20) {
       const txt = [...e.childNodes].filter(n => n.nodeType === 3).map(n => n.textContent).join('').trim(); if (!txt) return;
       if (e.closest('[data-noqa]')) return; // decorative text (phone status bars, gutters)
       const cs = getComputedStyle(e); if (cs.visibility === 'hidden') return;
-      const r = e.getBoundingClientRect(); if (r.width < 1) return;
+      const rb = e.getBoundingClientRect(); if (rb.width < 1) return;
+      let r = null; const rg = document.createRange(); for (const n of e.childNodes) if (n.nodeType === 3 && n.textContent.trim()) { rg.selectNodeContents(n); const q = rg.getBoundingClientRect(); if (q.width < 1) continue; r = r ? { left: Math.min(r.left, q.left), top: Math.min(r.top, q.top), right: Math.max(r.right, q.right), bottom: Math.max(r.bottom, q.bottom) } : { left: q.left, top: q.top, right: q.right, bottom: q.bottom }; }
+      if (!r) return; r.width = r.right - r.left; r.height = r.bottom - r.top;
       let o = 1, p = e; while (p && p !== b.root) { o *= +getComputedStyle(p).opacity; p = p.parentElement; } if (o < .6) return;
       const fs = parseFloat(cs.fontSize);
       if (fs < minPx) out.push({ scene: b.sc.id, kind: 'small', fs, txt: txt.slice(0, 40) });
       if (r.right > W + 2 || r.bottom > H + 2 || r.left < -2 || r.top < -2) out.push({ scene: b.sc.id, kind: 'offframe', txt: txt.slice(0, 40) });
+      // platform UI zones (short-form): bottom description block, right action rail, top bar
+      const sf = FM.safe; if (sf) { if (r.bottom > H - sf.bottom + 4) out.push({ scene: b.sc.id, kind: 'unsafe-bottom', txt: txt.slice(0, 40) }); else if (r.right > W - sf.right + 4 && r.bottom > H * .42) out.push({ scene: b.sc.id, kind: 'unsafe-right', txt: txt.slice(0, 40), box: [r.left, r.top, r.width, r.height].map(Math.round) }); else if (r.top < sf.top - 4) out.push({ scene: b.sc.id, kind: 'unsafe-top', txt: txt.slice(0, 40) }); }
       // text clipped by its own box (overflow)
       if (e.scrollWidth > e.clientWidth + 4 && cs.overflow === 'hidden' && e.clientWidth > 0) out.push({ scene: b.sc.id, kind: 'clipped', txt: txt.slice(0, 40) });
     });

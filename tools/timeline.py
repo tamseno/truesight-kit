@@ -71,6 +71,7 @@ for st, a in chunks: i = int(st * SR); mix[i:i + len(a)] += a
 mix = np.tanh(mix * 1.2) / 1.2; mix = mix / max(1e-6, np.abs(mix).max()) * 0.9
 with wave.open(os.path.join(EP, 'narration.wav'), 'wb') as w:
     w.setnchannels(1); w.setsampwidth(2); w.setframerate(SR); w.writeframes((mix * 32767).astype('<i2').tobytes())
-json.dump({'fps': 60, 'w': 1920, 'h': 1080, 'total': round(t, 3), 'meta': META, 'scenes': TL}, open(os.path.join(EP, 'timeline.json'), 'w', encoding='utf8'), ensure_ascii=False, indent=1)
+SIZE = {'landscape': (1920, 1080), 'vertical': (1080, 1920), 'short': (1080, 1920), 'square': (1080, 1080), 'portrait': (1080, 1350)}.get(META.get('format', 'landscape'), (1920, 1080))
+json.dump({'fps': 60, 'w': SIZE[0], 'h': SIZE[1], 'total': round(t, 3), 'meta': META, 'scenes': TL}, open(os.path.join(EP, 'timeline.json'), 'w', encoding='utf8'), ensure_ascii=False, indent=1)
 print('total', round(t, 2), 's', len(TL), 'scenes')
 for s in TL: print(f"  {s['id']:<5} {s.get('type', 'custom'):<10} {s['start']:7.2f} {s['dur']:6.2f}")

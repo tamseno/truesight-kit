@@ -4,8 +4,11 @@
 //         channel?: "TrueSight AI", logo?: "assets/brand/logo.png" }
 ARCH.endcard = (root, ctx, H, d, sc) => {
   const { set, enter, A, SP, E, P, lerp, D } = H;
-  const ttl = D(root, 120, 150, 1200, 80, 'font:var(--fwd) 72px var(--fd);letter-spacing:calc(-.04em * var(--trk));white-space:nowrap', H.md(d.title || 'Watch next')); ttl.classList.add('onbg');
-  const slots = (d.slots || [{ label: 'Best for you' }, { label: 'Latest video' }]).slice(0, 2).map((s, i) => {
+  const LAND = H.W >= 1400, AB = H.AREA({}); // only landscape YouTube has end-screen slots; other formats get a centred channel card
+  const ttl = LAND ? D(root, 120, 150, 1200, 80, 'font:var(--fwd) 72px var(--fd);letter-spacing:calc(-.04em * var(--trk));white-space:nowrap', H.md(d.title || 'Watch next'))
+    : D(root, AB.x, AB.y + AB.h * .1, AB.w, 90, 'text-align:center;font:var(--fwd) 72px var(--fd);letter-spacing:calc(-.04em * var(--trk));white-space:nowrap', H.md(d.title || 'Follow for more'));
+  ttl.classList.add('onbg'); if (!LAND) H.fit(ttl, AB.w, 40);
+  const slots = (LAND ? d.slots || [{ label: 'Best for you' }, { label: 'Latest video' }] : []).slice(0, 2).map((s, i) => {
     const x = 120 + i * 560, w = 520, hh = 293;
     const e = D(root, x, 300, w, hh, 'border-radius:22px;background:rgba(255,255,255,.06);box-shadow:inset 0 0 0 2px rgba(255,255,255,.18);overflow:hidden');
     const sh = D(e, -w, 0, w, hh, 'background:linear-gradient(100deg,transparent,rgba(255,255,255,.12),transparent)');
@@ -13,14 +16,14 @@ ARCH.endcard = (root, ctx, H, d, sc) => {
     return { e, sh, lb, w };
   });
   // channel block
-  const CX = 1500, CY = 446;
+  const CX = LAND ? 1500 : H.W / 2, CY = LAND ? 446 : AB.y + AB.h * .44;
   const ring = D(root, CX - 150, CY - 150, 300, 300, 'border-radius:50%;box-shadow:inset 0 0 0 3px rgba(255,255,255,.22)');
-  const logo = D(root, CX - 120, CY - 120, 240, 240, 'border-radius:50%;overflow:hidden;background:var(--surface);box-shadow:0 20px 60px -10px rgba(0,0,0,.5)');
+  const logo = D(root, CX - 120, CY - 120, 240, 240, 'border-radius:50%;overflow:hidden;background:#ffffff;box-shadow:0 20px 60px -10px rgba(0,0,0,.5)');
   if (d.logo) { const im = H.img(d.logo); im.style.cssText = 'width:100%;height:100%;object-fit:contain;padding:22px'; logo.appendChild(im); }
   else logo.innerHTML = `<div style="width:100%;height:100%;display:flex;align-items:center;justify-content:center;font:var(--fwd) 90px var(--fd);color:var(--ink)">${H.esc((d.channel || 'TS').split(' ').map(x => x[0]).join('').slice(0, 2))}</div>`;
   const nm = D(root, CX - 300, CY + 170, 600, 50, 'text-align:center;font:var(--fwd) 38px var(--fd);white-space:nowrap', H.esc(d.channel || '')); nm.classList.add('onbg');
   const sub = D(root, CX - 130, CY + 236, 260, 66, 'border-radius:999px;background:#ff2d2d;color:#fff;font:var(--fwd) 28px var(--fd);display:flex;align-items:center;justify-content:center;letter-spacing:.02em;box-shadow:0 14px 34px -10px rgba(255,45,45,.6)', 'Subscribe');
-  const line = d.line ? D(root, 120, 760, 1680, 50, 'font:600 34px var(--fb);white-space:nowrap', H.md(d.line)) : null; if (line) line.classList.add('onbg-sub');
+  const line = d.line ? (LAND ? D(root, 120, 760, 1680, 50, 'font:600 34px var(--fb);white-space:nowrap', H.md(d.line)) : D(root, AB.x, CY + 340, AB.w, 120, 'text-align:center;font:600 38px/1.3 var(--fb)', H.md(d.line))) : null; if (line) line.classList.add('onbg-sub');
   ctx.cue(.2, 'swoosh', .3); ctx.cue(1.6, 'pop', .4); ctx.cue(2.4, 'click', .5);
   return t => {
     const tk = SP(t, .15, .9); set(ttl, { o: A(t, .15, .3), y: 40 * (1 - tk) });
@@ -33,3 +36,4 @@ ARCH.endcard = (root, ctx, H, d, sc) => {
   };
 };
 ARCH.endcard.noHeader = true;
+ARCH.endcard.formats = ['*'];

@@ -4,7 +4,8 @@
 #   .\tools\make.ps1 -Ep episodes\my-ep -Stage voice     # final voice: IndexTTS-2.5 per line (cached) + faster-whisper word timings
 #   .\tools\make.ps1 -Ep episodes\my-ep -Stage final     # IndexTTS voice (tts\*.wav + .json already made), sub=4 motion blur, final mp4
 #   add -Fresh to throw away frames from an earlier render of the same stage (otherwise rendering resumes)
-param([Parameter(Mandatory)][string]$Ep, [ValidateSet('draft','preview','voice','final')][string]$Stage = 'draft', [int]$Workers = 24, [switch]$Fresh,
+#   -Codec auto|hevc|h264: auto = HEVC for landscape (YouTube), H.264 for vertical/square/portrait (TikTok, Reels and feeds want H.264)
+param([Parameter(Mandatory)][string]$Ep, [ValidateSet('draft','preview','voice','final')][string]$Stage = 'draft', [int]$Workers = 24, [switch]$Fresh, [ValidateSet('auto','hevc','h264')][string]$Codec = 'auto',
   [string]$TtsPy = 'D:\hark\indextts\.venv\Scripts\python.exe', [string]$AlignPy = 'D:\hark\_sys\work\mainchat-bili-ref\.venv\Scripts\python.exe')
 $ErrorActionPreference = 'Stop'
 $K = Split-Path $PSScriptRoot -Parent; Set-Location $K
@@ -29,7 +30,10 @@ if ($Fresh -and (Test-Path $frames)) { Remove-Item -Recurse -Force $frames }
 node tools\render.mjs ep=$EpAbs out=$frames workers=$Workers sub=$sub q=93 resume=1 tag=$Stage; if ($LASTEXITCODE) { throw 'render failed' }
 & $py tools\mix.py $EpAbs
 $out = "$EpAbs\$((Split-Path $EpAbs -Leaf))_$Stage.mp4"
+$tl = Get-Content "$EpAbs	imeline.json" -Raw | ConvertFrom-Json
+if ($Codec -eq 'auto') { $Codec = if ($tl.w -gt $tl.h) { 'hevc' } else { 'h264' } }
+$venc = if ($Codec -eq 'hevc') { @('-c:v','hevc_nvenc','-tag:v','hvc1') } else { @('-c:v','h264_nvenc','-profile:v','high') }
 $vf = if ($sub -gt 1) { "tmix=frames=${sub},select='eq(mod(n\,${sub})\,$($sub-1))',setpts=N/(60*TB),scale=in_range=full:out_range=tv,format=yuv420p" } else { "scale=in_range=full:out_range=tv,format=yuv420p" }
-& $ff -y -v error -stats -framerate (60*$sub) -i "$frames\f%06d.jpg" -i "$EpAbs\mix.wav" -vf $vf -r 60 -c:v hevc_nvenc -preset p7 -tune hq -rc vbr -cq $(if ($sub -gt 1) {17} else {22}) -b:v 0 -maxrate 40M -bufsize 80M -spatial-aq 1 -temporal-aq 1 -bf 3 -g 120 -tag:v hvc1 -color_range tv -color_primaries bt709 -color_trc bt709 -colorspace bt709 -af "loudnorm=I=-14:TP=-1:LRA=11" -c:a aac -b:a 256k -ar 48000 -movflags +faststart -shortest $out
-"video: $out"
-& $py tools\chapters.py $EpAbs
+& $ff -y -v error -stats -framerate (60*$sub) -i "$frames\f%06d.jpg" -i "$EpAbs\mix.wav" -vf $vf -r 60 @venc -preset p7 -tune hq -rc vbr -cq $(if ($sub -gt 1) {17} else {22}) -b:v 0 -maxrate 40M -bufsize 80M -spatial-aq 1 -temporal-aq 1 -bf 3 -g 120 -color_range tv -color_primaries bt709 -color_trc bt709 -colorspace bt709 -af "loudnorm=I=-14:TP=-1:LRA=11" -c:a aac -b:a 256k -ar 48000 -movflags +faststart -shortest $out
+"video: $out ($Codec, $($tl.w)x$($tl.h) 60 fps)"
+if ($tl.w -gt $tl.h) { & $py tools\chapters.py $EpAbs }

@@ -13,10 +13,12 @@
 //             { at, do: { id: "pulse", other: "shake" } } ],
 //   autocam?: true    (gentle push toward each element as it enters), showSlots?: true (draw the layout's slots, for planning) }
 ARCH.compose = (root, ctx, H, d, sc) => {
-  const area = d.area ? { x: d.area[0], y: d.area[1], w: d.area[2], h: d.area[3] } : sc.title ? { x: 88, y: 240, w: 1744, h: 632 } : { x: 88, y: 110, w: 1744, h: 800 };
-  const RES = new Set(['id', 'el', 'slot', 'box', 'x', 'y', 'w', 'h', 'z', 'in', 'do', 'out', 'loop', 'kids', 'layout', 'sfx', 'css', 'pad', 'p']);
+  const area = d.area ? { x: d.area[0], y: d.area[1], w: d.area[2], h: d.area[3] } : H.AREA(sc); // the format decides the content area
+  const RES = new Set(['id', 'el', 'slot', 'box', 'x', 'y', 'w', 'h', 'z', 'in', 'do', 'out', 'loop', 'kids', 'layout', 'sfx', 'css', 'pad', 'p', 'ui']);
   const SMALL = new Set(['icon', 'tag', 'check', 'avatar', 'glyph', 'stamp', 'kbd', 'spinner', 'logo']);
   const items = [], byId = {};
+  // element-internal times use the same grammar as motions: 2.5 | "phrase" | "phrase+0.3"
+  const whenAt = (at, fb) => typeof at === 'number' ? at : typeof at === 'string' && at ? H.motionSpec(ctx, 'x@' + at, fb).t : fb;
   const W = msg => H.WARN.push({ scene: sc.id, kind: 'compose', what: msg });
   // default entrance per element type
   const defIn = e => e.el === 'stamp' ? 'stamp' : SMALL.has(e.el) ? 'pop' : e.el === 'text' && /^(display|title|huge|quote)$/.test(e.style || 'title') ? 'words' : e.el === 'arrow' || e.el === 'cursor' ? 'fade' : e.el === 'list' || e.el === 'tree' || e.el === 'table' ? 'cascade' : e.el === 'divider' ? 'grow' : 'rise';
@@ -41,7 +43,8 @@ ARCH.compose = (root, ctx, H, d, sc) => {
   function build(list, slots, box, parent) {
     for (const e of list) {
       if (e.el === 'arrow' || e.el === 'cursor') { items.push({ e, late: true, parent }); continue; }
-      const r = e.el === 'source' && !e.box && e.slot == null && e.x == null ? { x: 88, y: 892, w: 1200, h: 44 } : rectOf(e, slots, box);
+      if (e.box && (e.box[0] + e.box[2] > H.W + 4 || e.box[1] + e.box[3] > H.H + 4)) W(`box [${e.box}] of ${e.el} runs past the ${H.W}×${H.H} canvas (${H.FMT.name}) — boxes are in canvas pixels; use slots to reflow across formats`);
+      const r = e.el === 'source' && !e.box && e.slot == null && e.x == null ? (H.FMT.name === 'landscape' ? { x: 88, y: 892, w: 1200, h: 44 } : { x: area.x, y: area.y + area.h - 44, w: area.w, h: 44 }) : rectOf(e, slots, box);
       const wrap = H.put(parent, H.h('div', 'cmp'), r.x - (parent === root ? 0 : parent.__x || 0), r.y - (parent === root ? 0 : parent.__y || 0), r.w, r.h); wrap.__x = r.x; wrap.__y = r.y;
       if (e.z != null) wrap.style.zIndex = e.z; if (e.css) wrap.style.cssText += ';' + e.css;
       const it = { e, r, wrap }; items.push(it); if (e.id) byId[e.id] = it;
@@ -54,10 +57,13 @@ ARCH.compose = (root, ctx, H, d, sc) => {
       } else {
         const E_ = H.EL[e.el]; if (!E_) { W(`unknown element "${e.el}"`); continue; }
         const props = { ...(e.p || {}) }; for (const k in e) if (!RES.has(k)) props[k] = e[k];
-        const api = { ctx, scene: sc, t0: tIn, box: { w: r.w, h: r.h }, when: (at, fb) => { const s = H.motionSpec(ctx, typeof at === 'number' || typeof at === 'string' ? { m: 'x', at } : null, fb); return s ? s.t : fb; } };
-        let made; H.MB = { w: r.w, h: r.h }; try { made = E_.make(props, api); } catch (er) { W(`${e.el}: ${er.message}`); continue; }
-        wrap.appendChild(made.el); wrap.__content = made.el; it.tick = made.tick;
-        if (made.hug && made.hug < r.w) { const al = props.align || 'left', dx = al === 'center' ? (r.w - made.hug) / 2 : al === 'right' ? r.w - made.hug : 0; r.x += dx; r.w = made.hug; wrap.style.left = (parseFloat(wrap.style.left) + dx) + 'px'; wrap.style.width = made.hug + 'px'; wrap.__x = r.x; }
+        const api = { ctx, scene: sc, t0: tIn, box: { w: r.w, h: r.h }, when: whenAt };
+        const U = e.ui ?? (H.FMT.ui || 1), bw = r.w / U, bh = r.h / U; api.box = { w: bw, h: bh }; // phone-first formats: lay out small, scale up
+        let made; H.MB = { w: bw, h: bh }; try { made = E_.make(props, api); } catch (er) { W(`${e.el}: ${er.message}`); continue; }
+        let holder = wrap; if (U !== 1) { holder = H.put(wrap, H.h('div', 'cmp-ui'), 0, 0, bw, bh); holder.style.transformOrigin = '0 0'; holder.style.transform = `scale(${U})`; }
+        holder.appendChild(made.el); wrap.__content = made.el; it.tick = made.tick;
+        if (made.hug) made.hug *= U;
+        if (made.hug && made.hug < r.w) { const al = props.align || 'left', dx = al === 'center' ? (r.w - made.hug) / 2 : al === 'right' ? r.w - made.hug : 0; r.x += dx; r.w = made.hug; wrap.style.left = (parseFloat(wrap.style.left) + dx) + 'px'; wrap.style.width = made.hug + 'px'; wrap.__x = r.x; if (holder !== wrap) holder.style.left = (-dx) + 'px'; }
         it.rig = H.rig(wrap, { x: r.x, y: r.y, scene: sc.id });
         if (inSpec) it.rig.add(inSpec);
         const fx = sfxOf(e, inSpec && inSpec.m); if (fx && inSpec) ctx.cue(tIn, fx, .35);
@@ -72,17 +78,17 @@ ARCH.compose = (root, ctx, H, d, sc) => {
   build(d.els || [], slots, area, root);
   // late elements: arrows / cursors need the others' rects
   const anchor = (ref, other, side) => {
-    if (Array.isArray(ref)) return ref; const it = byId[ref]; if (!it) { W(`arrow end "${ref}" not found`); return [960, 540]; }
+    if (Array.isArray(ref)) return ref; const it = byId[ref]; if (!it) { W(`arrow end "${ref}" not found`); return [H.W / 2, H.H / 2]; }
     const r = it.r, cx = r.x + r.w / 2, cy = r.y + r.h / 2; let s = side;
-    if (!s || s === 'auto') { const o = Array.isArray(other) ? other : byId[other] ? [byId[other].r.x + byId[other].r.w / 2, byId[other].r.y + byId[other].r.h / 2] : [960, 540]; const dx = o[0] - cx, dy = o[1] - cy; s = Math.abs(dx) / r.w > Math.abs(dy) / r.h ? (dx > 0 ? 'right' : 'left') : (dy > 0 ? 'bottom' : 'top'); }
+    if (!s || s === 'auto') { const o = Array.isArray(other) ? other : byId[other] ? [byId[other].r.x + byId[other].r.w / 2, byId[other].r.y + byId[other].r.h / 2] : [H.W / 2, H.H / 2]; const dx = o[0] - cx, dy = o[1] - cy; s = Math.abs(dx) / r.w > Math.abs(dy) / r.h ? (dx > 0 ? 'right' : 'left') : (dy > 0 ? 'bottom' : 'top'); }
     const pad = 14; return s === 'right' ? [r.x + r.w + pad, cy] : s === 'left' ? [r.x - pad, cy] : s === 'top' ? [cx, r.y - pad] : [cx, r.y + r.h + pad];
   };
   items.filter(it => it.late).forEach(it => {
     const e = it.e, props = { ...(e.p || {}) }; for (const k in e) if (!RES.has(k)) props[k] = e[k];
     if (e.el === 'arrow') { props.__p1 = anchor(e.from, e.to, e.fromSide); props.__p2 = anchor(e.to, e.from, e.toSide); }
     const inSpec = H.motionSpec(ctx, e.in === undefined ? 'fade' : e.in, NaN); const tIn = inSpec && !Number.isNaN(inSpec.t) ? inSpec.t : autoT(); if (inSpec) inSpec.t = tIn;
-    const wrap = H.put(it.parent, H.h('div', 'cmp'), 0, 0, 1920, 1080); wrap.style.pointerEvents = 'none'; if (e.z != null) wrap.style.zIndex = e.z;
-    const made = H.EL[e.el].make(props, { ctx, scene: sc, t0: tIn, box: { w: 1920, h: 1080 }, when: (at, fb) => H.when(ctx, at, fb) });
+    const wrap = H.put(it.parent, H.h('div', 'cmp'), 0, 0, H.W, H.H); wrap.style.pointerEvents = 'none'; if (e.z != null) wrap.style.zIndex = e.z;
+    const made = H.EL[e.el].make(props, { ctx, scene: sc, t0: tIn, box: { w: H.W, h: H.H }, when: whenAt });
     wrap.appendChild(made.el); wrap.__content = made.el; it.wrap = wrap; it.tick = made.tick; it.tIn = tIn; it.rig = H.rig(wrap, { scene: sc.id }); if (inSpec) it.rig.add(inSpec);
     for (const m of [].concat(e.do || [])) { const s = H.motionSpec(ctx, m, tIn + 1); if (s) it.rig.add(s); }
     if (e.out) { const s = H.motionSpec(ctx, e.out, ctx.dur - .4); if (s) it.rig.add(s); }
@@ -101,8 +107,9 @@ ARCH.compose = (root, ctx, H, d, sc) => {
     if (b.sfx) ctx.cue(t, b.sfx, .45);
   }
   focusKeys.sort((a, b) => a.t - b.t);
-  if (focusKeys.length) items.forEach(it => { const id = it.e.id; if (!it.rig) return; it.rig.list.push({ m: { fn: (p, t) => { let v = 0; for (const k of focusKeys) { const e = H.E.quart(H.P(t, k.t, k.t + .35)); if (e <= 0) break; const target = k.ids && !(id && k.ids.has(id)) ? 1 : 0; v = H.lerp(v, target, e); } if (v > 0) { p.o *= H.lerp(1, .32, v); p.b += 1.8 * v; p.s *= H.lerp(1, .985, v); } } }, spec: { t: 0 } }); });
+  if (focusKeys.length) items.forEach(it => { const id = it.e.id; if (!it.rig) return; it.rig.list.push({ m: { fn: (p, t) => { let v = 0; for (const k of focusKeys) { const e = H.E.quart(H.P(t, k.t, k.t + .35)); if (e <= 0) break; const target = k.ids && !(id && k.ids.has(id)) && it.e.el !== 'group' ? 1 : 0; v = H.lerp(v, target, e); } if (v > 0) { p.o *= H.lerp(1, .32, v); p.b += 1.8 * v; p.s *= H.lerp(1, .985, v); } } }, spec: { t: 0 } }); });
   if (d.autocam) items.filter(it => it.r && !it.late && it.e.el !== 'group' && it.r.w * it.r.h > 60000).forEach(it => ctx.focus(it.tIn - .2, it.r, { z: 1.03, k: .18, d: 1.2 }));
   const live = items.filter(it => it.rig);
   return t => { for (const it of live) { it.rig.update(t); if (it.tick) it.tick(t); } };
 };
+ARCH.compose.formats = ['*'];
