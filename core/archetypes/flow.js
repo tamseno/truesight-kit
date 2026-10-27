@@ -5,19 +5,19 @@ ARCH.flow = (root, ctx, H, d) => {
   const cols = d.cols || [], nodes = {}, flat = cols.flat();
   const T = H.times(ctx, flat, .1, .75); flat.forEach((n, i) => n._t = T[i]);
   const X0 = 88, X1 = 1832, Y0 = 250, Y1 = d.note ? 780 : 860, nc = cols.length;
-  const NW = Math.min(440, (X1 - X0 - (nc - 1) * 160) / nc);
+  const NW = Math.min(470, (X1 - X0 - (nc - 1) * 130) / nc);
   const svg = put(root, h('div', ''), 0, 0, 1920, 1080); svg.innerHTML = '<svg width="1920" height="1080" style="position:absolute;left:0;top:0;overflow:visible"></svg>'; const S = svg.firstChild;
   cols.forEach((col, ci) => {
     const x = nc === 1 ? (1920 - NW) / 2 : X0 + ci * (X1 - X0 - NW) / (nc - 1);
-    const NH = Math.min(120, (Y1 - Y0 - (col.length - 1) * 22) / col.length), tot = col.length * NH + (col.length - 1) * 22, y0 = (Y0 + Y1) / 2 - tot / 2;
+    const NH = Math.min(140, (Y1 - Y0 - (col.length - 1) * 24) / col.length), tot = col.length * NH + (col.length - 1) * 24, y0 = (Y0 + Y1) / 2 - tot / 2;
     col.forEach((n, ri) => {
       const c = BOTS[n.cast], color = n.color || (c && c.c) || '#15161c';
-      const el = put(root, H.card({ w: NW, h: NH }), x, y0 + ri * (NH + 22));
-      let b = null; if (c) { b = bot(n.cast, Math.min(64, NH - 24)); D(el, 20, (NH - Math.min(64, NH - 24)) / 2, 64, 64).appendChild(b.el); }
-      else D(el, 20, NH / 2 - 22, 44, 44, `border-radius:12px;background:${color}`);
-      D(el, 102, NH / 2 - (n.sub ? 34 : 19), NW - 120, 40, 'font:800 30px Geist,Noto;letter-spacing:-.02em;white-space:nowrap', H.md(n.label || (c && c.name) || n.id));
-      if (n.sub) D(el, 102, NH / 2 + 6, NW - 120, 30, 'font:600 22px Geist,Noto;color:#8a8d99;white-space:nowrap', H.md(n.sub));
-      nodes[n.id] = { n, el, b, color, x, y: y0 + ri * (NH + 22), w: NW, h: NH };
+      const el = put(root, H.card({ w: NW, h: NH }), x, y0 + ri * (NH + 24)); el.style.borderRadius = '24px';
+      let b = null; const bs = Math.min(70, NH - 28); if (c) { b = bot(n.cast, bs); D(el, 22, (NH - bs) / 2, bs, bs).appendChild(b.el); }
+      else D(el, 22, NH / 2 - 26, 52, 52, `border-radius:15px;background:${color};box-shadow:0 8px 18px -8px ${color}`);
+      const lb = D(el, 98, NH / 2 - (n.sub ? 38 : 21), NW - 116, 44, 'font:800 33px Geist,Noto;letter-spacing:-.02em;white-space:nowrap', H.md(n.label || (c && c.name) || n.id)); H.fit(lb, NW - 116, 22);
+      if (n.sub) { const sb = D(el, 98, NH / 2 + 8, NW - 116, 32, 'font:600 24px Geist,Noto;color:#8a8d99;white-space:nowrap', H.md(n.sub)); H.fit(sb, NW - 116, 20); }
+      nodes[n.id] = { n, el, b, color, x, y: y0 + ri * (NH + 24), w: NW, h: NH };
     });
   });
   const edges = (d.edges || []).map(([a, b2], i) => {
@@ -32,9 +32,10 @@ ARCH.flow = (root, ctx, H, d) => {
     p.setAttribute('stroke-dasharray', String(len));
     return { p, dot, at, len, t0: Math.max(A_.n._t, B.n._t) + .1, i };
   }).filter(Boolean);
-  const note = d.note ? D(root, 88, 812, 1744, 60, 'display:flex;align-items:center;justify-content:center;font:700 30px Geist,Noto;color:#15161c', H.md(d.note.text || d.note)) : null;
+  const note = d.note ? D(root, 88, 806, 1744, 64, 'display:flex;align-items:center;justify-content:center;font:800 36px Geist,Noto;letter-spacing:-.015em', H.md(d.note.text || d.note)) : null; if (note) note.classList.add('onbg');
   const tN = note ? H.when(ctx, d.note.at, T[T.length - 1] + .8) : 0;
   flat.forEach(n => ctx.cue(n._t, 'pop', .3));
+  ctx.cam(.3, { x: 960, y: (Y0 + Y1) / 2 + 20, z: 1.02, d: 1.5 }); if (note) ctx.cam(tN - .3, { x: 960, y: (Y0 + Y1) / 2 + 60, z: 1.04, d: 1.4 });
   return t => {
     Object.values(nodes).forEach(({ n, el, b }) => { enter(el, t, n._t - .15, { dy: 30, rx: 8 }); if (b) b.update(t); });
     edges.forEach(e => {

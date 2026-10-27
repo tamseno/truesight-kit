@@ -13,6 +13,7 @@ ARCH.rules = (root, ctx, H, d) => {
     return r;
   });
   T.forEach(x => ctx.cue(x, 'tick', .4));
+  T.forEach((x, i) => ctx.focus(x - .25, { x: 88, y: Y + 110 + i * RH, w: 1744, h: RH }, { z: 1.03, k: .22, d: 1.1 })); if (items.length > 1) ctx.reset(T.at(-1) + 1.6, 1.3);
   return t => {
     enter(c, t, .1, { dy: 50 });
     let cur = -1; T.forEach((x, i) => { if (t >= x - .1) cur = i; });

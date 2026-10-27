@@ -17,15 +17,16 @@ ARCH.post = (root, ctx, H, d) => {
   let side = null, rows = [], ST = [];
   if (d.side) {
     side = H.put(root, H.card({ w: 1744 - PW - 32, h: 560 }), PX + PW + 32, Y);
-    D(side, 34, 30, 600, 40, 'font:800 30px Geist,Noto;letter-spacing:-.02em', H.md(d.side.title || 'What it means'));
+    D(side, 34, 32, 600, 44, 'font:800 34px Geist,Noto;letter-spacing:-.02em', H.md(d.side.title || 'What it means'));
     ST = H.times(ctx, d.side.items, .3, .85);
-    rows = d.side.items.map((it, i) => D(side, 34, 100 + i * 112, 1744 - PW - 32 - 68, 100, 'display:flex;gap:16px', `<span style="flex:none;width:36px;height:36px;border-radius:10px;background:#15161c;color:#fff;font:800 20px Geist;display:flex;align-items:center;justify-content:center">${i + 1}</span><div><div style="font:700 28px/1.2 Geist,Noto">${H.md(it.text)}</div>${it.sub ? `<div style="font:600 22px/1.3 Geist,Noto;color:#8a8d99;margin-top:6px">${H.md(it.sub)}</div>` : ''}</div>`));
+    rows = d.side.items.map((it, i) => D(side, 34, 108 + i * 146, 1744 - PW - 32 - 68, 130, 'display:flex;gap:18px', `<span style="flex:none;width:44px;height:44px;border-radius:13px;background:var(--accent);color:#fff;font:800 23px Geist;display:flex;align-items:center;justify-content:center">${i + 1}</span><div><div style="font:800 33px/1.15 Geist,Noto;letter-spacing:-.02em">${H.md(it.text)}</div>${it.sub ? `<div style="font:600 25px/1.3 Geist,Noto;color:#8a8d99;margin-top:6px">${H.md(it.sub)}</div>` : ''}</div>`));
   } else if (d.stats) {
     ST = H.times(ctx, d.stats, .2, .7);
     rows = d.stats.map((s, i) => { const k = H.put(root, H.card({ w: 1744 - PW - 32, h: 170 }), PX + PW + 32, Y + i * 192); D(k, 30, 26, 600, 30, 'font:700 22px Geist;color:#8a8d99;letter-spacing:.06em;text-transform:uppercase', H.esc(s.label)); const v = D(k, 30, 62, 600, 90, 'font:800 76px/1 Geist;letter-spacing:-.03em'); k.v = v; k.s = s; return k; });
   }
   const src = d.source ? H.source(root, d.source) : null;
   ctx.cue(.15, 'swoosh', .3); hlT.forEach(x => ctx.cue(x, 'tick', .3));
+  if (hlT.length) ctx.focus(hlT[0] - .3, { x: PX, y: Y, w: PW, h: 400 }, { z: 1.035, k: .2, d: 1.3 }); if (ST.length) ctx.focus(ST[0] - .3, { x: PX + PW + 32, y: Y, w: 1744 - PW - 32, h: 500 }, { z: 1.035, k: .2, d: 1.3 });
   return t => {
     enter(c, t, .1, { dy: 60, rx: 8 });
     hls.forEach((e, i) => H.hl(e, E.io(P(t, hlT[i], hlT[i] + .6))));

@@ -16,9 +16,9 @@ const srv = http.createServer((q, r) => {
   if (u === '/') {
     const ar = ls(path.join(CORE, 'archetypes')), sc = ls(path.join(EP, 'scenes'));
     r.writeHead(200, { 'content-type': 'text/html', 'cache-control': 'no-store' });
-    return r.end(`<!doctype html><meta charset="utf-8"><link rel="stylesheet" href="core/style.css"><div id="stage"></div><script src="core/engine.js"></script>`
+    return r.end(`<!doctype html><meta charset="utf-8"><link rel="icon" href="data:,"><link rel="stylesheet" href="core/style.css"><div id="stage"></div><script src="core/engine.js"></script>`
       + ar.map(f => `<script src="core/archetypes/${f}"></script>`).join('') + sc.map(f => `<script src="scenes/${f}"></script>`).join('')
-      + `<script>addEventListener('load',()=>{const t=+new URLSearchParams(location.search).get('t');if(!isNaN(t)){const go=()=>window.READY?renderAt(t):setTimeout(go,100);go();}})</script>`);
+      + `<script>addEventListener('load',()=>{const q=new URLSearchParams(location.search);if(q.has('t')){const t=+q.get('t');{const go=()=>window.READY?renderAt(t):setTimeout(go,100);go();}}})</script>`);
   }
   const cands = u.startsWith('/core/') ? [path.join(KIT, u)] : [path.join(EP, u), path.join(KIT, u)]; // brand.json falls back to kit root
   const f = cands.find(p => fs.existsSync(p) && fs.statSync(p).isFile());

@@ -26,6 +26,7 @@ ARCH.scorecard = (root, ctx, H, d) => {
   const pass = D(c, 36, HH - 76, 340, 52, 'border-radius:12px;background:#1fbf75;color:#fff;font:800 26px Geist;display:flex;align-items:center;justify-content:center;gap:10px;letter-spacing:.06em', '✓ PASSED');
   const ST = H.times(ctx, side, .45, .9);
   const sc = side.map((s, i) => { const k = H.put(root, H.card({ w: SW, h: (HH - 24 * (side.length - 1)) / side.length }), 88 + CW + 32, Y + i * ((HH - 24 * (side.length - 1)) / side.length + 24)); D(k, 32, 28, SW - 64, 120, 'font:800 32px/1.2 Geist,Noto;letter-spacing:-.02em', H.md(s.text)); if (s.sub) D(k, 32, 150, SW - 64, 80, 'font:600 23px/1.3 Geist,Noto;color:#6b6e7b', H.md(s.sub)); return k; });
+  ctx.focus(tF - .2, { x: 88, y: Y + RY, w: CW, h: RH * rows.length }, { z: 1.035, k: .2, d: 1.2 }); if (two) ctx.reset(t2 + .9, 1.3);
   ctx.cue(t1, 'swoosh', .3); ctx.cue(tF, 'error', .3); if (two) ctx.cue(t2, 'swoosh', .3), ctx.cue(t2 + 1.1, 'ding', .6);
   return t => {
     enter(c, t, .1, { dy: 50 });

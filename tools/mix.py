@@ -28,21 +28,68 @@ gain_db = -18 + (-27 + 18) * env
 music = out * (base * 10 ** (gain_db / 20))[:, None]
 music *= np.interp(t, [0, 1.0, TOT - 4.5, TOT - .5], [0, 1, 1, 0])[:, None]
 rng = np.random.default_rng(7)
+# ---- synthesized SFX (v2): band-passed noise sweeps, pitched pops, inharmonic bells; 3 variants per type so repeats don't sound looped
+from scipy.signal import butter, sosfilt
 def lp(x, a): return lfilter([a], [1, -(1 - a)], x)
 def envf(n, a, d): x = np.arange(n) / SR; return np.minimum(1, x / max(a, 1e-4)) * np.exp(-x / d)
-def sfx(kind):
-    if kind in ('pop', 'tick', 'click'):
-        n = int(.06 * SR); x = np.arange(n) / SR; f = {'pop': 900, 'tick': 2200, 'click': 1600}[kind]; return np.sin(2 * np.pi * f * x) * envf(n, .0008, .012) * .25
-    if kind in ('whoosh', 'swoosh'):
-        d = .5 if kind == 'whoosh' else .32; n = int(d * SR); x = np.arange(n) / SR; s = lp(rng.standard_normal(n), .08); return s * np.sin(np.pi * x / d) ** 2 * (.22 if kind == 'whoosh' else .12)
-    if kind == 'ding':
-        n = int(.6 * SR); x = np.arange(n) / SR; return np.sin(2 * np.pi * 1318.5 * x) * envf(n, .002, .18) * .12
+def bp(x, lo, hi, o=2): return sosfilt(butter(o, [lo / (SR / 2), hi / (SR / 2)], 'band', output='sos'), x)
+def sweep(n, f0, f1, q=.35, r=None):
+    """noise through a band-pass whose centre glides f0 -> f1 (state-variable filter, per sample)"""
+    r = r or rng; x = r.standard_normal(n); y = np.zeros(n); lo = bd = 0.0; fc = np.geomspace(f0, f1, n)
+    for i in range(n):
+        f = 2 * np.sin(np.pi * fc[i] / SR); hi_ = x[i] - lo - q * bd; bd += f * hi_; lo += f * bd; y[i] = bd
+    return y / (np.abs(y).max() + 1e-9)
+def bell(n, f, parts=((1, 1, .9), (2.76, .45, .35), (5.4, .2, .18), (8.9, .08, .1))):
+    x = np.arange(n) / SR; return sum(a * np.sin(2 * np.pi * f * m * x) * np.exp(-x / d) for m, a, d in parts) * np.minimum(1, x / .002)
+def make(kind, v):
+    r = np.random.default_rng(100 + v * 17 + sum(map(ord, kind)) % 997); j = 1 + (v - 1) * .04  # small pitch jitter per variant
+    if kind == 'tick':
+        n = int(.05 * SR); return (bp(r.standard_normal(n), 2600 * j, 6000) * envf(n, .0004, .006) * .5 + np.sin(2 * np.pi * 3100 * j * np.arange(n) / SR) * envf(n, .0005, .01) * .18) * .9
+    if kind == 'click':
+        n = int(.06 * SR); s = np.zeros(n); k = bp(r.standard_normal(int(.012 * SR)), 1500 * j, 5200) * envf(int(.012 * SR), .0003, .003)
+        s[:len(k)] += k; o = int(.034 * SR); s[o:o + len(k)] += k * .55; return s * .8
+    if kind == 'pop':
+        n = int(.12 * SR); x = np.arange(n) / SR; f = 780 * j * np.exp(-x / .03) + 330 * j; ph = 2 * np.pi * np.cumsum(f) / SR
+        return (np.sin(ph) * envf(n, .001, .04) * .55 + bp(r.standard_normal(n), 1800, 7000) * envf(n, .0003, .004) * .25) * .8
+    if kind in ('swoosh', 'whoosh', 'swish'):
+        d = {'swoosh': .34, 'whoosh': .62, 'swish': .22}[kind]; n = int(d * SR); x = np.arange(n) / SR
+        f0, f1 = {'swoosh': (700, 3800), 'whoosh': (280, 2400), 'swish': (1800, 7000)}[kind]
+        e = np.sin(np.pi * np.clip(x / d, 0, 1)) ** 2 * np.exp(-x / (d * .9))
+        return sweep(n, f0 * j, f1 * j, .45, r) * e * {'swoosh': .2, 'whoosh': .34, 'swish': .14}[kind]
+    if kind == 'ding': n = int(1.1 * SR); return bell(n, 1318.5 * j) * .16
+    if kind == 'success': n = int(1.2 * SR); a = bell(n, 1046.5); b = np.zeros(n); o = int(.09 * SR); b[o:] = bell(n - o, 1568); return (a * .7 + b) * .12
+    if kind == 'notify': n = int(.7 * SR); a = bell(n, 1318.5, ((1, 1, .25), (2, .3, .12))); b = np.zeros(n); o = int(.085 * SR); b[o:] = bell(n - o, 1975.5, ((1, 1, .3), (2, .25, .12))); return (a * .8 + b) * .13
+    if kind == 'error':
+        n = int(.32 * SR); x = np.arange(n) / SR; f = np.where(x < .13, 330, 247); s = np.tanh(2.2 * np.sin(2 * np.pi * np.cumsum(f) / SR)) * envf(n, .004, .12)
+        return lp(s, .25) * .22
+    if kind == 'type':
+        n = int(.9 * SR); s = np.zeros(n); t0 = 0.0
+        while t0 < .8:
+            k = make('tick', 1 + int(r.integers(0, 3))) * (.5 + .5 * r.random()); i = int(t0 * SR); m = min(len(k), n - i); s[i:i + m] += k[:m]; t0 += .055 + r.random() * .06
+        return s * .55
+    if kind == 'impact':
+        n = int(.9 * SR); x = np.arange(n) / SR; f = 95 * np.exp(-x / .08) + 46; sub = np.sin(2 * np.pi * np.cumsum(f) / SR) * envf(n, .002, .28)
+        return (sub * .8 + lp(r.standard_normal(n), .05) * envf(n, .001, .05) * .5) * .5
+    if kind == 'riser':
+        n = int(1.1 * SR); x = np.arange(n) / SR; e = (x / x[-1]) ** 2.2 * np.minimum(1, (x[-1] - x) / .03)
+        return (sweep(n, 400, 5200, .5, r) * .7 + np.sin(2 * np.pi * np.cumsum(220 + 660 * (x / x[-1]) ** 2) / SR) * .12) * e * .22
     return np.zeros(10)
+CACHE = {}
+def sfx(kind, v):
+    if (kind, v) not in CACHE: CACHE[(kind, v)] = make(kind, v)
+    return CACHE[(kind, v)]
 S = np.zeros(N, np.float32)
 try: cues = json.load(open(os.path.join(EP, 'cues.json')))
 except Exception: cues = []
-for c in cues:
-    s = sfx(c['type']); i = int(c['t'] * SR); n = min(len(s), N - i)
+cues = sorted(cues, key=lambda c: c['t']); last = {}
+for ci, c in enumerate(cues):
+    kind = c['type']
+    if kind in ('tick', 'pop', 'click') and c['t'] - last.get(kind, -9) < .07: continue  # de-flam near-duplicates
+    last[kind] = c['t']; s = sfx(kind, 1 + ci % 3)
+    if kind == 'riser': i = int((c['t'] - len(s) / SR) * SR)  # risers END on their cue
+    else: i = int(c['t'] * SR)
+    if i < 0: s = s[-i:]; i = 0
+    n = min(len(s), N - i)
     if n > 0: S[i:i + n] += s[:n] * min(1, c.get('gain', 1))
 mix = music + nar[:, None] + S[:, None] * .35
 print('voice/music dB during speech', round(20 * np.log10(rms(nar[act]) / (rms(music.mean(1)[act]) + 1e-12)), 1))

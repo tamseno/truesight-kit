@@ -31,6 +31,7 @@ ARCH.grid = (root, ctx, H, d) => {
   }
   const tF = F ? H.when(ctx, F.at, T[T.length - 1] + .6) : 0;
   T.forEach(x => ctx.cue(x, 'pop', .3)); if (btn) ctx.cue(tF + .5, 'click', .5);
+  ctx.cam(T[0], { x: 960, y: 560, z: 1.025, d: 2 }); if (F) ctx.focus(tF - .3, { x: 88, y: Y + GH + 24, w: 1744, h: FH }, { z: 1.04, k: .25, d: 1.2 });
   return t => {
     tiles.forEach(({ c, g, gl }, i) => {
       enter(c, t, T[i] - .2, { dy: 40, s0: .92 });

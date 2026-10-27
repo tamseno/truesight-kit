@@ -29,7 +29,8 @@ ARCH.terminal = (root, ctx, H, d) => {
     barF = bar.querySelector('i'); barL = bar.querySelector('span');
   }
   const tP0 = PG ? H.when(ctx, PG.at, OT[OT.length - 1] || tCmd + 1) : 0, tP1 = PG ? H.when(ctx, PG.to, ctx.dur - .4) : 0;
-  LT.forEach(x => ctx.cue(x, 'tick', .4)); OT.forEach(x => ctx.cue(x, 'click', .25));
+  LT.forEach(x => ctx.cue(x, 'tick', .4)); OT.forEach(x => ctx.cue(x, 'click', .25)); if (TM.cmd) ctx.cue(tCmd, 'type', .35);
+  ctx.focus(tCmd - .2, { x: TX, y: Y, w: TW, h: HH * .6 }, { z: 1.035, k: .25, d: 1.4 }); if (L) LT.forEach((x, i) => ctx.focus(x - .3, { x: 88, y: Y + 92 + i * Math.min(118, (HH - 100) / L.items.length), w: LW, h: 100 }, { z: 1.03, k: .14, d: 1.1 }));
   const esc = H.esc;
   return t => {
     if (L) enter(L.c, t, .1, { dy: 50 });

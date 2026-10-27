@@ -6,24 +6,25 @@ ARCH.checklist = (root, ctx, H, d) => {
   const it = d.items || [], T = H.times(ctx, it, .1, .7), RS = d.resources, Y = 250, HH = 612;
   const W1 = RS ? 1100 : 1744;
   const c = H.put(root, H.card({ w: W1, h: HH }), 88, Y);
-  D(c, 36, 28, W1 - 200, 44, 'font:800 34px Geist,Noto;letter-spacing:-.02em', H.md(d.title || 'Start tonight'));
-  const cnt = D(c, W1 - 36 - 140, 32, 140, 40, 'text-align:right;font:700 26px Maple;color:#8a8d99');
-  const RH = Math.min(118, (HH - 110 - (d.gate ? 96 : 0)) / it.length);
+  D(c, 38, 32, W1 - 200, 48, 'font:800 40px Geist,Noto;letter-spacing:-.025em', H.md(d.title || 'Start tonight'));
+  const cnt = D(c, W1 - 38 - 140, 38, 140, 40, 'text-align:right;font:700 28px Maple;color:#8a8d99');
+  const RH = Math.min(122, (HH - 116 - (d.gate ? 100 : 0)) / it.length);
   const rows = it.map((x, i) => {
-    const r = D(c, 24, 96 + i * RH, W1 - 48, RH - 12, 'border-radius:16px;display:flex;align-items:center;gap:22px;padding:0 20px');
-    r.innerHTML = `<span class="bx" style="flex:none;width:44px;height:44px;border-radius:50%;box-shadow:inset 0 0 0 3px #d7dae3;display:flex;align-items:center;justify-content:center;font:800 22px Geist;color:#8a8d99">${i + 1}</span><div><div style="font:800 32px/1.15 Geist,Noto;letter-spacing:-.015em">${H.md(x.text)}</div>${x.sub ? `<div style="font:600 22px Geist,Noto;color:#8a8d99;margin-top:4px">${H.md(x.sub)}</div>` : ''}</div>`;
-    const ck = D(r, 20, (RH - 12) / 2 - 22, 44, 44, '', IC.check());
+    const r = D(c, 24, 104 + i * RH, W1 - 48, RH - 12, 'border-radius:16px;display:flex;align-items:center;gap:22px;padding:0 20px');
+    r.innerHTML = `<span class="bx" style="flex:none;width:48px;height:48px;border-radius:50%;box-shadow:inset 0 0 0 3px #d7dae3;display:flex;align-items:center;justify-content:center;font:800 23px Geist;color:#8a8d99">${i + 1}</span><div><div style="font:800 36px/1.15 Geist,Noto;letter-spacing:-.02em">${H.md(x.text)}</div>${x.sub ? `<div style="font:600 24px Geist,Noto;color:#8a8d99;margin-top:4px">${H.md(x.sub)}</div>` : ''}</div>`;
+    const ck = D(r, 20, (RH - 12) / 2 - 24, 48, 48, '', IC.check());
     return { r, ck };
   });
   let gate = null, tG = 0;
-  if (d.gate) { gate = D(c, 24, HH - 100, W1 - 48, 76, 'border-radius:16px;background:#15161c;color:#fff;display:flex;align-items:center;gap:18px;padding:0 24px;font:800 28px Geist,Noto', `<span class="lk" style="width:40px;height:40px;flex:none">${IC.lock()}</span><span>${H.md(d.gate.text || d.gate)}</span>`); tG = H.when(ctx, d.gate.at, T[T.length - 1] + .8); }
+  if (d.gate) { gate = D(c, 24, HH - 104, W1 - 48, 80, 'border-radius:18px;background:#15161c;color:#fff;display:flex;align-items:center;gap:18px;padding:0 26px;font:800 32px Geist,Noto', `<span class="lk" style="width:40px;height:40px;flex:none">${IC.lock()}</span><span>${H.md(d.gate.text || d.gate)}</span>`); tG = H.when(ctx, d.gate.at, T[T.length - 1] + .8); }
   let rc = null, rItems = [];
   if (RS) {
     rc = H.put(root, H.card({ w: 1744 - W1 - 32, h: HH }), 88 + W1 + 32, Y);
     D(rc, 34, 28, 560, 40, 'font:800 30px Geist,Noto', H.md(RS.title || 'In the description'));
     rItems = (RS.items || []).map((s, i) => D(rc, 24, 100 + i * 96, 1744 - W1 - 32 - 48, 80, 'border-radius:14px;background:#f6f7fb;display:flex;align-items:center;gap:16px;padding:0 20px;font:700 25px Maple;white-space:nowrap', `<span style="width:36px;height:36px;flex:none">${IC.file('#cfe0ff')}</span>${H.esc(s)}`));
   }
-  T.forEach(x => ctx.cue(x, 'tick', .5)); if (gate) ctx.cue(tG, 'ding', .5);
+  T.forEach(x => ctx.cue(x, 'tick', .5)); if (gate) ctx.cue(tG, 'success', .5);
+  T.forEach((x, i) => ctx.focus(x - .25, { x: 88, y: Y + 104 + i * RH, w: W1, h: RH }, { z: 1.03, k: .16, d: 1.1 })); if (gate) ctx.focus(tG - .3, { x: 88, y: Y + HH - 104, w: W1, h: 80 }, { z: 1.035, k: .2, d: 1.1 });
   return t => {
     enter(c, t, .1, { dy: 50 });
     let done = 0; T.forEach(x => { if (t >= x) done++; }); cnt.textContent = `${done} / ${it.length}`;

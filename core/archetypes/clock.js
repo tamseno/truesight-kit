@@ -23,6 +23,7 @@ ARCH.clock = (root, ctx, H, d) => {
     return { k, pin, m: norm(e.time) };
   });
   T.forEach(x => ctx.cue(x, 'pop', .4));
+  cards.forEach((c, i) => ctx.cam(T[i] - .3, { x: lerp(960, xOf(c.m), .16), y: 560, z: 1.03, d: 1.2 }));
   return t => {
     let m = m0; cards.forEach((c, i) => { m = lerp(m, c.m, E.io(P(t, T[i] - .4, T[i] + .2))); });
     const hh = Math.floor(m / 60) % 24, mm = Math.floor(m % 60); ck.textContent = `${String(hh).padStart(2, '0')}:${String(mm).padStart(2, '0')}`;

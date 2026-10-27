@@ -21,6 +21,7 @@ ARCH.stepper = (root, ctx, H, d) => {
   const cap = d.caption ? D(root, 88, 806, 1744, 50, 'text-align:center;font:700 30px Geist,Noto', H.md(d.caption.text || d.caption)) : null;
   const tCap = cap ? H.when(ctx, d.caption.at, T[n - 1] + .8) : 0;
   T.forEach(x => ctx.cue(x, 'tick', .45));
+  ctx.cam(T[0], { x: 960, y: 600, z: 1.03, d: Math.max(2, (T[n - 1] - T[0]) + 1) });
   return t => {
     enter(c, t, .1, { dy: 50 }); enter(big, t, .3, { dy: 40 });
     let cur = 0; T.forEach((x, i) => { if (t >= x - .1) cur = i; });
