@@ -1,0 +1,30 @@
+// Layout library — named ways to divide the content area into slots for "compose" scenes.
+// H.layout(spec, area) -> { name: rect, ... } plus .list (slots in order). spec = "split" | { type: "split", ratio: .55, gap: 40 }.
+// area = the content box (with a scene title: x 88, y 240, w 1744, h 632; without: x 88, y 110, w 1744, h 800).
+// Slots can be addressed by name ("left") or by index (0, 1, ...).
+(() => {
+  const H = window.H;
+  const R = (x, y, w, h) => ({ x: Math.round(x), y: Math.round(y), w: Math.round(w), h: Math.round(h) });
+  const L = H.LAYOUTS = {};
+  const def = (name, about, params, fn) => { L[name] = { name, about, params, fn }; };
+  const cols = (a, n, g, names) => { const w = (a.w - g * (n - 1)) / n, o = {}; for (let i = 0; i < n; i++) o[names ? names[i] : 'c' + i] = R(a.x + i * (w + g), a.y, w, a.h); return o; };
+  const rows = (a, n, g, names) => { const hh = (a.h - g * (n - 1)) / n, o = {}; for (let i = 0; i < n; i++) o[names ? names[i] : 'r' + i] = R(a.x, a.y + i * (hh + g), a.w, hh); return o; };
+  def('full', 'One slot: the whole content area.', {}, a => ({ main: R(a.x, a.y, a.w, a.h) }));
+  def('center', 'One centred slot of w × h.', { w: 'px', h: 'px' }, (a, o) => { const w = Math.min(a.w, o.w || 1200), hh = Math.min(a.h, o.h || a.h * .8); return { main: R(a.x + (a.w - w) / 2, a.y + (a.h - hh) / 2, w, hh) }; });
+  def('split', 'Left / right columns.', { ratio: 'left share 0..1', gap: 'px' }, (a, o) => { const g = o.gap ?? 40, r = o.ratio ?? .5, lw = (a.w - g) * r; return { left: R(a.x, a.y, lw, a.h), right: R(a.x + lw + g, a.y, a.w - g - lw, a.h) }; });
+  def('stack', 'Top / bottom rows.', { ratio: 'top share', gap: 'px' }, (a, o) => { const g = o.gap ?? 32, r = o.ratio ?? .5, th = (a.h - g) * r; return { top: R(a.x, a.y, a.w, th), bottom: R(a.x, a.y + th + g, a.w, a.h - g - th) }; });
+  def('thirds', 'Three equal columns a, b, c.', { gap: 'px' }, (a, o) => cols(a, 3, o.gap ?? 32, ['a', 'b', 'c']));
+  def('cols', 'n equal columns c0..', { n: 'count', gap: 'px' }, (a, o) => cols(a, o.n || 4, o.gap ?? 28));
+  def('rows', 'n equal rows r0..', { n: 'count', gap: 'px' }, (a, o) => rows(a, o.n || 3, o.gap ?? 20));
+  def('grid', 'cols × rows cells g0.. (row-major).', { cols: 'n', rows: 'n', gap: 'px' }, (a, o) => { const c = o.cols || 3, r = o.rows || 2, g = o.gap ?? 24, w = (a.w - g * (c - 1)) / c, hh = (a.h - g * (r - 1)) / r, out = {}; for (let i = 0; i < c * r; i++) out['g' + i] = R(a.x + (i % c) * (w + g), a.y + Math.floor(i / c) * (hh + g), w, hh); return out; });
+  def('bento', 'Big main tile left + two stacked tiles right (side0, side1).', { ratio: 'main share', gap: 'px' }, (a, o) => { const g = o.gap ?? 28, mw = (a.w - g) * (o.ratio ?? .6), sh = (a.h - g) / 2; return { main: R(a.x, a.y, mw, a.h), side0: R(a.x + mw + g, a.y, a.w - mw - g, sh), side1: R(a.x + mw + g, a.y + sh + g, a.w - mw - g, sh) }; });
+  def('bento-top', 'Wide main tile on top + n small tiles below (b0..).', { n: 'bottom tiles', ratio: 'top share', gap: 'px' }, (a, o) => { const g = o.gap ?? 28, th = (a.h - g) * (o.ratio ?? .58), out = { main: R(a.x, a.y, a.w, th) }; Object.assign(out, cols(R(a.x, a.y + th + g, a.w, a.h - th - g), o.n || 3, g, Array.from({ length: o.n || 3 }, (_, i) => 'b' + i))); return out; });
+  def('hero', 'Text column left (text) + visual right (visual).', { ratio: 'text share', gap: 'px' }, (a, o) => { const g = o.gap ?? 60, tw = (a.w - g) * (o.ratio ?? .48); return { text: R(a.x + 20, a.y, tw - 20, a.h), visual: R(a.x + tw + g, a.y, a.w - tw - g, a.h) }; });
+  def('hero-r', 'Visual left + text column right.', { ratio: 'visual share', gap: 'px' }, (a, o) => { const g = o.gap ?? 60, vw = (a.w - g) * (o.ratio ?? .52); return { visual: R(a.x, a.y, vw, a.h), text: R(a.x + vw + g, a.y, a.w - vw - g - 20, a.h) }; });
+  def('headline', 'A headline band on top (head) and a body area (body) — for scenes without a title.', { head: 'px', gap: 'px' }, (a, o) => { const hh = o.head ?? 170, g = o.gap ?? 30; return { head: R(a.x, a.y, a.w, hh), body: R(a.x, a.y + hh + g, a.w, a.h - hh - g) }; });
+  def('ring', 'n tiles of size × size on an ellipse around the centre (n0..) + centre slot.', { n: 'count', size: 'px', rx: 'px', ry: 'px' }, (a, o) => { const n = o.n || 5, s = o.size || 300, cx = a.x + a.w / 2, cy = a.y + a.h / 2, rx = o.rx ?? (a.w / 2 - s / 2), ry = o.ry ?? (a.h / 2 - s / 2.4), out = { centre: R(cx - 300, cy - 110, 600, 220) }; for (let i = 0; i < n; i++) { const t = -Math.PI / 2 + i * 2 * Math.PI / n; out['n' + i] = R(cx + rx * Math.cos(t) - s / 2, cy + ry * Math.sin(t) - s * .3, s, s * .6); } return out; });
+  def('cascade', 'n overlapping cards stepping down-right (s0..), like a stack of windows.', { n: 'count', w: 'card w', h: 'card h', step: '[dx, dy]' }, (a, o) => { const n = o.n || 3, w = o.w || 900, hh = o.h || 460, [dx, dy] = o.step || [110, 70], x0 = a.x + (a.w - w - dx * (n - 1)) / 2, y0 = a.y + (a.h - hh - dy * (n - 1)) / 2, out = {}; for (let i = 0; i < n; i++) out['s' + i] = R(x0 + i * dx, y0 + i * dy, w, hh); return out; });
+  def('row', 'n boxes of h height in a centred row (i0..).', { n: 'count', h: 'px', gap: 'px' }, (a, o) => { const n = o.n || 3, g = o.gap ?? 28, hh = Math.min(a.h, o.h || 300), w = (a.w - g * (n - 1)) / n, y = a.y + (a.h - hh) / 2, out = {}; for (let i = 0; i < n; i++) out['i' + i] = R(a.x + i * (w + g), y, w, hh); return out; });
+  def('columns-hero', 'Big statement on the left third, n stacked items on the right (k0..).', { n: 'items', gap: 'px' }, (a, o) => { const g = o.gap ?? 22, lw = a.w * .38, out = { lead: R(a.x, a.y, lw - 40, a.h) }; Object.assign(out, rows(R(a.x + lw, a.y, a.w - lw, a.h), o.n || 3, g, Array.from({ length: o.n || 3 }, (_, i) => 'k' + i))); return out; });
+  H.layout = (spec, area) => { const s = typeof spec === 'string' ? { type: spec } : (spec || { type: 'full' }); const l = L[s.type] || L.full; if (!L[s.type]) H.WARN.push({ scene: '?', kind: 'unknown-layout', what: s.type }); const o = l.fn(area, s); o.list = Object.keys(o).filter(k => k !== 'list').map(k => o[k]); return o; };
+})();

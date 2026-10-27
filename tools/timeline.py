@@ -15,7 +15,7 @@ def spoken(text):
     for k, v in SAY.items(): text = re.sub(r'\b' + re.escape(k) + r'\b', v, text)
     return text
 async def one(key, text):
-    mp3, js = f'{TD}/{key}.mp3', f'{TD}/{key}.json'; k = spoken(text) + VOICE + RATE
+    mp3, js = f'{TD}/{key}.mp3', f'{TD}/{key}.edge.json'; k = spoken(text) + VOICE + RATE
     if os.path.exists(js) and os.path.exists(mp3) and json.load(open(js, encoding='utf8')).get('k') == k: return
     import edge_tts
     c = edge_tts.Communicate(spoken(text), VOICE, rate=RATE, boundary='WordBoundary'); wb = []
@@ -58,7 +58,7 @@ for s in SCENES:
         key = f"{s['id']}_{i}"; a = pcm(key)
         nz = np.where(np.abs(a) > 0.004)[0]; a0 = nz[0] if len(nz) else 0; a1 = nz[-1] + 1 if len(nz) else len(a)
         off = a0 / SR; a = a[a0:a1]; a = a * (0.11 / act_rms(a))  # every line at the same speaking level
-        jp = f'{TD}/{key}.json'
+        jp = f'{TD}/{key}.json' if MODE == 'index' else f'{TD}/{key}.edge.json'
         if os.path.exists(jp): words = remap(text, json.load(open(jp, encoding='utf8'))['words'])
         else:  # no aligner output: spread words over the voiced span, weighted by length, pauses after punctuation
             tw = text.split(); wt = [len(x) + 2 + (4 if x[-1] in ',.;:?!' else 0) for x in tw]; tot = sum(wt); dur = len(a) / SR; acc = 0; words = []

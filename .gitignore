@@ -5,3 +5,8 @@ episodes/*/*.wav
 episodes/*/*.mp4
 .venv/
 node_modules/
+episodes/*/probe/
+episodes/*/sheet.jpg
+episodes/_gallery/
+episodes/*/lint.json
+episodes/*/probe*/

@@ -1,0 +1,1433 @@
+{
+ "looks": {
+  "clean": {
+   "name": "Clean",
+   "about": "Soft white cards on drifting pastel light. Friendly, product-launch feel.",
+   "dark": false,
+   "background": "mesh",
+   "transition": "lift",
+   "feel": {
+    "w": 9.5,
+    "z": 0.62,
+    "dur": 1,
+    "dy": 36,
+    "blur": 6,
+    "tilt": 10
+   }
+  },
+  "editorial": {
+   "name": "Editorial",
+   "about": "Magazine layout: serif headlines, hairline rules, paper, one red accent. Calm, authoritative.",
+   "dark": false,
+   "background": "paper",
+   "transition": "slide",
+   "feel": {
+    "w": 7.5,
+    "z": 0.86,
+    "dur": 1.25,
+    "dy": 24,
+    "blur": 3,
+    "tilt": 0
+   }
+  },
+  "blueprint": {
+   "name": "Blueprint",
+   "about": "Engineering drawing: navy grid, cyan line work, condensed DIN type, mono labels. Precise, technical.",
+   "dark": true,
+   "background": "grid",
+   "transition": "push",
+   "feel": {
+    "w": 12,
+    "z": 0.78,
+    "dur": 0.8,
+    "dy": 20,
+    "blur": 0,
+    "tilt": 0
+   }
+  },
+  "neon": {
+   "name": "Neon",
+   "about": "Night-mode product film: near-black, glowing edges, electric violet and cyan. Energetic.",
+   "dark": true,
+   "background": "beams",
+   "transition": "zoom",
+   "feel": {
+    "w": 11.5,
+    "z": 0.55,
+    "dur": 0.9,
+    "dy": 40,
+    "blur": 10,
+    "tilt": 12
+   }
+  },
+  "brutal": {
+   "name": "Brutal",
+   "about": "Neo-brutalist: flat saturated color, thick black outlines, hard offset shadows, heavy type. Loud, playful, confident.",
+   "dark": false,
+   "background": "dots",
+   "transition": "slide",
+   "feel": {
+    "w": 13,
+    "z": 0.6,
+    "dur": 0.75,
+    "dy": 60,
+    "blur": 0,
+    "tilt": 0
+   }
+  },
+  "glass": {
+   "name": "Glass",
+   "about": "Frosted panels over saturated color fields, geometric type. Premium, consumer-tech.",
+   "dark": true,
+   "background": "mesh",
+   "transition": "zoom",
+   "feel": {
+    "w": 8.5,
+    "z": 0.72,
+    "dur": 1.15,
+    "dy": 30,
+    "blur": 10,
+    "tilt": 6
+   }
+  },
+  "terminal": {
+   "name": "Terminal",
+   "about": "Phosphor terminal: black-green, monospace everywhere, scanlines, hard cuts. Hacker, raw.",
+   "dark": true,
+   "background": "scan",
+   "transition": "cut",
+   "feel": {
+    "w": 14,
+    "z": 0.9,
+    "dur": 0.6,
+    "dy": 0,
+    "blur": 0,
+    "tilt": 0
+   }
+  }
+ },
+ "elements": {
+  "text": {
+   "about": "Any text. style: huge | display | title | heading | body | caption | label | mono | quote. *word* = highlighter, `x` = code. On the background by default; on: \"card\" inside cards.",
+   "props": {
+    "text": "string (md)",
+    "style": "display|title|heading|body|caption|label|mono|quote|huge",
+    "align": "left|center|right",
+    "color": "ink|sub|accent|good|bad|#hex",
+    "on": "bg|card",
+    "lines": "max lines (wrap)",
+    "size": "px override"
+   },
+   "size": [
+    1200,
+    120
+   ],
+   "example": {
+    "style": "title",
+    "text": "Ship the *loop*"
+   }
+  },
+  "number": {
+   "about": "A big number that counts up on entrance (keeps prefix/suffix, thousands separators). Optional label above and sub below.",
+   "props": {
+    "value": "number",
+    "prefix": "string",
+    "suffix": "string",
+    "dec": "decimals",
+    "fmt": "true = 1,234",
+    "label": "string",
+    "sub": "string",
+    "color": "ink|accent|good|bad",
+    "size": "px"
+   },
+   "size": [
+    600,
+    300
+   ],
+   "example": {
+    "value": 2000,
+    "suffix": "+",
+    "fmt": true,
+    "label": "PRs in a month"
+   }
+  },
+  "tag": {
+   "about": "A pill label (filled or tinted).",
+   "props": {
+    "text": "string",
+    "color": "accent|good|bad|#hex",
+    "filled": "bool",
+    "size": "px"
+   },
+   "size": [
+    260,
+    48
+   ],
+   "example": {
+    "text": "NEW",
+    "color": "accent"
+   }
+  },
+  "kbd": {
+   "about": "Keyboard keys, e.g. [\"⌘\", \"K\"].",
+   "props": {
+    "keys": "string[]",
+    "size": "px"
+   },
+   "size": [
+    300,
+    90
+   ],
+   "example": {
+    "keys": [
+     "⌘",
+     "K"
+    ]
+   }
+  },
+  "quote": {
+   "about": "A pull quote with big quote marks and attribution.",
+   "props": {
+    "text": "string (md)",
+    "by": "string",
+    "role": "string"
+   },
+   "size": [
+    1400,
+    360
+   ],
+   "example": {
+    "text": "Treat it like a *talented intern*.",
+    "by": "Grok Bot guide"
+   }
+  },
+  "card": {
+   "about": "A content card: optional icon, kicker tag, title, body, footer. tone colors a top stripe.",
+   "props": {
+    "icon": "icon name",
+    "kicker": "string",
+    "title": "md",
+    "body": "md",
+    "footer": "md",
+    "tone": "good|bad|warn|accent",
+    "align": "left|center",
+    "size": "title px"
+   },
+   "size": [
+    520,
+    340
+   ],
+   "example": {
+    "icon": "shield",
+    "kicker": "Rule 1",
+    "title": "Never push to main",
+    "body": "Every change goes through a PR with proof."
+   }
+  },
+  "panel": {
+   "about": "A plain surface (group background). Put other elements on top of it.",
+   "props": {
+    "pad": "px",
+    "tint": "accent|good|bad"
+   },
+   "size": [
+    800,
+    500
+   ],
+   "example": {
+    "tint": "accent"
+   }
+  },
+  "window": {
+   "about": "App window chrome (traffic lights + title). body: md text, or lines: [..] as a list; dark: true for a terminal-like body.",
+   "props": {
+    "title": "string",
+    "tag": "string",
+    "dark": "bool",
+    "body": "md",
+    "lines": "string[]"
+   },
+   "size": [
+    900,
+    560
+   ],
+   "example": {
+    "title": "notes.md",
+    "lines": [
+     "Brief the agent",
+     "Demand proof",
+     "Merge low-risk"
+    ]
+   }
+  },
+  "browser": {
+   "about": "Browser window: url bar + page. image: screenshot path, or a skeleton page with a hero block.",
+   "props": {
+    "url": "string",
+    "title": "string",
+    "image": "path",
+    "blocks": "n skeleton rows"
+   },
+   "size": [
+    1100,
+    640
+   ],
+   "example": {
+    "url": "preview.app",
+    "title": "Welcome aboard"
+   }
+  },
+  "phone": {
+   "about": "Phone mock (or a screenshot via image). bad: true marks a clipped button in red.",
+   "props": {
+    "title": "string",
+    "button": "string",
+    "bad": "bool",
+    "image": "path"
+   },
+   "size": [
+    300,
+    600
+   ],
+   "example": {
+    "title": "Welcome",
+    "bad": true
+   }
+  },
+  "terminal": {
+   "about": "Terminal: types cmd at its time, then prints output lines on their words. cls: g (green) | y | r | d (dim) | p (prompt) | b | v.",
+   "props": {
+    "title": "string",
+    "cmd": "string",
+    "at": "when to type",
+    "output": "[{text, cls, at}]",
+    "cps": "chars/s"
+   },
+   "size": [
+    900,
+    480
+   ],
+   "example": {
+    "title": "agent",
+    "cmd": "pnpm test",
+    "output": [
+     {
+      "text": "✓ 42 passed",
+      "cls": "g"
+     }
+    ]
+   }
+  },
+  "code": {
+   "about": "Code panel with syntax colors; focus: [{lines: [a, b], at}] lights lines on their words while the rest dims.",
+   "props": {
+    "code": "string",
+    "lang": "md|js|ts|py|sh|yaml",
+    "file": "string",
+    "focus": "[{lines, at}]",
+    "size": "px"
+   },
+   "size": [
+    1000,
+    560
+   ],
+   "example": {
+    "file": "brief.md",
+    "lang": "md",
+    "code": "## Task\nFix the crash\n## Proof\nBefore/after shots"
+   }
+  },
+  "bubble": {
+   "about": "One chat message with avatar. from: \"you\" or a cast key; side auto (you = right).",
+   "props": {
+    "from": "you|<cast>",
+    "text": "md",
+    "time": "string",
+    "name": "string"
+   },
+   "size": [
+    900,
+    140
+   ],
+   "example": {
+    "from": "you",
+    "text": "This is *P0*."
+   }
+  },
+  "toast": {
+   "about": "A system notification banner (app icon, app name, title, body).",
+   "props": {
+    "app": "string",
+    "title": "md",
+    "body": "md",
+    "icon": "icon name",
+    "time": "string"
+   },
+   "size": [
+    760,
+    150
+   ],
+   "example": {
+    "app": "Grok Bot",
+    "title": "PR #4821 is ready",
+    "body": "checks pass · proof attached",
+    "icon": "pr"
+   }
+  },
+  "post": {
+   "about": "A social post card (author, handle, text with *highlights*).",
+   "props": {
+    "author": "string",
+    "handle": "string",
+    "date": "string",
+    "text": "md",
+    "avatar": "initials"
+   },
+   "size": [
+    1000,
+    420
+   ],
+   "example": {
+    "author": "Grok Bot",
+    "handle": "@bot",
+    "text": "Bots can *hand off coding tasks* to Cursor."
+   }
+  },
+  "pr": {
+   "about": "Pull-request card: number, title, state tag, check pills (ok / fail).",
+   "props": {
+    "num": "#1234",
+    "title": "md",
+    "state": "OPEN|READY|MERGED|...",
+    "checks": "[{text, ok}]",
+    "who": "cast key"
+   },
+   "size": [
+    640,
+    200
+   ],
+   "example": {
+    "num": "#4821",
+    "title": "Small-screen onboarding",
+    "state": "READY",
+    "checks": [
+     {
+      "text": "CI"
+     },
+     {
+      "text": "Proof"
+     }
+    ]
+   }
+  },
+  "tree": {
+   "about": "File tree. items: lines with leading spaces for depth (\"src/\", \"  app.ts\"); hl: indexes to highlight.",
+   "props": {
+    "items": "string[]",
+    "hl": "number[]",
+    "title": "string"
+   },
+   "size": [
+    520,
+    520
+   ],
+   "example": {
+    "items": [
+     "src/",
+     "  app.ts",
+     "  onboarding/",
+     "    Welcome.tsx"
+    ],
+    "hl": [
+     3
+    ]
+   }
+  },
+  "list": {
+   "about": "Bulleted list; marker: check | x | num | dot | arrow. Items light up on their words (at) or all at once.",
+   "props": {
+    "items": "[text | {text, sub, at}]",
+    "marker": "check|x|num|dot|arrow",
+    "size": "px",
+    "on": "card|bg"
+   },
+   "size": [
+    900,
+    420
+   ],
+   "example": {
+    "items": [
+     "Brief",
+     "Proof",
+     "Merge"
+    ],
+    "marker": "check"
+   }
+  },
+  "table": {
+   "about": "Compact table: cols (header strings) and rows (arrays; true / false render as ✓ / ✕).",
+   "props": {
+    "cols": "string[]",
+    "rows": "any[][]",
+    "hl": "row index"
+   },
+   "size": [
+    1200,
+    460
+   ],
+   "example": {
+    "cols": [
+     "",
+     "Bot",
+     "Agent"
+    ],
+    "rows": [
+     [
+      "Brief",
+      true,
+      false
+     ],
+     [
+      "Code",
+      false,
+      true
+     ]
+    ]
+   }
+  },
+  "stat": {
+   "about": "A stat card: label, big counted value, sub line, optional tone stripe.",
+   "props": {
+    "label": "string",
+    "value": "number",
+    "prefix": "string",
+    "suffix": "string",
+    "dec": "n",
+    "fmt": "bool",
+    "sub": "md",
+    "tone": "good|bad|accent"
+   },
+   "size": [
+    520,
+    320
+   ],
+   "example": {
+    "label": "Agents",
+    "value": 200,
+    "suffix": "+",
+    "tone": "accent"
+   }
+  },
+  "progress": {
+   "about": "A progress bar that fills to value (0–1) at its time; label can contain {n} counting to max.",
+   "props": {
+    "value": "0..1",
+    "label": "string with {n}",
+    "max": "number",
+    "at": "when",
+    "d": "seconds"
+   },
+   "size": [
+    900,
+    80
+   ],
+   "example": {
+    "value": 0.7,
+    "label": "{n} / 900 frames",
+    "max": 900
+   }
+  },
+  "bars": {
+   "about": "Horizontal bar chart that grows on entrance. items: [{label, value, color?}], unit suffix.",
+   "props": {
+    "items": "[{label, value, color}]",
+    "unit": "string",
+    "max": "number"
+   },
+   "size": [
+    1100,
+    420
+   ],
+   "example": {
+    "items": [
+     {
+      "label": "Before",
+      "value": 10.4,
+      "dec": 1,
+      "color": "bad"
+     },
+     {
+      "label": "After",
+      "value": 8.4,
+      "dec": 1,
+      "color": "good"
+     }
+    ],
+    "unit": " MB"
+   }
+  },
+  "linechart": {
+   "about": "A line chart that draws itself; points: numbers; labels: x-axis strings; area fill.",
+   "props": {
+    "points": "number[]",
+    "labels": "string[]",
+    "min": "n",
+    "max": "n",
+    "color": "accent|good|bad"
+   },
+   "size": [
+    1100,
+    480
+   ],
+   "example": {
+    "points": [
+     3,
+     5,
+     4,
+     7,
+     9
+    ],
+    "labels": [
+     "M",
+     "T",
+     "W",
+     "T",
+     "F"
+    ]
+   }
+  },
+  "donut": {
+   "about": "A ring gauge that fills to value (0–1) with a counted percentage in the middle.",
+   "props": {
+    "value": "0..1",
+    "label": "string",
+    "color": "accent|good|bad"
+   },
+   "size": [
+    360,
+    360
+   ],
+   "example": {
+    "value": 0.82,
+    "label": "pass rate"
+   }
+  },
+  "tiles": {
+   "about": "A field of small tiles that light up in waves: steps: [{n, at}] (cumulative counts). Scale you can see.",
+   "props": {
+    "count": "total tiles",
+    "cols": "n",
+    "steps": "[{n, at, color}]"
+   },
+   "size": [
+    900,
+    500
+   ],
+   "example": {
+    "count": 60,
+    "steps": [
+     {
+      "n": 8,
+      "color": "ink"
+     },
+     {
+      "n": 60
+     }
+    ]
+   }
+  },
+  "icon": {
+   "about": "An icon (check, x, bolt, eye, shield, key, bug, clock, chat, term, play, spark, user, warn, branch, pr, merge, file, folder, lock), optionally on a tinted tile.",
+   "props": {
+    "name": "icon",
+    "color": "#hex",
+    "tile": "bool"
+   },
+   "size": [
+    120,
+    120
+   ],
+   "example": {
+    "name": "bolt",
+    "tile": true
+   }
+  },
+  "avatar": {
+   "about": "A cast mascot (blinks, looks around) or the viewer (\"you\").",
+   "props": {
+    "who": "cast key | you",
+    "label": "bool: show name below"
+   },
+   "size": [
+    140,
+    140
+   ],
+   "example": {
+    "who": "you",
+    "label": true
+   }
+  },
+  "logo": {
+   "about": "A brand mark: mark \"grok\", an image (src), or a colored dot with the name.",
+   "props": {
+    "name": "string",
+    "mark": "grok|dot|image",
+    "src": "path",
+    "color": "#hex",
+    "size": "px"
+   },
+   "size": [
+    360,
+    70
+   ],
+   "example": {
+    "name": "Grok Bot",
+    "mark": "grok"
+   }
+  },
+  "image": {
+   "about": "An image file (episode media/ or kit assets/). fit: cover | contain; radius in px; frame: card shadow.",
+   "props": {
+    "src": "path",
+    "fit": "cover|contain",
+    "radius": "px",
+    "frame": "bool"
+   },
+   "size": [
+    800,
+    450
+   ],
+   "example": {
+    "src": "assets/brand/logo.png",
+    "fit": "contain"
+   }
+  },
+  "shape": {
+   "about": "A plain shape for structure or accents: rect | circle | ring | pill | line | blob. fill / stroke colors (tokens ok).",
+   "props": {
+    "kind": "rect|circle|ring|pill|line|blob",
+    "fill": "color",
+    "stroke": "color",
+    "width": "stroke px",
+    "radius": "px",
+    "opacity": "0..1"
+   },
+   "size": [
+    300,
+    300
+   ],
+   "example": {
+    "kind": "ring",
+    "stroke": "accent"
+   }
+  },
+  "arrow": {
+   "about": "An arrow between two elements (from / to = element ids or [x, y] points). bend: curve amount; dashed; label at the middle. Draws itself.",
+   "props": {
+    "from": "id|[x,y]",
+    "to": "id|[x,y]",
+    "bend": "-1..1",
+    "dashed": "bool",
+    "color": "color",
+    "label": "md",
+    "head": "bool",
+    "width": "px",
+    "fromSide": "auto|left|right|top|bottom",
+    "toSide": "..."
+   },
+   "size": [
+    0,
+    0
+   ],
+   "example": {
+    "from": [
+     0,
+     0
+    ],
+    "to": [
+     1,
+     1
+    ]
+   }
+  },
+  "stamp": {
+   "about": "A rubber-stamp verdict (APPROVED / VERIFIED / REJECTED). Pair with the \"stamp\" motion.",
+   "props": {
+    "text": "string",
+    "tone": "good|bad|accent"
+   },
+   "size": [
+    420,
+    140
+   ],
+   "example": {
+    "text": "VERIFIED",
+    "tone": "good"
+   }
+  },
+  "cursor": {
+   "about": "A mouse cursor moving along path [[at, x, y], ...] (absolute stage coords) with click ripples at clicks: [at, ...].",
+   "props": {
+    "path": "[[at, x, y]]",
+    "clicks": "at[]"
+   },
+   "size": [
+    0,
+    0
+   ],
+   "example": {}
+  },
+  "note": {
+   "about": "A sticky-note callout with a pointer triangle (side: left|right|top|bottom).",
+   "props": {
+    "text": "md",
+    "side": "left|right|top|bottom",
+    "tone": "warn|accent|good|bad"
+   },
+   "size": [
+    420,
+    160
+   ],
+   "example": {
+    "text": "Clipped at 320pt",
+    "side": "left",
+    "tone": "bad"
+   }
+  },
+  "divider": {
+   "about": "A thin rule (horizontal by default; vertical: true).",
+   "props": {
+    "vertical": "bool",
+    "color": "color"
+   },
+   "size": [
+    800,
+    4
+   ],
+   "example": {}
+  },
+  "check": {
+   "about": "A big check (or x with bad: true) in a circle.",
+   "props": {
+    "bad": "bool"
+   },
+   "size": [
+    140,
+    140
+   ],
+   "example": {}
+  },
+  "spinner": {
+   "about": "A loading spinner (turns by itself).",
+   "props": {},
+   "size": [
+    80,
+    80
+   ],
+   "example": {}
+  },
+  "glyph": {
+   "about": "A huge single symbol or word as graphic (→, =, +, ×, ?, 10×, vs). Accent colored by default.",
+   "props": {
+    "text": "string",
+    "color": "color",
+    "size": "px"
+   },
+   "size": [
+    300,
+    300
+   ],
+   "example": {
+    "text": "10×"
+   }
+  },
+  "source": {
+   "about": "Source tag for numbers and quotes (bottom-left by default: box [88, 892, 1200, 44]).",
+   "props": {
+    "text": "url or citation"
+   },
+   "size": [
+    1200,
+    44
+   ],
+   "example": {
+    "text": "x.ai/bot/guides"
+   }
+  },
+  "html": {
+   "about": "Escape hatch: raw HTML (use tokens like var(--ink), var(--surface)). Prefer real elements.",
+   "props": {
+    "html": "string",
+    "css": "string"
+   },
+   "size": [
+    600,
+    300
+   ],
+   "example": {
+    "html": "<div style=\"font:800 40px var(--fd)\">raw html</div>"
+   }
+  }
+ },
+ "motions": {
+  "fade": {
+   "kind": "in",
+   "about": "Opacity only.",
+   "params": {}
+  },
+  "rise": {
+   "kind": "in",
+   "about": "Rises into place with a slight forward tilt and focus pull (the house entrance).",
+   "params": {
+    "dist": "px"
+   }
+  },
+  "drop": {
+   "kind": "in",
+   "about": "Falls into place from above.",
+   "params": {}
+  },
+  "left": {
+   "kind": "in",
+   "about": "Slides in from the left.",
+   "params": {}
+  },
+  "right": {
+   "kind": "in",
+   "about": "Slides in from the right.",
+   "params": {}
+  },
+  "pop": {
+   "kind": "in",
+   "about": "Scales up from small with a little overshoot. Good for badges, icons, stamps.",
+   "params": {}
+  },
+  "zoom": {
+   "kind": "in",
+   "about": "Arrives from big and blurry, settles sharp. Dramatic reveals.",
+   "params": {}
+  },
+  "shrink": {
+   "kind": "in",
+   "about": "Arrives from slightly larger (camera settle feel).",
+   "params": {}
+  },
+  "blur": {
+   "kind": "in",
+   "about": "Focus pull from heavy blur.",
+   "params": {}
+  },
+  "mask": {
+   "kind": "in",
+   "about": "Revealed upward inside its own box (like type rising from behind a line).",
+   "params": {}
+  },
+  "wipe": {
+   "kind": "in",
+   "about": "Wiped on left to right.",
+   "params": {}
+  },
+  "wipe-down": {
+   "kind": "in",
+   "about": "Wiped on top to bottom.",
+   "params": {}
+  },
+  "iris": {
+   "kind": "in",
+   "about": "Circle reveal from the centre.",
+   "params": {}
+  },
+  "flip": {
+   "kind": "in",
+   "about": "Flips down into view around its top edge.",
+   "params": {}
+  },
+  "swing": {
+   "kind": "in",
+   "about": "Swings open like a door from its left edge.",
+   "params": {}
+  },
+  "unfold": {
+   "kind": "in",
+   "about": "Unfolds vertically from its top edge.",
+   "params": {}
+  },
+  "grow": {
+   "kind": "in",
+   "about": "Grows horizontally from its left edge (bars, rules, progress).",
+   "params": {}
+  },
+  "stamp": {
+   "kind": "in",
+   "about": "Slams down from large with a small turn. Verdicts, approvals.",
+   "params": {}
+  },
+  "spin": {
+   "kind": "in",
+   "about": "Spins and scales in.",
+   "params": {}
+  },
+  "tilt": {
+   "kind": "in",
+   "about": "Swings in from a 3D angle (product-shot feel).",
+   "params": {}
+  },
+  "none": {
+   "kind": "in",
+   "about": "Visible from the start, no entrance.",
+   "params": {}
+  },
+  "words": {
+   "kind": "text",
+   "about": "Words spring up one after another (kinetic type).",
+   "params": {
+    "gap": "s between words"
+   }
+  },
+  "chars": {
+   "kind": "text",
+   "about": "Characters drop in one by one.",
+   "params": {}
+  },
+  "type": {
+   "kind": "text",
+   "about": "Typewriter with a caret; cps = characters per second.",
+   "params": {
+    "cps": "chars/s"
+   }
+  },
+  "scramble": {
+   "kind": "text",
+   "about": "Characters resolve from random glyphs (decoder feel).",
+   "params": {}
+  },
+  "count": {
+   "kind": "text",
+   "about": "Counts the number in the element up from 0 (keeps prefix/suffix, thousands separators).",
+   "params": {}
+  },
+  "hl": {
+   "kind": "emph",
+   "about": "Sweeps the highlighter across *marked* words inside the element.",
+   "params": {}
+  },
+  "draw": {
+   "kind": "in",
+   "about": "Draws the strokes of an SVG element (arrows, lines, outlines, charts).",
+   "params": {}
+  },
+  "cascade": {
+   "kind": "in",
+   "about": "Children enter one after another (lists, rows of chips).",
+   "params": {
+    "gap": "s between children"
+   }
+  },
+  "pulse": {
+   "kind": "emph",
+   "about": "Quick scale beat (1 → 1.06 → 1).",
+   "params": {}
+  },
+  "beat": {
+   "kind": "emph",
+   "about": "Bigger double beat for a punchline.",
+   "params": {}
+  },
+  "nod": {
+   "kind": "emph",
+   "about": "Small hop up and back.",
+   "params": {}
+  },
+  "shake": {
+   "kind": "emph",
+   "about": "Short horizontal shake — \"no\", errors.",
+   "params": {}
+  },
+  "wiggle": {
+   "kind": "emph",
+   "about": "Small rotation wiggle — \"look here\".",
+   "params": {}
+  },
+  "glow": {
+   "kind": "emph",
+   "about": "Accent ring glows around the element, then fades (keep: true to hold).",
+   "params": {}
+  },
+  "flash": {
+   "kind": "emph",
+   "about": "Brief brightness flash.",
+   "params": {}
+  },
+  "lift": {
+   "kind": "emph",
+   "about": "Rises a little and stays raised (selected state).",
+   "params": {}
+  },
+  "settle": {
+   "kind": "emph",
+   "about": "Returns a lifted element to rest.",
+   "params": {}
+  },
+  "dim": {
+   "kind": "emph",
+   "about": "Steps back (dim + soft) and stays back until \"undim\".",
+   "params": {}
+  },
+  "undim": {
+   "kind": "emph",
+   "about": "Comes forward again after \"dim\".",
+   "params": {}
+  },
+  "ping": {
+   "kind": "emph",
+   "about": "A ripple ring expands from the element (notification, click).",
+   "params": {}
+  },
+  "underline": {
+   "kind": "emph",
+   "about": "An accent bar draws under the element and stays.",
+   "params": {}
+  },
+  "strike": {
+   "kind": "emph",
+   "about": "A red line strikes through the element and it fades back.",
+   "params": {}
+  },
+  "circle": {
+   "kind": "emph",
+   "about": "A hand-drawn ring is drawn around the element and stays.",
+   "params": {}
+  },
+  "box": {
+   "kind": "emph",
+   "about": "A dashed accent outline traces the element and stays.",
+   "params": {}
+  },
+  "tint": {
+   "kind": "emph",
+   "about": "Washes the element with a color and holds (good / bad / accent).",
+   "params": {}
+  },
+  "float": {
+   "kind": "loop",
+   "about": "Gentle vertical drift (alive at rest).",
+   "params": {}
+  },
+  "breathe": {
+   "kind": "loop",
+   "about": "Slow scale breathing.",
+   "params": {}
+  },
+  "sway": {
+   "kind": "loop",
+   "about": "Slow rotation back and forth.",
+   "params": {}
+  },
+  "spinning": {
+   "kind": "loop",
+   "about": "Continuous rotation (loaders, gears).",
+   "params": {}
+  },
+  "orbit": {
+   "kind": "loop",
+   "about": "Circles around its place.",
+   "params": {}
+  },
+  "blink": {
+   "kind": "loop",
+   "about": "Opacity blinks (cursor, live dot).",
+   "params": {}
+  },
+  "bob": {
+   "kind": "loop",
+   "about": "Quick small bounce (waiting, typing).",
+   "params": {}
+  },
+  "shimmer": {
+   "kind": "loop",
+   "about": "A soft sheen passes across the element every few seconds.",
+   "params": {}
+  },
+  "drift": {
+   "kind": "loop",
+   "about": "Slow sideways drift (parallax backdrop items).",
+   "params": {}
+  },
+  "move": {
+   "kind": "move",
+   "about": "Moves to a new place: to: [x, y] (absolute, top-left) or by: [dx, dy]; optional s (scale), r (turn).",
+   "params": {
+    "to": "[x,y]",
+    "by": "[dx,dy]",
+    "s": "scale",
+    "r": "deg"
+   }
+  },
+  "scale": {
+   "kind": "move",
+   "about": "Scales to s and stays.",
+   "params": {
+    "s": "scale"
+   }
+  },
+  "turn": {
+   "kind": "move",
+   "about": "Rotates by r degrees and stays.",
+   "params": {}
+  },
+  "path": {
+   "kind": "move",
+   "about": "Follows points: pts: [[dx,dy],...] relative to its place, over d seconds.",
+   "params": {}
+  },
+  "out": {
+   "kind": "out",
+   "about": "Fades away.",
+   "params": {}
+  },
+  "sink": {
+   "kind": "out",
+   "about": "Drops and fades.",
+   "params": {}
+  },
+  "fly-up": {
+   "kind": "out",
+   "about": "Lifts away upward.",
+   "params": {}
+  },
+  "fly-left": {
+   "kind": "out",
+   "about": "Exits to the left.",
+   "params": {}
+  },
+  "fly-right": {
+   "kind": "out",
+   "about": "Exits to the right.",
+   "params": {}
+  },
+  "blow": {
+   "kind": "out",
+   "about": "Scales up, blurs and vanishes (dismissed).",
+   "params": {}
+  },
+  "collapse": {
+   "kind": "out",
+   "about": "Squashes to a line and disappears.",
+   "params": {}
+  }
+ },
+ "layouts": {
+  "full": {
+   "about": "One slot: the whole content area.",
+   "params": {}
+  },
+  "center": {
+   "about": "One centred slot of w × h.",
+   "params": {
+    "w": "px",
+    "h": "px"
+   }
+  },
+  "split": {
+   "about": "Left / right columns.",
+   "params": {
+    "ratio": "left share 0..1",
+    "gap": "px"
+   }
+  },
+  "stack": {
+   "about": "Top / bottom rows.",
+   "params": {
+    "ratio": "top share",
+    "gap": "px"
+   }
+  },
+  "thirds": {
+   "about": "Three equal columns a, b, c.",
+   "params": {
+    "gap": "px"
+   }
+  },
+  "cols": {
+   "about": "n equal columns c0..",
+   "params": {
+    "n": "count",
+    "gap": "px"
+   }
+  },
+  "rows": {
+   "about": "n equal rows r0..",
+   "params": {
+    "n": "count",
+    "gap": "px"
+   }
+  },
+  "grid": {
+   "about": "cols × rows cells g0.. (row-major).",
+   "params": {
+    "cols": "n",
+    "rows": "n",
+    "gap": "px"
+   }
+  },
+  "bento": {
+   "about": "Big main tile left + two stacked tiles right (side0, side1).",
+   "params": {
+    "ratio": "main share",
+    "gap": "px"
+   }
+  },
+  "bento-top": {
+   "about": "Wide main tile on top + n small tiles below (b0..).",
+   "params": {
+    "n": "bottom tiles",
+    "ratio": "top share",
+    "gap": "px"
+   }
+  },
+  "hero": {
+   "about": "Text column left (text) + visual right (visual).",
+   "params": {
+    "ratio": "text share",
+    "gap": "px"
+   }
+  },
+  "hero-r": {
+   "about": "Visual left + text column right.",
+   "params": {
+    "ratio": "visual share",
+    "gap": "px"
+   }
+  },
+  "headline": {
+   "about": "A headline band on top (head) and a body area (body) — for scenes without a title.",
+   "params": {
+    "head": "px",
+    "gap": "px"
+   }
+  },
+  "ring": {
+   "about": "n tiles of size × size on an ellipse around the centre (n0..) + centre slot.",
+   "params": {
+    "n": "count",
+    "size": "px",
+    "rx": "px",
+    "ry": "px"
+   }
+  },
+  "cascade": {
+   "about": "n overlapping cards stepping down-right (s0..), like a stack of windows.",
+   "params": {
+    "n": "count",
+    "w": "card w",
+    "h": "card h",
+    "step": "[dx, dy]"
+   }
+  },
+  "row": {
+   "about": "n boxes of h height in a centred row (i0..).",
+   "params": {
+    "n": "count",
+    "h": "px",
+    "gap": "px"
+   }
+  },
+  "columns-hero": {
+   "about": "Big statement on the left third, n stacked items on the right (k0..).",
+   "params": {
+    "n": "items",
+    "gap": "px"
+   }
+  }
+ },
+ "transitions": {
+  "lift": "default: rise + soft fade",
+  "slide": "push sideways (same chapter)",
+  "zoom": "scale settle (statements)",
+  "push": "vertical push",
+  "whip": "both frames flung sideways with motion blur (topic jump)",
+  "wipe": "accent panel sweeps across (chapter start)",
+  "cut": "hard cut (contrast, turn)"
+ },
+ "themes": [
+  "paper",
+  "mint",
+  "lavender",
+  "lilac",
+  "sky",
+  "sand",
+  "ice",
+  "peach",
+  "night",
+  "ink",
+  "dusk"
+ ],
+ "sfx": [
+  "tick",
+  "pop",
+  "click",
+  "swoosh",
+  "swish",
+  "whoosh",
+  "notify",
+  "type",
+  "ding",
+  "success",
+  "error",
+  "impact",
+  "riser"
+ ],
+ "icons": [
+  "check",
+  "x",
+  "cursor",
+  "lock",
+  "moon",
+  "sun",
+  "file",
+  "folder",
+  "branch",
+  "pr",
+  "merge",
+  "bolt",
+  "eye",
+  "shield",
+  "key",
+  "bug",
+  "clock",
+  "chat",
+  "term",
+  "play",
+  "spark",
+  "user",
+  "warn"
+ ],
+ "archetypes": {
+  "board": "board — a work board (PR tracker / kanban). Cards land in lanes, then move between lanes on their words; a sweep\nline passes over the board (\"every 30 minutes\") and cards pick up red flags or green checks as it checks them.\ndata: { cols: [\"Working\", \"Ready for review\", \"Merged\"], colTone?: [null, \"#3a6cf4\", \"#8b5cf6\"],\n        items: [{ id: \"#4821\", title: \"Fix onboarding crash\", col: 0, at?, who?: \"<cast>\",\n                  moves?: [{ col: 1, at, flag?: \"CI failing\", ok?: \"Checks pass\" }] }],\n        sweeps?: [{ at, label?: \"every 30 min\" }], title? }",
+  "cards": "cards — 2–4 columns of \"problem → fix\". The problem lands first; the fix rises into the card when spoken.\ndata: { items: [{ title: \"Usage runs out\", sub?, icon?: \"key\"|\"shield\"|..., tag?: \"RISK\", fix: \"Keep checks cheap, cap runs\", at?, fixAt? }],\n        fixLabel?: \"THE FIX\", source? }",
+  "chapter": "chapter — full-screen chapter opener for long videos: a huge index numeral, the title, a one-line promise,\nand the chapter rail (every chapter scene in the episode) with a marker sliding to this one. Pair with \"trans\": \"wipe\".\ndata: { n?: 2, title: \"The handoff\", sub?: \"What a good brief contains\", kicker?: \"Chapter\", short?: \"Handoff\" (rail label) }",
+  "chat": "chat — an agent-app conversation. Sidebar of bots, a thread where each message lands on its word (bots \"type\" first),\ntool-run rows (spinner → check), skill chips, proof thumbnails, an approval card, a summary report. The thread scrolls itself.\ndata: { bot: \"quill\", sidebar?: [\"quill\", \"jenny\"], status?: \"Working · cloud computer\", composer?: \"Message Quill…\", app?: \"Grok Bot\",\n  messages: [ { from: \"you\" | \"<cast key>\", text?, at?, time?: \"07:58\", typing?: true,\n                chips?: [\"/react-native-best-practices\"], tool?: { text: \"Started Cursor cloud agent\", detail?: \"fix/…\", icon?: \"bolt\", doneAt?, done?: \"Agent finished\" },\n                shots?: [{ label: \"Before\", bad?: true, title? }], approval?: { title, sub?, button?: \"Approve\", at? },\n                report?: [{ k: \"PRs ready\", v: \"14\", tone?: \"good\"|\"bad\" }] } ] }",
+  "checklist": "checklist — the call to action. Steps tick off; a gate unlocks at the end; resources point to the description.\ndata: { title?: \"Start tonight\", items: [{ text, sub?, at? }], gate?: { text: \"Then turn on the routine\", at? },\n        resources?: { title?: \"In the description\", items: [\"house-style SKILL.md\", \"bootstrap.sh\"] } }",
+  "clock": "clock — a night (or day) on a timeline. A playhead sweeps between events; the big clock follows it.\ndata: { from: \"21:00\", to: \"08:00\", events: [{ time: \"21:00\", label: \"Director picks up requests\", cast?, at? }], day?: false }",
+  "code": "code — an editor window. Lines reveal early (or type out), focus bands light the lines being discussed while the rest\ndims, diff lines (+/-) get green/red gutters, and notes pin to lines from a side column with a connector.\ndata: { file: \"handoff-brief.md\", lang?: \"md\"|\"js\"|\"ts\"|\"py\"|\"sh\"|\"yaml\", code: \"line\\nline\", tabs?: [\"role.md\"],\n        reveal?: \"lines\"|\"type\"|\"all\", typeBy?: phrase|sec, focus?: [{ lines: [3, 5], at }],\n        notes?: [{ line: 4, text: \"Proof is required\", at, tone?: \"good\"|\"bad\"|\"warn\" }], diff?: true, w? }",
+  "compare": "compare — before / after proof. Two screens (mock phones or images), and a review log on the right where a bot checks\nthe proof: a failing check rings the problem on the \"after\" screen and sends it back; a later check swaps in the fixed\nscreen and stamps it.\ndata: { left: { label: \"Before\", phone?: { title, bad: true } | image? }, right: { label: \"After\", phone?: {...} | image? },\n        who?: \"<cast>\", log?: \"Proof review\",\n        checks: [{ text: \"Button still clipped at 320pt\", verdict: \"fail\"|\"pass\", at?, swap?: { phone: {...} } }],\n        stamp?: { text: \"VERIFIED\", at? } }",
+  "compose": "compose — a free scene assembled from the element, motion and layout libraries. This is the default way to build\na scene that doesn't match a recipe archetype: every video gets its own pictures.\ndata: {\n  layout?: \"split\" | { type: \"grid\", cols: 3, rows: 2 },        (slots; see LAYOUTS in docs/CATALOG.md)\n  els: [ { id?, el: \"card\", slot?: \"left\" | 0, box?: [x, y, w, h], x?, y?, w?, h?, z?,   (placement: slot, box, or x/y/w/h)\n           ...props of the element (text, style, title, ...),\n           in?: \"rise@phrase\" | { m, at, off, d, ...params } | \"none\",   (default: a fitting entrance, spread over the narration)\n           do?: [\"pulse@phrase\", \"glow@phrase+0.4\", { m: \"move\", at: \"x\", to: [x, y] }],\n           out?: \"sink@phrase\", loop?: \"float\" | [\"float\", \"shimmer\"],\n           kids?: [...elements], layout?: ...   (el: \"group\" lays its kids out inside its box) } ],\n  beats?: [ { at, cam: { focus: \"id\", z: 1.06, k: .35 } | \"reset\" | { x, y, z } },\n            { at, focus: \"id\" | [\"id\", ...] | \"all\" },          (others dim back — depth of field)\n            { at, do: { id: \"pulse\", other: \"shake\" } } ],\n  autocam?: true    (gentle push toward each element as it enters), showSlots?: true (draw the layout's slots, for planning) }",
+  "endcard": "endcard — the last 15–20 s: YouTube end-screen slots (place the real elements in YouTube Studio over these frames),\nchannel mark + subscribe, and one closing line. Use \"lines\": [] and \"min_dur\": 18 for a music-only outro.\ndata: { title?: \"Watch next\", line?: \"New breakdowns every week\", slots?: [{ label: \"Best for you\" }, { label: \"Latest\" }],\n        channel?: \"TrueSight AI\", logo?: \"assets/brand/logo.png\" }",
+  "flow": "flow — nodes in columns, connectors draw in, pulses travel along them. Routers, pipelines, \"who talks to whom\".\ndata: { cols: [[{ id, label, sub?, cast?, color?, at? }], ...], edges: [[\"a\",\"b\"], ...], pulse?: true, note?: { text, at? } }",
+  "grid": "grid — a storyboard / shot list / gallery of tiles that pop in on their beat, with an optional approve bar.\ndata: { cols?: 4, items: [{ label: \"Pill idle\", glyph?: \"pill\"|\"dot\"|\"spinner\"|\"check\"|\"play\"|\"bar\"|\"done\"|\"text:Aa\", image?, at? }],\n        footer?: { text: \"Nothing gets built until you approve it\", button?: \"Approve\", at? } }",
+  "hero": "hero — episode opener. Proof first: the finished result fills the frame, then shrinks beside the title.\nNo footage? Give it a \"stack\": floating UI cards on the right that tell the story in three beats.\ndata: {\n  proof?: { image: \"media/proof.jpg\" } | { frames: \"media/proof/%04d.jpg\", count: 90, fps: 30 },  label?: \"Made overnight · No After Effects\", until?: phrase|sec (default 2.6s)\n  stack?: [{ kind: \"msg\", text } | { kind: \"tool\", text, sub?, who? } | { kind: \"pr\", id, title, ok? } | { kind: \"note\", text }],\n  logos?: [{ name: \"Grok Bot\", mark: \"grok\"|\"dot\", color }], title: \"An *overnight*\\nmotion design studio\", meta?: \"five bots · one cloud computer\", cast?: true }",
+  "loop": "loop — a cycle. Nodes sit on an ellipse, arcs draw in as each node is named, then a glowing token keeps circling;\nthe centre states the exit condition and can count rounds.\ndata: { nodes: [{ label: \"Brief\", sub?: \"what + proof\", icon?: \"chat\"|\"bolt\"|..., cast?, at? }],\n        center?: { text: \"Until the goal is met\", sub?, at? }, rounds?: [{ at, label: \"Round 2\" }], speed?: .16 }",
+  "post": "post — a real post / quote / article as proof, with phrases highlighted as they are spoken, plus a source tag.\ndata: { author: \"Elon Musk\", handle: \"@elonmusk\", date: \"Oct 7, 2026\", avatar?: \"EM\", verified?: true,\n        text: \"Going forward ... *best back end model for any given task* ...\", hlAt?: [\"best back end\", ...],\n        side?: { title: \"What it means\", items: [{ text, sub?, at? }] }  |  stats?: [{ label, value, suffix?, dec?, at? }],\n        source: \"x.com/elonmusk/status/2107724314451878104\" }",
+  "roster": "roster — the cast, one card per role, each lighting up when it is named. A runner travels the rail.\ndata: { from?: \"Request\", to?: \"Delivered\", items: [{ cast: \"director\", role: \"PLAN\", desc: \"Owns it end to end\", at?: \"Director\",\n         lines?: [\"Brief\", \"Storyboard\"] | code?: \"frame(t) {...}\" | big?: \"8.6\" }] }",
+  "rules": "rules — a numbered rule file. Each rule lights up when it is spoken; earlier ones stay, later ones wait dimmed.\ndata: { file: \"house-style · SKILL.md\", tag?: \"SHARED BY ALL BOTS\", items: [{ text, sub?, code?, at? }] }",
+  "scorecard": "scorecard — a rubric. Round 1 fills, failing rows flag red, the worst ones go back; round 2 fills and passes.\ndata: { title?: \"Critic scorecard\", file?: \"review_log.md\", threshold?: 8, max?: 10,\n        rows: [{ label: \"Hook\", sub?: \"first 2 s\", r1: 5, r2?: 8, issue?: \"Hook is flat\" }],\n        r1At?, flagAt?, r2At?, side?: [{ text, sub?, at? }] }",
+  "statement": "statement — full-bleed kinetic type. For hooks, turns and one-line verdicts (\"That's a demo.\").\ndata: { eyebrow?, lines: [{ text: \"That's a *demo*.\", at? }], sub?: {text, at?}, align?: 'left'|'center', size?: 112, color? }\n  *word* = highlighter sweep. Each line enters word by word at its moment (at = phrase or seconds).",
+  "stats": "stats — big honest numbers. Up to 4 counters on top, optional comparison bars below, and a source tag.\ndata: { items: [{ label: \"CPU\", value: 8, prefix?: \"~\", suffix?: \" cores\", dec?: 0, sub?, tone?: \"bad\"|\"good\", at? }],\n        bars?: [{ label: \"Draft\", value: 48, max?: 360, suffix?: \" s\", at? }], source? }",
+  "stepper": "stepper — a state machine. Dots along a line fill as each state is reached; a big card names the current state.\ndata: { steps: [{ label: \"Brief\", file?: \"brief.md\", at? }], caption?: \"One look at the folder tells you where it stands\" }",
+  "swarm": "swarm — scale you can see. A big counter on the left; on the right a field of agent tiles. First only \"from\" tiles light\n(by hand), then manager bots appear and the rest of the field lights in a wave while the counter climbs to \"to\".\ndata: { from: 15, to: 200, suffix?: \"+\", label: \"cloud agents at once\", fromLabel?: \"By hand\", toLabel?: \"Managed by bots\",\n        at?: phrase (first state), toAt?: phrase (scale-up), cast?: [\"quill\", ...], source? }",
+  "table": "table — a comparison grid. Column heads first, then each row lands on its word; cells are ✓ / ✕ / – or short text.\nA column can be spotlighted at the end (the answer).\ndata: { cols: [{ title: \"Grok Bot\", sub?: \"outer loop\", cast?, tone? }], rows: [{ label, sub?, cells: [true, false, \"text\"], at? }],\n        highlight?: { col: 0, at?, text?: \"Use both\" }, labelW?: 560 }",
+  "terminal": "terminal — a checklist on the left ticks off while a real-looking terminal types on the right.\ndata: { list?: { title, items: [{ text, sub?, at? }] }, term: { title: \"/workspace/studio\", cmd: \"bash bootstrap.sh\", at?,\n         out: [{ text: \"✓ ffmpeg\", cls?: \"g\"|\"d\"|\"y\"|\"r\"|\"p\", at? }], progress?: { label: \"576 / 3,600 frames\", at?, to? } } }",
+  "timeline": "timeline — dated events on a horizontal track. The track fills to each event as it is named; cards alternate above\nand below; an optional \"now\" marker closes it.\ndata: { events: [{ date: \"Aug 11\", label: \"Grok Bot beta launches\", sub?, at?, tone? }], now?: { label: \"Today\", at? } }",
+  "versus": "versus — the wrong way gets struck out, the right way gets checked. Leave out \"right\" for a ban list.\ndata: { left: { title: \"One prompt\", tag: \"DEMO\", items: [{ text, sub?, at? }] },\n        right?: { title: \"A studio\", tag: \"SYSTEM\", items: [{ text, sub?, at? }] },\n        verdict?: { text: \"Ban each cliché *by name*\", at? } }"
+ }
+}

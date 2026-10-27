@@ -1,158 +1,108 @@
 ---
-title: "TrueSight 动画母版（Motion Kit v1）"
-subtitle: "从《Grok Bot × Claude Opus 5.5》28 个场景拆出来的可复用动画系统"
+title: "TrueSight 动画母版 v3"
+subtitle: "不是一套模板，而是一座素材库：风格 × 元素 × 动作 × 布局，由 agent 每期组合出自己的画面"
 ---
 
 # 1. 这是什么
 
-一套「写 JSON 就出片」的动画系统。下期视频只需要写一份 `script.json`（每个场景：用哪个模板、旁白几句、画面里放什么），引擎会自动按旁白时间卡点出动画、渲染、配乐、编码成 MP4。
+写一份 `script.json`，出一部 **1920×1080 / 60 fps** 的视频（正式片每帧 4 子帧运动模糊）。引擎按旁白逐词卡点、确定性逐帧渲染，配乐和音效自动混音。
+
+v3 的核心变化：**母版不再规定画面长什么样**。它提供四层可以自由组合的素材，由做视频的 agent 按每期内容拼出不同的画面：
+
+| 层 | 是什么 | 数量 | 在脚本里怎么用 |
+|---|---|---|---|
+| 风格 look | 整部片的视觉身份：字体、配色、卡片质感、背景纹理、动效节奏、默认转场、字幕样式 | 7 | `"meta": { "look": "editorial" }` |
+| 元素 element | 画面积木：文字、数字、卡片、窗口、浏览器、手机、终端、代码、聊天气泡、通知、推文、PR、文件树、列表、表格、图表、格子阵、箭头、印章、光标、便签…… | 40 | compose 场景里的 `"el"` |
+| 动作 motion | 入场、文字动画、强调、循环、移动、退场，可叠加，挂在旁白的词上 | 66 | `"in": "rise@词"`, `"do": ["pulse@词"]` |
+| 布局 layout | 把画面分成槽位：分栏、三栏、网格、bento、英雄位、环形、层叠…… | 17 | `"layout": "bento"` |
+
+另外有 26 个**现成组合（recipe）**——原来的场景模板（对话、编辑器、看板、对比、反馈循环、章节卡……）。它们同样跟随风格换装，但每期最多占六成，同一个最多用 3 次，不能连着用。
 
 - 位置：`D:\hark\truesight-kit`
-- 示范片：`episodes\grokbot-v2`（用母版把这期重做了一遍，22 个场景，全部由模板生成，零手写场景代码）
-- 原片 28 个手写场景保留在 `reference\grokbot-v1\scenes`，需要特殊画面时可以抄
+- 素材目录（自动生成，含每个元素的可用示例）：`docs/CATALOG.md` / `docs/catalog.json`
+- 素材样片（agent 可以直接看图）：`docs/gallery/`——`looks.jpg`（同一场景的 7 种风格）、`elements-*.jpg`、`motions-*.jpg`（每个动作 5 帧分解）、`layouts.jpg`
+- agent 制作规范：`docs/AGENT.md`（Claude Code 在项目里会通过根目录 `CLAUDE.md` 自动读到）
+- 示范：`episodes/compose-demo`（7 个自由组合场景，neon 风格）、`episodes/grokbot-dev`（全部用旧模板做的一期，可作对照）
 
 ```
 truesight-kit/
-  brand.json              品牌：角色、配色、主题（全频道共用）
+  CLAUDE.md               agent 入口：指向 docs/AGENT.md
+  brand.json              品牌默认值（角色、配色、默认 look）
+  assets/                 配乐、频道 logo
   core/
-    engine.js             引擎：时间轴、转场、标题、字幕、章节条、STEP 角标、QA
-    style.css             视觉 token
-    fonts/                Geist / Noto Sans SC / Maple Mono
-    archetypes/*.js       15 个场景模板
+    engine.js             引擎：时间轴、镜头、转场、标题、字幕、章节条、警告收集、QA
+    looks.js              7 种风格
+    style.css             设计变量（所有颜色/字体/质感都是变量，由风格写入）
+    lib/motion.js         动作库 + 姿态合成器（多个动作叠加在同一元素上）
+    lib/elements.js       元素库
+    lib/layout.js         布局库
+    lib/catalog.js        素材目录导出 + 每个元素的示例
+    archetypes/compose.js 自由组合场景
+    archetypes/*.js       26 个现成组合
   tools/
-    make.ps1              一键：draft / preview / final
-    timeline.py           旁白 → 逐词时间 → timeline.json + narration.wav
-    render.mjs            确定性逐帧渲染（可续跑、可出静帧、可 QA、可手动拖时间预览）
-    mix.py                配乐（低于人声约 27 dB，自动闪避）+ 音效
-    sheet.py              静帧拼图
-  episodes/
-    _template/            新一期从这里复制
-    grokbot-v2/           示范片
-  reference/grokbot-v1/   原片源码
+    make.ps1              draft / preview / voice / final 一键
+    render.mjs            逐帧渲染；look= 换风格预览；lint=1 校验；catalog=1 导出目录；qa=1 质检
+    variety.py            多样性检查（这期是不是又做成了同一部片）
+    gallery.py            生成素材样片 docs/gallery/
+    timeline.py · voice_index.py · align.py · mix.py · chapters.py · sheet.py
 ```
 
-# 2. 新一期怎么做（5 步）
+# 2. 一期怎么做
 
-1. 复制 `episodes\_template` 为 `episodes\<新名字>`。
-2. 写 `script.json`：每个场景选一个 `type`，写 `lines`（旁白，每句 ≤ 18 词）和 `data`（画面内容）。
-3. 出草稿：`.\tools\make.ps1 -Ep episodes\<名字> -Stage draft`
-   → 30 秒内得到每个场景两张静帧拼图 `sheet.jpg` + 小字/出框检查 `qa.json`。
-4. 出预览：`-Stage preview` → 临时配音 + 完整 60fps 预览 MP4（这台机器 4 分钟片约几分钟）。
-5. 出成片：先用 IndexTTS-2.5 生成正式配音（每句一个 wav + 逐词时间 json 放进 `tts\`），再 `-Stage final` → 4 子帧运动模糊、HEVC NVENC、响度 -14 LUFS。
+1. 复制 `episodes\_template`，**先选风格**（按题材气质，并且和最近两期错开），每章一个主题色。
+2. 写旁白（每句一行，≤ 18 词，多用能画出来的具体名词），再给每个场景写一句“观众看到什么”。
+3. 场景用 `compose` 组合为主，结构正好吻合时才用现成组合。
+4. `make.ps1 -Stage draft` → `render.mjs lint=1`（卡点词、素材名、构建错误）→ `variety.py`（多样性硬规则）→ 看 `sheet.jpg`。
+5. `-Stage preview` 看动态 → `-Stage voice` 正式配音 + 逐词对齐 → `-Stage final -Fresh` 出片 + 章节时间戳。
 
-需要手动拖时间看某一帧：`node tools\render.mjs ep=episodes\<名字> serve=1`，浏览器打开它给的地址，改 `?t=12.5`。
+换风格不用改脚本：`node tools/render.mjs ep=… scenes=s03 at=.9 out=probe look=brutal`。
 
-# 3. 场景数据怎么写
+# 3. compose 场景一眼看懂
 
 ```json
-{ "id": "s12", "type": "roster", "theme": "paper",
-  "chapter": "2 · Five roles", "step": 2, "trans": "slide",
-  "label": "The roster", "title": "Five bots, one job each",
-  "lines": ["Step two. The Director turns your request into a storyboard.", "..."],
-  "data": { "items": [ { "cast": "director", "role": "PLAN", "desc": "Request → storyboard", "at": "Director" } ] } }
+{ "id": "s07", "type": "compose", "theme": "mint", "title": "The bot actually looks",
+  "lines": ["It opens the preview, finds the clipped button, and sends it back."],
+  "data": {
+    "layout": { "type": "hero-r", "ratio": 0.55 },
+    "els": [
+      { "id": "shot", "el": "browser", "slot": "visual", "url": "preview.app", "in": "tilt@opens" },
+      { "el": "text", "slot": "text", "style": "title", "text": "Clipped at *320pt*", "in": "words@clipped", "do": ["hl@clipped+0.4"] },
+      { "el": "stamp", "box": [1180, 700, 360, 120], "text": "SENT BACK", "tone": "bad", "in": "stamp@sends" }
+    ],
+    "beats": [ { "at": "clipped", "cam": { "focus": "shot", "z": 1.06 } } ] } }
 ```
 
-| 字段 | 作用 |
-|---|---|
-| `type` | 用哪个模板（第 6 节）。不写 type 就找 `scenes/<id>.js` 手写场景 |
-| `theme` | 背景主题：paper / mint / lavender / lilac / sky / sand / ice / peach / night |
-| `chapter` | 顶部章节进度条按它分段（同名连续场景算一章） |
-| `step` | 右上角显示 `STEP n / N`；不写就不显示 |
-| `trans` | 进入本场景的转场：lift（默认）/ slide / zoom / cut |
-| `label` `title` | 左上角小标签 + 大标题（逐字弹入）；不写 title 就是全屏场景 |
-| `lines` | 旁白，每句一条 |
-| `at` | **卡点**：写旁白里的一个词/短语，元素就在这个词说出来时出现；也可以写秒数；不写就自动均匀分布 |
-| `*文字*` | 任何文字里用星号包起来 = 黄色荧光笔扫过 |
+- 元素放哪：`slot`（布局槽位）、`box: [x, y, w, h]`、或 `x/y/w/h`。
+- 动作写法：`"名字@旁白里的词"`，可加偏移 `+0.3`，也可写秒数；`in` 入场、`do` 强调/移动、`out` 退场、`loop` 循环，可以同时用。
+- `beats`：镜头推近某元素、景深聚焦（其他元素虚化）、在某个词上触发额外动作或音效。
+- 详细规则和 10 种常用画面套路见 `docs/AGENT.md`。
 
-`meta.say` 可以写发音替换（只影响配音，不影响字幕），例如 `{"Grok": "Grock"}`。
+# 4. 风格（look）
 
-# 4. 视觉规范（token）
+| 风格 | 气质 | 字体 | 背景 | 动效节奏 |
+|---|---|---|---|---|
+| clean | 友好的产品发布感 | Geist | 漂移的粉彩光斑 | 默认弹簧 |
+| editorial | 杂志/分析：衬线标题、细线、纸面、单一红色强调 | Georgia + Geist | 纸面横线 | 慢、稳、无倾斜 |
+| blueprint | 工程图：深蓝网格、青色线框、DIN 窄体、等宽标注 | Bahnschrift + JetBrains Mono | 移动的蓝图网格 | 利落、无模糊 |
+| neon | 夜间产品片：近黑、发光边、电紫和青 | Geist + JetBrains Mono | 缓慢扫动的光束 | 有冲劲 |
+| brutal | 新粗野主义：饱和纯色、4px 黑描边、硬投影、粗黑体 | Arial Black | 网点 | 硬、快、无模糊 |
+| glass | 高端消费科技：磨砂玻璃卡片、饱和色场、几何字体 | Century Gothic + Geist | 浓郁光斑 | 柔和 |
+| terminal | 黑客终端：黑绿荧光、全等宽、扫描线、硬切 | JetBrains Mono | CRT 扫描线 | 极快、硬切 |
 
-**画布与网格**：1920×1080 · 左右边距 88 · 标题区 64–200 · 内容区 240–872 · 来源标签 892 · 字幕 968–1036。
+风格通过设计变量生效：所有元素和现成组合只用变量（`var(--ink)`、`var(--surface)`、`var(--fd)`…），所以换风格时整部片一起换装。每期还可以在 `meta.tokens` 里改单个变量（比如强调色），在 `meta.feel` 里调动效节奏。系统字体（Georgia、Bahnschrift 等）只在本机引用，不进仓库。
 
-**颜色**：墨色 `#15161c` · 次要灰 `#6b6e7b` · 红 `#f0443a`（错/风险）· 绿 `#1fbf75`（对/通过）· 蓝 `#3a6cf4` · 琥珀 `#f5a524` · 紫 `#8b5cf6` · 荧光黄 `#ffd66b`。红绿只表达对错，不做装饰。
+# 5. 通用规范（所有风格共享）
 
-**主题背景**：9 套浅色径向渐变 + 1 套 night（深蓝 + 星星，只给"夜间/结尾"用）。同一章节保持同一主题，换章节换主题，观众靠颜色感知进度。
+- **画布**：1920×1080；内容区 x 88–1832，有标题时 y 240–872，无标题 y 110–910；字幕在 968–1036。
+- **字号下限**：正文 ≥ 26，次要 ≥ 22，全大写标签 ≥ 20；`qa=1` 自动检查（装饰性文字用 `data-noqa` 免检）。
+- **镜头**：每场景默认 1.8% 慢推；关键帧缩放 ≤ 1.08；≤ 1.04 的轻推不会裁切内容区，≥ 1.07 的刻意特写才允许裁切；镜头不会把内容推到标题下。
+- **转场**：旧画面 0.3 秒内退场；`lift` `slide` `zoom` `push` `whip`（甩镜）`wipe`（章节）`cut`。
+- **节奏**：每 2–4 秒画面有新东西；元素在说到它的那个词出现；一个词上只放一个强调。
+- **音效**：全部合成，12 种，每种 3 个变体；compose 元素按类型自动配音效，也可指定 `sfx`。
+- **禁用**：卡通回弹、粒子爆炸、所有元素同时淡入、无变化的停顿、只为装饰的红绿色、两个场景文字重影。
 
-**字体**：Geist（英文标题/正文）· Noto Sans SC（中文）· Maple Mono（代码、文件名、时间）。
+# 6. 已知限制
 
-**字号阶梯**（1080p，按手机可读定的下限）：
-
-| 用途 | 字号 |
-|---|---|
-| 全屏金句 statement | 104–120 |
-| 场景大标题 | 60 |
-| 大数字 | 76–110 |
-| 卡片标题 | 32–38 |
-| 正文 / 列表 | 26–34 |
-| 次要说明 | ≥ 22 |
-| 全大写标签 / 角标 | ≥ 20 |
-
-原片大量 14–17px 的小字在手机上看不清，母版全部提到下限以上，并且渲染时 `qa=1` 会自动列出不达标的文字。
-
-**卡片**：白底 · 圆角 22 · 三层柔阴影 · 窗口卡带红黄绿三点标题栏 · 深色终端卡 `#16171f`。
-
-**质感**：背景漂浮虚化圆点（视差）· 5% 胶片颗粒 · night 主题星星闪烁。
-
-# 5. 动效规范
-
-| 项 | 规范 |
-|---|---|
-| 主缓动 | expo-out（快进慢停）；双向用 cubic in-out |
-| 弹簧 | 临界阻尼附近 z = 0.62，只有一点点过冲，**禁止卡通回弹** |
-| 标准入场 | 上移 36px + 0.965→1 缩放 + 10° 前倾回正 + 6px 模糊变清，弹簧 1 秒 |
-| 小元素 | pop：0.55→1 弹簧，可带 -30° 旋转回正（勾、叉、徽章） |
-| 列表 | 先全部半透明占位（0.35–0.45），讲到哪条哪条变实；当前条加浅色底高亮 |
-| 删除线 | 红线从左往右画，0.35 秒；被删的行同时降到 55% 透明 |
-| 荧光笔 | 讲到时从左往右扫，0.45 秒 |
-| 数字 | 从 0 计数到目标值，expo-out，约 0.9 秒 |
-| 标题 | 逐字弹入，每字间隔 22ms |
-| 字幕 | 底部深色胶囊，卡拉 OK 逐词变白，长句按标点自动断成 ≤ 54 字符一段 |
-| 转场 | 0.5 秒重叠；lift（上浮模糊淡出）/ slide（横推）/ zoom（推近）/ cut（硬切，用在"Here's the catch"这类转折） |
-| 相机 | 每个场景全程慢推 1.8% |
-| 角色 | 一直轻微浮动、随机眨眼；被点名的角色眼睛看镜头，其他角色看向它 |
-| 节奏 | 每 2–4 秒画面必须有新东西；全屏金句场景第一行最晚 0.3 秒出现 |
-| 音效 | tick（列表）、pop（出现）、swoosh/whoosh（转场）、ding（完成）、click（按钮），全部很轻，和 BGM 一起压在人声下 |
-
-**禁用清单**（和片中讲的 house style 一致，频道自己也遵守）：渐变背景上的居中标题 · 所有元素同时淡入 · 粒子爆炸 · 弹跳缓动 · 无画面变化的停顿 · 只是装饰的红绿色。
-
-# 6. 15 个场景模板
-
-| 模板 | 用途 | 原片里对应 | 关键 data |
-|---|---|---|---|
-| `hero` | 开场：成片先占满全屏 2–3 秒，再缩到右侧，标题从左边进 | e01 | `proof.frames/image`, `logos`, `title`, `meta` |
-| `statement` | 全屏金句，逐词弹入，可多行，老的一行退成灰 | 新增 | `lines[{text, at}]`, `eyebrow`, `sub` |
-| `versus` | 错的划掉 / 对的打勾；只写 left 就是禁用清单；可带底部结论条 | e02 e05 e08 e12 | `left`, `right`, `verdict` |
-| `post` | 推文/引用作为证据，关键句讲到时荧光笔扫过，右侧"这意味着什么"或数据，自动来源标签 | e02 e04 | `author`, `text`, `hlAt`, `side`/`stats`, `source` |
-| `flow` | 节点 + 曲线连线 + 流动光点：路由、共享、管线 | e04 e07 | `cols`, `edges`, `note` |
-| `terminal` | 左清单打勾 + 右终端打字 + 进度条 | e09 e18 e21 | `list`, `term.cmd/out/progress` |
-| `stats` | 大数字计数 + 对比条 + 来源标签 | e10 e20 | `items`, `bars`, `source` |
-| `rules` | 编号规则文件，讲到哪条亮哪条 | e11 | `file`, `items[{text, code}]` |
-| `stepper` | 状态机：圆点逐个打勾 + 大字显示当前状态 | e15 | `steps[{label, file}]`, `caption` |
-| `grid` | 分镜/画廊格子按节拍弹出，底部审批按钮 | e17 | `items[{label, glyph}]`, `footer` |
-| `scorecard` | 评分表：第 1 轮不及格标红、只退回最差 3 条，第 2 轮通过盖章 | e23 | `rows[{r1, r2, issue}]`, `side` |
-| `clock` | 时间线 + 大时钟，播放头扫过事件 | e24 | `from`, `to`, `events` |
-| `cards` | 问题 → 解法，2–4 列，解法从底部升起 | e26 | `items[{title, fix}]` |
-| `checklist` | 结尾行动清单 + 解锁条 + 简介资源 | e27 e28 | `items`, `gate`, `resources` |
-| `roster` | 角色卡一排，点名即亮，轨道上的小球跟着走 | e03 e13 | `items[{cast, role, desc, lines/code/big}]` |
-
-模板覆盖不了的画面（比如原片 e01 的床和闹钟插画、e16 的弹簧曲线），照旧写 `scenes/<id>.js` 手写场景，引擎优先用手写的。原片 28 个场景都可以直接拿来改。
-
-# 7. 相比原片升级了什么
-
-1. **成片先行**：`hero` 前 2.6 秒直接放成片画面（带 REC 时间码和"Made overnight"标签），然后缩进卡片，解决"前 3 秒没证据"。
-2. **章节进度条**：顶部分段进度条，每段一章，看得到"还剩多少"。
-3. **STEP 角标**：右上角 `STEP 3 / 6`，解决原片步骤没编号的问题。
-4. **来源标签**：所有数据、引用场景自动带 Source 标签。
-5. **全屏金句场景**：原片 28 个场景都是"左上标题 + 卡片"同一种构图，母版加入全屏大字场景用于钩子、转折、结尾，打破单调。
-6. **4 种转场**：原片只有一种，现在可按语气选，转折处用硬切。
-7. **手机字号下限 + 自动 QA**：渲染静帧时自动列出小于 20–22px 的字和出框文字。
-8. **内容区垂直居中**：条目少时卡片自动收紧居中，不再出现半张空卡片。
-9. **按词卡点**：`at` 写旁白里的词即可，不用手算秒数；换配音后时间自动重算。
-10. **结尾闭环**：示范片结尾用 night 主题金句回扣开头。
-
-# 8. 已知限制
-
-- 示范片用的是临时配音（edge-tts），只为对时间；正式片按原流程走 IndexTTS-2.5。
-- 示范片开场的"成片"素材借用了原片画面（带原片字幕），正式使用时换成干净的成片帧。
-- `stats` 里"用户报告的硬件"等数据沿用原片说法，发布前仍需核实来源。
+- 风格用到的系统字体只保证本机可用；换机器需要同样的 Windows 字体，或在 `looks.js` 里换成仓库自带字体。
+- `phone` / `browser` 默认是示意 mock；有真实截图时用 `image` 属性。
+- 数字和引用需要标来源（现成组合自带；compose 里用 `source` 元素）。
