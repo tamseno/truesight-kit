@@ -45,8 +45,7 @@
     "shape": "circle"
    }
   },
-  "look": "blueprint",
-  "music": "digital_clouds.wav"
+  "look": "blueprint"
  },
  "scenes": [
   {
