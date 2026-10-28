@@ -34,15 +34,27 @@ def lint(ep, force):
     print('> lint'); out = r.stdout; warns = [l.strip() for l in out.splitlines() if l.startswith('  ')]
     n = next((l for l in out.splitlines() if l.startswith('WARN')), 'WARN ?'); print('  ' + n); [print('   ', w) for w in warns[:20]]
     if not n.endswith(' 0') and not force: raise Fail('lint warnings — fix them, or pass --force')
+_NV = None
+def nvenc_ok():
+    """NVIDIA hardware encoding if this machine has it (one tiny test encode), else the software encoders — same tags, same loudness"""
+    global _NV
+    if _NV is None:
+        r = subprocess.run([FF, '-v', 'error', '-f', 'lavfi', '-i', 'color=c=black:s=256x256:d=0.1', '-c:v', 'h264_nvenc', '-f', 'null', '-'], capture_output=True)
+        _NV = r.returncode == 0
+    return _NV
 def encode(ep, name, sub, codec, tl):
     frames = os.path.join(ep, f'frames_{name}'); out = os.path.join(ep, f'{os.path.basename(ep)}_{name}.mp4')
     if codec == 'auto': codec = 'hevc' if tl['w'] > tl['h'] else 'h264'
-    venc = ['-c:v', 'hevc_nvenc', '-tag:v', 'hvc1', '-bsf:v', f'hevc_metadata={TAGS}'] if codec == 'hevc' else ['-c:v', 'h264_nvenc', '-profile:v', 'high', '-bsf:v', f'h264_metadata={TAGS}']
+    hw = nvenc_ok(); q = 17 if sub > 1 else 22
+    if hw:
+        venc = (['-c:v', 'hevc_nvenc', '-tag:v', 'hvc1', '-bsf:v', f'hevc_metadata={TAGS}'] if codec == 'hevc' else ['-c:v', 'h264_nvenc', '-profile:v', 'high', '-bsf:v', f'h264_metadata={TAGS}']) + [
+            '-preset', 'p7' if sub > 1 else 'p5', '-tune', 'hq', '-rc', 'vbr', '-cq', q, '-b:v', 0, '-maxrate', '40M', '-bufsize', '80M', '-spatial-aq', 1, '-temporal-aq', 1]
+    else:  # software: x265 / x264 at a visually matching quality
+        venc = (['-c:v', 'libx265', '-tag:v', 'hvc1', '-crf', q + 1, '-x265-params', 'log-level=error:colorprim=bt709:transfer=bt709:colormatrix=bt709'] if codec == 'hevc' else ['-c:v', 'libx264', '-profile:v', 'high', '-crf', q - 1]) + ['-preset', 'slow' if sub > 1 else 'medium']
     vf = (f"tmix=frames={sub},select='eq(mod(n\\,{sub})\\,{sub - 1})',setpts=N/(60*TB)," if sub > 1 else '') + 'scale=in_range=full:out_range=tv,format=yuv420p'
     run([FF, '-y', '-v', 'error', '-stats', '-framerate', 60 * sub, '-i', os.path.join(frames, 'f%06d.jpg'), '-i', os.path.join(ep, 'mix.wav'), '-vf', vf, '-r', 60, *venc,
-         '-preset', 'p7' if sub > 1 else 'p5', '-tune', 'hq', '-rc', 'vbr', '-cq', 17 if sub > 1 else 22, '-b:v', 0, '-maxrate', '40M', '-bufsize', '80M', '-spatial-aq', 1, '-temporal-aq', 1,
          '-bf', 3, '-g', 120, '-color_range', 'tv', '-color_primaries', 'bt709', '-color_trc', 'bt709', '-colorspace', 'bt709',
-         '-af', 'loudnorm=I=-14:TP=-1:LRA=11', '-c:a', 'aac', '-b:a', '256k', '-ar', 48000, '-movflags', '+faststart', '-shortest', out], f'encode {codec} {tl["w"]}x{tl["h"]} 60 fps')
+         '-af', 'loudnorm=I=-14:TP=-1:LRA=11', '-c:a', 'aac', '-b:a', '256k', '-ar', 48000, '-movflags', '+faststart', '-shortest', out], f'encode {codec} ({"NVENC" if hw else "software"}) {tl["w"]}x{tl["h"]} 60 fps')
     return out
 def render_video(ep, name, sub, a, tl):
     frames = os.path.join(ep, f'frames_{name}')
@@ -68,9 +80,11 @@ def video_hash(ep):
     for k in ('publish', 'thumb', 'thumb_theme', 'status', 'todo', 'source'): M.pop(k, None)
     return hashlib.md5(json.dumps({**S, 'meta': M}, sort_keys=True, ensure_ascii=False).encode()).hexdigest()[:12]
 def stage_final(ep, a):
+    voice = 'index'
     if not has_voice(ep):
-        raise Fail('no final voice yet — run the voice stage first (or "all")')
-    timeline(ep, 'index'); lint(ep, a.force); tl = json.load(open(os.path.join(ep, 'timeline.json'), encoding='utf8'))
+        if cfg()['tts_python']: raise Fail('no final voice yet — run the voice stage first (or "all")')
+        voice = 'edge'; print('  no IndexTTS configured (kit.config.json "tts_python") — the final uses the edge-tts voice')
+    timeline(ep, voice); lint(ep, a.force); tl = json.load(open(os.path.join(ep, 'timeline.json'), encoding='utf8'))
     out = render_video(ep, 'final', 4, a, tl)
     json.dump({'mp4': os.path.basename(out), 'video_hash': video_hash(ep), 'at': time.strftime('%Y-%m-%dT%H:%M:%S')}, open(os.path.join(ep, 'final.json'), 'w', encoding='utf8'), indent=1)
     if tl['w'] > tl['h']: run([PY, 'tools/chapters.py', ep], 'chapters')
@@ -78,7 +92,10 @@ def stage_final(ep, a):
     for tool, label in (('tools/thumb.py', 'thumbnail'), ('tools/publish.py', 'publish sheet')):
         if os.path.exists(os.path.join(KIT, tool)): run([PY, tool, ep], label)
     return out
-STAGES = {'draft': [stage_draft], 'preview': [stage_preview], 'voice': [stage_voice], 'final': [stage_final], 'all': [stage_voice, stage_final]}
+def stage_all_voice(ep, a):
+    if cfg()['tts_python']: stage_voice(ep, a)
+    else: print('  voice stage skipped: no IndexTTS configured — the final uses the edge-tts voice')
+STAGES = {'draft': [stage_draft], 'preview': [stage_preview], 'voice': [stage_voice], 'final': [stage_final], 'all': [stage_all_voice, stage_final]}
 def main(argv=None):
     p = argparse.ArgumentParser(description='script.json -> checked MP4'); p.add_argument('ep'); p.add_argument('stage', choices=list(STAGES))
     p.add_argument('--fresh', action='store_true'); p.add_argument('--quiet', action='store_true'); p.add_argument('--force', action='store_true')

@@ -164,7 +164,7 @@ One kit, every platform. Set `"meta": { "format": "…" }` (default `landscape`)
 
 Always 60 fps. What the format changes for you: canvas, header position (it wraps on narrow canvases), the content
 area every layout divides, element scale (`ui`: compose elements lay out at slot ÷ ui and scale up, so a phone gets
-bigger type — vertical 1.5×), caption style, progress bar, safe zones, and the codec (`make.ps1 -Codec auto`:
+bigger type — vertical 1.5×), caption style, progress bar, safe zones, and the codec (`make.py --codec auto`:
 HEVC for landscape, H.264 for the rest). Layouts follow the area's shape: on a tall area `split`, `hero`, `row`,
 `thirds`, `cols`, `bento`, `grid`, `cascade`, `columns-hero` stack top-to-bottom and keep their slot names — so a
 scene built with slots reflows into any format. `box` coordinates are canvas pixels and do not reflow (lint warns

@@ -16,3 +16,4 @@ queue/
 episodes/*/status.json
 assets/bgm/gen/
 episodes/*/final.json
+__pycache__/

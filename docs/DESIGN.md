@@ -16,7 +16,7 @@ v3 的核心变化：**母版不再规定画面长什么样**。它提供四层�
 | 动作 motion | 入场、文字动画、强调、循环、移动、退场，可叠加，挂在旁白的词上 | 66 | `"in": "rise@词"`, `"do": ["pulse@词"]` |
 | 布局 layout | 把画面分成槽位：分栏、三栏、网格、bento、英雄位、环形、层叠…… | 17 | `"layout": "bento"` |
 
-另外有 26 个**现成组合（recipe）**——原来的场景模板（对话、编辑器、看板、对比、反馈循环、章节卡……）。它们同样跟随风格换装，但每期最多占六成，同一个最多用 3 次，不能连着用。
+另外有 25 个**现成组合（recipe）**——原来的场景模板（对话、编辑器、看板、对比、反馈循环、章节卡……）。它们同样跟随风格换装，但每期最多占六成，同一个最多用 3 次，不能连着用。
 
 - 位置：`D:\hark\truesight-kit`
 - 素材目录（自动生成，含每个元素的可用示例）：`docs/CATALOG.md` / `docs/catalog.json`
@@ -44,8 +44,9 @@ truesight-kit/
     lib/layout.js         布局库
     lib/catalog.js        素材目录导出 + 每个元素的示例
     archetypes/compose.js 自由组合场景
-    archetypes/*.js       26 个现成组合
+    archetypes/*.js       25 个现成组合（加上 compose 共 26 种场景）
   tools/
+    ts.py                 总入口：next（这一期到哪一步、下一条命令）· new · status · guide · doctor
     make.py               一期一条命令：draft / preview / voice / final / all（make.ps1 只是转发）
     batch.py              批量出片：多期排队、配音与渲染并行、失败不中断、日志在 queue/
     cutdown.py            长视频 → 短视频草稿
