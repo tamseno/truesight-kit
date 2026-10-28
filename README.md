@@ -15,7 +15,7 @@ It makes YouTube long-form, Shorts, TikTok and Reels on a deterministic renderer
 [![Python](https://img.shields.io/badge/python-3.11%2B-3776AB?style=flat-square&logo=python&logoColor=white)](https://www.python.org)
 [![Stars](https://img.shields.io/github/stars/tamseno/truesight-kit?style=flat-square&color=ffd23f)](https://github.com/tamseno/truesight-kit/stargazers)
 
-[Quick start](#quick-start) · [How it works](#how-it-works) · [Gallery](#gallery) · [Docs](docs/README.md) · [Playbook](docs/PLAYBOOK.md) · [中文](README.zh-CN.md)
+[Use with an agent](#let-an-agent-make-it) · [Quick start](#quick-start) · [How it works](#how-it-works) · [Gallery](#gallery) · [Docs](docs/README.md) · [Playbook](docs/PLAYBOOK.md) · [中文](README.zh-CN.md)
 
 </div>
 
@@ -41,6 +41,32 @@ for the platform, renders it frame-perfect, and then checks its own work before 
 - **Ready to ship.** Output is H.264/HEVC with BT.709 tags, plus word-timed SRT captions, three thumbnail variants and a publish sheet with title, description, chapters, sources and hashtags.
 - **Built for volume.** A batch queue overlaps voice synthesis with rendering, one command scaffolds a Short from a long video, and the music library is original and license-free.
 - **Made for AI agents.** It ships `AGENTS.md`, a playbook with a check at every step, a front-door CLI that always prints the next command, and an Agent Skill for Claude Code, Codex and Cursor.
+
+## Let an agent make it
+
+The quickest way to use the kit: paste this into Claude Code, Codex, Cursor or any coding agent that can run commands, fill in the first four lines, and send.
+
+```text
+Make a video with https://github.com/tamseno/truesight-kit
+
+Topic: <what the video is about, plus any facts or links it must use>
+Format: <YouTube long-form 16:9 | Short / TikTok / Reels 9:16>
+Length: <e.g. 45 seconds | 6 minutes>
+Look: <clean | editorial | blueprint | neon | brutal | glass | terminal, or pick one that fits>
+
+1. Clone the repo if it isn't here yet. Read AGENTS.md and docs/PLAYBOOK.md and follow them.
+2. Set up: npm install; a Python venv with requirements.txt; copy kit.config.example.json to
+   kit.config.json; run `python tools/ts.py doctor` (the voice clone is optional).
+3. Research the topic from primary sources and keep the links; they become on-screen sources.
+4. Create the episode with `python tools/ts.py new <name>` (add `--format vertical` for a Short) and
+   write episodes/<name>/script.json following docs/AGENT.md: narration first, then the scenes.
+5. Repeat `python tools/ts.py next <name>`: run the command it prints and fix what it lists, until it
+   says done. Look at sheet.jpg yourself before the final render.
+6. Hand me the MP4, the best of the three thumbnails, captions.srt and the text in publish.md.
+   Don't commit or push anything unless I ask.
+```
+
+Already inside the repo with Claude Code? The skill is enough: *"Use truesight-video to make a 40-second Short about why AI agents need proof, in the brutal look."*
 
 ## Quick start
 
@@ -161,8 +187,7 @@ The workflow is written once and every agent reads it.
 - [`docs/PLAYBOOK.md`](docs/PLAYBOOK.md) goes from topic to published video, with a check at every step.
 - `python tools/ts.py next <episode>` is the loop an agent runs until it says `done`.
 - The **`truesight-video` skill** lives in `.agents/skills/` (mirrored to `.claude/skills/`). `python tools/ts.py install-skill` makes it available in any folder.
-
-> *"Use truesight-video to make a 40-second Short about why AI agents need proof, in the brutal look."*
+- A ready-to-paste prompt is in [Let an agent make it](#let-an-agent-make-it).
 
 ## Performance
 

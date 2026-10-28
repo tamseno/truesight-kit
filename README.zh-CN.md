@@ -13,7 +13,7 @@
 [![Agents](https://img.shields.io/badge/agents-AGENTS.md%20%C2%B7%20skill-f5a524?style=flat-square)](#为-ai-agent-而建)
 [![Stars](https://img.shields.io/github/stars/tamseno/truesight-kit?style=flat-square&color=ffd23f)](https://github.com/tamseno/truesight-kit/stargazers)
 
-[快速开始](#快速开始) · [工作原理](#工作原理) · [样片](#样片) · [文档](docs/README.md) · [出片流程](docs/PLAYBOOK.md) · [English](README.md)
+[让 agent 直接做](#让-agent-直接做) · [快速开始](#快速开始) · [工作原理](#工作原理) · [样片](#样片) · [文档](docs/README.md) · [出片流程](docs/PLAYBOOK.md) · [English](README.md)
 
 </div>
 
@@ -38,6 +38,32 @@
 - **拿来就能发。** H.264/HEVC 带 BT.709 色彩标记，另有逐词计时的 SRT 字幕、三张缩略图备选，以及含标题、简介、章节、来源和话题标签的发布清单。
 - **为量产而建。** 批量队列让下一期配音和这一期渲染同时进行；一条命令从长视频生成 Short 草稿；配乐是原创生成的，没有版权问题。
 - **为 AI agent 而建。** 自带 `AGENTS.md`、每步都有检查点的出片流程、永远告诉你下一条命令的命令行入口，以及可在 Claude Code、Codex、Cursor 里使用的 Agent Skill。
+
+## 让 agent 直接做
+
+最快的用法：把下面这段贴给 Claude Code、Codex、Cursor 或任何能执行命令的编程 agent，填好前四行，发出去就行。
+
+```text
+用 https://github.com/tamseno/truesight-kit 做一条视频。
+
+主题：<视频讲什么，以及必须用到的事实或链接>
+画幅：<YouTube 横屏长视频 16:9 | Short / TikTok / Reels 竖屏 9:16>
+时长：<例如 45 秒 | 6 分钟>
+风格：<clean | editorial | blueprint | neon | brutal | glass | terminal，或者你挑一个合适的>
+
+1. 如果本地还没有这个仓库，先克隆下来。读 AGENTS.md 和 docs/PLAYBOOK.md，并照着做。
+2. 准备环境：npm install；建 Python 虚拟环境并安装 requirements.txt；把 kit.config.example.json
+   复制成 kit.config.json；运行 `python tools/ts.py doctor`（声音克隆可以不装）。
+3. 从一手来源查资料，保留链接，它们会作为来源显示在画面上。
+4. 用 `python tools/ts.py new <名字>` 建一期（短视频加 `--format vertical`），按 docs/AGENT.md
+   写 episodes/<名字>/script.json：先写旁白，再写场景。
+5. 反复运行 `python tools/ts.py next <名字>`：执行它给出的命令，修好它列出的问题，直到显示 done。
+   出正式版之前，自己看一遍 sheet.jpg。
+6. 最后交给我：成片 MP4、三张缩略图里最好的一张、captions.srt，以及 publish.md 里的文案。
+   除非我要求，不要提交或推送任何东西。
+```
+
+已经在这个仓库里用 Claude Code？直接用 skill 就行：*"用 truesight-video 做一条 40 秒的 Short，讲为什么 AI agent 需要交付证据，用 brutal 风格。"*
 
 ## 快速开始
 
@@ -158,8 +184,7 @@ flowchart LR
 - [`docs/PLAYBOOK.md`](docs/PLAYBOOK.md) 从选题到发布，每一步都有检查点。
 - `python tools/ts.py next <剧集>` 是 agent 循环执行的命令，直到它显示 `done`。
 - **`truesight-video` skill** 在 `.agents/skills/`（`.claude/skills/` 里是同一份）；`python tools/ts.py install-skill` 可以装到全局，在任何文件夹都能用。
-
-> *"用 truesight-video 做一条 40 秒的 Short，讲为什么 AI agent 需要交付证据，用 brutal 风格。"*
+- 可以直接复制的提示词见 [让 agent 直接做](#让-agent-直接做)。
 
 ## 性能
 
