@@ -1,11 +1,19 @@
 # narration + BGM (looped with crossfades, ducked to ~27 dB under the voice while speaking) + subtle SFX from cues.json -> <ep>/mix.wav
 #   python tools/mix.py episodes/<name> [bgm.wav]
+# Music: argv, else meta.music (a mood from tools/bgm.py, "mood-N", or a file in assets/bgm), else the look's mood
+# (vertical formats default to "drive"). The variant is picked from the episode name, so consecutive videos differ.
 import json, wave, subprocess, sys, os, numpy as np, imageio_ffmpeg
 from scipy.signal import lfilter
 EP = os.path.abspath(sys.argv[1]); KIT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-BGM = sys.argv[2] if len(sys.argv) > 2 else os.path.join(KIT, 'assets', 'bgm', 'digital_clouds.wav')
 FF = imageio_ffmpeg.get_ffmpeg_exe(); SR = 48000
 TL = json.load(open(os.path.join(EP, 'timeline.json'), encoding='utf8')); TOT = TL['total'] + 1.0; N = int(TOT * SR)
+LOOK_MOOD = {'clean': 'focus', 'editorial': 'minimal', 'blueprint': 'focus', 'neon': 'upbeat', 'brutal': 'curious', 'glass': 'warm', 'terminal': 'lofi'}
+if len(sys.argv) > 2: BGM = sys.argv[2]
+else:
+    sys.path.insert(0, os.path.dirname(os.path.abspath(__file__))); import bgm as BG
+    meta = TL.get('meta', {}); spec = meta.get('music') or ('drive' if meta.get('format') in ('vertical', 'short') else LOOK_MOOD.get(meta.get('look', 'clean'), 'focus'))
+    BGM = BG.pick(spec, os.path.basename(EP))
+print('music', os.path.relpath(BGM, KIT))
 def load(p, ch=2):
     raw = subprocess.run([FF, '-v', 'error', '-i', p, '-f', 'f32le', '-ac', str(ch), '-ar', str(SR), '-'], capture_output=True).stdout
     return np.frombuffer(raw, np.float32).reshape(-1, ch).copy()
@@ -81,16 +89,19 @@ def sfx(kind, v):
 S = np.zeros(N, np.float32)
 try: cues = json.load(open(os.path.join(EP, 'cues.json')))
 except Exception: cues = []
-cues = sorted(cues, key=lambda c: c['t']); last = {}
+cues = sorted(cues, key=lambda c: c['t']); last = {}; placed = []
 for ci, c in enumerate(cues):
     kind = c['type']
     if kind in ('tick', 'pop', 'click') and c['t'] - last.get(kind, -9) < .07: continue  # de-flam near-duplicates
+    near = [x for x in placed if c['t'] - x < .15] if kind != 'riser' else []
+    if len(near) >= 2: continue  # a cut with three things landing at once: two sounds are plenty
+    duck = .45 if near else 1; placed.append(c['t'])
     last[kind] = c['t']; s = sfx(kind, 1 + ci % 3)
     if kind == 'riser': i = int((c['t'] - len(s) / SR) * SR)  # risers END on their cue
     else: i = int(c['t'] * SR)
     if i < 0: s = s[-i:]; i = 0
     n = min(len(s), N - i)
-    if n > 0: S[i:i + n] += s[:n] * min(1, c.get('gain', 1))
+    if n > 0: S[i:i + n] += s[:n] * min(1, c.get('gain', 1)) * duck
 mix = music + nar[:, None] + S[:, None] * .35
 print('voice/music dB during speech', round(20 * np.log10(rms(nar[act]) / (rms(music.mean(1)[act]) + 1e-12)), 1))
 mix = mix / np.abs(mix).max() * .95

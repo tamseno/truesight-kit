@@ -17,7 +17,7 @@
   { "id": "h3", "type": "compose", "theme": "mint", "chapter": "short", "trans": "whip",
     "lines": ["Here's how it works: [step one], then [step two], then [step three]."],
     "data": { "layout": { "type": "row", "n": 3, "gap": 70 }, "els": [
-      { "id": "p1", "el": "card", "slot": 0, "icon": "chat", "title": "[Step one]", "in": "rise@one" },
+      { "id": "p1", "el": "card", "slot": 0, "icon": "chat", "title": "[Step one]", "in": "rise@works", "do": ["pulse@one"] },
       { "id": "p2", "el": "card", "slot": 1, "icon": "term", "title": "[Step two]", "in": "rise@two" },
       { "id": "p3", "el": "card", "slot": 2, "icon": "check", "title": "[Step three]", "in": "rise@three", "do": ["glow@three+0.4"] },
       { "el": "arrow", "from": "p1", "to": "p2", "bend": 0, "in": "fade@two" }, { "el": "arrow", "from": "p2", "to": "p3", "bend": 0, "in": "fade@three" } ] } },

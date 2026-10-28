@@ -1,5 +1,5 @@
 {
- "meta": { "title": "Build an Overnight AI Motion Design Studio (Grok Bot × Claude Opus 5.5)", "edge_voice": "en-US-AndrewMultilingualNeural", "edge_rate": "+2%" },
+ "meta": { "music": "digital_clouds.wav", "title": "Build an Overnight AI Motion Design Studio (Grok Bot × Claude Opus 5.5)", "edge_voice": "en-US-AndrewMultilingualNeural", "edge_rate": "+2%" },
  "scenes": [
   { "id": "s01", "type": "hero", "theme": "paper", "chapter": "Hook",
     "lines": ["You go to bed with an idea. You wake up to a finished, reviewed motion graphic.", "No After Effects. No timeline. Five bots on one cloud computer, working the night shift."],

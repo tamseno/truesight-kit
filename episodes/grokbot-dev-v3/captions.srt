@@ -1,0 +1,694 @@
+1
+00:00:00,163 --> 00:00:04,303
+It's eight a.m. You haven't touched
+your laptop since last night.
+
+2
+00:00:04,411 --> 00:00:05,711
+But your bot has been busy.
+
+3
+00:00:05,731 --> 00:00:07,551
+Nine pull requests ready for review.
+
+4
+00:00:07,811 --> 00:00:09,131
+Four already merged.
+
+5
+00:00:09,313 --> 00:00:11,073
+And one that needs a human.
+
+6
+00:00:11,093 --> 00:00:12,653
+That's you.
+
+7
+00:00:13,605 --> 00:00:14,625
+This isn't a fantasy.
+
+8
+00:00:14,645 --> 00:00:18,905
+In xAI's own engineering guide, one
+engineer describes managing fifteen
+
+9
+00:00:19,165 --> 00:00:22,085
+cloud coding agents by hand.
+
+10
+00:00:22,308 --> 00:00:27,048
+Now their bots manage more than two
+hundred of them at the same time.
+
+11
+00:00:27,943 --> 00:00:29,463
+The difference isn't a better prompt.
+
+12
+00:00:29,483 --> 00:00:31,770
+It's the job you give Grok Bot.
+
+13
+00:00:32,430 --> 00:00:33,870
+Most people make it the coder.
+
+14
+00:00:33,890 --> 00:00:37,150
+The people shipping the
+most make it the manager.
+
+15
+00:00:38,207 --> 00:00:42,687
+This video is the playbook: how to
+set it up, how to hand off work, and
+
+16
+00:00:42,707 --> 00:00:45,347
+how to keep the loop
+closed while you sleep.
+
+17
+00:00:46,229 --> 00:00:50,329
+Here's the trap. Grok Bot has a terminal
+and a browser on a cloud computer,
+
+18
+00:00:50,649 --> 00:00:52,209
+so yes, it can write code.
+
+19
+00:00:52,418 --> 00:00:56,098
+But every bot shares that one machine
+and its logins, and you'd be reviewing
+
+20
+00:00:56,118 --> 00:00:58,878
+a chat transcript instead of a diff.
+
+21
+00:00:59,203 --> 00:01:01,103
+So give it the job it's built for.
+
+22
+00:01:01,123 --> 00:01:04,943
+It hands the code to a cloud agent,
+demands proof, and watches the pull
+
+23
+00:01:04,963 --> 00:01:06,603
+request until it's green.
+
+24
+00:01:07,425 --> 00:01:08,625
+Think of it as two loops.
+
+25
+00:01:08,665 --> 00:01:12,565
+The inner loop is a coding agent:
+one repo, one task, real tests.
+
+26
+00:01:13,044 --> 00:01:14,604
+The outer loop is Grok Bot.
+
+27
+00:01:14,624 --> 00:01:19,204
+It reads Slack, the bug tracker and
+your messages, and turns them into that
+
+28
+00:01:19,224 --> 00:01:19,844
+one task.
+
+29
+00:01:20,170 --> 00:01:22,570
+The brainstorming and the
+dead ends stay outside.
+
+30
+00:01:22,590 --> 00:01:25,710
+The agent only ever sees a clean brief.
+
+31
+00:01:26,446 --> 00:01:31,086
+And on September thirtieth, the Grok
+Bot team leaned straight into this.
+
+32
+00:01:31,286 --> 00:01:35,746
+Bots can now hand off coding tasks to
+Cursor, manage pull requests through
+
+33
+00:01:35,766 --> 00:01:39,126
+GitHub, and share video
+demos of what they build.
+
+34
+00:01:40,019 --> 00:01:44,239
+So split the work. The bot gathers
+context and writes the brief.
+
+35
+00:01:44,259 --> 00:01:46,619
+The agent edits code and runs the tests.
+
+36
+00:01:46,947 --> 00:01:48,907
+The bot checks the proof
+and keeps going overnight.
+
+37
+00:01:48,927 --> 00:01:50,767
+And merging stays with you,
+
+38
+00:01:51,327 --> 00:01:53,527
+unless the change is genuinely low risk.
+
+39
+00:01:54,348 --> 00:01:58,528
+Chapter one. Set up the team
+before you hand it any work.
+
+40
+00:01:59,347 --> 00:02:03,507
+In the official guide, each engineer
+bot owns one area: iOS, the desktop
+
+41
+00:02:03,527 --> 00:02:07,647
+app and its CI, infrastructure,
+Android, and the bot harness itself.
+
+42
+00:02:07,864 --> 00:02:12,164
+They can work across areas, but each
+has its own memory and limited context,
+
+43
+00:02:12,564 --> 00:02:15,057
+so they're sharpest where
+they own the specs.
+
+44
+00:02:16,036 --> 00:02:19,256
+Then write each bot's
+role in three layers.
+
+45
+00:02:19,646 --> 00:02:20,886
+Rules that never change.
+
+46
+00:02:20,946 --> 00:02:24,486
+The job it owns. And the current
+assignment, which you can swap without
+
+47
+00:02:24,506 --> 00:02:25,466
+touching the rules.
+
+48
+00:02:26,268 --> 00:02:27,968
+One warning before you connect anything.
+
+49
+00:02:27,988 --> 00:02:30,828
+Every bot on your account
+shares one cloud computer,
+
+50
+00:02:31,288 --> 00:02:33,468
+with the same files and logins.
+
+51
+00:02:33,768 --> 00:02:35,688
+Separate bots are not a security boundary.
+
+52
+00:02:35,708 --> 00:02:38,048
+So give them a fork or a scoped token.
+
+53
+00:02:38,608 --> 00:02:39,888
+Never deploy keys.
+
+54
+00:02:40,200 --> 00:02:43,680
+Enter secrets through the secure input,
+never in chat, and keep them out
+
+55
+00:02:43,700 --> 00:02:46,420
+of slash workspace, where
+every bot can read them.
+
+56
+00:02:47,152 --> 00:02:49,412
+Chapter two. The handoff.
+
+57
+00:02:50,545 --> 00:02:51,785
+Here's what that looks like.
+
+58
+00:02:51,805 --> 00:02:54,145
+You drop a one-line bug report.
+
+59
+00:02:54,527 --> 00:02:58,927
+The bot pulls the Slack thread and
+the crash trace, then starts a Cursor
+
+60
+00:02:58,947 --> 00:03:01,207
+cloud agent with the right skills loaded.
+
+61
+00:03:01,357 --> 00:03:04,887
+And it says, up front, what
+proof it expects back.
+
+62
+00:03:05,958 --> 00:03:07,518
+That brief is the whole game.
+
+63
+00:03:07,538 --> 00:03:10,218
+The task. The context it already gathered.
+
+64
+00:03:10,450 --> 00:03:11,550
+Which skills to load.
+
+65
+00:03:11,570 --> 00:03:12,670
+What proof to bring back.
+
+66
+00:03:12,690 --> 00:03:15,990
+And when to stop and ask,
+instead of guessing.
+
+67
+00:03:17,226 --> 00:03:19,846
+That's the outer loop
+protecting the inner one.
+
+68
+00:03:19,866 --> 00:03:21,706
+The messy thinking stays with the bot.
+
+69
+00:03:22,086 --> 00:03:23,906
+The agent gets a clean task.
+
+70
+00:03:24,733 --> 00:03:27,573
+Chapter three. Close the loop.
+
+71
+00:03:28,356 --> 00:03:32,896
+The single most important idea in the
+guide: give the agent a complete feedback
+
+72
+00:03:32,916 --> 00:03:33,436
+loop.
+
+73
+00:03:33,577 --> 00:03:35,717
+The agent works and attaches proof.
+
+74
+00:03:35,737 --> 00:03:39,637
+The bot checks it, and if it doesn't
+match the request, it pushes back.
+
+75
+00:03:39,812 --> 00:03:42,232
+Round after round, until the goal is met.
+
+76
+00:03:42,632 --> 00:03:45,112
+Not until the agent says it's done.
+
+77
+00:03:46,067 --> 00:03:47,947
+Cloud agents can attach screenshots,
+
+78
+00:03:48,627 --> 00:03:51,007
+and the bot really looks at them.
+
+79
+00:03:51,318 --> 00:03:54,678
+Here, the button is still clipped on
+the smallest screen, so it goes back
+
+80
+00:03:54,698 --> 00:03:56,418
+to the agent instead of to you.
+
+81
+00:03:56,527 --> 00:04:00,227
+Round two. Fixed, tests green, verified.
+
+82
+00:04:01,306 --> 00:04:04,766
+For that loop to work, the agent has
+to drive the stack end to end: launch
+
+83
+00:04:04,786 --> 00:04:07,706
+a dev build, click through
+it, capture the result.
+
+84
+00:04:07,899 --> 00:04:09,399
+Chrome DevTools for the web.
+
+85
+00:04:09,419 --> 00:04:11,219
+A CLI for services.
+
+86
+00:04:11,739 --> 00:04:14,279
+Accessibility APIs for the iOS simulator.
+
+87
+00:04:14,719 --> 00:04:19,459
+And when it figures out a flow, have
+it package that into a reusable repo
+
+88
+00:04:19,479 --> 00:04:19,939
+skill.
+
+89
+00:04:20,782 --> 00:04:22,022
+So here's the rule.
+
+90
+00:04:22,042 --> 00:04:25,902
+If the agent can't check its own
+work, it can't work without you.
+
+91
+00:04:26,600 --> 00:04:30,360
+Chapter four. Scale past
+the context window.
+
+92
+00:04:31,432 --> 00:04:36,772
+Long chats scroll away, so the bots
+keep a shared database of every pull
+
+93
+00:04:36,792 --> 00:04:37,272
+request.
+
+94
+00:04:37,639 --> 00:04:41,799
+Every thirty minutes, they sweep
+it: bug-bot comments, failing CI,
+
+95
+00:04:42,339 --> 00:04:43,419
+merge conflicts.
+
+96
+00:04:44,015 --> 00:04:47,495
+Anything off goes straight back to
+the agent, and the row moves back to
+
+97
+00:04:47,515 --> 00:04:47,995
+Working.
+
+98
+00:04:48,475 --> 00:04:50,375
+Clean ones move to Ready for review.
+
+99
+00:04:51,255 --> 00:04:53,575
+Clean PRs get an automatic code review.
+
+100
+00:04:53,595 --> 00:04:57,835
+If the review is highly confident and
+the blast radius is low, it merges
+
+101
+00:04:57,855 --> 00:04:58,515
+on its own.
+
+102
+00:04:58,629 --> 00:05:02,589
+Everything else waits for you, with the
+proof attached, so your review takes
+
+103
+00:05:02,609 --> 00:05:04,509
+minutes instead of an afternoon.
+
+104
+00:05:05,425 --> 00:05:07,245
+Here's what the team
+behind Grok Bot reports.
+
+105
+00:05:07,265 --> 00:05:11,685
+One engineer shipped more than two
+thousand pull requests in a month.
+
+106
+00:05:11,730 --> 00:05:14,870
+The foundation of Grok Bot
+itself was built in four weeks.
+
+107
+00:05:14,890 --> 00:05:18,510
+The first iOS app, in
+three, using only Grok Bot.
+
+108
+00:05:19,393 --> 00:05:22,053
+Chapter five. The night shift.
+
+109
+00:05:23,132 --> 00:05:25,512
+Routines turn all of this into a schedule.
+
+110
+00:05:25,532 --> 00:05:28,512
+Every thirty minutes, the PR sweep.
+
+111
+00:05:28,776 --> 00:05:32,796
+At three a.m., the nightly audit:
+dead code, load time, bundle size.
+
+112
+00:05:32,836 --> 00:05:35,676
+At five, the ops bot
+meets every engineer bot.
+
+113
+00:05:35,741 --> 00:05:41,081
+And at eight, you wake up to a list
+of PRs that are ready to merge.
+
+114
+00:05:41,990 --> 00:05:45,710
+The guide lists audits worth stealing.
+
+115
+00:05:45,896 --> 00:05:47,616
+Security sweeps. CI build time.
+
+116
+00:05:47,636 --> 00:05:49,216
+Missing translations.
+
+117
+00:05:49,556 --> 00:05:51,776
+Parity between your iOS and desktop apps.
+
+118
+00:05:51,796 --> 00:05:55,696
+And a catch-up summary of
+everything merged in the last day.
+
+119
+00:05:56,417 --> 00:05:58,257
+And their favorite nightly prompt of all.
+
+120
+00:05:58,277 --> 00:05:59,717
+You have six hours tonight.
+
+121
+00:05:59,737 --> 00:06:01,157
+Build whatever you want.
+
+122
+00:06:01,377 --> 00:06:02,257
+Have fun.
+
+123
+00:06:03,162 --> 00:06:06,802
+A few details from the
+docs will save you money.
+
+124
+00:06:07,095 --> 00:06:08,935
+Schedules must be at
+least five minutes apart.
+
+125
+00:06:09,055 --> 00:06:10,295
+Pressing Test does real work.
+
+126
+00:06:10,315 --> 00:06:13,715
+And never use a broad trigger,
+like every new message.
+
+127
+00:06:13,941 --> 00:06:18,101
+If you're away for a long time, routines
+can be paused until you respond.
+
+128
+00:06:19,087 --> 00:06:24,107
+One more trick. When something is
+truly urgent, tell the bot it's P0.
+
+129
+00:06:24,415 --> 00:06:28,055
+It starts a temporary routine that
+checks the agent's transcript every five
+
+130
+00:06:28,075 --> 00:06:28,595
+minutes,
+
+131
+00:06:29,215 --> 00:06:31,215
+and steers it when it wastes time.
+
+132
+00:06:31,326 --> 00:06:35,186
+It burns tokens fast, so save
+it for real emergencies.
+
+133
+00:06:36,522 --> 00:06:39,782
+Chapter six. Keep the org sharp.
+
+134
+00:06:40,749 --> 00:06:43,229
+The one bot that writes
+no code is the ops bot.
+
+135
+00:06:43,249 --> 00:06:47,609
+When an engineer bot makes a mistake,
+the ops bot runs a postmortem.
+
+136
+00:06:47,680 --> 00:06:51,540
+It finds the root cause, updates the
+playbook, and announces the change
+
+137
+00:06:51,560 --> 00:06:56,240
+to every bot. Then it repeats it in a
+daily one-on-one, so nobody forgets.
+
+138
+00:06:56,851 --> 00:06:59,491
+And when a bot struggles, treat
+it like a talented intern.
+
+139
+00:06:59,611 --> 00:07:04,391
+Ask it to do its homework, and to study
+how your best engineers do the job.
+
+140
+00:07:05,100 --> 00:07:06,080
+Now the honest part.
+
+141
+00:07:06,100 --> 00:07:07,640
+Don't use it for deterministic jobs.
+
+142
+00:07:07,660 --> 00:07:12,180
+If the inputs and rules are fixed,
+write a script or a CI job.
+
+143
+00:07:12,311 --> 00:07:14,091
+Keep it out of hard real-time paths.
+
+144
+00:07:14,231 --> 00:07:16,411
+Don't treat separate bots
+as separate trust zones.
+
+145
+00:07:16,431 --> 00:07:19,161
+And if you need to choose
+the exact model, there's
+
+146
+00:07:19,651 --> 00:07:20,671
+no model picker.
+
+147
+00:07:21,430 --> 00:07:22,650
+Here's how to start this week.
+
+148
+00:07:22,670 --> 00:07:25,070
+Create one engineer bot for one domain.
+
+149
+00:07:25,090 --> 00:07:27,590
+Write a handoff skill that demands proof.
+
+150
+00:07:27,765 --> 00:07:31,425
+Run one real task by hand, and fix
+the process, not just the output.
+
+151
+00:07:31,445 --> 00:07:34,355
+Then add the thirty-minute PR sweep.
+
+152
+00:07:34,587 --> 00:07:38,707
+Only when that runs clean for a
+week, turn on the nightly audit.
+
+153
+00:07:39,516 --> 00:07:41,196
+Don't ask Grok Bot to write your code.
+
+154
+00:07:41,216 --> 00:07:43,336
+Ask it to run your loop.
+
+155
+00:07:44,057 --> 00:07:48,417
+If you want to see this machine run
+a whole video studio overnight, that
+
+156
+00:07:48,437 --> 00:07:49,017
+one's next.

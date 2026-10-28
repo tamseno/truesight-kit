@@ -6,25 +6,48 @@ archetypes only where they genuinely fit. Two episodes made with this kit should
 
 Reference while you work:
 - `docs/CATALOG.md` — every look, element (with props + a working example), motion, layout, transition, recipe.
-- `docs/gallery/*.jpg` — what they look like: `looks.jpg`, `elements-*.jpg`, `motions-<kind>.jpg` (5-frame strips), `layouts.jpg`, `formats.jpg` (the same scenes in all four formats).
+- `docs/gallery/*.jpg` — what they look like: `looks.jpg`, `elements-*.jpg`, `motions-<kind>.jpg` (5-frame strips), `layouts.jpg`, `formats.jpg` (the same scenes in all four formats), `icons-*.jpg` (all icons by name).
+- Elements cover any topic, not only software: people (`person`), products (`product`, `rating`), money and growth (`kpi`, `number`, `stat`, `bars`, `linechart`),
+  shares (`pie`, `share`, `donut`, `tiles`), rankings (`ranking`), conversion (`funnel`), time (`milestones`), places (`map` with city pins and arcs),
+  real footage (`clip`, `image` with `pan`), plus the UI mocks (window, browser, phone, terminal, code, chat, PR …). 108 icons.
 - `episodes/compose-demo/script.json` — seven composed scenes to copy patterns from.
 - Output spec: 60 fps always, at the format's full size — 1920×1080 long-form; 1080×1920 Shorts/TikTok/Reels; 1080×1080 and 1080×1350 feed (§8).
 
 ## 1. Pipeline
 
+One command per stage (`tools/make.py`; machine paths come from `kit.config.json`, see `kit.config.example.json`):
+
 | step | command | done when |
 |---|---|---|
-| plan | write `episodes/<name>/script.json` (see §2–§4) | narration reads well aloud; every scene has a picture idea |
-| draft voice + timeline | `.\tools\make.ps1 -Ep episodes\<name> -Stage draft` | `sheet.jpg` + `qa.json` exist |
-| lint | `node tools/render.mjs ep=episodes/<name> lint=1` | `WARN 0` (bad `at` phrases, unknown names, build errors) |
-| variety | `python tools/variety.py episodes/<name>` | no `FAIL` |
-| look at it | open `episodes/<name>/sheet.jpg` (two stills per scene) and fix | nothing cropped, overlapping, empty or tiny |
-| preview | `-Stage preview` | watch it; fix pacing |
-| final voice | `-Stage voice` | `align.py` reports no LOW MATCH lines (re-synthesize those) |
-| final | `-Stage final -Fresh` | MP4 + chapter list printed |
+| plan | write `episodes/<name>/script.json` (see §2–§4); a Short can start from `python tools/cutdown.py episodes/<long> episodes/<new>` | narration reads well aloud; every scene has a picture idea |
+| draft | `python tools/make.py episodes/<name> draft` — voice timing → lint → stills + QA → `sheet.jpg` → variety | lint `WARN 0`, `QA 0`, variety no `FAIL`, and the sheet looks right (nothing cropped, overlapping, empty or tiny) |
+| preview | `… preview` — full render without motion blur + review | watch it; fix pacing |
+| voice | `… voice` — IndexTTS per line (cached) + whisper word timings | no LOW MATCH lines (re-synthesize those) |
+| final | `… final [--fresh]` — lint gate → render with motion blur → mix → MP4 → chapters → review → thumbnails → publish sheet | `review/report.txt` clean; pick a thumbnail; fill `meta.publish` until `publish.md` has nothing to check |
+| both | `… all` = voice + final | |
 
-Compare looks without editing: `node tools/render.mjs ep=… scenes=s03,s07 at=.9 out=probe look=neon`.
-Check one moment: `frames=<t*60>,…`. Scrub by hand: `serve=1`.
+Many videos: `python tools/batch.py all --ready --pipeline` runs every episode whose script has `"meta": {"status": "ready"}`
+(voice of the next episode overlaps the render of the current one), keeps going when one fails, and writes a log to `queue/`.
+At night or when the room must stay quiet add `--quiet` (fewer render workers).
+
+What final leaves in the episode folder: `<name>_final.mp4` (60 fps, BT.709 tags, −14 LUFS), `captions.srt`,
+`thumb-A/B/C.jpg` (long-form, 1280×720) or `cover-A/B/C.jpg` (vertical, 1080×1920) + `thumbs.jpg`, `publish.md` / `publish.json`
+(titles, description with chapters and sources, tags, hashtags, pinned comment, TikTok caption), `review/` and `status.json`.
+
+Other tools: compare looks without editing `node tools/render.mjs ep=… scenes=s03,s07 at=.9 out=probe look=neon` ·
+one moment `frames=<t*60>,…` · scrub by hand `serve=1` · real footage `python tools/ingest.py rec.mp4 episodes/<name> demo`
+(then the `clip` element) · web screenshots `node tools/shot.mjs url=… out=episodes/<name>/media/page.png [full=1]`
+(then `image` with `pan` to scroll it) · music `python tools/bgm.py --list`.
+
+### Script meta for production
+```json
+"meta": { "title": "…", "format": "landscape", "look": "editorial", "status": "draft | ready",
+          "music": "focus",                       // mood (focus upbeat curious tense epic lofi night drive warm minimal), "mood-2", or a file in assets/bgm
+          "thumb": { "text": "Your bot is the *manager*", "kicker": "STOP DOING THIS", "number": "200+" },   // or "image" / "el"
+          "publish": { "title": "…", "titles": ["alt"], "description": "2-4 sentences", "tags": [], "hashtags": [], "comment": "…" } }
+```
+Music defaults to the look's mood (vertical: `drive`) and the variant is chosen from the episode name, so neighbouring
+videos don't share a track. The library is generated (original, license-free); own tracks go in `assets/bgm/library.json`.
 
 ## 2. Plan before you build
 
@@ -93,7 +116,12 @@ Also: vary composition (centred vs left-weighted vs full-bleed), vary density (o
 each chapter at least one shot that only makes sense for this topic.
 
 ## 5. Motion and pacing (house style)
-- Something new every 2–4 s; the first visual change within 0.5 s of a scene starting.
+- Something new every 2–4 s; lint warns `dead air` when a compose scene shows nothing new for more than 4.5 s while the
+  narration runs — add a beat (`focus`, `cam`, `do`) or split the scene.
+- **A scene never opens on an empty frame.** In `compose` without a title, the first element that fills the frame (not a
+  small label) arrives with the transition even if its word comes later; under a title the header carries the first second,
+  so only a wait longer than ~1.2 s is pulled in (the group keeps its stagger). `"open": "late"` keeps the word timing.
+  In vertical the first scene's opener is already on screen at frame 0 — that frame is the cover.
 - Elements arrive on the word that names them, not all at once. Stagger related items 0.1–0.2 s.
 - One emphasis per beat (`pulse`, `glow`, `circle`, `underline` …); don't stack three on the same word.
 - Camera: 0–3 beats per scene, zoom ≤ 1.08; `reset` before the scene's last line if you pushed in.
@@ -101,10 +129,15 @@ each chapter at least one shot that only makes sense for this topic.
 - **Backgrounds are soft color only** (the look's gradients and drifting light). Never grids, dot screens, scanlines,
   radar-style beams or ruled paper — not as a background, not as a full-frame `shape`/`html` overlay.
 - Transitions: `cut` for contrast, `whip` for a topic jump, `wipe` into chapter cards, `slide`/`push` within a chapter.
+  The background follows the transition (instant on a cut, under the panel on a wipe, inside the blur on a whip), and two
+  scenes with the same title keep the header still. A `wipe` is one continuous band sweep that reveals the new scene behind
+  it (old scene, background and caption stay ahead of the band) — never a full-frame hold.
 
 ## 6. QA — what to check in the stills
 - Nothing important cut by the frame edge or the subtitle band (y > 900).
-- No text under 20 px (qa.json lists it), no overlapping elements unless intended, no empty half-frames.
+- `qa.json` lists text under 20 px, text off-frame or in a platform's UI zone, text clipped by its box, and **low-contrast**
+  text (contrast < 2.2 against its own card — e.g. light ink on a pastel fill in a dark look). Fix every entry.
+- No overlapping elements unless intended, no empty half-frames.
 - Every number and quote has a `source` (recipes have it; in compose add a `text` with style `caption` or use `post`/`stat` subtitles).
 - The two stills per scene differ (if they don't, the scene has dead air).
 - Read `lint.json`: an `at-not-found` means an animation fires at the fallback time instead of on its word.

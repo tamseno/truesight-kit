@@ -12,7 +12,7 @@ v3 的核心变化：**母版不再规定画面长什么样**。它提供四层�
 | 层 | 是什么 | 数量 | 在脚本里怎么用 |
 |---|---|---|---|
 | 风格 look | 整部片的视觉身份：字体、配色、卡片质感、底色、动效节奏、默认转场、字幕样式 | 7 | `"meta": { "look": "editorial" }` |
-| 元素 element | 画面积木：文字、数字、卡片、窗口、浏览器、手机、终端、代码、聊天气泡、通知、推文、PR、文件树、列表、表格、图表、格子阵、箭头、印章、光标、便签…… | 40 | compose 场景里的 `"el"` |
+| 元素 element | 画面积木：文字、数字、卡片、窗口、浏览器、手机、终端、代码、聊天气泡、通知、推文、PR、列表、表格、图表、格子阵、箭头、印章；人物、商品、评分、饼图、占比条、排行、漏斗、KPI、里程碑、世界地图、录屏片段…… | 51 | compose 场景里的 `"el"` |
 | 动作 motion | 入场、文字动画、强调、循环、移动、退场，可叠加，挂在旁白的词上 | 66 | `"in": "rise@词"`, `"do": ["pulse@词"]` |
 | 布局 layout | 把画面分成槽位：分栏、三栏、网格、bento、英雄位、环形、层叠…… | 17 | `"layout": "bento"` |
 
@@ -28,33 +28,45 @@ v3 的核心变化：**母版不再规定画面长什么样**。它提供四层�
 truesight-kit/
   CLAUDE.md               agent 入口：指向 docs/AGENT.md
   brand.json              品牌默认值（角色、配色、默认 look）
-  assets/                 配乐、频道 logo
+  kit.config.json         本机路径（配音 / 对齐环境、模型、代理、Chrome），从 kit.config.example.json 复制
+  assets/                 配乐（bgm/gen 为生成的情绪曲库）、频道 logo
   core/
     engine.js             引擎：时间轴、镜头、转场、标题、字幕、章节条、警告收集、QA
     looks.js              7 种风格
     formats.js            4 种画幅（横屏 / 竖屏短视频 / 方屏 / 4:5）
     style.css             设计变量（所有颜色/字体/质感都是变量，由风格写入）
     lib/motion.js         动作库 + 姿态合成器（多个动作叠加在同一元素上）
-    lib/elements.js       元素库
+    lib/elements.js       元素库（界面类：窗口、浏览器、手机、终端、代码、PR、聊天……）
+    lib/elements2.js      元素库（通用题材：人物、商品、评分、饼图、占比条、排行、漏斗、KPI、里程碑、世界地图、视频片段）
+    lib/icons.js          图标（共 108 个，任何题材都够用）
     lib/layout.js         布局库
     lib/catalog.js        素材目录导出 + 每个元素的示例
     archetypes/compose.js 自由组合场景
     archetypes/*.js       26 个现成组合
   tools/
-    make.ps1              draft / preview / voice / final 一键
+    make.py               一期一条命令：draft / preview / voice / final / all（make.ps1 只是转发）
+    batch.py              批量出片：多期排队、配音与渲染并行、失败不中断、日志在 queue/
+    cutdown.py            长视频 → 短视频草稿
+    thumb.py · publish.py 缩略图 / 封面三选一；标题、简介、章节、来源、标签、TikTok 文案 + 字幕 SRT
+    bgm.py                生成情绪配乐库（10 种情绪 × 3 首，原创无版权）
+    ingest.py · shot.mjs  录屏 / 视频转成片段素材；网页截图（可整页滚动）
+    kitcfg.py             读取本机配置
     render.mjs            逐帧渲染；look= 换风格预览；lint=1 校验；catalog=1 导出目录；qa=1 质检
     variety.py            多样性检查（这期是不是又做成了同一部片）
+    review.py             成片复查：转场拼图、场景拼图、静止画面 / 响度 / 静音报告
     gallery.py            生成素材样片 docs/gallery/
     timeline.py · voice_index.py · align.py · mix.py · chapters.py · sheet.py
 ```
 
 # 2. 一期怎么做
 
-1. 复制 `episodes\_template`，**先选风格**（按题材气质，并且和最近两期错开），每章一个主题色。
+1. 复制 `episodes\_template`（短视频用 `_template-short`，或用 `cutdown.py` 从长视频生成草稿），**先选风格**（按题材气质，并且和最近两期错开），每章一个主题色。
 2. 写旁白（每句一行，≤ 18 词，多用能画出来的具体名词），再给每个场景写一句“观众看到什么”。
 3. 场景用 `compose` 组合为主，结构正好吻合时才用现成组合。
-4. `make.ps1 -Stage draft` → `render.mjs lint=1`（卡点词、素材名、构建错误）→ `variety.py`（多样性硬规则）→ 看 `sheet.jpg`。
-5. `-Stage preview` 看动态 → `-Stage voice` 正式配音 + 逐词对齐 → `-Stage final -Fresh` 出片 + 章节时间戳。
+4. `python tools/make.py episodes\<名字> draft`：配音时间轴 → lint → 截图 + QA → `sheet.jpg` → 多样性检查，全部通过再往下。
+5. `preview` 看动态 → `voice` 正式配音 + 逐词对齐 → `final`：出片后自动跑章节、成片复查（review）、三张缩略图 / 封面、发布清单 `publish.md` 和字幕 `captions.srt`。
+6. 批量：脚本里写 `"status": "ready"`，一条 `python tools/batch.py all --ready --pipeline` 把所有待出片的一期接一期做完（下一期配音和这一期渲染同时进行）；晚上加 `--quiet`。
+7. 脚本 meta 里的 `music`（情绪）、`thumb`（缩略图文字 / 数字 / 图片）、`publish`（标题、简介、标签、置顶评论）决定配乐和发布物料，见 `docs/AGENT.md` 第 1 节。
 
 换风格不用改脚本：`node tools/render.mjs ep=… scenes=s03 at=.9 out=probe look=brutal`。
 
@@ -99,6 +111,10 @@ truesight-kit/
 - **镜头**：每场景默认 1.8% 慢推；关键帧缩放 ≤ 1.08；≤ 1.04 的轻推不会裁切内容区，≥ 1.07 的刻意特写才允许裁切；镜头不会把内容推到标题下。
 - **转场**：旧画面 0.3 秒内退场；`lift` `slide` `zoom` `push` `whip`（甩镜）`wipe`（章节）`cut`。
 - **节奏**：每 2–4 秒画面有新东西；元素在说到它的那个词出现；一个词上只放一个强调。
+- **画面不能干等**：compose 场景在念旁白时超过 4.5 秒画面没有任何新变化，lint 会报 `dead air`，加一拍（focus / cam / do）或拆场景。
+- **wipe 转场**：一条斜带连续扫过，带子后面露出新场景，前面还是旧场景（背景、字幕一起分开），不会整屏停在一块色板上。
+- **QA 对比度检查**：文字和它所在卡片底色对比度低于 2.2 会列进 `qa.json`（比如深色风格里浅色字压在浅色卡片上）。
+- **转场后不留空画面**：compose 场景没有标题时，第一个撑得起画面的元素（不是小标签）会跟着转场一起到（哪怕它的词稍后才说）；有标题时标题栏先撑住第一秒，只有等待超过约 1.2 秒才会整组提前（保留组内先后）；确实想留一拍空白时在场景 data 里写 `"open": "late"`。背景色跟着转场走：硬切瞬间换、wipe 在遮挡板下换、whip 在模糊里换。前后两个场景标题相同，标题栏保持不动。
 - **音效**：全部合成，12 种，每种 3 个变体；compose 元素按类型自动配音效，也可指定 `sfx`。
 - **禁用**：卡通回弹、粒子爆炸、所有元素同时淡入、无变化的停顿、只为装饰的红绿色、两个场景文字重影。
 - **背景只用柔和的色彩**（渐变、漂移光斑、暗角、颗粒）。任何风格都不用网格、点阵、扫描线、雷达式光束、横线纸面这类纹理背景，也不能用 shape / html 元素叠一层全屏纹理。

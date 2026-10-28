@@ -18,7 +18,7 @@
     el.style.filter = b > .05 ? `blur(${b.toFixed(2)}px)` : 'none'; el.style.scale = H.lerp(o.s ?? .985, 1, k).toFixed(4);
   };
   // badge pill html
-  H.tag = (text, c = '#3a6cf4', filled = false) => `<span style="display:inline-flex;align-items:center;height:36px;padding:0 15px;border-radius:999px;font:800 20px var(--fb);letter-spacing:.08em;white-space:nowrap;${filled ? `background:${c};color:#fff` : `background:color-mix(in srgb,${c} 15%,transparent);color:${c}`}">${H.esc(text)}</span>`;
+  H.tag = (text, c = '#3a6cf4', filled = false) => `<span style="display:inline-flex;align-items:center;height:36px;padding:0 15px;border-radius:999px;font:800 20px var(--fb);letter-spacing:.08em;white-space:nowrap;${filled ? `background:${c};color:#fff` : `background:color-mix(in srgb,${c} 15%,transparent);color:color-mix(in srgb,${c} 62%,var(--ink))`}">${H.esc(text)}</span>`;
   // preload an image (engine waits for window.PRELOAD before READY)
   H.img = src => { const im = new Image(); im.src = src; (window.PRELOAD = window.PRELOAD || []).push(im.decode().catch(() => console.warn('image failed', src))); return im; };
   H.vc = (hh, extra = 0) => 240 + Math.max(0, (632 - hh - extra) / 2);

@@ -16,7 +16,7 @@ ARCH.stepper = (root, ctx, H, d) => {
     return { dt, ck, lb, fl };
   });
   const big = D(root, 88, 580, 1744, 200, 'border-radius:24px;background:var(--inv);color:var(--inv-ink);overflow:hidden');
-  D(big, 40, 34, 600, 30, 'font:800 22px var(--fb);letter-spacing:.14em;color:rgba(255,255,255,.55)', 'CURRENT STATE');
+  D(big, 40, 34, 600, 30, 'font:800 22px var(--fb);letter-spacing:.14em;color:color-mix(in srgb,var(--inv-ink) 62%,transparent)', 'CURRENT STATE');
   const name = D(big, 40, 76, 1660, 90, 'font:800 64px var(--fm);letter-spacing:calc(-.02em * var(--trk));white-space:nowrap');
   const cap = d.caption ? D(root, 88, 806, 1744, 50, 'text-align:center;font:700 30px var(--fb)', H.md(d.caption.text || d.caption)) : null;
   const tCap = cap ? H.when(ctx, d.caption.at, T[n - 1] + .8) : 0;

@@ -864,12 +864,13 @@
    }
   },
   "image": {
-   "about": "An image file (episode media/ or kit assets/). fit: cover | contain; radius in px; frame: card shadow.",
+   "about": "An image file (episode media/ or kit assets/). fit: cover | contain; radius in px; frame: card shadow. pan: { from: [x%, y%], to: [x%, y%], zoom: [z0, z1], at, d } scrolls a tall screenshot or slowly pushes into a photo.",
    "props": {
     "src": "path",
     "fit": "cover|contain",
     "radius": "px",
-    "frame": "bool"
+    "frame": "bool",
+    "pan": "{from, to, zoom, at, d}"
    },
    "size": [
     800,
@@ -879,6 +880,24 @@
     "src": "assets/brand/logo.png",
     "fit": "contain"
    }
+  },
+  "clip": {
+   "about": "A screen recording or video clip playing in sync with the scene (make it with tools/ingest.py → media/<name>). frame: none | browser | phone; from: second in the clip to start at; speed; until: second to freeze on; url: address bar text.",
+   "props": {
+    "src": "media/<name>",
+    "from": "s",
+    "speed": "x",
+    "until": "s",
+    "fit": "cover|contain",
+    "frame": "none|browser|phone",
+    "url": "string",
+    "radius": "px"
+   },
+   "size": [
+    960,
+    600
+   ],
+   "example": {}
   },
   "shape": {
    "about": "A plain shape for structure or accents: rect | circle | ring | pill | line | blob. fill / stroke colors (tokens ok).",
@@ -1044,6 +1063,295 @@
    ],
    "example": {
     "html": "<div style=\"font:800 40px var(--fd)\">raw html</div>"
+   }
+  },
+  "person": {
+   "about": "A person: photo (src) or initials, name, role, optional quote. Wide box = photo left; tall box = photo on top.",
+   "props": {
+    "name": "string",
+    "role": "string",
+    "src": "photo path",
+    "quote": "md",
+    "color": "initials bg"
+   },
+   "size": [
+    760,
+    220
+   ],
+   "example": {
+    "name": "Lauren Reeve",
+    "role": "Engineer, *Grok Bot team*",
+    "quote": "2,000 PRs in a month."
+   }
+  },
+  "product": {
+   "about": "A product card: image (or a placeholder), name, price + old price, rating, badge.",
+   "props": {
+    "src": "image",
+    "name": "string",
+    "price": "string",
+    "was": "old price",
+    "rating": "0..5",
+    "reviews": "string",
+    "badge": "string"
+   },
+   "size": [
+    520,
+    640
+   ],
+   "example": {
+    "name": "Studio Headphones",
+    "price": "$249",
+    "was": "$299",
+    "rating": 4.6,
+    "reviews": "2,140 reviews",
+    "badge": "SALE"
+   }
+  },
+  "rating": {
+   "about": "Stars filling to a score, with the number and review count.",
+   "props": {
+    "value": "0..5",
+    "max": "n (5)",
+    "reviews": "string",
+    "size": "px"
+   },
+   "size": [
+    560,
+    80
+   ],
+   "example": {
+    "value": 4.6,
+    "reviews": "2,140 reviews"
+   }
+  },
+  "pie": {
+   "about": "Pie or donut of shares that sweeps in, with a legend. items: [{label, value, color?}].",
+   "props": {
+    "items": "[{label, value, color}]",
+    "donut": "bool (true)",
+    "unit": "\"%\" (default) | \"\" | suffix",
+    "legend": "right | bottom | none"
+   },
+   "size": [
+    960,
+    460
+   ],
+   "example": {
+    "items": [
+     {
+      "label": "Search",
+      "value": 46
+     },
+     {
+      "label": "Social",
+      "value": 27
+     },
+     {
+      "label": "Direct",
+      "value": 18
+     },
+     {
+      "label": "Other",
+      "value": 9
+     }
+    ]
+   }
+  },
+  "share": {
+   "about": "One 100% bar split into shares (market share, budget, time). items: [{label, value, color?}].",
+   "props": {
+    "items": "[{label, value, color}]",
+    "unit": "\"%\" | suffix"
+   },
+   "size": [
+    1400,
+    200
+   ],
+   "example": {
+    "items": [
+     {
+      "label": "Apple",
+      "value": 52
+     },
+     {
+      "label": "Samsung",
+      "value": 31
+     },
+     {
+      "label": "Others",
+      "value": 17
+     }
+    ]
+   }
+  },
+  "ranking": {
+   "about": "A leaderboard: rank numbers, labels and bars, sorted high to low; highlight one row. items: [{label, value, icon?}].",
+   "props": {
+    "items": "[{label, value, icon, color}]",
+    "unit": "suffix",
+    "highlight": "index or label",
+    "order": "up (reveal from last) | down"
+   },
+   "size": [
+    1100,
+    520
+   ],
+   "example": {
+    "items": [
+     {
+      "label": "Python",
+      "value": 31
+     },
+     {
+      "label": "JavaScript",
+      "value": 27
+     },
+     {
+      "label": "Go",
+      "value": 14
+     },
+     {
+      "label": "Rust",
+      "value": 9
+     }
+    ],
+    "unit": "%",
+    "highlight": 3
+   }
+  },
+  "funnel": {
+   "about": "A conversion funnel: stages narrowing with values and step-to-step rates. items: [{label, value}].",
+   "props": {
+    "items": "[{label, value}]",
+    "unit": "suffix",
+    "rates": "bool (true)"
+   },
+   "size": [
+    1000,
+    560
+   ],
+   "example": {
+    "items": [
+     {
+      "label": "Visited",
+      "value": 12000
+     },
+     {
+      "label": "Signed up",
+      "value": 3400
+     },
+     {
+      "label": "Activated",
+      "value": 1900
+     },
+     {
+      "label": "Paid",
+      "value": 420
+     }
+    ]
+   }
+  },
+  "kpi": {
+   "about": "A KPI tile: label, counted value, change badge (▲/▼, coloured by whether up is good), optional sparkline.",
+   "props": {
+    "label": "string",
+    "value": "number",
+    "prefix": "string",
+    "suffix": "string",
+    "dec": "n",
+    "delta": "\"+12%\" | number",
+    "good": "\"up\" (default) | \"down\"",
+    "spark": "number[]"
+   },
+   "size": [
+    440,
+    260
+   ],
+   "example": {
+    "label": "Monthly revenue",
+    "value": 84200,
+    "prefix": "$",
+    "delta": "+12%",
+    "spark": [
+     3,
+     4,
+     3.5,
+     5,
+     6,
+     5.5,
+     7
+    ]
+   }
+  },
+  "milestones": {
+   "about": "A timeline of dated milestones; each lights up on its words. Horizontal in wide boxes, vertical in tall ones. items: [{date, text, at}].",
+   "props": {
+    "items": "[{date, text, sub, at}]",
+    "axis": "auto | across | down"
+   },
+   "size": [
+    1500,
+    300
+   ],
+   "example": {
+    "items": [
+     {
+      "date": "2019",
+      "text": "First prototype"
+     },
+     {
+      "date": "2021",
+      "text": "Public launch"
+     },
+     {
+      "date": "2023",
+      "text": "1M users"
+     },
+     {
+      "date": "2026",
+      "text": "Global"
+     }
+    ]
+   }
+  },
+  "map": {
+   "about": "A world (or region) map with pins and travel arcs. pins: [{place: \"tokyo\" | lon, lat, label, at, color}]; arcs: [{from, to, at}] (pin indexes). region: world | europe | asia | east-asia | north-america | us | south-america | africa | middle-east | oceania | [lonW, latN, lonE, latS].",
+   "props": {
+    "region": "name | [w, n, e, s]",
+    "pins": "[{place | lon, lat, label, at, color}]",
+    "arcs": "[{from, to, at}]",
+    "land": "colour"
+   },
+   "size": [
+    1600,
+    760
+   ],
+   "example": {
+    "region": "world",
+    "pins": [
+     {
+      "place": "san francisco",
+      "label": "HQ"
+     },
+     {
+      "place": "london"
+     },
+     {
+      "place": "singapore",
+      "label": "APAC"
+     }
+    ],
+    "arcs": [
+     {
+      "from": 0,
+      "to": 1
+     },
+     {
+      "from": 1,
+      "to": 2
+     }
+    ]
    }
   }
  },
@@ -1578,7 +1886,92 @@
   "play",
   "spark",
   "user",
-  "warn"
+  "warn",
+  "money",
+  "wallet",
+  "card",
+  "bank",
+  "cart",
+  "bag",
+  "gift",
+  "price",
+  "briefcase",
+  "building",
+  "store",
+  "trend",
+  "down",
+  "barchart",
+  "pie",
+  "target",
+  "gauge",
+  "database",
+  "rocket",
+  "idea",
+  "brain",
+  "star",
+  "heart",
+  "trophy",
+  "flag",
+  "crown",
+  "medal",
+  "puzzle",
+  "mail",
+  "bell",
+  "megaphone",
+  "news",
+  "camera",
+  "image",
+  "video",
+  "mic",
+  "music",
+  "headphones",
+  "book",
+  "graduation",
+  "phone",
+  "laptop",
+  "server",
+  "cloud",
+  "chip",
+  "robot",
+  "code",
+  "layers",
+  "link",
+  "wifi",
+  "battery",
+  "gear",
+  "search",
+  "download",
+  "upload",
+  "sync",
+  "trash",
+  "edit",
+  "calendar",
+  "users",
+  "person",
+  "home",
+  "pin",
+  "globe",
+  "plane",
+  "car",
+  "flask",
+  "atom",
+  "dna",
+  "pulse",
+  "pill",
+  "leaf",
+  "fire",
+  "drop",
+  "scale",
+  "plus",
+  "minus",
+  "info",
+  "question",
+  "arrow",
+  "thumbsup",
+  "thumbsdown",
+  "pen",
+  "palette",
+  "filter"
  ],
  "archetypes": {
   "board": "board — a work board (PR tracker / kanban). Cards land in lanes, then move between lanes on their words; a sweep\nline passes over the board (\"every 30 minutes\") and cards pick up red flags or green checks as it checks them.\ndata: { cols: [\"Working\", \"Ready for review\", \"Merged\"], colTone?: [null, \"#3a6cf4\", \"#8b5cf6\"],\n        items: [{ id: \"#4821\", title: \"Fix onboarding crash\", col: 0, at?, who?: \"<cast>\",\n                  moves?: [{ col: 1, at, flag?: \"CI failing\", ok?: \"Checks pass\" }] }],\n        sweeps?: [{ at, label?: \"every 30 min\" }], title? }",
@@ -1589,7 +1982,7 @@
   "clock": "clock — a night (or day) on a timeline. A playhead sweeps between events; the big clock follows it.\ndata: { from: \"21:00\", to: \"08:00\", events: [{ time: \"21:00\", label: \"Director picks up requests\", cast?, at? }], day?: false }",
   "code": "code — an editor window. Lines reveal early (or type out), focus bands light the lines being discussed while the rest\ndims, diff lines (+/-) get green/red gutters, and notes pin to lines from a side column with a connector.\ndata: { file: \"handoff-brief.md\", lang?: \"md\"|\"js\"|\"ts\"|\"py\"|\"sh\"|\"yaml\", code: \"line\\nline\", tabs?: [\"role.md\"],\n        reveal?: \"lines\"|\"type\"|\"all\", typeBy?: phrase|sec, focus?: [{ lines: [3, 5], at }],\n        notes?: [{ line: 4, text: \"Proof is required\", at, tone?: \"good\"|\"bad\"|\"warn\" }], diff?: true, w? }",
   "compare": "compare — before / after proof. Two screens (mock phones or images), and a review log on the right where a bot checks\nthe proof: a failing check rings the problem on the \"after\" screen and sends it back; a later check swaps in the fixed\nscreen and stamps it.\ndata: { left: { label: \"Before\", phone?: { title, bad: true } | image? }, right: { label: \"After\", phone?: {...} | image? },\n        who?: \"<cast>\", log?: \"Proof review\",\n        checks: [{ text: \"Button still clipped at 320pt\", verdict: \"fail\"|\"pass\", at?, swap?: { phone: {...} } }],\n        stamp?: { text: \"VERIFIED\", at? } }",
-  "compose": "compose — a free scene assembled from the element, motion and layout libraries. This is the default way to build\na scene that doesn't match a recipe archetype: every video gets its own pictures.\ndata: {\n  layout?: \"split\" | { type: \"grid\", cols: 3, rows: 2 },        (slots; see LAYOUTS in docs/CATALOG.md)\n  els: [ { id?, el: \"card\", slot?: \"left\" | 0, box?: [x, y, w, h], x?, y?, w?, h?, z?,   (placement: slot, box, or x/y/w/h)\n           ...props of the element (text, style, title, ...),\n           in?: \"rise@phrase\" | { m, at, off, d, ...params } | \"none\",   (default: a fitting entrance, spread over the narration)\n           do?: [\"pulse@phrase\", \"glow@phrase+0.4\", { m: \"move\", at: \"x\", to: [x, y] }],\n           out?: \"sink@phrase\", loop?: \"float\" | [\"float\", \"shimmer\"],\n           kids?: [...elements], layout?: ...   (el: \"group\" lays its kids out inside its box) } ],\n  beats?: [ { at, cam: { focus: \"id\", z: 1.06, k: .35 } | \"reset\" | { x, y, z } },\n            { at, focus: \"id\" | [\"id\", ...] | \"all\" },          (others dim back — depth of field)\n            { at, do: { id: \"pulse\", other: \"shake\" } } ],\n  autocam?: true    (gentle push toward each element as it enters), showSlots?: true (draw the layout's slots, for planning) }",
+  "compose": "compose — a free scene assembled from the element, motion and layout libraries. This is the default way to build\na scene that doesn't match a recipe archetype: every video gets its own pictures.\ndata: {\n  layout?: \"split\" | { type: \"grid\", cols: 3, rows: 2 },        (slots; see LAYOUTS in docs/CATALOG.md)\n  els: [ { id?, el: \"card\", slot?: \"left\" | 0, box?: [x, y, w, h], x?, y?, w?, h?, z?,   (placement: slot, box, or x/y/w/h)\n           ...props of the element (text, style, title, ...),\n           in?: \"rise@phrase\" | { m, at, off, d, ...params } | \"none\",   (default: a fitting entrance, spread over the narration)\n           do?: [\"pulse@phrase\", \"glow@phrase+0.4\", { m: \"move\", at: \"x\", to: [x, y] }],\n           out?: \"sink@phrase\", loop?: \"float\" | [\"float\", \"shimmer\"],\n           kids?: [...elements], layout?: ...   (el: \"group\" lays its kids out inside its box) } ],\n  beats?: [ { at, cam: { focus: \"id\", z: 1.06, k: .35 } | \"reset\" | { x, y, z } },\n            { at, focus: \"id\" | [\"id\", ...] | \"all\" },          (others dim back — depth of field)\n            { at, do: { id: \"pulse\", other: \"shake\" } } ],\n  autocam?: true    (gentle push toward each element as it enters), showSlots?: true (draw the layout's slots, for planning),\n  open?: \"late\"    (by default whatever enters first arrives with the transition, so the frame never opens empty;\n                    \"late\" keeps its word timing — for a deliberate empty beat) }",
   "endcard": "endcard — the last 15–20 s: YouTube end-screen slots (place the real elements in YouTube Studio over these frames),\nchannel mark + subscribe, and one closing line. Use \"lines\": [] and \"min_dur\": 18 for a music-only outro.\ndata: { title?: \"Watch next\", line?: \"New breakdowns every week\", slots?: [{ label: \"Best for you\" }, { label: \"Latest\" }],\n        channel?: \"TrueSight AI\", logo?: \"assets/brand/logo.png\" }",
   "flow": "flow — nodes in columns, connectors draw in, pulses travel along them. Routers, pipelines, \"who talks to whom\".\ndata: { cols: [[{ id, label, sub?, cast?, color?, at? }], ...], edges: [[\"a\",\"b\"], ...], pulse?: true, note?: { text, at? } }",
   "grid": "grid — a storyboard / shot list / gallery of tiles that pop in on their beat, with an optional approve bar.\ndata: { cols?: 4, items: [{ label: \"Pill idle\", glyph?: \"pill\"|\"dot\"|\"spinner\"|\"check\"|\"play\"|\"bar\"|\"done\"|\"text:Aa\", image?, at? }],\n        footer?: { text: \"Nothing gets built until you approve it\", button?: \"Approve\", at? } }",

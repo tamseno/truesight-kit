@@ -1,7 +1,7 @@
 # Word timings for the final voice: faster-whisper (large-v3, CUDA) over every <ep>/tts/<key>.wav -> <key>.json
 # timeline.py (index mode) maps these onto the script words, so subtitles and "at" cues land on the real voice.
 #   <python with faster-whisper> tools\align.py episodes\<name> [--force]
-# Env used on this machine: D:\hark\_sys\work\mainchat-bili-ref\.venv\Scripts\python.exe
+# Env and model: align_python / whisper_model in kit.config.json (tools/kitcfg.py)
 import os, sys, json, re, difflib, subprocess, numpy as np
 try:
     import nvidia.cublas, nvidia.cudnn  # CUDA DLLs shipped as pip wheels
@@ -13,7 +13,8 @@ except Exception: pass
 import imageio_ffmpeg
 from faster_whisper import WhisperModel
 EP = os.path.abspath(sys.argv[1]); FORCE = '--force' in sys.argv
-MODEL = os.environ.get('WHISPER_MODEL', r'D:\hark\_sys\tmp\cache\models\faster-whisper-large-v3')
+sys.path.insert(0, os.path.dirname(os.path.abspath(__file__))); from kitcfg import cfg
+MODEL = os.environ.get('WHISPER_MODEL', cfg('whisper_model'))
 FF = imageio_ffmpeg.get_ffmpeg_exe(); TD = os.path.join(EP, 'tts')
 S = json.load(open(os.path.join(EP, 'script.json'), encoding='utf8'))
 def load16(p): return np.frombuffer(subprocess.run([FF, '-v', 'error', '-i', p, '-f', 'f32le', '-ac', '1', '-ar', '16000', '-'], capture_output=True).stdout, np.float32).copy()

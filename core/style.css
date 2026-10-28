@@ -55,7 +55,7 @@ body[data-look=brutal] .dk .card,body[data-look=editorial] .dk .card{box-shadow:
 .term{font:500 21px/1.65 var(--fm);color:var(--code-ink);white-space:pre}
 .term .p{color:#7ee0b8}.term .d{color:#6f7590}.term .y{color:#ffd66b}.term .r{color:#ff7a70}.term .g{color:#5ee39b}.term .b{color:#8fb3ff}.term .v{color:#c4a5ff}
 .caret{display:inline-block;width:.55em;height:1.05em;vertical-align:-.15em;background:currentColor;margin-left:2px;border-radius:2px}
-.chip{display:inline-flex;align-items:center;gap:6px;height:34px;padding:0 14px;border-radius:999px;font:600 16px var(--fb);background:color-mix(in srgb,var(--c,var(--accent)) 12%,transparent);color:var(--c,var(--accent));white-space:nowrap}
+.chip{display:inline-flex;align-items:center;gap:6px;height:34px;padding:0 14px;border-radius:999px;font:600 16px var(--fb);background:color-mix(in srgb,var(--c,var(--accent)) 12%,transparent);color:color-mix(in srgb,var(--c,var(--accent)) 62%,var(--ink));white-space:nowrap}
 .chip.filled{background:var(--c,var(--accent));color:#fff}
 .icon{display:inline-block;flex:none}.icon svg{display:block}
 .bot{position:absolute;display:block}.bot svg{overflow:visible;display:block}

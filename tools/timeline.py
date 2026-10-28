@@ -18,6 +18,9 @@ async def one(key, text):
     mp3, js = f'{TD}/{key}.mp3', f'{TD}/{key}.edge.json'; k = spoken(text) + VOICE + RATE
     if os.path.exists(js) and os.path.exists(mp3) and json.load(open(js, encoding='utf8')).get('k') == k: return
     import edge_tts
+    if not os.environ.get('HTTPS_PROXY'):
+        sys.path.insert(0, os.path.dirname(os.path.abspath(__file__))); from kitcfg import cfg
+        if cfg('proxy'): os.environ['HTTPS_PROXY'] = cfg('proxy')
     c = edge_tts.Communicate(spoken(text), VOICE, rate=RATE, boundary='WordBoundary'); wb = []
     with open(mp3, 'wb') as f:
         async for ch in c.stream():

@@ -1,0 +1,58 @@
+{
+ "platforms": [
+  "YouTube"
+ ],
+ "title": "Grok Bot Isn't Your Coder. It's Your Engineering Manager.",
+ "titles": [
+  "Grok Bot Isn't Your Coder. It's Your Engineering Manager.",
+  "How to Actually Use Grok Bot for Coding (Not How You Think)",
+  "From 15 Coding Agents to 200: The Grok Bot Dev Playbook"
+ ],
+ "description": "Most people use Grok Bot as a coder. The people shipping the most use it as a manager: it gathers context, hands a clean brief to a cloud coding agent, checks the proof, and keeps the pull request moving while you sleep.\n\nThis is the full playbook, built from xAI's own engineering guide and the Grok Bot docs: one bot per domain, the handoff brief, closing the feedback loop, a shared PR board, routines for the night shift, and where Grok Bot is the wrong tool.\n\nNumbers in this video (15 to 200+ cloud agents, 2,000+ PRs in a month, 4 and 3 weeks) are self-reported by the Grok Bot team.\n\nChapters\n0:00 Intro\n0:45 Coder vs. manager\n1:54 One bot, one domain\n2:46 The handoff\n3:24 Close the loop\n4:26 The PR board\n5:19 The night shift\n6:36 Keep the org sharp\n7:04 Limits\n7:21 This week\n\nSources\n- x.ai/bot/guides/grok-bot-for-engineering\n- @bot on X · Sep 30, 2026 (via teslanorth.com)\n- docs.x.ai · Grok Bot computer and security docs\n- x.ai/bot/guides/grok-bot-for-engineering · self-reported\n\n#GrokBot #AIagents #DevTools",
+ "tags": [
+  "Grok Bot",
+  "Grok Bot coding",
+  "AI agents",
+  "cloud coding agents",
+  "Cursor cloud agents",
+  "AI code review",
+  "pull requests",
+  "developer workflow",
+  "xAI",
+  "automation"
+ ],
+ "hashtags": [
+  "#GrokBot",
+  "#AIagents",
+  "#DevTools"
+ ],
+ "pinned_comment": "Templates from the video (role.md, handoff brief, PR sweep routine) are linked in the description. Which bot would you set up first?",
+ "tiktok_caption": "",
+ "video": "grokbot-dev-v3_final.mp4",
+ "thumbnails": [
+  "thumb-A.jpg",
+  "thumb-B.jpg",
+  "thumb-C.jpg"
+ ],
+ "captions": "captions.srt",
+ "chapters": [
+  "0:00 Intro",
+  "0:45 Coder vs. manager",
+  "1:54 One bot, one domain",
+  "2:46 The handoff",
+  "3:24 Close the loop",
+  "4:26 The PR board",
+  "5:19 The night shift",
+  "6:36 Keep the org sharp",
+  "7:04 Limits",
+  "7:21 This week"
+ ],
+ "sources": [
+  "x.ai/bot/guides/grok-bot-for-engineering",
+  "@bot on X · Sep 30, 2026 (via teslanorth.com)",
+  "docs.x.ai · Grok Bot computer and security docs",
+  "x.ai/bot/guides/grok-bot-for-engineering · self-reported"
+ ],
+ "duration_s": 477.9,
+ "warnings": []
+}

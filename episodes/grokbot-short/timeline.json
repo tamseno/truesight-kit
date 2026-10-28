@@ -20,7 +20,8 @@
     "c": "#3b5bff",
     "shape": "square"
    }
-  }
+  },
+  "music": "digital_clouds.wav"
  },
  "scenes": [
   {

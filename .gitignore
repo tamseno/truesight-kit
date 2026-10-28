@@ -10,3 +10,8 @@ episodes/*/sheet.jpg
 episodes/_gallery/
 episodes/*/lint.json
 episodes/*/probe*/
+episodes/*/review/
+kit.config.json
+queue/
+episodes/*/status.json
+assets/bgm/gen/

@@ -49,7 +49,8 @@
     "shape": "circle"
    }
   },
-  "look": "blueprint"
+  "look": "blueprint",
+  "music": "digital_clouds.wav"
  },
  "scenes": [
   {
@@ -489,6 +490,14 @@
      }
     ],
     "beats": [
+     {
+      "at": "coding agents",
+      "cam": {
+       "x": 1300,
+       "y": 560,
+       "z": 1.02
+      }
+     },
      {
       "at": "two hundred",
       "cam": {
@@ -1162,7 +1171,7 @@
       "items": [
        {
         "text": "Codes on one shared machine",
-        "at": "every bot shares"
+        "at": "write code"
        },
        {
         "text": "Every bot sees every login",
@@ -1185,7 +1194,7 @@
        60,
        440
       ],
-      "in": "unfold@trap"
+      "in": "unfold@terminal"
      },
      {
       "id": "rh",
@@ -1778,11 +1787,25 @@
     ],
     "beats": [
      {
+      "at": "one task, real",
+      "do": {
+       "inner": "pulse"
+      }
+     },
+     {
       "at": "outer loop is",
       "cam": {
        "focus": "outer",
        "z": 1.04,
        "k": 0.2
+      }
+     },
+     {
+      "at": "into that one task",
+      "cam": {
+       "focus": "inner",
+       "z": 1.05,
+       "k": 0.25
       }
      },
      {
@@ -3369,6 +3392,12 @@
      {
       "at": "every bot can",
       "focus": "all"
+     },
+     {
+      "at": "Never deploy",
+      "do": {
+       "k1": "pulse"
+      }
      }
     ]
    },
@@ -5388,6 +5417,10 @@
     ],
     "beats": [
      {
+      "at": "figures out",
+      "focus": "ph"
+     },
+     {
       "at": "package",
       "focus": "skill"
      }
@@ -6657,7 +6690,8 @@
       "value": 4,
       "suffix": " weeks",
       "sub": "built with Grok Bot",
-      "in": "rise@four weeks"
+      "in": "rise@foundation",
+      "id": "w4"
      },
      {
       "el": "stat",
@@ -6673,6 +6707,14 @@
       "el": "source",
       "text": "x.ai/bot/guides/grok-bot-for-engineering · self-reported",
       "in": "fade@team"
+     }
+    ],
+    "beats": [
+     {
+      "at": "four weeks",
+      "do": {
+       "w4": "pulse"
+      }
      }
     ]
    },
@@ -8017,7 +8059,8 @@
        1180,
        120
       ],
-      "in": "right@P0"
+      "in": "right@P0",
+      "id": "p0"
      },
      {
       "id": "watch",
@@ -8081,6 +8124,24 @@
       "do": [
        "shake@burns+0.3"
       ]
+     }
+    ],
+    "beats": [
+     {
+      "at": "truly urgent",
+      "do": {
+       "p0": "pulse"
+      }
+     },
+     {
+      "at": "P0",
+      "do": {
+       "p0": "pulse"
+      }
+     },
+     {
+      "at": "save it",
+      "focus": "p0"
      }
     ]
    },

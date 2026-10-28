@@ -1,5 +1,5 @@
 {
- "meta": {
+ "meta": { "publish": {"title": "Grok Bot Isn't Your Coder. It's Your Engineering Manager.", "titles": ["How to Actually Use Grok Bot for Coding (Not How You Think)", "From 15 Coding Agents to 200: The Grok Bot Dev Playbook"], "description": "Most people use Grok Bot as a coder. The people shipping the most use it as a manager: it gathers context, hands a clean brief to a cloud coding agent, checks the proof, and keeps the pull request moving while you sleep.\n\nThis is the full playbook, built from xAI's own engineering guide and the Grok Bot docs: one bot per domain, the handoff brief, closing the feedback loop, a shared PR board, routines for the night shift, and where Grok Bot is the wrong tool.\n\nNumbers in this video (15 to 200+ cloud agents, 2,000+ PRs in a month, 4 and 3 weeks) are self-reported by the Grok Bot team.", "tags": ["Grok Bot", "Grok Bot coding", "AI agents", "cloud coding agents", "Cursor cloud agents", "AI code review", "pull requests", "developer workflow", "xAI", "automation"], "hashtags": ["#GrokBot", "#AIagents", "#DevTools"], "comment": "Templates from the video (role.md, handoff brief, PR sweep routine) are linked in the description. Which bot would you set up first?"},
   "title": "Grok Bot Isn't Your Coder. It's Your Engineering Manager. (v3, blueprint)",
   "edge_voice": "en-US-AndrewMultilingualNeural",
   "edge_rate": "+4%",
@@ -45,7 +45,8 @@
     "shape": "circle"
    }
   },
-  "look": "blueprint"
+  "look": "blueprint",
+  "music": "digital_clouds.wav"
  },
  "scenes": [
   {
@@ -300,6 +301,14 @@
     ],
     "beats": [
      {
+      "at": "coding agents",
+      "cam": {
+       "x": 1300,
+       "y": 560,
+       "z": 1.02
+      }
+     },
+     {
       "at": "two hundred",
       "cam": {
        "x": 1060,
@@ -507,7 +516,7 @@
       "items": [
        {
         "text": "Codes on one shared machine",
-        "at": "every bot shares"
+        "at": "write code"
        },
        {
         "text": "Every bot sees every login",
@@ -530,7 +539,7 @@
        60,
        440
       ],
-      "in": "unfold@trap"
+      "in": "unfold@terminal"
      },
      {
       "id": "rh",
@@ -763,11 +772,25 @@
     ],
     "beats": [
      {
+      "at": "one task, real",
+      "do": {
+       "inner": "pulse"
+      }
+     },
+     {
       "at": "outer loop is",
       "cam": {
        "focus": "outer",
        "z": 1.04,
        "k": 0.2
+      }
+     },
+     {
+      "at": "into that one task",
+      "cam": {
+       "focus": "inner",
+       "z": 1.05,
+       "k": 0.25
       }
      },
      {
@@ -1180,6 +1203,12 @@
      {
       "at": "every bot can",
       "focus": "all"
+     },
+     {
+      "at": "Never deploy",
+      "do": {
+       "k1": "pulse"
+      }
      }
     ]
    }
@@ -1811,6 +1840,10 @@
     ],
     "beats": [
      {
+      "at": "figures out",
+      "focus": "ph"
+     },
+     {
       "at": "package",
       "focus": "skill"
      }
@@ -2154,7 +2187,8 @@
       "value": 4,
       "suffix": " weeks",
       "sub": "built with Grok Bot",
-      "in": "rise@four weeks"
+      "in": "rise@foundation",
+      "id": "w4"
      },
      {
       "el": "stat",
@@ -2170,6 +2204,14 @@
       "el": "source",
       "text": "x.ai/bot/guides/grok-bot-for-engineering · self-reported",
       "in": "fade@team"
+     }
+    ],
+    "beats": [
+     {
+      "at": "four weeks",
+      "do": {
+       "w4": "pulse"
+      }
      }
     ]
    }
@@ -2466,7 +2508,8 @@
        1180,
        120
       ],
-      "in": "right@P0"
+      "in": "right@P0",
+      "id": "p0"
      },
      {
       "id": "watch",
@@ -2530,6 +2573,24 @@
       "do": [
        "shake@burns+0.3"
       ]
+     }
+    ],
+    "beats": [
+     {
+      "at": "truly urgent",
+      "do": {
+       "p0": "pulse"
+      }
+     },
+     {
+      "at": "P0",
+      "do": {
+       "p0": "pulse"
+      }
+     },
+     {
+      "at": "save it",
+      "focus": "p0"
      }
     ]
    }

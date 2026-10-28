@@ -43,7 +43,8 @@ if (A.scenes) {
 else { const f0 = Math.round((+A.from || 0) * FPS), f1 = Math.round((A.to ? +A.to : TL.total) * FPS); for (let f = f0; f < f1; f++) for (let k = 0; k < SUB; k++) jobs.push([`f${String(f * SUB + k).padStart(6, '0')}`, f / FPS + (SUB > 1 ? k / (FPS * SUB) * .5 : 0)]); }
 fs.mkdirSync(OUT, { recursive: true });
 const per = Math.ceil(jobs.length / WK), chunks = [...Array(WK)].map((_, i) => jobs.slice(i * per, (i + 1) * per)).filter(c => c.length);
-const exe = A.chrome || 'C:/Program Files/Google/Chrome/Application/chrome.exe'; let done = 0; const t0 = Date.now(); let cues = null; const QA = [], WARN = [];
+const KC = (() => { try { return JSON.parse(fs.readFileSync(path.join(KIT, 'kit.config.json'), 'utf8')); } catch { return {}; } })();
+const exe = A.chrome || process.env.TS_CHROME || KC.chrome || 'C:/Program Files/Google/Chrome/Application/chrome.exe'; let done = 0; const t0 = Date.now(); let cues = null; const QA = [], WARN = [];
 if (A.lint || A.catalog) { chunks.length = 0; chunks.push([]); }
 await Promise.all(chunks.map(async (list, w) => {
   const b = await puppeteer.launch({ executablePath: exe, headless: true, defaultViewport: { width: TL.w || 1920, height: TL.h || 1080, deviceScaleFactor: 1 }, args: ['--force-device-scale-factor=1', '--enable-gpu-rasterization', '--ignore-gpu-blocklist', '--use-angle=d3d11', '--disable-background-timer-throttling', '--disable-renderer-backgrounding', '--hide-scrollbars', '--mute-audio', '--font-render-hinting=none', `--user-data-dir=D:/hark/_sys/tmp/a07f-kit-chrome-${A.tag || 'main'}-${w}`] });

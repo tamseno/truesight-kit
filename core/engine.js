@@ -74,7 +74,9 @@ function source(parent, text, y = 892) { return put(parent, h('div', 'srctag', `
 // highlighter sweep on <span class="hl">: k 0..1
 function hl(el, k) { el.style.setProperty('--hl', cl(k).toFixed(3)); }
 // "*word*" -> highlighter span, "`code`" -> inline code
-const md = s => esc(String(s ?? '')).replace(/\*(.+?)\*/g, '<span class="hl">$1</span>').replace(/`(.+?)`/g, '<code class="ic">$1</code>');
+// markup comes back in one inline wrapper: inside a flex container a bare "text <span>" mix becomes separate flex items and the
+// spaces at their edges collapse ("Dead ends stay out" rendered as "Dead endsstay out")
+const md = s => { const o = esc(String(s ?? '')).replace(/\*(.+?)\*/g, '<span class="hl">$1</span>').replace(/`(.+?)`/g, '<code class="ic">$1</code>'); return o.includes('<') ? `<span class="md">${o}</span>` : o; };
 
 // ---------------------------------------------------------------- SVG components
 const COL = { ink: '#15161c', sub: '#6b6e7b', line: 'rgba(21,22,28,.09)', red: '#f0443a', green: '#1fbf75', blue: '#3a6cf4', amber: '#f5a524', violet: '#8b5cf6', mint: '#2fc7a4', indigo: '#5a5cf0', white: '#fff', accent: '#5a5cf0' };
@@ -185,11 +187,16 @@ function rectOf(el, root) { const a = el.getBoundingClientRect(), b = root.getBo
 function mkCtx(sc) {
   const words = sc.lines.flatMap(l => l.w).map(w => [w[0], w[1], w[2].replace(/\s+/g, '').toLowerCase()]); const full = words.map(w => w[2]).join('');
   const idx = []; let p = 0; for (const w of words) { idx.push(p); p += w[2].length; }
+  // word boundaries (ignoring punctuation like "[step" or "one],"): a cue should land on whole words — "two" must not match
+  // inside "it works" ("itworks") just because the spaces are gone
+  const WS = new Set(), WE = new Set(); words.forEach((w, i) => { const t = w[2], a = t.match(/^[^\p{L}\p{N}]*/u)[0].length, z = t.match(/[^\p{L}\p{N}]*$/u)[0].length; WS.add(idx[i]); WS.add(idx[i] + a); WE.add(idx[i] + t.length); WE.add(idx[i] + t.length - z); });
   return {
     dur: sc.dur, lines: sc.lines, id: sc.id, sc,
     at(phrase, nth = 0, fallback = 0) {
       phrase = String(phrase).replace(/\s+/g, '').toLowerCase();
-      let from = 0, pos = -1; for (let i = 0; i <= nth; i++) { pos = full.indexOf(phrase, from); if (pos < 0) break; from = pos + 1; }
+      const all = []; for (let q = full.indexOf(phrase); q >= 0; q = full.indexOf(phrase, q + 1)) all.push(q);
+      const whole = all.filter(q => WS.has(q) && WE.has(q + phrase.length)), lead = all.filter(q => WS.has(q)); // whole words > word start > anywhere
+      const pick = whole.length > nth ? whole : lead.length > nth ? lead : all, pos = pick.length > nth ? pick[nth] : -1;
       if (pos < 0) { WARN.push({ scene: sc.id, kind: 'at-not-found', what: phrase }); return fallback; }
       let k = 0; while (k + 1 < idx.length && idx[k + 1] <= pos) k++; return words[k][0];
     },
@@ -210,7 +217,7 @@ function mkCtx(sc) {
 }
 // sound cues registered by scenes (absolute seconds) — exported for the mixer
 const CUES = [], WARN = []; window.WARN = WARN;
-window.H = { W, H, MF, WARN, cl, P, lerp, E, A, SP, rnd, h, put, set, enter, leave, type, esc, strike, count, COL, BOTS, BOT_ORDER, bot, grok, icon, IC, win, card, chip, cursor, when, spread, times, source, hl, md, fit, measure, rectOf };
+window.H = { PENDING: [], W, H, MF, WARN, cl, P, lerp, E, A, SP, rnd, h, put, set, enter, leave, type, esc, strike, count, COL, BOTS, BOT_ORDER, bot, grok, icon, IC, win, card, chip, cursor, when, spread, times, source, hl, md, fit, measure, rectOf };
 window.SCENES = window.SCENES || {};
 window.ARCH = window.ARCH || {};
 
@@ -234,9 +241,17 @@ let LK = null; // active look
 const themeOf = n => { if (LK && typeof LK.themes === 'function' && !(META_THEMES && META_THEMES[n])) return LK.themes(n); const t = THEME[n] || THEME.paper; return Array.isArray(t) ? { base: t, blobs: [[t[1], .4], [t[0], .4], [t[1], .3]] } : t; };
 const isDark = n => !!(LK && LK.dark) || !!themeOf(n).dark;
 let META_THEMES = null;
-let TL, stage, bgA, vig, dots, header, hLabel, hTitle, subEl, built = [], chap, chapSegs = [], stepB, lastStep = -2, wipeP;
+let TL, stage, bgA, bgB, vig, dots, header, hLabel, hTitle, subEl, built = [], chap, chapSegs = [], stepB, lastStep = -2, wipeP;
 function hex2rgb(x) { return [1, 3, 5].map(i => parseInt(x.slice(i, i + 2), 16)); }
-function mixRGB(c1, c2, k) { const a = hex2rgb(c1), b = hex2rgb(c2); return a.map((v, i) => Math.round(lerp(v, b[i], k))); }
+// colours blend in OKLab, so a theme change never passes through muddy greys (peach -> mint stays clean)
+const s2l = c => (c /= 255) <= .04045 ? c / 12.92 : ((c + .055) / 1.055) ** 2.4, l2s = c => Math.round(255 * cl(c <= .0031308 ? 12.92 * c : 1.055 * Math.max(0, c) ** (1 / 2.4) - .055));
+const LABC = new Map();
+function toLab(hex) { if (LABC.has(hex)) return LABC.get(hex); const [r, g, b] = hex2rgb(hex).map(s2l), l = Math.cbrt(.4122214708 * r + .5363325363 * g + .0514459929 * b), m = Math.cbrt(.2119034982 * r + .6806995451 * g + .1073969566 * b), s = Math.cbrt(.0883024619 * r + .2817188376 * g + .6299787005 * b);
+  const o = [.2104542553 * l + .793617785 * m - .0040720468 * s, 1.9779984951 * l - 2.428592205 * m + .4505937099 * s, .0259040371 * l + .7827717662 * m - .808675766 * s]; LABC.set(hex, o); return o; }
+function fromLab([L, a, b]) { const l = (L + .3963377774 * a + .2158037573 * b) ** 3, m = (L - .1055613458 * a - .0638541728 * b) ** 3, s = (L - .0894841775 * a - 1.291485548 * b) ** 3; return [l2s(4.0767416621 * l - 3.3077115913 * m + .2309699292 * s), l2s(-1.2684380046 * l + 2.6097574011 * m - .3413193965 * s), l2s(-.0041960863 * l - .7034186147 * m + 1.707614701 * s)]; }
+const isHex = x => typeof x === 'string' && /^#[0-9a-f]{6}$/i.test(x.trim());
+function mixRGB(c1, c2, k) { if (k <= 0 || c1 === c2) return hex2rgb(c1); if (k >= 1) return hex2rgb(c2); if (!isHex(c1) || !isHex(c2)) { const a = hex2rgb(c1), b = hex2rgb(c2); return a.map((v, i) => Math.round(lerp(v, b[i], k))); } const a = toLab(c1), b = toLab(c2); return fromLab(a.map((v, i) => lerp(v, b[i], k))); }
+const labDist = (c1, c2) => { const a = toLab(c1), b = toLab(c2); return Math.hypot(a[0] - b[0], a[1] - b[1], a[2] - b[2]); };
 function mix(c1, c2, k) { return `rgb(${mixRGB(c1, c2, k).join(',')})`; }
 
 async function boot() {
@@ -261,18 +276,26 @@ async function boot() {
   if (!LOOKS[lookName]) WARN.push({ scene: '-', kind: 'unknown-look', what: lookName });
   window.LOOK = LK; window.LOOK_NAME = lookName;
   const rootS = document.documentElement.style;
-  for (const [k, v] of Object.entries({ ...(window.LOOK_BASE || {}), ...(LK.tokens || {}), ...(META.tokens || {}) })) rootS.setProperty(k, v);
+  window.TOKENS = { ...(window.LOOK_BASE || {}), ...(LK.tokens || {}), ...(META.tokens || {}) };
+  for (const [k, v] of Object.entries(window.TOKENS)) rootS.setProperty(k, v);
+  // a dark look that doesn't define verdict fills must not inherit the light pastel ones (light ink on a pastel card is unreadable)
+  if (LK.dark) { const own = { ...(LK.tokens || {}), ...(META.tokens || {}) }, DK = { '--good-fill': 'color-mix(in srgb,var(--good) 18%,var(--surface))', '--bad-fill': 'color-mix(in srgb,var(--bad) 18%,var(--surface))', '--good-ink': 'color-mix(in srgb,var(--good) 70%,#fff)', '--bad-ink': 'color-mix(in srgb,var(--bad) 65%,#fff)', '--good-ink2': 'color-mix(in srgb,var(--good) 50%,#fff)' };
+    for (const [k, v] of Object.entries(DK)) if (!own[k]) rootS.setProperty(k, v); }
   Object.assign(MF, LK.feel || {}, META.feel || {});
   if (BR.themes) Object.assign(THEME, BR.themes); if (META.themes) { Object.assign(THEME, META.themes); META_THEMES = META.themes; }
   if (BR.colors) Object.assign(COL, BR.colors); if (META.colors) Object.assign(COL, META.colors);
   if (META.colors && META.colors.accent) rootS.setProperty('--accent', META.colors.accent);
   COL.accent = getComputedStyle(document.documentElement).getPropertyValue('--accent').trim() || COL.accent;
+  // text that sits ON a filled colour: dark when the fill is light (blueprint's pale blue, brutal's yellow), white otherwise
+  { const cs = getComputedStyle(document.documentElement), lum = c => { const m = rgbOf(c) || (isHex(c) ? hex2rgb(c) : null); if (!m) return 0; const f = v => (v /= 255) <= .03928 ? v / 12.92 : ((v + .055) / 1.055) ** 2.4; return .2126 * f(m[0]) + .7152 * f(m[1]) + .0722 * f(m[2]); };
+    for (const k of ['accent', 'accent2', 'good', 'bad', 'warn']) { const v = cs.getPropertyValue('--' + k).trim(); rootS.setProperty('--on-' + k, lum(v) > .45 ? '#0b0d14' : '#ffffff'); } }
   document.body.dataset.look = lookName; document.body.classList.toggle('look-dark', !!LK.dark);
   // preload every face/weight used anywhere (hidden scenes don't trigger loads)
   const FACES = ['400','500','600','700','800','900'].flatMap(w => [`${w} 20px Noto`, `${w} 20px Geist`]).concat(['400 20px Maple', '700 20px Maple']);
   await Promise.all(FACES.map(f => document.fonts.load(f, '中文Ab1')));
   stage = document.getElementById('stage'); stage.style.width = W + 'px'; stage.style.height = H + 'px';
   bgA = put(stage, h('div', 'bg'), 0, 0, W, H); // backgrounds are soft color only: gradient + drifting light blobs (no grids, dots, scanlines, beams)
+  bgB = put(stage, h('div', 'bg'), 0, 0, W, H); bgB.style.display = 'none'; // the outgoing background during a wipe, clipped ahead of the panel
   dots = put(stage, h('div', 'dots'), -60, -60, W + 120, H + 120);
   for (let i = 0; i < 46; i++) { const d = h('i'); const s = 6 + rnd(i) * 26; Object.assign(d.style, { left: rnd(i + 9) * (W + 120) + 'px', top: rnd(i + 19) * (H + 120) + 'px', width: s + 'px', height: s + 'px', opacity: .25 + rnd(i + 29) * .5 }); d.dataset.z = (.3 + rnd(i + 39)).toFixed(2); dots.appendChild(d); }
   stars = put(stage, h('div', 'stars'), 0, 0, W, H);
@@ -309,12 +332,13 @@ async function boot() {
   header = put(stage, h('div', 'header'), FM.header.x, FM.header.y);
   hLabel = header.appendChild(h('div', 'hlabel')); hTitle = header.appendChild(h('div', 'htitle'));
   for (const e of [header, ghost]) { e.style.width = FM.header.w + 'px'; if (FM.header.wrap) e.classList.add('wrap'); e.style.setProperty('--hsize', FM.header.size + 'px'); }
-  wipeP = put(stage, h('div', 'wipe'), 0, 0, W + 240, H); wipeP.style.display = 'none';
+  wipeP = put(stage, h('div', 'wipe'), 0, 0, Math.round(W * WIPE.band), H); wipeP.style.display = 'none';
   subEl = put(stage, h('div', 'sub'), 0, 0); if (CAP === 'pop') subEl.classList.add('cap');
   // chapter bar (top edge, one segment per chapter) + step badge (top-right)
   chap = put(stage, h('div', 'chap'), 0, 0, W, 6);
   const CHS = []; TL.scenes.forEach(s => { const nm = s.chapter || ''; if (!CHS.length || CHS[CHS.length - 1].name !== nm) CHS.push({ name: nm, start: s.start, end: s.start + s.dur }); else CHS[CHS.length - 1].end = s.start + s.dur; });
-  if (FM.progress === 'bar') { const sg = chap.appendChild(h('div', 'seg')); sg.style.flex = '1'; chapSegs.push({ name: '', start: 0, end: TL.total, f: sg.appendChild(h('i')) }); }
+  if (FM.progress === 'none') chap.style.display = 'none';
+  else if (FM.progress === 'bar') { const sg = chap.appendChild(h('div', 'seg')); sg.style.flex = '1'; chapSegs.push({ name: '', start: 0, end: TL.total, f: sg.appendChild(h('i')) }); }
   else if (CHS.length > 1) CHS.forEach(c => { const sg = chap.appendChild(h('div', 'seg')); sg.style.flex = String(c.end - c.start); const f = sg.appendChild(h('i')); chapSegs.push({ ...c, f }); });
   else chap.style.display = 'none';
   window.CHAPTERS = CHS;
@@ -371,19 +395,41 @@ function camOf(b, t) {
   return { tx: W / 2 - x * Z, ty: H / 2 - y * Z, Z };
 }
 const camCss = (c, dx = 0, dy = 0, ds = 1) => `translate3d(${(c.tx * ds + dx + W / 2 * (1 - ds)).toFixed(2)}px,${(c.ty * ds + dy + H / 2 * (1 - ds)).toFixed(2)}px,0) scale(${(c.Z * ds).toFixed(4)})`;
+// wipe geometry: band width (share of the canvas), slant, duration; clipSide() = the canvas left/right of a slanted edge at x
+// (edge x measured at mid-height), as a clip-path in the local space of an element translated by (tx, ty) and scaled by s
+const WIPE = { band: .38, deg: 8, d: .62, sk: h => h / 2 * Math.tan(8 * Math.PI / 180) };
+function clipSide(x, side, tx, ty, s) {
+  const k = WIPE.sk(H), far = side === 'left' ? -4 * W : 5 * W, L = (qx, qy) => `${((qx - tx) / s).toFixed(1)}px ${((qy - ty) / s).toFixed(1)}px`;
+  return `polygon(${L(far, -H)}, ${L(x + k * 3, -H)}, ${L(x - k * 3, 2 * H)}, ${L(far, 2 * H)})`;
+}
+// the lit caption word must not vanish into the scene's background (yellow on a yellow theme): first colour that stands apart
+function capHL(th) {
+  const T_ = window.TOKENS || {}, bg = [th.base[0], th.base[1]].filter(isHex);
+  const cands = [T_['--cap-hl'] || '#ffd23f', T_['--accent2'], '#ff7ab8', '#7cf2a0', '#6fd8ff'].filter(isHex);
+  const ok = c => toLab(c)[0] > .62 && bg.every(b => labDist(c, b) > .12); // only swap when it would really vanish (yellow on yellow), so the colour stays consistent
+  return cands.find(ok) || cands[0] || '#ffd23f';
+}
 window.renderAt = function (T) {
   T = Math.max(0, Math.min(T, TL.total - 1e-3));
   let i = TL.scenes.findIndex(s => T >= s.start && T < s.start + s.dur); if (i < 0) i = TL.scenes.length - 1;
   const cur = built[i], prev = built[i - 1], t = T - cur.sc.start;
-  // background: mesh gradient crossfade
-  const th = themeOf(cur.sc.theme), thp = prev ? themeOf(prev.sc.theme) : th, bk = prev ? E.io(P(t, 0, .7)) : 1;
-  const c0 = mix(thp.base[0], th.base[0], bk), c1 = mix(thp.base[1], th.base[1], bk);
-  const layers = th.blobs.map((bb, k) => {
-    const pb = thp.blobs[k] || bb, rgb = mixRGB(pb[0], bb[0], bk), al = lerp(pb[1], bb[1], bk), [px, py, rx, ry] = BLOBPOS[k];
-    const x = px + Math.sin(T * .07 * (k + 1) + k * 2) * 7, y = py + Math.cos(T * .055 * (k + 1.3) + k) * 6;
-    return `radial-gradient(${rx}% ${ry}% at ${x.toFixed(2)}% ${y.toFixed(2)}%, rgba(${rgb.join(',')},${al.toFixed(3)}) 0%, rgba(${rgb.join(',')},0) 100%)`;
-  });
-  bgA.style.background = layers.join(',') + `,radial-gradient(120% 90% at 70% 10%, ${c1} 0%, ${c0} 62%)`;
+  const trn = prev ? (cur.sc.trans || (LK && LK.trans) || 'lift') : 'none';
+  // background: follows the transition — switches on a cut, under the panel on a wipe, inside the blur on a whip, quick otherwise
+  const th = themeOf(cur.sc.theme), thp = prev ? themeOf(prev.sc.theme) : th;
+  const bk = !prev || trn === 'cut' ? 1 : trn === 'wipe' ? E.io(P(t, WIPE.d * .4, WIPE.d * .6)) : trn === 'whip' ? E.io(P(t, .06, .3)) : E.io(P(t, 0, .4));
+  const bgCss = (A_, B_, k) => {
+    const c0 = mix(A_.base[0], B_.base[0], k), c1 = mix(A_.base[1], B_.base[1], k);
+    const layers = B_.blobs.map((bb, j) => {
+      const pb = A_.blobs[j] || bb, rgb = mixRGB(pb[0], bb[0], k), al = lerp(pb[1], bb[1], k), [px, py, rx, ry] = BLOBPOS[j];
+      const x = px + Math.sin(T * .07 * (j + 1) + j * 2) * 7, y = py + Math.cos(T * .055 * (j + 1.3) + j) * 6;
+      return `radial-gradient(${rx}% ${ry}% at ${x.toFixed(2)}% ${y.toFixed(2)}%, rgba(${rgb.join(',')},${al.toFixed(3)}) 0%, rgba(${rgb.join(',')},0) 100%)`;
+    });
+    return layers.join(',') + `,radial-gradient(120% 90% at 70% 10%, ${c1} 0%, ${c0} 62%)`;
+  };
+  // wipe: a band sweeps across; behind it the new scene, ahead of it the old one (both clipped along the band's slanted edges)
+  const wx = trn === 'wipe' && t < WIPE.d ? lerp(-WIPE.band * W - WIPE.sk(H) - 30, W + WIPE.sk(H) + 30, E.io(P(t, 0, WIPE.d))) : null, wxl = wx == null ? null : wx + WIPE.band * W;
+  bgA.style.background = bgCss(thp, th, wx != null ? 1 : bk);
+  if (wx != null) { bgB.style.display = 'block'; bgB.style.background = bgCss(thp, thp, 0); bgB.style.clipPath = clipSide(wxl, 'right', 0, 0, 1); } else bgB.style.display = 'none';
   const dk = (th.dark ? bk : 0) + (thp.dark && prev ? 1 - bk : 0);
   const night = (th.stars ? bk : 0) + (prev && thp.stars ? 1 - bk : 0);
   stars.style.opacity = night; dots.style.opacity = (.9 * (1 - dk) + .12 * dk).toFixed(3);
@@ -395,7 +441,6 @@ window.renderAt = function (T) {
   for (const b of built) { if (b !== cur && b !== prev) b.root.style.display = 'none'; }
   cur.root.style.display = 'block';
   try { cur.upd(t, cur.ctx); } catch (e) { console.error('scene update failed', cur.sc.id, t, e.message); }
-  const trn = prev ? (cur.sc.trans || (LK && LK.trans) || 'lift') : 'none';
   const cc = camOf(cur, t);
   // entering offsets
   let ex = 0, ey = 0, es = 1, eb = 0;
@@ -410,14 +455,16 @@ window.renderAt = function (T) {
   cur.root.style.transform = camCss(cc, ex, ey, es);
   cur.root.style.opacity = trn === 'whip' || trn === 'wipe' || trn === 'cut' || !prev ? 1 : A(t, .04, .28, E.quart).toFixed(3);
   cur.root.style.filter = eb > .1 ? `blur(${eb.toFixed(1)}px)` : 'none';
+  cur.root.style.clipPath = wx != null ? clipSide(wx, 'left', cc.tx, cc.ty, cc.Z) : '';
   // exiting scene: gets out of the way fast (no double exposure of two text layouts)
-  const pDur = trn === 'wipe' ? .3 : trn === 'whip' ? .45 : .34;
+  const pDur = trn === 'wipe' ? WIPE.d : trn === 'whip' ? .45 : .27;
   if (prev && t < pDur && trn !== 'cut') {
     prev.root.style.display = 'block';
     const pt = prev.sc.dur + t; try { prev.upd(pt, prev.ctx); } catch (e) { }
-    const pc = camOf(prev, prev.sc.dur), k = E.io(P(t, 0, .3));
+    const pc = camOf(prev, prev.sc.dur), k = E.io(P(t, 0, .24));
     prev.root.style.transformOrigin = '0 0';
-    if (trn === 'wipe') { prev.root.style.transform = camCss(pc, -60 * E.in(P(t, 0, .3))); prev.root.style.opacity = 1; prev.root.style.filter = 'none'; }
+    prev.root.style.clipPath = trn === 'wipe' && wxl != null ? clipSide(wxl, 'right', pc.tx, pc.ty, pc.Z) : '';
+    if (trn === 'wipe') { prev.root.style.transform = camCss(pc); prev.root.style.opacity = 1; prev.root.style.filter = 'none'; }
     else if (trn === 'whip') { prev.root.style.transform = camCss(pc, -W * wk); prev.root.style.opacity = 1; prev.root.style.filter = `blur(${(28 * Math.min(1, wk * 3) * (1 - wk * .5)).toFixed(1)}px)`; }
     else {
       prev.root.style.transform = trn === 'slide' ? camCss(pc, -160 * k) : trn === 'zoom' ? camCss(pc, 0, 0, 1 + .08 * k) : trn === 'push' ? camCss(pc, 0, -160 * k) : camCss(pc, 0, -30 * k, 1 - .03 * k);
@@ -425,27 +472,27 @@ window.renderAt = function (T) {
     }
   } else if (prev) { prev.root.style.display = 'none'; }
   // the previous header leaves with its scene (rebuilt from the scene data, so any frame renders the same)
-  const pH = prev && prev.hasHeader && trn !== 'cut' && t < pDur;
+  // two scenes under the same title keep the header still (re-typing an identical title reads as a flicker)
+  const sameHead = !!(prev && cur.sc.title && prev.sc.title === cur.sc.title && (prev.sc.label || '') === (cur.sc.label || ''));
+  const pH = prev && prev.hasHeader && trn !== 'cut' && t < pDur && !sameHead;
   if (pH) {
     const key = prev.sc.id; if (ghost.dataset.k !== key) { ghost.innerHTML = `<div class="hlabel"><b></b><span>${esc(prev.sc.label || '')}</span></div><div class="htitle">${esc(prev.sc.title || '')}</div>`; ghost.dataset.k = key; }
     ghost.classList.toggle('dark', isDark(prev.sc.theme)); ghost.style.display = 'block';
+    ghost.style.clipPath = trn === 'wipe' && wxl != null ? clipSide(wxl, 'right', FM.header.x, FM.header.y, 1) : '';
     const gk = trn === 'whip' ? wk : E.io(P(t, 0, .26)); set(ghost, { x: trn === 'whip' ? -W * gk : trn === 'slide' ? -120 * gk : 0, y: trn === 'whip' || trn === 'slide' ? 0 : -16 * gk, o: trn === 'whip' || trn === 'wipe' ? 1 : 1 - gk });
   } else ghost.style.display = 'none';
-  // wipe panel (chapter changes): covers by t=.3, uncovers by .66
-  if (trn === 'wipe' && t < .7) {
-    wipeP.style.display = 'block';
-    const x = t < .3 ? lerp(-W - 240, -120, E.io(P(t, 0, .3))) : lerp(-120, W + 20, E.io(P(t, .3, .68)));
-    wipeP.style.transform = `translate3d(${x.toFixed(1)}px,0,0) skewX(-8deg)`;
-  } else wipeP.style.display = 'none';
+  // wipe band (chapter changes): one continuous sweep, never a full-frame hold
+  if (wx != null) { wipeP.style.display = 'block'; wipeP.style.transform = `translate3d(${wx.toFixed(1)}px,0,0) skewX(-${WIPE.deg}deg)`; } else wipeP.style.display = 'none';
+  header.style.clipPath = wx != null ? clipSide(wx, 'left', FM.header.x, FM.header.y, 1) : '';
   // header: per-char swap, rides the scene camera
   if (lastHeader !== i) { hLabel.innerHTML = `<b></b><span>${esc(cur.sc.label || '')}</span>`; hTitle.innerHTML = chars(cur.sc.title || '', 'c'); lastHeader = i; }
-  const hd = trn === 'wipe' ? .32 : 0; // under a wipe the new title waits for the panel to cover the old one
-  const hc = hTitle.querySelectorAll('.c'), lk = A(t, .05 + hd, .5, E.quart);
+  const hd = trn === 'wipe' ? WIPE.d * .35 : 0; // under a wipe the new title starts typing as the band passes it
+  const hc = hTitle.querySelectorAll('.c'), lk = sameHead ? 1 : A(t, .05 + hd, .5, E.quart);
   set(hLabel, { x: -14 * (1 - lk), o: lk });
-  for (let k = 0; k < hc.length; k++) { const s0 = .08 + hd + k * .022, a = SP(t, s0, .9); set(hc[k], { y: 46 * (1 - a), o: A(t, s0, .3), b: 5 * (1 - A(t, s0, .35)) }); }
+  for (let k = 0; k < hc.length; k++) { if (sameHead) { set(hc[k], { y: 0, o: 1, b: 0 }); continue; } const s0 = .08 + hd + k * .022, a = SP(t, s0, .9); set(hc[k], { y: 46 * (1 - a), o: A(t, s0, .3), b: 5 * (1 - A(t, s0, .35)) }); }
   const sdk = isDark(cur.sc.theme);
   header.classList.toggle('dark', sdk);
-  const hf = trn === 'whip' ? 1 : .6; header.style.transform = ex || ey ? `translate3d(${(ex * hf).toFixed(1)}px,${(ey * hf).toFixed(1)}px,0)` : ''; header.style.filter = eb > .1 ? `blur(${eb.toFixed(1)}px)` : 'none';
+  const hf = sameHead ? 0 : trn === 'whip' ? 1 : .6; header.style.transform = (ex || ey) && hf ? `translate3d(${(ex * hf).toFixed(1)}px,${(ey * hf).toFixed(1)}px,0)` : ''; header.style.filter = eb > .1 && hf ? `blur(${eb.toFixed(1)}px)` : 'none';
   const AR = cur.sc.type && window.ARCH[cur.sc.type];
   const nh = (window.SCENES[cur.sc.id] && window.SCENES[cur.sc.id].noHeader) || (AR && AR.noHeader) || cur.sc.noHeader || !cur.sc.title; header.style.display = nh ? 'none' : 'block';
   // chapter bar + step badge
@@ -460,11 +507,12 @@ window.renderAt = function (T) {
   const L = cur.sc.lines;
   if (CAP === 'pop' || CAP === 'none') {
     let ck = null; if (CAP === 'pop' && !cur.sc.nosub) for (const ln of L) for (const c of ln.chunks) if (t >= c.t0 - .06 && t < c.t1) ck = c;
+    if (subEl.dataset.th !== (cur.sc.theme || '-')) { subEl.dataset.th = cur.sc.theme || '-'; subEl.style.setProperty('--cap-hl', capHL(th)); }
     if (ck) {
       if (subEl.dataset.key !== ck.key) {
         subEl.innerHTML = ck.words.map(w => `<span class="w">${esc(w.text)}</span>`).join(' '); subEl.dataset.key = ck.key; subEl.style.fontSize = FM.sub.size + 'px';
-        const sf = FM.safe || { left: 60, right: 60 }, maxW = W - sf.left - sf.right - 40; fit(subEl, maxW, 40);
-        subEl.style.left = ((sf.left + W - sf.right) / 2 - subEl.offsetWidth / 2) + 'px'; subEl.style.top = (FM.sub.y - subEl.offsetHeight / 2) + 'px';
+        const sf = FM.safe || { left: 60, right: 60 }, maxW = W - sf.left - sf.right - 40, ab = FM.area.bare; fit(subEl, maxW, 40);
+        subEl.style.left = cl(ab[0] + ab[2] / 2 - subEl.offsetWidth / 2, sf.left + 20, W - sf.right - 20 - subEl.offsetWidth) + 'px'; subEl.style.top = (FM.sub.y - subEl.offsetHeight / 2) + 'px';
       }
       const ws = subEl.children; let on = -1; ck.words.forEach((w, k) => { if (t >= w.t - .03) on = k; });
       for (let k = 0; k < ws.length; k++) { ws[k].classList.toggle('on', k === on); ws[k].classList.toggle('past', k < on); }
@@ -487,10 +535,19 @@ window.renderAt = function (T) {
     set(subEl, { y: 10 * (1 - sa), o: sa * so });
   } else set(subEl, { o: 0 });
   }
+  // under a wipe the new caption is revealed with its scene, not drawn over the old one
+  subEl.style.clipPath = wx != null ? clipSide(wx, 'left', subEl.offsetLeft, subEl.offsetTop, 1) : '';
   // grain offset
   const f = Math.floor(T * 60); grain.style.backgroundPosition = `${(rnd(f) * 200) | 0}px ${(rnd(f + 3) * 200) | 0}px`;
+  // work an element started for this frame (a video frame decoding) — the renderer waits for it before the screenshot
+  const pend = window.H.PENDING.splice(0); if (pend.length) return Promise.all(pend);
 };
 
+// colour helpers for QA: computed colours come back as rgb()/rgba() or color(srgb r g b / a)
+function rgbOf(c) { let m = c.match(/^rgba?\(([^)]+)\)/); if (m) { const v = m[1].split(/[ ,/]+/).filter(Boolean).map(parseFloat); return [v[0], v[1], v[2], v[3] ?? 1]; }
+  m = c.match(/^color\(srgb ([^)]+)\)/); if (m) { const v = m[1].split(/[ /]+/).filter(Boolean).map(parseFloat); return [v[0] * 255, v[1] * 255, v[2] * 255, v[3] ?? 1]; } return null; }
+function bgOf(el) { for (let p = el; p && p !== document.body; p = p.parentElement) { const cs = getComputedStyle(p); if (cs.backgroundImage && cs.backgroundImage !== 'none') return null; const c = rgbOf(cs.backgroundColor); if (c && c[3] > .85) return c; } return null; }
+function contrast(a, b) { const L = c => { const [r, g, bl] = c.slice(0, 3).map(v => (v /= 255) <= .03928 ? v / 12.92 : ((v + .055) / 1.055) ** 2.4); return .2126 * r + .7152 * g + .0722 * bl; }; const x = L(a), y = L(b); return (Math.max(x, y) + .05) / (Math.min(x, y) + .05); }
 // QA: visible text that is too small for a phone (< 20px at 1080p) or off-frame, measured with the camera neutral
 window.QA = function (minPx = 20) {
   const out = [];
@@ -512,6 +569,8 @@ window.QA = function (minPx = 20) {
       const sf = FM.safe; if (sf) { if (r.bottom > H - sf.bottom + 4) out.push({ scene: b.sc.id, kind: 'unsafe-bottom', txt: txt.slice(0, 40) }); else if (r.right > W - sf.right + 4 && r.bottom > H * .42) out.push({ scene: b.sc.id, kind: 'unsafe-right', txt: txt.slice(0, 40), box: [r.left, r.top, r.width, r.height].map(Math.round) }); else if (r.top < sf.top - 4) out.push({ scene: b.sc.id, kind: 'unsafe-top', txt: txt.slice(0, 40) }); }
       // text clipped by its own box (overflow)
       if (e.scrollWidth > e.clientWidth + 4 && cs.overflow === 'hidden' && e.clientWidth > 0) out.push({ scene: b.sc.id, kind: 'clipped', txt: txt.slice(0, 40) });
+      // text that disappears into its own card (e.g. light ink on a pastel fill in a dark look): contrast against the nearest opaque background
+      if (!parseFloat(cs.webkitTextStrokeWidth)) { const fg = rgbOf(cs.color), bg = bgOf(e); if (fg && bg && fg[3] > .5) { const cr = contrast(fg, bg); if (cr < 2.2) out.push({ scene: b.sc.id, kind: 'low-contrast', cr: +cr.toFixed(2), txt: txt.slice(0, 40) }); } }
     });
     b.root.style.transform = tf;
   }

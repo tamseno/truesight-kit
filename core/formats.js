@@ -12,7 +12,7 @@
       sub: { mode: 'pill', bottom: 1036, max: 54, size: 31 }, safe: null, progress: 'chapters' },
     vertical: { name: 'vertical', about: '9:16 short-form (YouTube Shorts, TikTok, Reels). 1080×1920. Keep text out of the bottom 470 px and the right 132 px (the content area already does).', W: 1080, H: 1920, ui: 1.5,
       header: { x: 72, y: 236, w: 876, size: 74, wrap: true }, area: { title: [72, 500, 876, 790], bare: [72, 236, 876, 1054] },
-      sub: { mode: 'pop', y: 1372, max: 16, size: 86 }, safe: { top: 200, right: 132, bottom: 470, left: 40 }, progress: 'bar' },
+      sub: { mode: 'pop', y: 1372, max: 16, size: 86 }, safe: { top: 200, right: 132, bottom: 470, left: 40 }, progress: 'none' },
     square: { name: 'square', about: '1:1 feed post (Instagram, LinkedIn, X). 1080×1080.', W: 1080, H: 1080, ui: 1.15,
       header: { x: 64, y: 58, w: 952, size: 54, wrap: true }, area: { title: [64, 236, 952, 640], bare: [64, 96, 952, 780] },
       sub: { mode: 'pill', bottom: 1044, max: 40, size: 30 }, safe: null, progress: 'bar' },

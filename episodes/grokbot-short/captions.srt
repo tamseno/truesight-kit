@@ -1,0 +1,52 @@
+1
+00:00:00,039 --> 00:00:02,979
+You're using Grok Bot wrong.
+
+2
+00:00:03,178 --> 00:00:05,398
+Most people make it write code.
+
+3
+00:00:05,724 --> 00:00:09,344
+The team that built it does the opposite.
+
+4
+00:00:09,856 --> 00:00:13,996
+Their bots hand every coding
+task to a cloud agent.
+
+5
+00:00:14,346 --> 00:00:17,206
+With one rule: bring back proof.
+
+6
+00:00:17,302 --> 00:00:21,242
+Screenshots and green
+tests, or it goes back.
+
+7
+00:00:21,668 --> 00:00:26,848
+One engineer went from juggling fifteen
+agents to more than two hundred.
+
+8
+00:00:27,170 --> 00:00:31,050
+Every night at three, the
+bots audit the codebase.
+
+9
+00:00:31,256 --> 00:00:33,876
+By eight, the PRs are waiting.
+
+10
+00:00:34,393 --> 00:00:37,807
+So stop asking Grok Bot
+to write your code.
+
+11
+00:00:37,827 --> 00:00:39,407
+Ask it to run your loop.
+
+12
+00:00:39,507 --> 00:00:41,727
+Full playbook on the channel.

@@ -5,6 +5,7 @@
 #   motions-<kind>.jpg   every motion as a 5-frame strip (how it moves, not just where it ends)
 #   layouts.jpg          every layout's slots
 #   formats.jpg          the same scenes in every format (landscape, vertical, square, portrait)   — only this one: python tools/gallery.py formats
+#   icons-N.jpg          every icon with its name                                                  — only these: python tools/gallery.py icons
 # Also refreshes docs/catalog.json + docs/CATALOG.md.
 import json, os, subprocess, sys, shutil, math
 from PIL import Image, ImageDraw, ImageFont
@@ -39,7 +40,7 @@ look_scene = {'id': 'look', 'type': 'compose', 'theme': 'lavender', 'label': 'Th
     {'el': 'stat', 'slot': 'side0', 'label': 'Agents at once', 'value': 200, 'suffix': '+', 'tone': 'good', 'in': 'none'},
     {'el': 'pr', 'slot': 'side1', 'num': '#4821', 'title': 'Small-screen onboarding', 'state': 'READY', 'checks': [{'text': 'CI'}, {'text': 'Proof'}], 'in': 'none'}]}}
 # ---- 2. elements
-els = [k for k in CAT['elements'] if k not in ('html',)] + ['html']
+els = [k for k in CAT['elements'] if k not in ('html', 'clip')] + ['html']  # clip needs ingested footage
 PER = 9; el_scenes = []
 for pi in range(math.ceil(len(els) / PER)):
     chunk = els[pi * PER:(pi + 1) * PER]; R = grid_rects(3, 3, 30, (88, 70, 1744, 880)); E = []
@@ -137,7 +138,25 @@ def formats_sheet():
             if os.path.exists(p_): sheet.paste(Image.open(p_).resize((ws[f], TH)), (x, 54 + r * (TH + 10)))
             x += ws[f] + 10
     sheet.save(os.path.join(OUT, 'formats.jpg'), quality=84); shutil.rmtree(root, ignore_errors=True)
+def icons_sheet():
+    names = CAT['icons']; per = 60; root = os.path.join(EP, 'g_icons'); shutil.rmtree(root, ignore_errors=True); os.makedirs(root)
+    sc = []
+    for p in range(0, len(names), per):
+        els = []
+        for i, n in enumerate(names[p:p + per]):
+            cx, cy = 90 + (i % 10) * 175, 70 + (i // 10) * 165
+            els.append({'el': 'icon', 'name': n, 'box': [cx + 45, cy, 64, 64], 'in': 'none'})
+            els.append({'el': 'text', 'style': 'caption', 'text': n, 'box': [cx, cy + 78, 154, 34], 'align': 'center', 'in': 'none'})
+        sc.append({'id': f'ic{p // per + 1}', 'type': 'compose', 'theme': 'paper', 'dur': 2, 'data': {'els': els}})
+    t = 0
+    for x in sc: x['lines'] = []; x['start'] = t; x['chapter'] = 'icons'; x['push'] = False; x['trans'] = 'cut'; t += x['dur']
+    json.dump({'fps': 60, 'w': 1920, 'h': 1080, 'total': t, 'meta': {'look': 'clean'}, 'scenes': sc}, open(os.path.join(root, 'timeline.json'), 'w', encoding='utf8'))
+    fr = [round((x['start'] + 1.5) * 60) for x in sc]
+    subprocess.run(['node', os.path.join(KIT, 'tools', 'render.mjs'), f'ep={root}', f'frames={",".join(map(str, fr))}', 'out=f', 'workers=2'], cwd=KIT, capture_output=True)
+    for i, f in enumerate(fr): Image.open(os.path.join(root, 'f', f'f{f:05d}.jpg')).save(os.path.join(OUT, f'icons-{i + 1}.jpg'), quality=85)
+    shutil.rmtree(root, ignore_errors=True)
 if sys.argv[1:] == ['formats']: formats_sheet(); print('gallery: formats.jpg'); sys.exit(0)
+if sys.argv[1:] == ['icons']: icons_sheet(); print('gallery: icons'); sys.exit(0)
 # looks
 looks = list(CAT['looks']); tiles = []
 for lk in looks:
@@ -167,7 +186,7 @@ for s in la_scenes:
 cols = 4; sheet = Image.new('RGB', (cols * 650, math.ceil(len(tiles) / cols) * 370), 'white')
 for i, im in enumerate(tiles): sheet.paste(im, ((i % cols) * 650, (i // cols) * 370))
 sheet.save(os.path.join(OUT, 'layouts.jpg'), quality=84)
-formats_sheet()
+formats_sheet(); icons_sheet()
 for d_ in os.listdir(EP):
     if d_.startswith('g_'): shutil.rmtree(os.path.join(EP, d_), ignore_errors=True)
 print('gallery:', ', '.join(sorted(os.listdir(OUT))))

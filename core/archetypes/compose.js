@@ -11,7 +11,9 @@
 //   beats?: [ { at, cam: { focus: "id", z: 1.06, k: .35 } | "reset" | { x, y, z } },
 //             { at, focus: "id" | ["id", ...] | "all" },          (others dim back — depth of field)
 //             { at, do: { id: "pulse", other: "shake" } } ],
-//   autocam?: true    (gentle push toward each element as it enters), showSlots?: true (draw the layout's slots, for planning) }
+//   autocam?: true    (gentle push toward each element as it enters), showSlots?: true (draw the layout's slots, for planning),
+//   open?: "late"    (by default whatever enters first arrives with the transition, so the frame never opens empty;
+//                     "late" keeps its word timing — for a deliberate empty beat) }
 ARCH.compose = (root, ctx, H, d, sc) => {
   const area = d.area ? { x: d.area[0], y: d.area[1], w: d.area[2], h: d.area[3] } : H.AREA(sc); // the format decides the content area
   const RES = new Set(['id', 'el', 'slot', 'box', 'x', 'y', 'w', 'h', 'z', 'in', 'do', 'out', 'loop', 'kids', 'layout', 'sfx', 'css', 'pad', 'p', 'ui']);
@@ -27,6 +29,25 @@ ARCH.compose = (root, ctx, H, d, sc) => {
   let autoI = 0; const all = []; (function count(list) { list.forEach(e => { all.push(e); if (e.kids) count(e.kids); }); })(d.els || []);
   const autoN = all.filter(e => !e.in && e.el !== 'group').length;
   const autoT = () => H.lerp(n0 + .05, n0 + (n1 - n0) * .55, autoN > 1 ? autoI++ / (autoN - 1) : 0);
+  // open: a frame must not sit empty after the cut. Without a title, the first thing that fills the frame (not a small label)
+  // arrives with the cut; under a title the header carries the first second, so only a wait of more than ~1.2 s is pulled in.
+  // The pulled group keeps its own stagger (it is shifted, not collapsed).
+  const PULL = Symbol('pull'), TLS = (window.TLDATA && window.TLDATA.scenes) || [], first = TLS[0] && TLS[0].id === sc.id;
+  const trn = sc.trans || (window.LOOK && window.LOOK.trans) || 'lift', settle = first ? (H.FMT.name === 'vertical' ? -1.2 : 0) // vertical: frame 0 is the cover, so the hook is already there
+    : trn === 'cut' ? -.2 : trn === 'wipe' ? .3 : trn === 'whip' ? .08 : .12; // cut on action; crossfades wait until the old frame is mostly gone
+  if (d.open !== 'late') {
+    const cand = [], wl = H.WARN.length, big = H.W * H.H * .05, hasHead = !!(sc.title && !sc.noHeader); let visible0 = false; // (a dry run: its phrase warnings are dropped — build() reports them)
+    const heavy = (e, r) => e.el === 'text' ? /^(display|huge|title|quote)$/.test(e.style || 'title') : !SMALL.has(e.el) && r.w * r.h >= big;
+    (function scan(list, slots, box) { for (const e of list) { if (e.el === 'arrow' || e.el === 'cursor' || e.el === 'source') continue;
+      const r = rectOf(e, slots, box);
+      if (e.el === 'group' && (!e.in || e.in === 'none')) { const sub = H.layout(e.layout || { type: 'row', n: (e.kids || []).length }, r); scan((e.kids || []).map((k, i) => (k.slot == null && !k.box && k.x == null ? Object.assign(k, { slot: i }) : k)), sub, r); continue; }
+      if (e.in === 'none') { if (heavy(e, r) || hasHead) visible0 = true; continue; }
+      const s = H.motionSpec(ctx, e.in === undefined ? defIn(e) : e.in, NaN); cand.push({ e, t: s && !Number.isNaN(s.t) ? s.t : n0 + .05, heavy: heavy(e, r) }); } })(d.els || [], H.layout(d.layout || 'full', area), area);
+    H.WARN.length = wl;
+    const pool = hasHead || !cand.some(c => c.heavy) ? cand : cand.filter(c => c.heavy), t0 = Math.min(...pool.map(c => c.t));
+    const target = hasHead ? Math.max(settle, 0) + .3 : settle, wait = hasHead ? 1.2 : .15;
+    if (!visible0 && pool.length && t0 > settle + wait) { const dt = t0 - target; pool.filter(c => c.t <= t0 + .6).forEach(c => { c.e[PULL] = c.t - dt; }); }
+  }
   function rectOf(e, slots, box) {
     if (Array.isArray(e.box)) return { x: e.box[0], y: e.box[1], w: e.box[2], h: e.box[3] };
     let r = null;
@@ -48,7 +69,7 @@ ARCH.compose = (root, ctx, H, d, sc) => {
       const wrap = H.put(parent, H.h('div', 'cmp'), r.x - (parent === root ? 0 : parent.__x || 0), r.y - (parent === root ? 0 : parent.__y || 0), r.w, r.h); wrap.__x = r.x; wrap.__y = r.y;
       if (e.z != null) wrap.style.zIndex = e.z; if (e.css) wrap.style.cssText += ';' + e.css;
       const it = { e, r, wrap }; items.push(it); if (e.id) byId[e.id] = it;
-      const inSpec = H.motionSpec(ctx, e.in === undefined ? defIn(e) : e.in, NaN); const tIn = inSpec && !Number.isNaN(inSpec.t) ? inSpec.t : (e.el === 'group' ? n0 : autoT()); if (inSpec) inSpec.t = tIn;
+      const inSpec = H.motionSpec(ctx, e.in === undefined ? defIn(e) : e.in, NaN); let tIn = inSpec && !Number.isNaN(inSpec.t) ? inSpec.t : (e.el === 'group' ? n0 : autoT()); if (e[PULL] != null) tIn = e[PULL]; if (inSpec) inSpec.t = tIn;
       it.tIn = tIn;
       if (e.el === 'group') {
         const sub = H.layout(e.layout || { type: 'row', n: (e.kids || []).length }, { x: r.x, y: r.y, w: r.w, h: r.h });
@@ -66,7 +87,7 @@ ARCH.compose = (root, ctx, H, d, sc) => {
         if (made.hug && made.hug < r.w) { const al = props.align || 'left', dx = al === 'center' ? (r.w - made.hug) / 2 : al === 'right' ? r.w - made.hug : 0; r.x += dx; r.w = made.hug; wrap.style.left = (parseFloat(wrap.style.left) + dx) + 'px'; wrap.style.width = made.hug + 'px'; wrap.__x = r.x; if (holder !== wrap) holder.style.left = (-dx) + 'px'; }
         it.rig = H.rig(wrap, { x: r.x, y: r.y, scene: sc.id });
         if (inSpec) it.rig.add(inSpec);
-        const fx = sfxOf(e, inSpec && inSpec.m); if (fx && inSpec) ctx.cue(tIn, fx, .35);
+        const fx = sfxOf(e, inSpec && inSpec.m); if (fx && inSpec && tIn >= 0 && !(e[PULL] != null && /^(whip|wipe|slide|push)$/.test(trn))) ctx.cue(tIn, fx, .35); // a pulled entrance rides the transition's own whoosh
       }
       for (const m of [].concat(e.do || [])) { const s = H.motionSpec(ctx, m, tIn + 1); if (s) it.rig.add(s); }
       if (e.out) { const s = H.motionSpec(ctx, e.out, ctx.dur - .4); if (s) it.rig.add(s); }
@@ -109,6 +130,15 @@ ARCH.compose = (root, ctx, H, d, sc) => {
   focusKeys.sort((a, b) => a.t - b.t);
   if (focusKeys.length) items.forEach(it => { const id = it.e.id; if (!it.rig) return; it.rig.list.push({ m: { fn: (p, t) => { let v = 0; for (const k of focusKeys) { const e = H.E.quart(H.P(t, k.t, k.t + .35)); if (e <= 0) break; const target = k.ids && !(id && k.ids.has(id)) && it.e.el !== 'group' ? 1 : 0; v = H.lerp(v, target, e); } if (v > 0) { p.o *= H.lerp(1, .32, v); p.b += 1.8 * v; p.s *= H.lerp(1, .985, v); } } }, spec: { t: 0 } }); });
   if (d.autocam) items.filter(it => it.r && !it.late && it.e.el !== 'group' && it.r.w * it.r.h > 60000).forEach(it => ctx.focus(it.tIn - .2, it.r, { z: 1.03, k: .18, d: 1.2 }));
+  // dead air: while the narration runs the picture should change at least every ~4 s (entrances, emphasis, camera, focus,
+  // and any element-internal moment written as "at" — list items, tile steps, terminal lines …)
+  { const ev = [0], wl = H.WARN.length;
+    items.forEach(it => { if (it.rig) it.rig.list.forEach(x => { if (x.m && x.m.kind && x.m.kind !== 'loop' && Number.isFinite(x.spec && x.spec.t)) ev.push(x.spec.t); });
+      (function deep(o, k0) { if (!o || typeof o !== 'object') return; for (const [k, v] of Object.entries(o)) { if (k0 === 0 && /^(in|do|out|loop|kids)$/.test(k)) continue; if (k === 'at' && (typeof v === 'string' || typeof v === 'number')) { const tt = whenAt(v, NaN); if (Number.isFinite(tt)) ev.push(tt); } else deep(v, 1); } })(it.e, 0); });
+    H.WARN.length = wl; focusKeys.forEach(k => ev.push(k.t)); (ctx.cams || []).forEach(c => Number.isFinite(c.t) && ev.push(c.t));
+    const end = Math.min(ctx.dur, n1 + .8), ts = ev.filter(x => x <= end).sort((a, b) => a - b); ts.push(end);
+    let gap = 0, at = 0; for (let k = 1; k < ts.length; k++) if (ts[k] - ts[k - 1] > gap) { gap = ts[k] - ts[k - 1]; at = ts[k - 1]; }
+    if (gap > 4) W(`dead air: nothing new on screen for ${gap.toFixed(1)} s from ${at.toFixed(1)} s — add a beat (focus, cam, do) or split the scene`); }
   const live = items.filter(it => it.rig);
   return t => { for (const it of live) { it.rig.update(t); if (it.tick) it.tick(t); } };
 };

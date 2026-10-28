@@ -1,0 +1,12 @@
+{
+  "_about": "Copy to kit.config.json (not committed) and set this machine's paths. Missing keys fall back to tools/kitcfg.py; TS_<KEY> env vars override.",
+  "python": "D:\hark\truesight-kit\.venv\Scripts\python.exe",
+  "tts_python": "D:\hark\indextts\.venv\Scripts\python.exe",
+  "tts_repo": "D:\hark\indextts",
+  "voice_ref": "D:\backup\TrueSight_Voice_master_v2.wav",
+  "align_python": "D:\hark\_sys\work\mainchat-bili-ref\.venv\Scripts\python.exe",
+  "whisper_model": "D:\hark\_sys\tmp\cache\models\faster-whisper-large-v3",
+  "proxy": "http://127.0.0.1:10808",
+  "chrome": "C:\Program Files\Google\Chrome\Application\chrome.exe",
+  "workers": 24
+}

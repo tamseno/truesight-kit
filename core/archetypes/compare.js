@@ -33,9 +33,9 @@ ARCH.compare = (root, ctx, H, d, sc) => {
   D(log, 30, 104, LW - 60, 2, 'background:var(--line)');
   const rows = checks.map((c, i) => {
     const pass = c.verdict === 'pass';
-    const r = D(log, 24, 124 + i * 118, LW - 48, 104, `border-radius:18px;display:flex;align-items:center;gap:18px;padding:0 22px;background:${pass ? '#eafaf2' : '#fff1f0'}`);
+    const r = D(log, 24, 124 + i * 118, LW - 48, 104, `border-radius:18px;display:flex;align-items:center;gap:18px;padding:0 22px;background:${pass ? 'var(--good-fill)' : 'var(--bad-fill)'};color:var(--ink)`);
     const ic = r.appendChild(H.h('span', 'icon', pass ? IC.check() : IC.x())); ic.style.cssText += ';width:42px;height:42px';
-    r.insertAdjacentHTML('beforeend', `<div style="min-width:0"><div style="font:800 20px var(--fb);letter-spacing:.12em;color:${pass ? '#13a463' : '#e2382e'}">${pass ? 'VERIFIED' : 'SENT BACK'} · ROUND ${i + 1}</div><div style="font:700 26px/1.25 var(--fb);margin-top:4px">${H.md(c.text)}</div></div>`);
+    r.insertAdjacentHTML('beforeend', `<div style="min-width:0"><div style="font:800 20px var(--fb);letter-spacing:.12em;color:${pass ? 'var(--good-ink)' : 'var(--bad-ink)'}">${pass ? 'VERIFIED' : 'SENT BACK'} · ROUND ${i + 1}</div><div style="font:700 26px/1.25 var(--fb);margin-top:4px">${H.md(c.text)}</div></div>`);
     return { r, ic, pass };
   });
   const ST = d.stamp ? H.when(ctx, d.stamp.at, CT[CT.length - 1] + .7) : 1e9;
