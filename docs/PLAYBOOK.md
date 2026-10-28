@@ -9,7 +9,7 @@ next command. When in doubt, run it.
 - Backgrounds are soft colour only — never grids, dot screens, scanlines, radar beams or ruled paper.
 - Every number and quote on screen has a source; facts come from research you can cite.
 - Rendering and encoding are loud and heavy: if the user is asleep or wants quiet, don't render (or use `--quiet`).
-- Commit and push only when the user asks. Repos go under the `ravflow` organisation.
+- Commit and push only when the user asks. The repo is github.com/tamseno/truesight-kit (public).
 - Narration is English unless the user says otherwise; talk to the user in their language.
 
 ## 1. Start
