@@ -1,0 +1,7 @@
+# kit tools (draft, render orchestration, mix, review, thumbnails, publish). The final voice (IndexTTS) and word alignment
+# (faster-whisper) run in their own environments — point kit.config.json at them.
+numpy>=2.0
+scipy>=1.13
+Pillow>=10.0
+imageio-ffmpeg>=0.5
+edge-tts>=7.0

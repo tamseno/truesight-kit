@@ -62,11 +62,17 @@ def stage_voice(ep, a):
 def stage_preview(ep, a):
     timeline(ep, 'auto'); lint(ep, True); tl = json.load(open(os.path.join(ep, 'timeline.json'), encoding='utf8'))
     out = render_video(ep, 'preview', 1, a, tl); run([PY, 'tools/review.py', ep, out], 'review'); return out
+def video_hash(ep):
+    """what the picture and sound depend on: the script minus publishing copy and bookkeeping (editing the description must not force a re-render)"""
+    import hashlib; S = json.load(open(os.path.join(ep, 'script.json'), encoding='utf8')); M = dict(S.get('meta', {}))
+    for k in ('publish', 'thumb', 'thumb_theme', 'status', 'todo', 'source'): M.pop(k, None)
+    return hashlib.md5(json.dumps({**S, 'meta': M}, sort_keys=True, ensure_ascii=False).encode()).hexdigest()[:12]
 def stage_final(ep, a):
     if not has_voice(ep):
         raise Fail('no final voice yet — run the voice stage first (or "all")')
     timeline(ep, 'index'); lint(ep, a.force); tl = json.load(open(os.path.join(ep, 'timeline.json'), encoding='utf8'))
     out = render_video(ep, 'final', 4, a, tl)
+    json.dump({'mp4': os.path.basename(out), 'video_hash': video_hash(ep), 'at': time.strftime('%Y-%m-%dT%H:%M:%S')}, open(os.path.join(ep, 'final.json'), 'w', encoding='utf8'), indent=1)
     if tl['w'] > tl['h']: run([PY, 'tools/chapters.py', ep], 'chapters')
     run([PY, 'tools/review.py', ep, out], 'review')
     for tool, label in (('tools/thumb.py', 'thumbnail'), ('tools/publish.py', 'publish sheet')):

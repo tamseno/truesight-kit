@@ -1,0 +1,5 @@
+---
+description: TrueSight motion kit — how to make and fix videos in this repo
+alwaysApply: true
+---
+Follow `AGENTS.md` at the repo root (the instructions for every agent). Workflow: `docs/PLAYBOOK.md`; `python tools/ts.py next <episode>` prints the next command. The skill `truesight-video` is in `.agents/skills/`.

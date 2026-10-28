@@ -21,7 +21,9 @@ v3 的核心变化：**母版不再规定画面长什么样**。它提供四层�
 - 位置：`D:\hark\truesight-kit`
 - 素材目录（自动生成，含每个元素的可用示例）：`docs/CATALOG.md` / `docs/catalog.json`
 - 素材样片（agent 可以直接看图）：`docs/gallery/`——`looks.jpg`（同一场景的 7 种风格）、`elements-*.jpg`、`motions-*.jpg`（每个动作 5 帧分解）、`layouts.jpg`、`formats.jpg`（同几个场景在 4 种画幅下的样子）
-- agent 制作规范：`docs/AGENT.md`（Claude Code 在项目里会通过根目录 `CLAUDE.md` 自动读到）
+- agent 入口：根目录 `AGENTS.md`（Claude、Codex、Cursor、Gemini、Copilot 等都读它）；完整流程 `docs/PLAYBOOK.md`；
+  技能 `truesight-video` 在 `.agents/skills/`（`.claude/skills/` 里是同一份）。`python tools/ts.py next <剧集>` 直接告诉你下一步跑什么。
+- 做画面的规范：`docs/AGENT.md`
 - 示范：`episodes/compose-demo`（7 个自由组合场景，neon 风格）、`episodes/grokbot-dev`（全部用旧模板做的一期，可作对照）
 
 ```

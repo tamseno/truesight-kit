@@ -4,6 +4,15 @@
  "h": 1920,
  "total": 42.2,
  "meta": {
+  "publish": {
+   "title": "You're using Grok Bot wrong",
+   "description": "The team that built Grok Bot doesn't use it to write code. It runs their loop: briefs cloud agents, demands proof, and has PRs waiting by 8 a.m. Full playbook on the channel.",
+   "hashtags": [
+    "#GrokBot",
+    "#AIagents",
+    "#coding"
+   ]
+  },
   "title": "You're using Grok Bot wrong (Short)",
   "format": "vertical",
   "look": "brutal",

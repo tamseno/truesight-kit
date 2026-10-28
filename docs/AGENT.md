@@ -15,7 +15,8 @@ Reference while you work:
 
 ## 1. Pipeline
 
-One command per stage (`tools/make.py`; machine paths come from `kit.config.json`, see `kit.config.example.json`):
+Where an episode stands and what to run next: `python tools/ts.py next <episode>` (all episodes: `ts.py status`; the
+whole workflow with checks: `docs/PLAYBOOK.md`). One command per stage (`tools/make.py`; machine paths come from `kit.config.json`, see `kit.config.example.json`):
 
 | step | command | done when |
 |---|---|---|

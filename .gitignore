@@ -15,3 +15,4 @@ kit.config.json
 queue/
 episodes/*/status.json
 assets/bgm/gen/
+episodes/*/final.json
