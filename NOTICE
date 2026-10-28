@@ -1,0 +1,7 @@
+TrueSight Motion Kit
+Copyright (c) 2026 Ezra Tam / TrueSight AI — MIT License (see LICENSE)
+
+Bundled third-party fonts in core/fonts/, each under the SIL Open Font License 1.1:
+- Geist (Vercel)
+- Maple Mono (subframe7536)
+- Noto Sans SC (Google)
